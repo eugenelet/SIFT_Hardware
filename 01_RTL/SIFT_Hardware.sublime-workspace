@@ -1,0 +1,466 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"img",
+				"img_addr"
+			],
+			[
+				"buff",
+				"buffer_we_stop"
+			],
+			[
+				"buffer_we",
+				"buffer_we_stop"
+			],
+			[
+				"ST",
+				"ST_START"
+			],
+			[
+				"re",
+				"ready_start_relay"
+			],
+			[
+				"err",
+				"errorFile"
+			],
+			[
+				"er",
+				"error"
+			],
+			[
+				"blu",
+				"blur_addr"
+			],
+			[
+				"blur",
+				"blur5x5_2"
+			],
+			[
+				"img_",
+				"img_dout"
+			],
+			[
+				"buffer_data",
+				"buffer_data_6"
+			],
+			[
+				"buffer_da",
+				"buffer_data_4"
+			],
+			[
+				"buf",
+				"buffer_data_4"
+			],
+			[
+				"SYS",
+				"SYS_GAUSSIAN"
+			],
+			[
+				"buffer",
+				"buffer_mode"
+			],
+			[
+				"ker",
+				"kernel_img_mul_1"
+			],
+			[
+				"blur_",
+				"blur_mem_we"
+			],
+			[
+				"ke",
+				"kernel_img_mul"
+			],
+			[
+				"bu",
+				"buffer_data_2"
+			],
+			[
+				"G_Kernel_5x5",
+				"G_Kernel_5x5_0"
+			],
+			[
+				"G_K",
+				"G_Kernel_3x3"
+			],
+			[
+				"ST_GA",
+				"ST_GAUSSIAN_START"
+			],
+			[
+				"ST_",
+				"ST_GAUSSIAN"
+			],
+			[
+				"L",
+				"L_IDLE"
+			],
+			[
+				"gaus",
+				"gaussian_done"
+			],
+			[
+				"ST_GAU",
+				"ST_GAUSSIAN_START_0"
+			],
+			[
+				"buffe",
+				"buffer_valid"
+			],
+			[
+				"be",
+				"begin	begin"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "Line_Buffer_10.v",
+			"settings":
+			{
+				"buffer_size": 3862,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "CORE.v",
+			"settings":
+			{
+				"buffer_size": 5271,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/Eugene/Downloads/main.cpp",
+			"settings":
+			{
+				"buffer_size": 34605,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 354.0,
+		"last_filter": "past",
+		"selected_items":
+		[
+			[
+				"past",
+				"Text Pastry: Menu"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 414.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Users/Eugene/Documents/GitHub/SIFT_Hardware",
+		"/C/Users/Eugene/Documents/GitHub/SIFT_Hardware/01_RTL"
+	],
+	"file_history":
+	[
+		"/C/Users/Eugene/Documents/GitHub/SIFT_Hardware/DoG/00_TESTBENCH/PATTERN.v",
+		"/C/Users/Eugene/Documents/GitHub/SIFT_Hardware/DoG/01_RTL/bmem_480x5120.v",
+		"/C/Users/Eugene/Documents/GitHub/SIFT_Hardware/DoG/01_RTL/Gaussian_Blur_7x7.v",
+		"/C/Users/Eugene/Documents/GitHub/SIFT_Hardware/DoG/01_RTL/Gaussian_Blur_5x5_1.v",
+		"/C/Users/Eugene/Documents/GitHub/SIFT_Hardware/DoG/01_RTL/mem_ctrl.v",
+		"/C/Users/Eugene/Documents/GitHub/SIFT_Hardware/DoG/01_RTL/CORE.v",
+		"/C/Users/Eugene/Documents/GitHub/SIFT_Hardware/DoG/01_RTL/Line_Buffer_10.v",
+		"/C/Users/Eugene/Documents/GitHub/SIFT_Hardware/DoG/00_TESTBENCH/TESTBENCH.v",
+		"/C/Users/Eugene/Documents/GitHub/SIFT_Hardware/DoG/01_RTL/Gaussian_Blur_5x5_2.v",
+		"/C/Users/Eugene/Documents/GitHub/SIFT_Hardware/DoG/blurredImgs1.txt",
+		"/C/Users/Eugene/Documents/GitHub/SIFT_Hardware/DoG/blurredImgs4.txt",
+		"/C/Users/Eugene/Documents/GitHub/SIFT/originalImage.txt",
+		"/C/Users/Eugene/Documents/GitHub/SIFT/blurredImgs2.txt",
+		"/C/Users/Eugene/Documents/GitHub/SIFT_Hardware/DoG/01_RTL/Gaussian_Blur_3x3.v",
+		"/C/Users/Eugene/Documents/GitHub/SIFT/blurredImgs4.txt",
+		"/C/Users/Eugene/Documents/GitHub/SIFT/blurredImgs3.txt",
+		"/C/Users/Eugene/Documents/GitHub/SIFT/blurredImgs.txt",
+		"/C/Users/Eugene/Documents/GitHub/SIFT_Hardware/DoG/01_RTL/Gaussian_Blur.v",
+		"/C/Users/Eugene/Documents/GitHub/SIFT_Hardware/DoG/01_RTL/bmem_128x32.v",
+		"/C/Users/Eugene/AppData/Local/lxss/home/gene/Documents/SIFT_Hardware/DoG/00_TESTBENCH/TESTBENCH.v",
+		"/C/Users/Eugene/AppData/Roaming/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/C/Users/Eugene/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings"
+	],
+	"find":
+	{
+		"height": 73.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"img_data",
+			"ST_REQ",
+			"buffer_we",
+			"ST_RE",
+			"buffer_we",
+			"buffer_mode",
+			"buffer_we",
+			"error",
+			"buffer_req",
+			"img_dout",
+			"done",
+			"img_dout",
+			"buffer_valid",
+			"gaussian_done",
+			"blur_mem_we",
+			"ST_GAUSSIAN_START",
+			"buffer_req",
+			"in_valid",
+			"debug",
+			"kernel_img_sum_1",
+			" 29",
+			"29",
+			"current_state",
+			"buffer_mode",
+			"current_state",
+			"buffer_valid",
+			"ing_a",
+			"in_valid",
+			"gaussian_start",
+			"buffer_req",
+			"blur_mem_we",
+			"blur_done",
+			"done",
+			"ST_START",
+			"gaussian_start",
+			"img_addr",
+			"img_va",
+			"u_core",
+			"CONF_K"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"in_data"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "Line_Buffer_10.v",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3862,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								233,
+								233
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Verilog/Verilog.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "CORE.v",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5271,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2240,
+								2240
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Verilog/Verilog.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2436.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/C/Users/Eugene/Downloads/main.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 34605,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								308,
+								308
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 588.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 35.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "SIFT_Hardware.sublime-project",
+	"replace":
+	{
+		"height": 120.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 211.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

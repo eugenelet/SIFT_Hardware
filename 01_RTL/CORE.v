@@ -23,15 +23,13 @@ output  [15:0]  out_data;
 reg         [2:0] current_state,
                   next_state;
 
-parameter         ST_IDLE       = 0,
-                  ST_GAUSSIAN   = 1,
-                  ST_DETECT_KP  = 2,
-                  ST_FILTER_KP  = 3,
-                  ST_MATCH      = 4,
-                  ST_END        = 5; //FOR DEBUG
+/*System State*/
+parameter         ST_IDLE          = 0,
+                  ST_GAUSSIAN      = 1,
+                  ST_DETECT_FILTER = 2,
+                  ST_COMPUTE_MATCH = 3,
+                  ST_END           = 4; //FOR DEBUG
 
-/*parameter  [1:0]  L_IDLE     = 'd0,
-                  L_GAUSSIAN = 'd1;*/
 
 
 
@@ -82,6 +80,22 @@ bmem_480x5120 blur_img_3(
   .dout (blur_dout[3])
 );
 
+/*SRAM for KeyPoints*/
+bmem_2000x19 keypoint_1_mem(
+  .clk  (clk),
+  .we   (keypoint_1_we),
+  .addr (keypoint_1_addr),
+  .din  (keypoint_1_din),
+  .dout (keypoint_1_dout)
+);
+
+bmem_2000x19 keypoint_2_mem(
+  .clk  (clk),
+  .we   (keypoint_2_we),
+  .addr (keypoint_2_addr),
+  .din  (keypoint_2_din),
+  .dout (keypoint_2_dout)
+);
 
 wire    [5119:0]  buffer_data_0;
 wire    [5119:0]  buffer_data_1;
@@ -101,7 +115,7 @@ Line_Buffer_10 l_buf_10(
   .rst_n          (rst_n),
   .buffer_mode    (current_state),
   .buffer_we      (buffer_we),
-  .in_data        (img_dout),
+  .img_data       (img_dout),
   .buffer_data_0  (buffer_data_0),
   .buffer_data_1  (buffer_data_1),
   .buffer_data_2  (buffer_data_2),
@@ -184,6 +198,44 @@ Gaussian_Blur_7x7 g_blur_7x7(
   .buffer_we      (buffer_we)
 );
 
+wire      detect_filter_start = (current_state==ST_DETECT_FILTER) ? 1:0;
+wire      detect_filter_done;
+module Detect_Filter_Keypoints(
+  .clk              (clk),
+  .rst_n            (rst_n),
+  .start            (detect_filter_start),
+  .done             (detect_filter_done),
+  .img_dout         (img_dout),
+  .blur3x3_dout     (blur_dout[0]),
+  .blur5x5_1_dout   (blur_dout[1]),
+  .blur5x5_2_dout   (blur_dout[2]),
+  .blur7x7_dout     (blur_dout[3]),
+  .img_addr         (img_addr),
+  .blur3x3_addr     (blur_addr[0]),
+  .blur5x5_1_addr   (blur_addr[1]),
+  .blur5x5_2_addr   (blur_addr[2]),
+  .blur7x7_addr     (blur_addr[3]),
+  .buffer_we        (buffer_we),
+  .buffer_data_0    (buffer_data_0),
+  .buffer_data_1    (buffer_data_1),
+  .buffer_data_2    (buffer_data_2),
+  .buffer_data_3    (buffer_data_3),
+  .buffer_data_4    (buffer_data_4),
+  .buffer_data_5    (buffer_data_5),
+  .buffer_data_6    (buffer_data_6),
+  .buffer_data_7    (buffer_data_7),
+  .buffer_data_8    (buffer_data_8),
+  .buffer_data_9    (buffer_data_9),
+  .keypoint_1_we    (keypoint_1_we),
+  .keypoint_1_addr  (keypoint_1_addr),
+  .keypoint_1_din   (keypoint_1_din),
+  .keypoint_2_we    (keypoint_2_we),
+  .keypoint_2_addr  (keypoint_2_addr),
+  .keypoint_2_din   (keypoint_2_din)
+);
+
+
+
 /*
  *  FSM
  *
@@ -208,9 +260,15 @@ always @(*) begin
     end
     ST_GAUSSIAN: begin
       if(gaussian_done[0])
-        next_state = ST_END;
+        next_state = ST_DETECT_FILTER;
       else
         next_state = ST_GAUSSIAN;
+    end
+    ST_DETECT_FILTER: begin
+      if(detect_filter_done[0])
+        next_state = ST_END;
+      else
+        next_state = ST_DETECT_FILTER;
     end
     ST_END: begin /*DEBUG STATE*/
         next_state = ST_END;
