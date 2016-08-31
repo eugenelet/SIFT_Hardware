@@ -4,7 +4,7 @@ module Line_Buffer_10(
   rst_n,
   buffer_mode,
   buffer_we,
-  img_data,
+  in_data,
   buffer_data_0,
   buffer_data_1,
   buffer_data_2,
@@ -21,7 +21,7 @@ input                 clk,
                       rst_n;
 
 /*From SRAM*/
-input       [5119:0]  img_data;
+input       [5119:0]  in_data;
 
 /*From Working Module*/
 input       [2:0]     buffer_mode;
@@ -64,7 +64,7 @@ always @(posedge clk) begin
   else if (current_state==ST_IDLE && !buffer_we)
     buffer_data_0 <= 'd0;
   else if (current_state==ST_GAUSSIAN_START && buffer_we)
-    buffer_data_0 <= img_data;
+    buffer_data_0 <= in_data;
   else if (current_state==ST_GAUSSIAN_START && !buffer_we)
     buffer_data_0 <= 'd0;
 end

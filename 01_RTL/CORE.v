@@ -101,7 +101,7 @@ Line_Buffer_10 l_buf_10(
   .rst_n          (rst_n),
   .buffer_mode    (current_state),
   .buffer_we      (buffer_we),
-  .img_data       (img_dout),
+  .in_data        (img_dout),
   .buffer_data_0  (buffer_data_0),
   .buffer_data_1  (buffer_data_1),
   .buffer_data_2  (buffer_data_2),
