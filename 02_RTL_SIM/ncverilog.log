@@ -1,0 +1,21 @@
+ncverilog: 14.10-s005: (c) Copyright 1995-2014 Cadence Design Systems, Inc.
+TOOL:	ncverilog	14.10-s005: Started on Aug 31, 2016 at 12:29:02 CST
+ncverilog
+	CORE.v
+	Gaussian_Blur_3x3.v
+	Gaussian_Blur_5x5_1.v
+	Gaussian_Blur_5x5_2.v
+	Gaussian_Blur_7x7.v
+	Line_Buffer_10.v
+	TESTBENCH.v
+	bmem_480x5120.v
+	mem_ctrl.v
+Loading snapshot worklib.TESTBENCH:v .................... Done
+*Verdi3* Loading libsscore_ius141.so
+*Verdi3* : Enable Parallel Dumping.
+ncsim> source /Si2_RAID-1/EDA/cadence/INCISIV14.10.005_linux/tools/inca/files/ncsimrc
+ncsim> run
+Simulation complete via $finish(1) at time 10040 NS + 0
+./TESTBENCH.v:182   $finish;
+ncsim> exit
+TOOL:	ncverilog	14.10-s005: Exiting on Aug 31, 2016 at 12:29:12 CST  (total: 00:00:10)

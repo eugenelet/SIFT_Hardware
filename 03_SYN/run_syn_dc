@@ -1,0 +1,3 @@
+rm -rf ./NETLIST/*
+rm -rf ./REPORT/*
+dc_shell-t -f SYN90_DC.tcl | tee synthesis.log

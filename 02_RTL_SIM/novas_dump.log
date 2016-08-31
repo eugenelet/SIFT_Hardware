@@ -1,0 +1,111 @@
+ncsim 14.10-s005
+Linux 2.6.32-358.el6.x86_64 #1 SMP Fri Feb 22 00:31:26 UTC 2013 x86_64
+CPU cores: 32
+Limit information:
+======================================
+cputime			unlimited
+filesize		unlimited
+datasize		unlimited
+stacksize		10240 kbytes
+coredumpsize	0 kbytes
+memoryuse		unlimited
+vmemoryuse		unlimited
+descriptors		4096
+memorylocked	64 kbytes
+maxproc			1024
+======================================
+(Special)Runtime environment variables:
+
+Runtime environment variables:
+REMOTEHOST=cad1
+MANPATH=/usr/share/man:/usr/man:/usr/X11R6/man:/usr/lib/perl5/man:/usr/kerberos/man:/usr/local/man:/Si2_RAID-1/EDA/synopsys/syn_2016.03_linux/doc/syn/man
+NNTPSERVER=netnews.ee.nctu.edu.tw
+ORBIT_SOCKETDIR=/tmp/orbit-st15_object
+VNCDESKTOP=cad18.ee.nctu.edu.tw:5 (st15_object)
+SSH_AGENT_PID=9776
+HOSTNAME=cad18.ee.nctu.edu.tw
+IMSETTINGS_INTEGRATE_DESKTOP=yes
+TERM=xterm
+HOST=cad18.ee.nctu.edu.tw
+SHELL=/bin/tcsh
+XDG_SESSION_COOKIE=d0ea00cf82b4f7c493a486940000001c-1471848230.618577-1835258611
+DESIGNWARE_HOME=/Si2_RAID-1/EDA/synopsys/dw_home/cur/
+GTK_RC_FILES=/etc/gtk/gtkrc:/Si2_RAID-1/si2topic/105/st15_object/.gtkrc-1.2-gnome2
+WINDOWID=25165828
+OLDPWD=/misc/Si2_RAID-1/si2/99/allen
+QTDIR=/usr/lib64/qt-3.3
+LC_ALL=C
+IMSETTINGS_MODULE=none
+USER=st15_object
+GROUP=root
+LS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=01;05;37;41:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lz=01;31:*.xz=01;31:*.bz2=01;31:*.tbz=01;31:*.tbz2=01;31:*.bz=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.rar=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=01;36:*.au=01;36:*.flac=01;36:*.mid=01;36:*.midi=01;36:*.mka=01;36:*.mp3=01;36:*.mpc=01;36:*.ogg=01;36:*.ra=01;36:*.wav=01;36:*.axa=01;36:*.oga=01;36:*.spx=01;36:*.xspf=01;36:
+SUDO_USER=allen
+SUDO_UID=1244
+HOSTTYPE=x86_64-linux
+SSH_AUTH_SOCK=/tmp/keyring-m6uK9c/socket.ssh
+GNOME_KEYRING_SOCKET=/tmp/keyring-m6uK9c/socket
+SESSION_MANAGER=local/unix:@/tmp/.ICE-unix/9775,unix/unix:/tmp/.ICE-unix/9775
+USERNAME=root
+MAIL=/var/spool/mail/st15_object
+PATH=/Si2_RAID-1/EDA/novas/verdi_2015.09-sp2_linux/bin:/Si2_RAID-1/EDA/novas/verdi_2015.09-sp2_linux/nLint/bin:/Si2_RAID-1/EDA/cadence/INCISIV14.10.005_linux/tools/bin:/Si2_RAID-1/EDA/cadence/INCISIV14.10.005_linux/tools/vtools/vfault/bin:/Si2_RAID-1/EDA/cadence/INCISIV14.10.005_linux/tools/dfII/bin:/usr/bin/X11:/Si2_RAID-1/EDA/synopsys/coreConsultant_2010.03-sp1/bin:/Si2_RAID-1/EDA/synopsys/syn_2016.03_linux/linux64/syn/bin:/Si2_RAID-1/EDA/synopsys/lc_2015.06-sp3_linux/bin:/Si2_RAID-1/EDA/novas/verdi_2015.09-sp2_linux/bin:/Si2_RAID-1/EDA/novas/verdi_2015.09-sp2_linux/nLint/bin:/Si2_RAID-1/EDA/cadence/INCISIV14.10.005_linux/tools/bin:/Si2_RAID-1/EDA/cadence/INCISIV14.10.005_linux/tools/vtools/vfault/bin:/Si2_RAID-1/EDA/cadence/INCISIV14.10.005_linux/tools/dfII/bin:/usr/bin/X11:/Si2_RAID-1/EDA/synopsys/coreConsultant_2010.03-sp1/bin:/Si2_RAID-1/EDA/synopsys/syn_2016.03_linux/linux64/syn/bin:/Si2_RAID-1/EDA/synopsys/lc_2015.06-sp3_linux/bin:/sbin:/bin:/usr/sbin:/usr/bin
+QT_IM_MODULE=xim
+PWD=/Si2_RAID-1/si2topic/105/st15_object/Gene/SIFT/02_RTL_SIM
+XMODIFIERS=@im=none
+EDITOR=nedit
+LANG=C
+KDE_IS_PRELINKED=1
+MODULEPATH=/usr/share/Modules/modulefiles:/etc/modulefiles
+LOADEDMODULES=
+KDEDIRS=/usr
+TZ=Asia/Taipei
+SYNTHESIS=/Si2_RAID-1/EDA/synopsys/syn_2016.03_linux
+LM_LICENSE_FILE=5219@lsnctu:5229@lsnctu:26585@lsnctu:5280@lscic:5280@lscic:5280@lsnctu:5219@lsnctu:5229@lsnctu:
+SSH_ASKPASS=/usr/libexec/openssh/gnome-ssh-askpass
+SHLVL=4
+HOME=/Si2_RAID-1/si2topic/105/st15_object
+SUDO_COMMAND=/bin/tcsh
+OSTYPE=linux
+GNOME_DESKTOP_SESSION_ID=this-is-deprecated
+VENDOR=unknown
+LOGNAME=st15_object
+MACHTYPE=x86_64
+CVS_RSH=ssh
+DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-BLDNG7ijvi,guid=6d5f405ee4f4fb3130e755ca0033934b
+LC_CTYPE=iso_8859_1
+MODULESHOME=/usr/share/Modules
+LESSOPEN=|/usr/bin/lesspipe.sh %s
+SHLIB_PATH=/Si2_RAID-1/EDA/novas/verdi_2015.09-sp2_linux/share/PLI/IUS/LINUX/:/usr/lib
+SUDO_GID=14
+DISPLAY=:5.0
+SYN_MAN_DIR=/Si2_RAID-1/EDA/synopsys/syn_2016.03_linux/doc/syn/man
+GTK_IM_MODULE=gtk-im-context-simple
+G_BROKEN_FILENAMES=1
+COLORTERM=gnome-terminal
+LD_LIBRARY_PATH=/Si2_RAID-1/EDA/novas/verdi_2015.09-sp2_linux/share/PLI/IUS/LINUX/:/Si2_RAID-1/EDA/novas/verdi_2015.09-sp2_linux/share/PLI/VCS/linux64/pli.a:/Si2_RAID-1/EDA/cadence/INCISIV14.10.005_linux/tools/lib:/Si2_RAID-1/EDA/cadence/INCISIV14.10.005_linux/tools/vtools/vfault/lib::/usr/lib
+_IRUNROOT_=/Si2_RAID-1/EDA/cadence/INCISIV14.10.005_linux/tools
+CDS_ARCH=lnx86
+NCRUNMODE=ncverilog:./INCA_libs/irun.lnx86.14.10.nc
+IRUNBATCH=FALSE
+IMPERAS_PORT_FILE=.vsp_ovp_gdb_port
+TCL_LIBRARY=/Si2_RAID-1/EDA/cadence/INCISIV14.10.005_linux/tools/inca/files/tcl/library
+Runtime command line arguments:
+argv[0]=ncverilog
+argv[1]=CORE.v
+argv[2]=Gaussian_Blur_3x3.v
+argv[3]=Gaussian_Blur_5x5_1.v
+argv[4]=Gaussian_Blur_5x5_2.v
+argv[5]=Gaussian_Blur_7x7.v
+argv[6]=Line_Buffer_10.v
+argv[7]=TESTBENCH.v
+argv[8]=bmem_480x5120.v
+argv[9]=mem_ctrl.v
+101 profile - 100
+          CPU/Mem usage: 0.070 sys,  0.070 user,  120.97M sys,  0.00M vm
+102 VC callback profile - scalar:0 vector:0
+103 Wed Aug 31 12:29:02 2016
+104 pliAppInit
+105 *Verdi3* : Enable Parallel Dumping.
+106 pliAppMiscSet: New Sim Round
+107 pliEntryInit
+108 LIBSSCORE=found /Si2_RAID-1/EDA/novas/verdi_2015.09-sp2_linux/share/PLI/IUS/LINUX/libsscore_ius141.so through $LD_LIBRARY_PATH setting.
+109 Sim process exit

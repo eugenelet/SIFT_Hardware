@@ -1,0 +1,197 @@
+/******************************************************************************
+
+             Synchronous  High Density Single Port SRAM Compiler
+
+                   UMC 90nm Standard Performance Low_K Logic Process 
+   __________________________________________________________________________
+
+
+   (C) Copyright 2002-2006 Faraday Technology Corp. All Rights Reserved.
+   
+   This source code is an unpublished work belongs to Faraday Technology
+   Corp.  It is considered a trade secret and is not to be divulged or
+   used by parties who have not received written authorization from
+   Faraday Technology Corp.
+   
+   Faraday's home page can be found at:
+   http:/www.faraday-tech.com
+   __________________________________________________________________________
+
+
+       Module Name      : SHAB90_4096X16X1CM16
+       Words            : 4096
+       Bits             : 16
+       Byte-Write       : 1
+       Aspect Ratio     : 16
+       Output Loading   : 0.01  (pf)
+       Data Slew        : 0.008  (ns)
+       CK Slew          : 0.008  (ns)
+       Power Ring Width : 2  (um)
+  ______________________________________________________________________________
+
+       Library          : FSD0A_B
+       Memaker          : 200901.1.1
+       Date             : 2016/07/18 22:49:06
+   
+******************************************************************************/
+
+
+
+
+     The FSD0A_B_SH is a synchronous high density, single port SRAM.  It was
+     created according to UMC's 90nm 1P9M standard performance Low_k logic 
+     design rules and can be incorporated with Faraday's 90nm standard cells.
+     Different combinations of words, bits, and aspect ratios can be used to
+     generate the most desirable configurations.  
+
+     By requesting the desired size and timing constraints, the FSD0A_B_SH
+     compiler will provide suitable synchronous RAM layout instances in seconds.
+     It can automatically generate data sheets, Verilog / VHDL behavioral
+     simulation models, SCS or Viewlogic symbols, place & route models, and test
+     patterns for use in ASIC designs.  The duty cycle length can be neglected
+     as long as the setup / hold time and minimum high / low pulse widths are
+     satisfied.  This allows the flexibility of a CK falling edge during each
+     operation.  Both word write and byte write operations or simulation models
+     are supported.
+
+
+
+   Features:
+       
+       - Synchronous read and write operations
+       - Fully customized layout density per customer configuration
+       - High density, available for 1.0V +/- 10% 
+       - Automatic power down to eliminate DC current
+       - Clocked address inputs and CS to RAM with CK rising edge
+       - Clocked WEB input pin to RAM with CK rising edge
+       - Clocked DI input pins to RAM with CK rising edge
+       - Byte write or word write operations available
+       - Verilog / VHDL timing / simulation model generator
+       - SPICE netlist generator
+       - GDSII layout database
+       - Memory compiler preview UI (memaker)
+       - BIST code supported
+       - Column mux options for the best aspect ratio
+      
+
+   Input Pins:
+ 
+       Pin Name  Capacitance  Descriptions                                 
+       A[11:0]   0.153 pF     Address signals of width 12                  
+       CK        0.197 pF     Clock signal for addresses, WEB, CS, and DI  
+       CS        0.068 pF     Chip select, active high                     
+       OE        0.051 pF     Output enable signal, active high            
+       DI[15:0]  0.047 pF     Input data of width 16                       
+       WEB       0.090 pF     Write enable signals of 1 bytes, active low  
+
+   Output Pins: 
+
+       Pin Name  Capacitance  Descriptions                         
+       DO[15:0]  0.054 pF     Output data of width 16 (tri-state)  
+
+
+   Area Information: 
+
+       RAM area = 460.920 um (Width) x 228.660 um (Height) = 0.105 mm^2
+       Power ring width = 2 um
+
+
+   Process metal options:
+
+       
+       |-----------------------------------------------------------------
+       |Six (6) metal layers  |  M1 ~ M5(X1) + M6(X2)                   |
+       |-----------------------------------------------------------------
+       |Seven (7) metal layers|  M1 ~ M6(X1) + M7(X2)                   |
+       |                      -------------------------------------------
+       |                      |  M1 ~ M5(X1) + M6(X2) + M7(X2)          |
+       |                      -------------------------------------------
+       |                      |  M1 ~ M5(X1) + M6(X2) + M7(X4)          |
+       |-----------------------------------------------------------------
+       |Eight (8) metal layers|  M1 ~ M6(X1) + M7(X2) + M8(X2)          |
+       |                      -------------------------------------------
+       |                      |  M1 ~ M5(X1) + M6(X2) + M7(X2) + M8(X4) |
+       |                      -------------------------------------------
+       |                      |  M1 ~ M6(X1) + M7(X2) + M8(X4)          |
+       ------------------------------------------------------------------
+       |Nine (9) metal layers |  M1 ~ M6(X1) + M7(X2) + M8(X2) + M9(X4) |
+       ------------------------------------------------------------------ 
+
+   Recommended operating conditions:
+
+       Symbol  FF1P1VM40C  TT1V25C  SS0P9V125C  FF1P1V125C  Units  
+       VCC     1.1         1.0      0.9         1.1         V      
+       TJ      -40         25       125         125         C      
+
+       Notes:
+         1. VCC: Power supply for memory block
+         2. TJ : Junction operating temperature
+
+
+   Operating Conditions:
+
+       Corner      Process  Voltage(v)  Temperature(C)  
+       FF1P1VM40C  PFNF     1.1         -40             
+       TT1V25C     PTNT     1.0         25              
+       SS0P9V125C  PSNS     0.9         125             
+       FF1P1V125C  PFNF     1.1         125             
+
+
+   Clock Slew Rate & Loading Look Up Table (3x5):
+       Index                    1      2      3      4      5
+       Clock Slew (ns)*     0.008  0.200  0.400
+       Output Loading(pF)   0.010  0.050  0.150  0.500  1.300
+
+   Clock & Data Slew Rate Look Up Table (3x3):
+       Index                    1      2      3
+       Data  Slew (ns)*     0.008  0.200  0.400
+       Clock Slew (ns)*     0.008  0.200  0.400
+
+       * For FF1P1VM40C: 30.0% ~ 70.0%
+       * For TT1V25C: 30.0% ~ 70.0%
+       * For SS0P9V125C: 30.0% ~ 70.0%
+       * For FF1P1V125C: 30.0% ~ 70.0%
+
+   Power Consumption (Typical Condition):
+
+       Standby current =  60.107 uA (CS = 0) 
+       DC current      =  60.107 uA (CS = 1)
+       Max AC current  =   0.020 mA/MHz (refer to notes) 
+       Total current   = AC current * Freq + DC current   
+       Notes:
+        1. All cycles are active
+        2. All address bits switching
+        3. All data bits switching
+        4. Worst of read / write operation
+ 
+ 
+   Timing Information:
+
+       - CK input slope = 0.008 ns.
+       - Data input slope = 0.008 ns.
+       - All timing parameters are measured from 50% of input.
+       - Output reference voltage "H" = 50% of VDD, "L" = 50% of VDD.
+       - Output loading = 0.01 pF.
+       - Delay timing parameters in nano second.
+
+   symbol  FF1P1VM40C  TT1V25C  SS0P9V125C  FF1P1V125C  Descriptions                                 
+   taa     0.72        1.12     2.01        0.96        Address access time from CK rising           
+   toh     0.34        0.53     0.95        0.46        Output data hold time after CK rising        
+   trc     1.23        1.86     3.20        1.71        Read cycle time                              
+   tcss    0.15        0.23     0.38        0.20        CS setup time before CK rising               
+   tcshr   0.04        0.05     0.08        0.03        CS hold time after CK rising in read cycle   
+   tcshw   0.04        0.05     0.08        0.03        CS hold time after CK rising in write cycle  
+   twh     0.04        0.06     0.08        0.05        WEB hold time after CK rising                
+   tah     0.00        0.00     0.00        0.00        Address hold time after CK rising            
+   tas     0.17        0.25     0.42        0.22        Address setup time before CK rising          
+   twc     1.23        1.86     3.19        1.72        Write cycle time                             
+   tws     0.06        0.09     0.18        0.08        WEB setup time before CK rising              
+   tdh     0.03        0.04     0.05        0.02        Input data hold time after CK rising         
+   tds     0.09        0.15     0.28        0.14        Input data setup time before CK rising       
+   twdv    0.72        1.12     2.01        0.96        Output data valid after CK rising            
+   twdx    0.34        0.53     0.95        0.46        Output data invalid after CK rising          
+   thpw    0.02        0.03     0.05        0.03        Clock high pulse width                       
+   tlpw    0.14        0.20     0.33        0.17        Clock low pulse width                        
+   toe     0.13        0.19     0.32        0.16        Output data valid after OE rising            
+   toz     0.11        0.16     0.26        0.14        Output data go to Hi-Z ater OE falling       
+
