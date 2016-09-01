@@ -35,15 +35,15 @@ input  [5119:0]    buffer_data_2,
                    blur5x5_1_dout;
 input  [637:0]     is_keypoint_0;
 input  [637:0]     is_keypoint_1;
-output [23:0]      filter_input_0_0;
-output [23:0]      filter_input_0_1;
-output [23:0]      filter_input_0_2;
-output [23:0]      filter_input_1_0;
-output [23:0]      filter_input_1_1;
-output [23:0]      filter_input_1_2;
+output reg [23:0]  filter_input_0_0; // wire
+output reg [23:0]  filter_input_0_1; // wire
+output reg [23:0]  filter_input_0_2; // wire
+output reg [23:0]  filter_input_1_0; // wire
+output reg [23:0]  filter_input_1_1; // wire
+output reg [23:0]  filter_input_1_2; // wire
 output [1:0]       no_keypoint;
-output [18:0]      current_RowCol_0;
-output [18:0]      current_RowCol_1;
+output reg [18:0]  current_RowCol_0 // wire;
+output reg [18:0]  current_RowCol_1 // wire;
 
 /*Module FSM*/
 parameter ST_IDLE   = 0,

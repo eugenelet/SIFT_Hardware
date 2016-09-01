@@ -33,7 +33,7 @@ parameter         ST_IDLE          = 0,
 
 
 
-wire    [8:0]     img_addr;
+reg     [8:0]     img_addr; /*wire*/
 reg     [5119:0]  img_din;
 wire    [5119:0]  img_dout;
 /*SRAM for Original Image*/
@@ -47,7 +47,7 @@ bmem_480x5120 ori_img(
 
 
 wire  [3:0]    blur_mem_we;
-wire  [8:0]    blur_addr  [0:3];
+reg   [8:0]    blur_addr  [0:3]; /*wire*/
 wire  [5119:0] blur_din   [0:3];
 wire  [5119:0] blur_dout  [0:3];
 /*SRAM for Blurred Images(4)*/
@@ -115,7 +115,7 @@ wire    [5119:0]  buffer_data_6;
 wire    [5119:0]  buffer_data_7;
 wire    [5119:0]  buffer_data_8;
 wire    [5119:0]  buffer_data_9;
-wire              buffer_we;
+reg               buffer_we; /*wire*/
 // wire              buffer_mode = (gaussian_done)?L_IDLE:L_GAUSSIAN;
 /*System Line Buffer*/
 Line_Buffer_10 l_buf_10(
