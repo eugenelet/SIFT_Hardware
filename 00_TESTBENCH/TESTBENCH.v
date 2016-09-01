@@ -103,7 +103,9 @@ initial begin
   in_valid  = 1;
 
   // repeat(1000) @(negedge clk);
+  $display("test!");
   while(!u_core.gaussian_done[0]) begin
+    $display("gaussian\n");    
     @(negedge clk);
     $display("gaussian\n");    
   end
