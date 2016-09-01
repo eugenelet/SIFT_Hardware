@@ -60,6 +60,13 @@ input      [5119:0]  blur5x5_1_dout;
 input      [5119:0]  blur5x5_2_dout;
 input      [5119:0]  blur7x7_dout;
 
+/*To SRAM*/
+output    [8:0] img_addr,
+                blur3x3_addr,
+                blur5x5_1_addr,
+                blur5x5_2_addr,
+                blur7x7_addr;
+
 /*To Keypoint SRAM*/
 output reg    keypoint_1_we;
 output reg    [10:0] keypoint_1_addr; /*2K Keypoints*/
