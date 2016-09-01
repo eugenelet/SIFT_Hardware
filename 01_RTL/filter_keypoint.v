@@ -1,15 +1,19 @@
 module filter_keypoint(
-  filter_input,
+  filter_input_0,
+  filter_input_1,
+  filter_input_2,
   valid_keypoint
 );
 
-input  [23:0]    filter_input[0:2];
+input  [23:0]    filter_input_0;
+input  [23:0]    filter_input_1;
+input  [23:0]    filter_input_2;
 
 output          valid_keypoint;
 
-wire  [23:0]    top = filter_input[0],
-                mid = filter_input[1],
-                btm = filter_input[2];
+wire  [23:0]    top = filter_input_0,
+                mid = filter_input_1,
+                btm = filter_input_2;
 
 wire  [7:0] brighter;
 wire  [7:0] darker;

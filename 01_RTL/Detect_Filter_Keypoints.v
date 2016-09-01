@@ -35,8 +35,8 @@ module Detect_Filter_Keypoints(
 /*SYSTEM*/
 input                 clk,
                       rst_n,
-                      start,
-                      done;
+                      start;
+output reg            done;
 
 /*To line Buffer*/
 output               buffer_we;
@@ -61,7 +61,7 @@ input      [5119:0]  blur5x5_2_dout;
 input      [5119:0]  blur7x7_dout;
 
 /*To SRAM*/
-output    [8:0] img_addr,
+output reg[8:0] img_addr,
                 blur3x3_addr,
                 blur5x5_1_addr,
                 blur5x5_2_addr,
@@ -220,12 +220,16 @@ prepare_filter u_prepare_filter(
 
 wire  [1:0] valid_keypoint;
 filter_keypoint u_filter_keypoint_0(
-  .filter_input   (filter_input_0),
+  .filter_input_0 (filter_input_0[0]),
+  .filter_input_1 (filter_input_0[1]),
+  .filter_input_2 (filter_input_0[2]),
   .valid_keypoint (valid_keypoint[0])
 );
 
 filter_keypoint u_filter_keypoint_1(
-  .filter_input   (filter_input_1),
+  .filter_input_0 (filter_input_1[0]),
+  .filter_input_1 (filter_input_1[1]),
+  .filter_input_2 (filter_input_1[2]),
   .valid_keypoint (valid_keypoint[1])
 );
 
