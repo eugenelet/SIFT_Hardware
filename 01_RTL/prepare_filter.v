@@ -18,7 +18,7 @@ module prepare_filter(
   no_keypoint,
   is_keypoint_0,
   is_keypoint_1,
-  current_RowCol_0
+  current_RowCol_0,
   current_RowCol_1
 );
 
@@ -6462,6 +6462,7 @@ always @(*) begin
     filter_input_0_2 = 'd0;
     current_RowCol_0 = 'd0;
   end
+end
 
 always @(*) begin
   if (detected_keypoint[1][0]) begin
@@ -10298,5 +10299,6 @@ always @(*) begin
     filter_input_1_2 = 'd0;
     current_RowCol_1 = 'd0;
   end
+end
 
 endmodule
