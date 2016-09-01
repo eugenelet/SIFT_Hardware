@@ -103,8 +103,10 @@ initial begin
   in_valid  = 1;
 
   // repeat(1000) @(negedge clk);
-  if(!u_core.gaussian_done[0])
+  while(!u_core.gaussian_done[0]) begin
     @(negedge clk);
+    $display("gaussian\n");    
+  end
 
   errorFile = $fopen("error.txt","w");
 
