@@ -173,8 +173,10 @@ initial begin
   $fclose(blur7x7_ans);
   $fclose(errorFile);
 
-  if(!u_core.detect_filter_done)
+  while(!u_core.detect_filter_done) begin
     @(negedge clk);
+    $display("waiting_detect_filter");    
+  end
 
   kpt_layer1_ans = $fopen("keypoint_layer1.txt", "r");
   kpt_layer2_ans = $fopen("keypoint_layer2.txt", "r");
