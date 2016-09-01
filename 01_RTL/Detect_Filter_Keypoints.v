@@ -287,7 +287,7 @@ always @(*) begin
       if(start)
         next_state = ST_READY;
       else
-        next_state = ST_IDLE
+        next_state = ST_IDLE;
     end
     ST_READY: begin
       if(ready_start_relay)
