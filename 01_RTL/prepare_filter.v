@@ -2624,8 +2624,8 @@ always @(posedge clk) begin
     detected_keypoint[1] <= 'd0;
 end
 
-assign no_keypoint[0] = (|detected_keypoint[0]) ? 0 : 1
-assign no_keypoint[1] = (|detected_keypoint[1]) ? 0 : 1
+assign no_keypoint[0] = (|detected_keypoint[0]) ? 0 : 1;
+assign no_keypoint[1] = (|detected_keypoint[1]) ? 0 : 1;
 
 always @(*) begin
   if (detected_keypoint[0][0]) begin

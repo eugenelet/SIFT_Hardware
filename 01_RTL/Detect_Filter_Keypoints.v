@@ -214,7 +214,7 @@ prepare_filter u_prepare_filter(
   .no_keypoint    (no_keypoint),
   .is_keypoint_0  (is_keypoint[0]),
   .is_keypoint_1  (is_keypoint[1]),
-  .current_RowCol_0 (current_RowCol[0])
+  .current_RowCol_0 (current_RowCol[0]),
   .current_RowCol_1 (current_RowCol[1])
 );
 
