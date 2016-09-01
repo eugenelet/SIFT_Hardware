@@ -41,7 +41,7 @@ bmem_480x5120 ori_img(
   .clk  (clk),
   .we   (1'b0),
   .addr (img_addr),
-  .din  (1'b0),
+  .din  (img_din),
   .dout (img_dout)
 );
 
