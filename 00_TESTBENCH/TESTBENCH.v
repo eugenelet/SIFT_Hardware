@@ -180,10 +180,10 @@ initial begin
   kpt_layer2_ans = $fopen("keypoint_layer2.txt", "r");
   kpt_layer1 = $fopen("kpt1_RTL.txt", "w");
   kpt_layer2 = $fopen("kpt2_RTL.txt", "w");
-  for(i=0; i <2000; i++) begin
+  for(i=0; i <2000; i=i+1) begin
     $fwrite(kpt_layer1, "%d %d\n", u_core.keypoint_1_mem.mem[i][18:10], u_core.keypoint_1_mem.mem[i][9:0]);
   end
-  for(i=0; i <2000; i++) begin
+  for(i=0; i <2000; i=i+1) begin
     $fwrite(kpt_layer2, "%d %d\n", u_core.keypoint_2_mem.mem[i][18:10], u_core.keypoint_2_mem.mem[i][9:0]);
   end
   $finish;
