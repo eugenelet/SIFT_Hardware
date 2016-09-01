@@ -1,17 +1,6 @@
 `timescale 1ns/10ps
 
 
-`ifdef RTL
-  `include "CORE.v"
-`endif
-
-`ifdef GATE
-  `include "CORE_syn.v"
-`endif
-
-`ifdef POST
-  `include "CHIP.v"
-`endif
 
 `define COLS  640
 `define ROWS  480
@@ -83,6 +72,7 @@ integer   i,j;
 integer       error;
 integer imageFile, rc, errorFile, blur3x3, blur5x5_1, blur5x5_2, blur7x7; // rc: read check
 integer blur3x3_ans, blur5x5_1_ans, blur5x5_2_ans, blur7x7_ans; // rc: read check
+integer kpt_layer1, kpt_layer2, kpt_layer1_ans, kpt_layer2_ans;
 integer tmp;
 initial begin
   rst_n     = 1;
@@ -112,7 +102,10 @@ initial begin
   rst_n     = 1;
   in_valid  = 1;
 
-  repeat(1000) @(negedge clk);
+  // repeat(1000) @(negedge clk);
+  if(!u_core.gaussian_done[0])
+    @(negedge clk);
+
   errorFile = $fopen("error.txt","w");
 
   blur3x3 = $fopen("blur3x3.txt","w");
@@ -179,6 +172,20 @@ initial begin
   $fclose(blur7x7);
   $fclose(blur7x7_ans);
   $fclose(errorFile);
+
+  if(!u_core.detect_filter_done)
+    @(negedge clk);
+
+  kpt_layer1_ans = $fopen("keypoint_layer1.txt", "r");
+  kpt_layer2_ans = $fopen("keypoint_layer2.txt", "r");
+  kpt_layer1 = $fopen("kpt1_RTL.txt", "w");
+  kpt_layer2 = $fopen("kpt2_RTL.txt", "w");
+  for(i=0; i <2000; i++) begin
+    $fwrite(kpt_layer1, "%d %d\n", u_core.keypoint_1_mem.mem[i][18:10], u_core.keypoint_1_mem.mem[i][9:0]);
+  end
+  for(i=0; i <2000; i++) begin
+    $fwrite(kpt_layer2, "%d %d\n", u_core.keypoint_2_mem.mem[i][18:10], u_core.keypoint_2_mem.mem[i][9:0]);
+  end
   $finish;
 end
 

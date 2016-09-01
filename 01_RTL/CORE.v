@@ -137,7 +137,10 @@ Line_Buffer_10 l_buf_10(
 );
 
 wire    gaussian_start = (current_state==ST_GAUSSIAN)?1:0;
-wire [3:0]   gaussian_done;
+wire  [8:0]    gaussian_blur_addr  [0:3];
+wire  [8:0]    gaussian_img_addr;
+wire  [3:0]    gaussian_done;
+wire           gaussian_buffer_we;
 Gaussian_Blur_3x3 g_blur_3x3(
   .clk            (clk),
   .rst_n          (rst_n),
@@ -147,10 +150,10 @@ Gaussian_Blur_3x3 g_blur_3x3(
   .start          (gaussian_start),
   .done           (gaussian_done[0]),
   .blur_mem_we    (blur_mem_we[0]),
-  .blur_addr      (blur_addr[0]),
+  .blur_addr      (gaussian_blur_addr[0]),
   .blur_din       (blur_din[0]),
-  .img_addr       (img_addr),
-  .buffer_we      (buffer_we)
+  .img_addr       (gaussian_img_addr),
+  .buffer_we      (gaussian_buffer_we)
 );
 
 Gaussian_Blur_5x5_1 g_blur_5x5_1(
@@ -164,10 +167,10 @@ Gaussian_Blur_5x5_1 g_blur_5x5_1(
   .start          (gaussian_start),
   .done           (gaussian_done[1]),
   .blur_mem_we    (blur_mem_we[1]),
-  .blur_addr      (blur_addr[1]),
+  .blur_addr      (gaussian_blur_addr[1]),
   .blur_din       (blur_din[1]),
-  .img_addr       (img_addr),
-  .buffer_we      (buffer_we)
+  .img_addr       (gaussian_img_addr),
+  .buffer_we      (gaussian_buffer_we)
 );
 
 Gaussian_Blur_5x5_2 g_blur_5x5_2(
@@ -181,10 +184,10 @@ Gaussian_Blur_5x5_2 g_blur_5x5_2(
   .start          (gaussian_start),
   .done           (gaussian_done[2]),
   .blur_mem_we    (blur_mem_we[2]),
-  .blur_addr      (blur_addr[2]),
+  .blur_addr      (gaussian_blur_addr[2]),
   .blur_din       (blur_din[2]),
-  .img_addr       (img_addr),
-  .buffer_we      (buffer_we)
+  .img_addr       (gaussian_img_addr),
+  .buffer_we      (gaussian_buffer_we)
 );
 
 Gaussian_Blur_7x7 g_blur_7x7(
@@ -200,14 +203,17 @@ Gaussian_Blur_7x7 g_blur_7x7(
   .start          (gaussian_start),
   .done           (gaussian_done[3]),
   .blur_mem_we    (blur_mem_we[3]),
-  .blur_addr      (blur_addr[3]),
+  .blur_addr      (gaussian_blur_addr[3]),
   .blur_din       (blur_din[3]),
-  .img_addr       (img_addr),
-  .buffer_we      (buffer_we)
+  .img_addr       (gaussian_img_addr),
+  .buffer_we      (gaussian_buffer_we)
 );
 
-wire      detect_filter_start = (current_state==ST_DETECT_FILTER) ? 1:0;
-wire      detect_filter_done;
+wire           detect_filter_start = (current_state==ST_DETECT_FILTER) ? 1:0;
+wire           detect_filter_done;
+wire  [8:0]    detect_filter_blur_addr  [0:3];
+wire  [8:0]    detect_filter_img_addr;
+wire           detect_filter_buffer_we;
 Detect_Filter_Keypoints u_detect_filter_keypoints(
   .clk              (clk),
   .rst_n            (rst_n),
@@ -218,12 +224,12 @@ Detect_Filter_Keypoints u_detect_filter_keypoints(
   .blur5x5_1_dout   (blur_dout[1]),
   .blur5x5_2_dout   (blur_dout[2]),
   .blur7x7_dout     (blur_dout[3]),
-  .img_addr         (img_addr),
-  .blur3x3_addr     (blur_addr[0]),
-  .blur5x5_1_addr   (blur_addr[1]),
-  .blur5x5_2_addr   (blur_addr[2]),
-  .blur7x7_addr     (blur_addr[3]),
-  .buffer_we        (buffer_we),
+  .img_addr         (detect_filter_img_addr),
+  .blur3x3_addr     (detect_filter_blur_addr[0]),
+  .blur5x5_1_addr   (detect_filter_blur_addr[1]),
+  .blur5x5_2_addr   (detect_filter_blur_addr[2]),
+  .blur7x7_addr     (detect_filter_blur_addr[3]),
+  .buffer_we        (detect_filter_buffer_we),
   .buffer_data_0    (buffer_data_0),
   .buffer_data_1    (buffer_data_1),
   .buffer_data_2    (buffer_data_2),
@@ -242,6 +248,18 @@ Detect_Filter_Keypoints u_detect_filter_keypoints(
   .keypoint_2_din   (keypoint_2_din)
 );
 
+always @(posedge clk ) begin
+  if (current_state == ST_GAUSSIAN) begin
+    blur_addr = gaussian_blur_addr;    
+    buffer_we = gaussian_buffer_we;
+    img_addr  = gaussian_img_addr;
+  end
+  else if (current_state == ST_DETECT_FILTER) begin
+    blur_addr = detect_filter_blur_addr;  
+    buffer_we = detect_filter_buffer_we;
+    img_addr  = detect_filter_img_addr;
+  end
+end
 
 
 /*
@@ -273,7 +291,7 @@ always @(*) begin
         next_state = ST_GAUSSIAN;
     end
     ST_DETECT_FILTER: begin
-      if(detect_filter_done[0])
+      if(detect_filter_done)
         next_state = ST_END;
       else
         next_state = ST_DETECT_FILTER;

@@ -82,6 +82,8 @@ parameter ST_IDLE   = 0,
           ST_UPDATE = 4,/*Grants a cycle to update MEM addr*/
           ST_BUFFER = 5;/*Grants buffer a cycle to update*/
 
+assign done = (img_addr=='d480) ? 1 : 0;
+
 assign buffer_we = ((start || current_state==ST_BUFFER) && 
   !(current_state==ST_UPDATE || current_state==ST_FILTER || current_state==ST_DETECT || current_state==ST_IDLE)) ? 1:0;
 
@@ -300,7 +302,7 @@ always @(*) begin
         next_state = ST_DETECT;
     end
     ST_FILTER: begin
-      if(keypoint_count == total_keypoint)
+      if(no_keypoint[0] && no_keypoint[1])
         next_state = ST_UPDATE;
       else 
         next_state = ST_FILTER;
@@ -308,6 +310,8 @@ always @(*) begin
     ST_UPDATE: begin
       if(current_state==ST_UPDATE)
         next_state = ST_BUFFER;
+      else if(img_addr == 'd479)
+        next_state = ST_IDLE;
       else
         next_state = ST_UPDATE;
     end
@@ -315,7 +319,7 @@ always @(*) begin
       if(current_state==ST_BUFFER)
         next_state = ST_READY;
       else
-        next_state = ST_BUFFER);
+        next_state = ST_BUFFER;
     end
     default:
       next_state = ST_IDLE;
