@@ -218,7 +218,7 @@ wire           detect_filter_done;
 wire  [8:0]    detect_filter_blur_addr  [0:3];
 wire  [8:0]    detect_filter_img_addr;
 wire           detect_filter_buffer_we;
-Detect_Filter_Keypoints u_detect_filter_keypoints(
+/*Detect_Filter_Keypoints u_detect_filter_keypoints(
   .clk              (clk),
   .rst_n            (rst_n),
   .start            (detect_filter_start),
@@ -250,7 +250,7 @@ Detect_Filter_Keypoints u_detect_filter_keypoints(
   .keypoint_2_we    (keypoint_2_we),
   .keypoint_2_addr  (keypoint_2_addr),
   .keypoint_2_din   (keypoint_2_din)
-);
+);*/
 
 always @(*) begin
   if (current_state == ST_GAUSSIAN) begin
@@ -296,7 +296,7 @@ always @(*) begin
     end
     ST_GAUSSIAN: begin
       if(gaussian_done[0])
-        next_state = ST_DETECT_FILTER;
+        next_state = ST_END;//ST_DETECT_FILTER;
       else
         next_state = ST_GAUSSIAN;
     end
