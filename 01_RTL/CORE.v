@@ -250,12 +250,18 @@ Detect_Filter_Keypoints u_detect_filter_keypoints(
 
 always @(*) begin
   if (current_state == ST_GAUSSIAN) begin
-    blur_addr = gaussian_blur_addr;    
+    blur_addr[0] = gaussian_blur_addr[0];    
+    blur_addr[1] = gaussian_blur_addr[1];    
+    blur_addr[2] = gaussian_blur_addr[2];    
+    blur_addr[3] = gaussian_blur_addr[3];    
     buffer_we = gaussian_buffer_we;
     img_addr  = gaussian_img_addr;
   end
   else if (current_state == ST_DETECT_FILTER) begin
-    blur_addr = detect_filter_blur_addr;  
+    blur_addr[0] = detect_filter_blur_addr[0];  
+    blur_addr[1] = detect_filter_blur_addr[1];  
+    blur_addr[2] = detect_filter_blur_addr[2];  
+    blur_addr[3] = detect_filter_blur_addr[3];  
     buffer_we = detect_filter_buffer_we;
     img_addr  = detect_filter_img_addr;
   end
