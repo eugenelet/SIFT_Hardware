@@ -42,8 +42,8 @@ output reg [23:0]  filter_input_1_0; // wire
 output reg [23:0]  filter_input_1_1; // wire
 output reg [23:0]  filter_input_1_2; // wire
 output [1:0]       no_keypoint;
-output reg [18:0]  current_RowCol_0 // wire;
-output reg [18:0]  current_RowCol_1 // wire;
+output reg [18:0]  current_RowCol_0; // wire;
+output reg [18:0]  current_RowCol_1; // wire;
 
 /*Module FSM*/
 parameter ST_IDLE   = 0,
