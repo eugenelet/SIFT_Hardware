@@ -199,8 +199,12 @@ prepare_filter u_prepare_filter(
   .clk            (clk),
   .rst_n          (rst_n),
   .current_state  (current_state),
-  .filter_input_0 (filter_input_0),
-  .filter_input_1 (filter_input_1),
+  .filter_input_0_0 (filter_input_0[0]),
+  .filter_input_0_1 (filter_input_0[1]),
+  .filter_input_0_2 (filter_input_0[2]),
+  .filter_input_1_0 (filter_input_1[0]),
+  .filter_input_1_1 (filter_input_1[1]),
+  .filter_input_1_2 (filter_input_1[2]),
   .buffer_data_2  (buffer_data_2),
   .buffer_data_3  (buffer_data_3),
   .buffer_data_4  (buffer_data_4),
@@ -208,8 +212,10 @@ prepare_filter u_prepare_filter(
   .blur3x3_dout   (blur3x3_dout),
   .blur5x5_1_dout (blur5x5_1_dout),
   .no_keypoint    (no_keypoint),
-  .is_keypoint    (is_keypoint),
-  .current_RowCol (current_RowCol)
+  .is_keypoint_0  (is_keypoint[0]),
+  .is_keypoint_1  (is_keypoint[1]),
+  .current_RowCol_0 (current_RowCol[0])
+  .current_RowCol_1 (current_RowCol[1])
 );
 
 wire  [1:0] valid_keypoint;
