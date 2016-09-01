@@ -1,7 +1,7 @@
 module bmem_2000x19(
   input               clk,
   input               we,
-  input       [10:0]   addr, //ceil(log 480)=9
+  input       [10:0]   addr, //ceil(log 2000)=11
   input       [18:0]  din,
   output  reg [18:0]  dout
 );

@@ -81,6 +81,10 @@ bmem_480x5120 blur_img_3(
 );
 
 /*SRAM for KeyPoints*/
+wire          keypoint_1_we;
+wire  [10:0]  keypoint_1_addr;
+wire  [18:0]  keypoint_1_din;
+wire  [18:0]  keypoint_1_dout;
 bmem_2000x19 keypoint_1_mem(
   .clk  (clk),
   .we   (keypoint_1_we),
@@ -89,6 +93,10 @@ bmem_2000x19 keypoint_1_mem(
   .dout (keypoint_1_dout)
 );
 
+wire          keypoint_2_we;
+wire  [10:0]  keypoint_2_addr;
+wire  [18:0]  keypoint_2_din;
+wire  [18:0]  keypoint_2_dout;
 bmem_2000x19 keypoint_2_mem(
   .clk  (clk),
   .we   (keypoint_2_we),
@@ -200,7 +208,7 @@ Gaussian_Blur_7x7 g_blur_7x7(
 
 wire      detect_filter_start = (current_state==ST_DETECT_FILTER) ? 1:0;
 wire      detect_filter_done;
-module Detect_Filter_Keypoints(
+Detect_Filter_Keypoints u_detect_filter_keypoints(
   .clk              (clk),
   .rst_n            (rst_n),
   .start            (detect_filter_start),
