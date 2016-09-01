@@ -248,7 +248,7 @@ Detect_Filter_Keypoints u_detect_filter_keypoints(
   .keypoint_2_din   (keypoint_2_din)
 );
 
-always @(posedge clk ) begin
+always @(*) begin
   if (current_state == ST_GAUSSIAN) begin
     blur_addr = gaussian_blur_addr;    
     buffer_we = gaussian_buffer_we;

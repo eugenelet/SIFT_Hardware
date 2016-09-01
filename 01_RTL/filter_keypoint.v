@@ -3,7 +3,7 @@ module filter_keypoint(
   valid_keypoint
 );
 
-input  [23:0]    filter_input[0:2],
+input  [23:0]    filter_input[0:2];
 
 output          valid_keypoint;
 

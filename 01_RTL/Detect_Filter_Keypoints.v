@@ -34,7 +34,7 @@ module Detect_Filter_Keypoints(
 );
 /*SYSTEM*/
 input                 clk,
-                      rst_n
+                      rst_n,
                       start,
                       done;
 
