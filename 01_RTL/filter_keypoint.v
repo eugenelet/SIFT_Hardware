@@ -9,6 +9,8 @@ input  [23:0]    filter_input_0;
 input  [23:0]    filter_input_1;
 input  [23:0]    filter_input_2;
 
+`timescale 1ns/10ps
+
 output          valid_keypoint;
 
 wire  [23:0]    top = filter_input_0,

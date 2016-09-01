@@ -1,3 +1,5 @@
+`timescale 1ns/10ps
+
 module detect_keypoint(
   top_0,
   top_1,
