@@ -187,6 +187,7 @@ prepare_filter u_prepare_filter(
   .clk            (clk),
   .rst_n          (rst_n),
   .current_state  (current_state),
+  .img_addr       (img_addr),
   .filter_input_0_0 (filter_input_0[0]),
   .filter_input_0_1 (filter_input_0[1]),
   .filter_input_0_2 (filter_input_0[2]),
