@@ -36,7 +36,7 @@ assign darker[5] = (btm[15:8]  < (mid[15:8] - 'd7)) ? 1 : 0;
 assign darker[6] = (btm[7:0]   < (mid[15:8] - 'd7)) ? 1 : 0;
 assign darker[7] = (mid[7:0]   < (mid[15:8] - 'd7)) ? 1 : 0;
 
-wire  brighter_valid;
+reg  brighter_valid; /*wire*/
 always @(*) begin
   if(&brighter[3:0])
     brighter_valid = 1;
@@ -58,7 +58,7 @@ always @(*) begin
     brighter_valid = 0;
 end
 
-wire  darker_valid;
+reg  darker_valid; /*wire*/
 always @(*) begin
   if(&darker[3:0])
     darker_valid = 1;

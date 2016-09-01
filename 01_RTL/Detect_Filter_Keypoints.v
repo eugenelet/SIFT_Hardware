@@ -36,7 +36,7 @@ module Detect_Filter_Keypoints(
 input                 clk,
                       rst_n,
                       start;
-output reg            done;
+output                done;
 
 /*To line Buffer*/
 output               buffer_we;
@@ -138,18 +138,6 @@ always @(posedge clk) begin
   else if (done)
     blur7x7_addr <= 'd0;
 end
-
-
-/*Module DONE, inform SYSTEM*/
-always @(posedge clk) begin
-  if (!rst_n)
-    done <= 1'b0;    
-  else if (current_state==ST_BUFFER && img_addr=='d480)
-    done <= 1'b1;
-  else if (current_state==ST_IDLE)
-    done <= 1'b0;
-end
-
 
 
 /*Provide 2 Cycle for READY STATE*/
