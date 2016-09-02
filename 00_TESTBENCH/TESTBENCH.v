@@ -178,7 +178,6 @@ initial begin
 
   while(!u_core.detect_filter_done) begin
     @(negedge clk);
-    $display("waiting_detect_filter");    
   end
 
   // kpt_layer1_ans = $fopen("keypoint_layer1.txt", "r");
