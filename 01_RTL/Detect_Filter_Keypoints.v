@@ -157,28 +157,34 @@ end
 
 wire   [637:0] is_keypoint[0:1];
 detect_keypoint u_detect_keypoint_0(
-  .top_0        (buffer_data_1),
-  .top_1        (buffer_data_0),
-  .top_2        (img_dout),
-  .mid_0        (buffer_data_3),
-  .mid_1        (buffer_data_2),
-  .mid_2        (blur3x3_dout),
-  .btm_0        (buffer_data_5),
-  .btm_1        (buffer_data_4),
-  .btm_2        (blur5x5_1_dout),
+  .layer_0_0        (buffer_data_1),
+  .layer_0_1        (buffer_data_0),
+  .layer_0_2        (img_dout),
+  .layer_1_0        (buffer_data_3),
+  .layer_1_1        (buffer_data_2),
+  .layer_1_2        (blur3x3_dout),
+  .layer_2_0        (buffer_data_5),
+  .layer_2_1        (buffer_data_4),
+  .layer_2_2        (blur5x5_1_dout),
+  .layer_3_0        (buffer_data_7),
+  .layer_3_1        (buffer_data_6),
+  .layer_3_2        (blur5x5_2_dout),
   .is_keypoint  (is_keypoint[0])
 );
 
 detect_keypoint u_detect_keypoint_1(
-  .top_0        (buffer_data_5),
-  .top_1        (buffer_data_4),
-  .top_2        (blur5x5_1_dout),
-  .mid_0        (buffer_data_7),
-  .mid_1        (buffer_data_6),
-  .mid_2        (blur5x5_2_dout),
-  .btm_0        (buffer_data_9),
-  .btm_1        (buffer_data_8),
-  .btm_2        (blur7x7_dout),
+  .layer_0_0        (buffer_data_3),
+  .layer_0_1        (buffer_data_2),
+  .layer_0_2        (blur3x3_dout),
+  .layer_1_0        (buffer_data_5),
+  .layer_1_1        (buffer_data_4),
+  .layer_1_2        (blur5x5_1_dout),
+  .layer_2_0        (buffer_data_7),
+  .layer_2_1        (buffer_data_6),
+  .layer_2_2        (blur5x5_2_dout),
+  .layer_3_0        (buffer_data_9),
+  .layer_3_1        (buffer_data_8),
+  .layer_3_2        (blur7x7_dout),
   .is_keypoint  (is_keypoint[1])
 );
 
