@@ -14,19 +14,19 @@ module detect_keypoint(
   is_keypoint
 );
 
-input       [5119:0]	layer_0_0,
-						layer_0_1,
-						layer_0_2,
-						layer_1_0,
-						layer_1_1,
-						layer_1_2,
-						layer_2_0,
-						layer_2_1,
-						layer_2_2;
-						layer_3_0,
-						layer_3_1,
-						layer_3_2;
-output reg	 [637:0]	is_keypoint; // wire
+input       [5119:0]   layer_0_0,
+                       layer_0_1,
+                       layer_0_2,
+                       layer_1_0,
+                       layer_1_1,
+                       layer_1_2,
+                       layer_2_0,
+                       layer_2_1,
+                       layer_2_2,
+                       layer_3_0,
+                       layer_3_1,
+                       layer_3_2;
+output reg  [637:0]    is_keypoint; // wire
 
 reg  [5119:0]  top_0;
 reg  [5119:0]  top_1;
@@ -5801,7 +5801,7 @@ always@(*) begin
   btm_2[5119:5112] = layer3_2[5119:5112] - layer2_2[5119:5112];
 end
 
-reg	[25:0]		detect_max[0:637]; //wire
+reg    [25:0]      detect_max[0:637]; //wire
 always@(*) begin
   if(mid_1[15:8] > top_0[7:0])
     detect_max[0][0] = 1;
@@ -76624,7 +76624,7 @@ always@(*) begin
     is_max[637] = 0;
 end
 
-reg	[25:0]		detect_min[0:637]; //wire
+reg    [25:0]      detect_min[0:637]; //wire
 always@(*) begin
   if(mid_1[15:8] < top_0[7:0])
     detect_min[0][0] = 1;
