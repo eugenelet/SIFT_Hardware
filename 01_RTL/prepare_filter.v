@@ -1,5 +1,3 @@
-`timescale 1ns/10ps
-
 module prepare_filter(
   clk,
   rst_n,
