@@ -211,7 +211,7 @@ wire  [18:0]    current_RowCol[0:1];
 );*/
 
 wire  [1:0] valid_keypoint;
-/*filter_keypoint u_filter_keypoint_0(
+filter_keypoint u_filter_keypoint_0(
   .filter_input_0 (filter_input_0[0]),
   .filter_input_1 (filter_input_0[1]),
   .filter_input_2 (filter_input_0[2]),
@@ -223,7 +223,7 @@ filter_keypoint u_filter_keypoint_1(
   .filter_input_1 (filter_input_1[1]),
   .filter_input_2 (filter_input_1[2]),
   .valid_keypoint (valid_keypoint[1])
-);*/
+);
 
 
 /*Addr. increment done when current_state==ST_DETECT*/
