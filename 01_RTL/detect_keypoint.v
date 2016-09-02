@@ -20,7 +20,7 @@ input       [5119:0]	top_0,
 						btm_0,
 						btm_1,
 						btm_2;
-output 	 [637:0]	is_keypoint;
+output reg 	 [637:0]	is_keypoint;
 
 wire	[25:0]		detect_max[0:637];
 assign detect_max[0][0] = (mid_1[15:8] > top_0[7:0]) ? 1 : 0;
