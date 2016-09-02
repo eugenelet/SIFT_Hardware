@@ -45,23 +45,23 @@ output                done;
 output               buffer_we;
 
 /*BUFFER IN*/
-input      [5119:0]  buffer_data_0;
-input      [5119:0]  buffer_data_1;
-input      [5119:0]  buffer_data_2;
-input      [5119:0]  buffer_data_3;
-input      [5119:0]  buffer_data_4;
-input      [5119:0]  buffer_data_5;
-input      [5119:0]  buffer_data_6;
-input      [5119:0]  buffer_data_7;
-input      [5119:0]  buffer_data_8;
-input      [5119:0]  buffer_data_9;
+input      [5119:0]  buffer_data_0,
+                     buffer_data_1,
+                     buffer_data_2,
+                     buffer_data_3,
+                     buffer_data_4,
+                     buffer_data_5,
+                     buffer_data_6,
+                     buffer_data_7,
+                     buffer_data_8,
+                     buffer_data_9;
 
 /*From SRAM (Used with Buffer)*/
-input      [5119:0]  img_dout;
-input      [5119:0]  blur3x3_dout;
-input      [5119:0]  blur5x5_1_dout;
-input      [5119:0]  blur5x5_2_dout;
-input      [5119:0]  blur7x7_dout;
+input      [5119:0]  img_dout,
+                     blur3x3_dout,
+                     blur5x5_1_dout,
+                     blur5x5_2_dout,
+                     blur7x7_dout;
 
 /*To SRAM*/
 output reg[8:0] img_addr,
@@ -317,7 +317,7 @@ always @(*) begin
         next_state = ST_FILTER;
     end
     ST_UPDATE: begin
-      if(current_state==ST_UPDATE)
+      if(current_state==ST_UPDATE && img_addr!='d479)
         next_state = ST_BUFFER;
       else if(img_addr == 'd479)
         next_state = ST_IDLE;
