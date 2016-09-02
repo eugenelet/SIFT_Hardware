@@ -23,7 +23,7 @@ input       [5119:0]	top_0,
 output reg	 [637:0]	is_keypoint; // wire
 
 reg	[25:0]		detect_max[0:637]; //wire
-wire [25:0] = debug_detect = detect_max[26];
+wire [25:0]  debug_detect = detect_max[26];
 always@(*) begin
   if(mid_1[15:8] > top_0[7:0])
     detect_max[0][0] = 1;
