@@ -4,12 +4,136 @@
 		"selected_items":
 		[
 			[
+				"pre",
+				"prepare_filter"
+			],
+			[
+				"blur_d",
+				"blur_dout"
+			],
+			[
+				"img_d",
+				"img_din"
+			],
+			[
+				"blur7x",
+				"blur7x7_dout"
+			],
+			[
+				"blur5x",
+				"blur5x5_2_dout"
+			],
+			[
+				"b",
+				"blur3x3_dout"
+			],
+			[
+				"blur5",
+				"blur5x5_2_addr"
+			],
+			[
+				"blur",
+				"blur5x5_1_addr"
+			],
+			[
+				"blur3",
+				"blur3x3_addr"
+			],
+			[
+				"gau",
+				"gaussian_buffer_we"
+			],
+			[
+				"ST_",
+				"ST_DETECT_FILTER"
+			],
+			[
 				"img",
 				"img_addr"
 			],
 			[
+				"kpt",
+				"kpt_layer1"
+			],
+			[
+				"key",
+				"keypoint_layer1"
+			],
+			[
+				"cure",
+				"current_RowCol"
+			],
+			[
+				"cur",
+				"current_RowCol"
+			],
+			[
+				"ke",
+				"keypoint_1_din"
+			],
+			[
+				"fil",
+				"filter_input_0"
+			],
+			[
+				"fi",
+				"filter_input_1"
+			],
+			[
+				"br",
+				"brighter"
+			],
+			[
+				"bri",
+				"brighter_valid"
+			],
+			[
+				"blu",
+				"blur3x3_dout"
+			],
+			[
+				"de",
+				"detected_keypoint"
+			],
+			[
+				"buffer_da",
+				"buffer_data_9"
+			],
+			[
 				"buff",
-				"buffer_we_stop"
+				"buffer_data_1"
+			],
+			[
+				"im",
+				"img_addr"
+			],
+			[
+				"bu",
+				"buffer_data_1"
+			],
+			[
+				"buf",
+				"buffer_data_0"
+			],
+			[
+				"SYS_",
+				"SYS_DETECT_FILTER"
+			],
+			[
+				"SYS",
+				"SYS_DETECT_FILTER"
+			],
+			[
+				"dete",
+				"detect_filter_done"
+			],
+			[
+				"keypo",
+				"keypoint_1_din"
+			],
+			[
+				"img_",
+				"img_addr"
 			],
 			[
 				"buffer_we",
@@ -32,32 +156,8 @@
 				"error"
 			],
 			[
-				"blu",
-				"blur_addr"
-			],
-			[
-				"blur",
-				"blur5x5_2"
-			],
-			[
-				"img_",
-				"img_dout"
-			],
-			[
 				"buffer_data",
 				"buffer_data_6"
-			],
-			[
-				"buffer_da",
-				"buffer_data_4"
-			],
-			[
-				"buf",
-				"buffer_data_4"
-			],
-			[
-				"SYS",
-				"SYS_GAUSSIAN"
 			],
 			[
 				"buffer",
@@ -72,14 +172,6 @@
 				"blur_mem_we"
 			],
 			[
-				"ke",
-				"kernel_img_mul"
-			],
-			[
-				"bu",
-				"buffer_data_2"
-			],
-			[
 				"G_Kernel_5x5",
 				"G_Kernel_5x5_0"
 			],
@@ -90,10 +182,6 @@
 			[
 				"ST_GA",
 				"ST_GAUSSIAN_START"
-			],
-			[
-				"ST_",
-				"ST_GAUSSIAN"
 			],
 			[
 				"L",
@@ -123,7 +211,7 @@
 			"file": "Line_Buffer_10.v",
 			"settings":
 			{
-				"buffer_size": 3862,
+				"buffer_size": 4133,
 				"line_ending": "Windows"
 			}
 		},
@@ -131,15 +219,55 @@
 			"file": "CORE.v",
 			"settings":
 			{
-				"buffer_size": 5271,
+				"buffer_size": 8475,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "/C/Users/Eugene/Downloads/main.cpp",
+			"file": "bmem_480x5120.v",
 			"settings":
 			{
-				"buffer_size": 34605,
+				"buffer_size": 336,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Detect_Filter_Keypoints.v",
+			"settings":
+			{
+				"buffer_size": 8653,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "prepare_filter.v",
+			"settings":
+			{
+				"buffer_size": 441286,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "filter_keypoint.v",
+			"settings":
+			{
+				"buffer_size": 2480,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/Eugene/Documents/GitHub/SIFT_Hardware/00_TESTBENCH/TESTBENCH.v",
+			"settings":
+			{
+				"buffer_size": 5669,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "bmem_2000x19.v",
+			"settings":
+			{
+				"buffer_size": 333,
 				"line_ending": "Windows"
 			}
 		}
@@ -186,6 +314,8 @@
 	"expanded_folders":
 	[
 		"/C/Users/Eugene/Documents/GitHub/SIFT_Hardware",
+		"/C/Users/Eugene/Documents/GitHub/SIFT_Hardware/00_MEM",
+		"/C/Users/Eugene/Documents/GitHub/SIFT_Hardware/00_TESTBENCH",
 		"/C/Users/Eugene/Documents/GitHub/SIFT_Hardware/01_RTL"
 	],
 	"file_history":
@@ -229,6 +359,15 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"no_keypoint",
+			"blur7x7_dout",
+			"blur3x3_dout",
+			"done",
+			"prepa",
+			"brighter",
+			"current_state",
+			"in_data",
+			"blur_addr",
 			"img_data",
 			"ST_REQ",
 			"buffer_we",
@@ -275,6 +414,8 @@
 		"regex": false,
 		"replace_history":
 		[
+			"darker",
+			"img_data",
 			"in_data"
 		],
 		"reverse": false,
@@ -286,7 +427,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -295,15 +436,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3862,
+						"buffer_size": 4133,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								233,
-								233
+								101,
+								112
 							]
 						],
 						"settings":
@@ -316,7 +457,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
@@ -325,15 +466,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5271,
+						"buffer_size": 8475,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2240,
-								2240
+								8120,
+								8120
 							]
 						],
 						"settings":
@@ -343,39 +484,186 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2436.0,
+						"translation.y": 7857.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "/C/Users/Eugene/Downloads/main.cpp",
+					"file": "bmem_480x5120.v",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 34605,
+						"buffer_size": 336,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								308,
-								308
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/Verilog/Verilog.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 588.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "Detect_Filter_Keypoints.v",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8653,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5242,
+								5242
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Verilog/Verilog.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 5113.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "prepare_filter.v",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 441286,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								689,
+								703
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Verilog/Verilog.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "filter_keypoint.v",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2480,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								219,
+								219
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Verilog/Verilog.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "/C/Users/Eugene/Documents/GitHub/SIFT_Hardware/00_TESTBENCH/TESTBENCH.v",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5669,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2459,
+								2465
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Verilog/Verilog.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4704.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "bmem_2000x19.v",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 333,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								122,
+								122
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Verilog/Verilog.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
 					"type": "text"
 				}
 			]

@@ -105,9 +105,8 @@ initial begin
   // repeat(1000) @(negedge clk);
   $display("test!");
   while(!u_core.gaussian_done[0]) begin
-    $display("gaussian\n");    
     @(negedge clk);
-    $display("gaussian\n");    
+    $display("gaussian\r");    
   end
 
   errorFile = $fopen("error.txt","w");
@@ -182,8 +181,8 @@ initial begin
     $display("waiting_detect_filter");    
   end
 
-  kpt_layer1_ans = $fopen("keypoint_layer1.txt", "r");
-  kpt_layer2_ans = $fopen("keypoint_layer2.txt", "r");
+  // kpt_layer1_ans = $fopen("keypoint_layer1.txt", "r");
+  // kpt_layer2_ans = $fopen("keypoint_layer2.txt", "r");
   kpt_layer1 = $fopen("kpt1_RTL.txt", "w");
   kpt_layer2 = $fopen("kpt2_RTL.txt", "w");
   for(i=0; i <2000; i=i+1) begin
@@ -192,6 +191,8 @@ initial begin
   for(i=0; i <2000; i=i+1) begin
     $fwrite(kpt_layer2, "%d %d\n", u_core.keypoint_2_mem.mem[i][18:10], u_core.keypoint_2_mem.mem[i][9:0]);
   end
+  $fclose(kpt_layer1);
+  $fclose(kpt_layer2);
   $finish;
 end
 
