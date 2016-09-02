@@ -20,7 +20,7 @@ input       [5119:0]	top_0,
 						btm_0,
 						btm_1,
 						btm_2;
-output reg 	 [637:0]	is_keypoint;
+output 	 [637:0]	is_keypoint;
 
 wire	[25:0]		detect_max[0:637];
 assign detect_max[0][0] = (mid_1[15:8] > top_0[7:0]) ? 1 : 0;
@@ -49,7 +49,7 @@ assign detect_max[0][22] = (mid_1[15:8] > btm_1[23:16]) ? 1 : 0;
 assign detect_max[0][23] = (mid_1[15:8] > btm_2[7:0]) ? 1 : 0;
 assign detect_max[0][24] = (mid_1[15:8] > btm_2[15:8]) ? 1 : 0;
 assign detect_max[0][25] = (mid_1[15:8] > btm_2[23:16]) ? 1 : 0;
-
+/*
 assign detect_max[1][0] = (mid_1[23:16] > top_0[15:8]) ? 1 : 0;
 assign detect_max[1][1] = (mid_1[23:16] > top_0[23:16]) ? 1 : 0;
 assign detect_max[1][2] = (mid_1[23:16] > top_0[31:24]) ? 1 : 0;
@@ -17247,10 +17247,10 @@ assign detect_max[637][21] = (mid_1[5111:5104] > btm_1[5111:5104]) ? 1 : 0;
 assign detect_max[637][22] = (mid_1[5111:5104] > btm_1[5119:5112]) ? 1 : 0;
 assign detect_max[637][23] = (mid_1[5111:5104] > btm_2[5103:5096]) ? 1 : 0;
 assign detect_max[637][24] = (mid_1[5111:5104] > btm_2[5111:5104]) ? 1 : 0;
-assign detect_max[637][25] = (mid_1[5111:5104] > btm_2[5119:5112]) ? 1 : 0;
+assign detect_max[637][25] = (mid_1[5111:5104] > btm_2[5119:5112]) ? 1 : 0;*/
 
 wire [637:0] is_max;
-assign is_max[0] = (&detect_max[0]) ? 1:0;
+assign is_max[0] = (&detect_max[0]) ? 1:0;/*
 assign is_max[1] = (&detect_max[1]) ? 1:0;
 assign is_max[2] = (&detect_max[2]) ? 1:0;
 assign is_max[3] = (&detect_max[3]) ? 1:0;
@@ -17888,7 +17888,7 @@ assign is_max[634] = (&detect_max[634]) ? 1:0;
 assign is_max[635] = (&detect_max[635]) ? 1:0;
 assign is_max[636] = (&detect_max[636]) ? 1:0;
 assign is_max[637] = (&detect_max[637]) ? 1:0;
-
+*/
 wire	[25:0]		detect_min[0:637];
 assign detect_min[0][0] = (mid_1[15:8] < top_0[7:0]) ? 1 : 0;
 assign detect_min[0][1] = (mid_1[15:8] < top_0[15:8]) ? 1 : 0;
@@ -17917,7 +17917,7 @@ assign detect_min[0][23] = (mid_1[15:8] < btm_2[7:0]) ? 1 : 0;
 assign detect_min[0][24] = (mid_1[15:8] < btm_2[15:8]) ? 1 : 0;
 assign detect_min[0][25] = (mid_1[15:8] < btm_2[23:16]) ? 1 : 0;
 
-assign detect_min[1][0] = (mid_1[23:16] < top_0[15:8]) ? 1 : 0;
+/*assign detect_min[1][0] = (mid_1[23:16] < top_0[15:8]) ? 1 : 0;
 assign detect_min[1][1] = (mid_1[23:16] < top_0[23:16]) ? 1 : 0;
 assign detect_min[1][2] = (mid_1[23:16] < top_0[31:24]) ? 1 : 0;
 assign detect_min[1][3] = (mid_1[23:16] < top_1[15:8]) ? 1 : 0;
@@ -35115,10 +35115,10 @@ assign detect_min[637][22] = (mid_1[5111:5104] < btm_1[5119:5112]) ? 1 : 0;
 assign detect_min[637][23] = (mid_1[5111:5104] < btm_2[5103:5096]) ? 1 : 0;
 assign detect_min[637][24] = (mid_1[5111:5104] < btm_2[5111:5104]) ? 1 : 0;
 assign detect_min[637][25] = (mid_1[5111:5104] < btm_2[5119:5112]) ? 1 : 0;
-
+*/
 wire [637:0] is_min;
 assign is_min[0] = (&detect_min[0]) ? 1:0;
-assign is_min[1] = (&detect_min[1]) ? 1:0;
+/*assign is_min[1] = (&detect_min[1]) ? 1:0;
 assign is_min[2] = (&detect_min[2]) ? 1:0;
 assign is_min[3] = (&detect_min[3]) ? 1:0;
 assign is_min[4] = (&detect_min[4]) ? 1:0;
@@ -35755,9 +35755,9 @@ assign is_min[634] = (&detect_min[634]) ? 1:0;
 assign is_min[635] = (&detect_min[635]) ? 1:0;
 assign is_min[636] = (&detect_min[636]) ? 1:0;
 assign is_min[637] = (&detect_min[637]) ? 1:0;
-
+*/
 assign is_keypoint[0] = is_max[0] | is_min[0];
-assign is_keypoint[1] = is_max[1] | is_min[1];
+/*assign is_keypoint[1] = is_max[1] | is_min[1];
 assign is_keypoint[2] = is_max[2] | is_min[2];
 assign is_keypoint[3] = is_max[3] | is_min[3];
 assign is_keypoint[4] = is_max[4] | is_min[4];
@@ -36394,5 +36394,5 @@ assign is_keypoint[634] = is_max[634] | is_min[634];
 assign is_keypoint[635] = is_max[635] | is_min[635];
 assign is_keypoint[636] = is_max[636] | is_min[636];
 assign is_keypoint[637] = is_max[637] | is_min[637];
-
+*/
 endmodule
