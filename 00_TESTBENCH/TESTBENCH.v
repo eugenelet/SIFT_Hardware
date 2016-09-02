@@ -104,10 +104,10 @@ initial begin
 
   // repeat(1000) @(negedge clk);
   $display("test!");
-  while(!u_core.gaussian_done[0]) begin
+  while(!u_core.gaussian_done[0]) //begin
     @(negedge clk);
-    $display("gaussian\r");    
-  end
+    // $display("gaussian");    
+  // end
 
   errorFile = $fopen("error.txt","w");
 
