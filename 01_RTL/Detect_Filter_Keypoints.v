@@ -156,7 +156,7 @@ end
 
 
 wire   [637:0] is_keypoint[0:1];
-detect_keypoint u_detect_keypoint_0(
+/*detect_keypoint u_detect_keypoint_0(
   .top_0        (buffer_data_1),
   .top_1        (buffer_data_0),
   .top_2        (img_dout),
@@ -180,13 +180,13 @@ detect_keypoint u_detect_keypoint_1(
   .btm_1        (buffer_data_8),
   .btm_2        (blur7x7_dout),
   .is_keypoint  (is_keypoint[1])
-);
+);*/
 
 wire  [23:0]    filter_input_0[0:2];
 wire  [23:0]    filter_input_1[0:2];
 wire  [1:0]     no_keypoint;
 wire  [18:0]    current_RowCol[0:1];
-prepare_filter u_prepare_filter(
+/*prepare_filter u_prepare_filter(
   .clk            (clk),
   .rst_n          (rst_n),
   .current_state  (current_state),
@@ -208,10 +208,10 @@ prepare_filter u_prepare_filter(
   .is_keypoint_1  (is_keypoint[1]),
   .current_RowCol_0 (current_RowCol[0]),
   .current_RowCol_1 (current_RowCol[1])
-);
+);*/
 
 wire  [1:0] valid_keypoint;
-filter_keypoint u_filter_keypoint_0(
+/*filter_keypoint u_filter_keypoint_0(
   .filter_input_0 (filter_input_0[0]),
   .filter_input_1 (filter_input_0[1]),
   .filter_input_2 (filter_input_0[2]),
@@ -223,7 +223,7 @@ filter_keypoint u_filter_keypoint_1(
   .filter_input_1 (filter_input_1[1]),
   .filter_input_2 (filter_input_1[2]),
   .valid_keypoint (valid_keypoint[1])
-);
+);*/
 
 
 /*Addr. increment done when current_state==ST_DETECT*/
