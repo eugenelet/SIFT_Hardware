@@ -169,7 +169,7 @@ detect_keypoint u_detect_keypoint_0(
   .is_keypoint  (is_keypoint[0])
 );
 
-detect_keypoint u_detect_keypoint_1(
+/*detect_keypoint u_detect_keypoint_1(
   .top_0        (buffer_data_5),
   .top_1        (buffer_data_4),
   .top_2        (blur5x5_1_dout),
@@ -180,7 +180,7 @@ detect_keypoint u_detect_keypoint_1(
   .btm_1        (buffer_data_8),
   .btm_2        (blur7x7_dout),
   .is_keypoint  (is_keypoint[1])
-);
+);*/
 
 wire  [23:0]    filter_input_0[0:2];
 wire  [23:0]    filter_input_1[0:2];
