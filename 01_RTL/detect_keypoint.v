@@ -22,7 +22,7 @@ input       [5119:0]	top_0,
 						btm_2;
 output reg	 [637:0]	is_keypoint; // wire
 
-reg	[25:0]		detect_max[0:637] //wire;
+reg	[25:0]		detect_max[0:637]; //wire
 always@(*) begin
   if(mid_1[15:8] > top_0[7:0])
     detect_max[0][0] = 1;
@@ -70845,7 +70845,7 @@ always@(*) begin
     is_max[637] = 0;
 end
 
-reg	[25:0]		detect_min[0:637] //wire;
+reg	[25:0]		detect_min[0:637]; //wire
 always@(*) begin
   if(mid_1[15:8] > top_0[7:0])
     detect_min[0][0] = 1;
