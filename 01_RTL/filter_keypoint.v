@@ -6,9 +6,9 @@ module filter_keypoint(
   valid_keypoint
 );
 
-input  [639:0]    top_row;
-input  [639:0]    mid_row;
-input  [639:0]    btm_row;
+input  [5119:0]    top_row;
+input  [5119:0]    mid_row;
+input  [5119:0]    btm_row;
 input  [9:0]      current_col;
 
 output          valid_keypoint;
