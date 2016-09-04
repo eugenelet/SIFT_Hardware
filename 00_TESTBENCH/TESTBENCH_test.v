@@ -71,9 +71,9 @@ initial begin
   test1 = 5;
   test2 = 6;
   test3 = test1 - test2;
-  $diplay(test3);
+  $display(test3);
   test3 = test1 + test2;
-  $diplay(test3);
+  $display(test3);
 
 
   $finish;
