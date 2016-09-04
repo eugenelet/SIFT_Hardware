@@ -15,16 +15,16 @@ module detect_keypoint(
   is_keypoint
 );
 
-input       [5119:0]   layer_0_0,
+input       [5119:0]   layer_0_0, /*img*/
                        layer_0_1,
                        layer_0_2,
-                       layer_1_0,
+                       layer_1_0, /*Blur 0*/
                        layer_1_1,
                        layer_1_2,
-                       layer_2_0,
+                       layer_2_0, /*Blur 1*/
                        layer_2_1,
                        layer_2_2,
-                       layer_3_0,
+                       layer_3_0, /*Blur 2*/
                        layer_3_1,
                        layer_3_2;
 input       [9:0]      current_col;
@@ -18796,8 +18796,8 @@ always@(*) begin
     detect_min[25] = 0;
 end
 
-wire is_max = (&detect_max) ? 1:0;
-wire is_min = (&detect_min) ? 1:0;
+wire is_max = (|detect_max) ? 1:0;
+wire is_min = (|detect_min) ? 1:0;
 assign is_keypoint = is_max & is_min;
 
 endmodule
