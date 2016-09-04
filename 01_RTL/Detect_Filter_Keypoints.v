@@ -183,6 +183,7 @@ detect_keypoint u_detect_keypoint_0(
   .is_keypoint      (is_keypoint[0])
 );
 
+
 detect_keypoint u_detect_keypoint_1(
   .layer_0_0        (buffer_data_3),
   .layer_0_1        (buffer_data_2),
@@ -201,6 +202,35 @@ detect_keypoint u_detect_keypoint_1(
 );
 
 
+reg [12:0] dog_addr_0;
+always @(posedge clk ) begin
+  if (!rst_n)
+    dog_addr_0 <= 0;
+  else if (current_state==ST_DETECT && is_keypoint[0])
+    dog_addr_0 <= dog_addr_0 + 1;
+end
+reg [12:0] dog_addr_0;
+always @(posedge clk ) begin
+  if (!rst_n)
+    dog_addr_1 <= 0;
+  else if (current_state==ST_DETECT && is_keypoint[0])
+    dog_addr_1 <= dog_addr_1 + 1;
+end
+
+reg [18:0] dog_results_0[0:5000];
+always @(posedge clk ) begin
+  if (!rst_n)
+    dog_results_0[dog_addr_0] <= 0;
+  else if (current_state==ST_DETECT && is_keypoint[0])
+    dog_results_0[dog_addr_0] <= {img_addr, current_col};
+end
+reg [18:0] dog_results_1[0:5000];
+always @(posedge clk ) begin
+  if (!rst_n)
+    dog_results_1[dog_addr_1] <= 0;
+  else if (current_state==ST_DETECT && is_keypoint[0])
+    dog_results_1[dog_addr_1] <= {img_addr, current_col};
+end
 wire  [1:0] valid_keypoint;
 filter_keypoint u_filter_keypoint_0(
   .current_col    (current_col),

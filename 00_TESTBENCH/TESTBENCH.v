@@ -74,6 +74,7 @@ integer imageFile, rc, errorFile, blur3x3, blur5x5_1, blur5x5_2, blur7x7; // rc:
 integer blur3x3_ans, blur5x5_1_ans, blur5x5_2_ans, blur7x7_ans; // rc: read check
 integer kpt_layer1, kpt_layer2, kpt_layer1_ans, kpt_layer2_ans;
 integer tmp;
+integer debug_0, debug_1;
 initial begin
   rst_n     = 1;
   in_valid  = 0;
@@ -192,6 +193,19 @@ initial begin
   end
   $fclose(kpt_layer1);
   $fclose(kpt_layer2);
+
+  debug_0 = $fopen("is_kp0", "w");
+  debug_1 = $fopen("is_kp1", "w");
+
+  for(i=0; i<u_core.u_detect_filter_keypoints.dog_addr_0; i++)
+    $fwrite(debug_0, "%d %d", u_core.u_detect_filter_keypoints.dog_results_0[i][18:10], u_core.u_detect_filter_keypoints.dog_results_0[i][9:0]);
+
+  for(i=0; i<u_core.u_detect_filter_keypoints.dog_addr_1; i++)
+    $fwrite(debug_1, "%d %d", u_core.u_detect_filter_keypoints.dog_results_1[i][18:10], u_core.u_detect_filter_keypoints.dog_results_1[i][9:0]);
+
+  $fclose(debug_0);  
+  $fclose(debug_1);
+  
   $finish;
 end
 
