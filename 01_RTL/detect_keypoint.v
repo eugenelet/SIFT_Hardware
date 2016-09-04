@@ -40,9 +40,33 @@ reg signed [8:0]  btm_0[0:2]; // wire
 reg signed [8:0]  btm_1[0:2]; // wire
 reg signed [8:0]  btm_2[0:2]; // wire
 
-wire  [7:0] a = layer_1_0[7:0];
-wire  [7:0] b = layer_0_0[7:0];
-wire signed [8:0] a_b = top_0[0];
+wire signed [8:0] top_0_0 = top_0[0];
+wire signed [8:0] top_0_1 = top_0[1];
+wire signed [8:0] top_0_2 = top_0[2];
+wire signed [8:0] top_1_0 = top_1[0];
+wire signed [8:0] top_1_1 = top_1[1];
+wire signed [8:0] top_1_2 = top_1[2];
+wire signed [8:0] top_2_0 = top_2[0];
+wire signed [8:0] top_2_1 = top_2[1];
+wire signed [8:0] top_2_2 = top_2[2];
+wire signed [8:0] mid_0_0 = mid_0[0];
+wire signed [8:0] mid_0_1 = mid_0[1];
+wire signed [8:0] mid_0_2 = mid_0[2];
+wire signed [8:0] mid_1_0 = mid_1[0];
+wire signed [8:0] mid_1_1 = mid_1[1];
+wire signed [8:0] mid_1_2 = mid_1[2];
+wire signed [8:0] mid_2_0 = mid_2[0];
+wire signed [8:0] mid_2_1 = mid_2[1];
+wire signed [8:0] mid_2_2 = mid_2[2];
+wire signed [8:0] btm_0_0 = btm_0[0];
+wire signed [8:0] btm_0_1 = btm_0[1];
+wire signed [8:0] btm_0_2 = btm_0[2];
+wire signed [8:0] btm_1_0 = btm_1[0];
+wire signed [8:0] btm_1_1 = btm_1[1];
+wire signed [8:0] btm_1_2 = btm_1[2];
+wire signed [8:0] btm_2_0 = btm_2[0];
+wire signed [8:0] btm_2_1 = btm_2[1];
+wire signed [8:0] btm_2_2 = btm_2[2];
 
 always@(*) begin
   case(current_col)
