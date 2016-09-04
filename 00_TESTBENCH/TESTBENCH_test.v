@@ -34,7 +34,7 @@ wire  [15:0]  out_data;
 
 reg [8:0] test1, test2;
 reg  signed [8:0] test4, test5;
-wire signed [9:0] test3;
+wire signed [4:0] test3;
 
 sign_test u_sign_test(
   .clk      (clk),
@@ -98,7 +98,7 @@ initial begin
   test2[3:0] = 3;
   test1[3:0] = 4;
   @(negedge clk);
-  $display(test3[4:0]);
+  $display(test3);
   $finish;
 end
 
