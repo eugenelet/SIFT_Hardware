@@ -154,8 +154,19 @@ always @(posedge clk) begin
     ready_start_relay <= 1'b0;
 end
 
+/*Counter for current column*/
+reg   [9:0] current_col;
+wire   [1:0] is_keypoint;
+always @(posedge clk) begin
+  if (!rst_n) 
+    current_col <= 'd1;    
+  else if ((current_state==ST_FILTER || (current_state==ST_DETECT && !(|is_keypoint))) && current_col < 'd639) /*if no keypoints found*/
+    current_col <= current_col + 1;
+  else if (current_state==ST_UPDATE || current_state==ST_IDLE)
+    current_col <= 'd1;
+end
 
-wire   [637:0] is_keypoint[0:1];
+
 detect_keypoint u_detect_keypoint_0(
   .layer_0_0        (buffer_data_1),
   .layer_0_1        (buffer_data_0),
@@ -169,7 +180,8 @@ detect_keypoint u_detect_keypoint_0(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .is_keypoint  (is_keypoint[0])
+  .current_col      (current_col),
+  .is_keypoint      (is_keypoint[0])
 );
 
 detect_keypoint u_detect_keypoint_1(
@@ -185,49 +197,27 @@ detect_keypoint u_detect_keypoint_1(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .is_keypoint  (is_keypoint[1])
+  .current_col      (current_col),
+  .is_keypoint      (is_keypoint[1])
 );
 
-wire  [23:0]    filter_input_0[0:2];
-wire  [23:0]    filter_input_1[0:2];
-wire  [1:0]     no_keypoint;
-wire  [18:0]    current_RowCol[0:1];
-prepare_filter u_prepare_filter(
-  .clk            (clk),
-  .rst_n          (rst_n),
-  .current_state  (current_state),
-  .img_addr       (img_addr),
-  .filter_input_0_0 (filter_input_0[0]),
-  .filter_input_0_1 (filter_input_0[1]),
-  .filter_input_0_2 (filter_input_0[2]),
-  .filter_input_1_0 (filter_input_1[0]),
-  .filter_input_1_1 (filter_input_1[1]),
-  .filter_input_1_2 (filter_input_1[2]),
-  .buffer_data_2  (buffer_data_2),
-  .buffer_data_3  (buffer_data_3),
-  .buffer_data_4  (buffer_data_4),
-  .buffer_data_5  (buffer_data_5),
-  .blur3x3_dout   (blur3x3_dout),
-  .blur5x5_1_dout (blur5x5_1_dout),
-  .no_keypoint    (no_keypoint),
-  .is_keypoint_0  (is_keypoint[0]),
-  .is_keypoint_1  (is_keypoint[1]),
-  .current_RowCol_0 (current_RowCol[0]),
-  .current_RowCol_1 (current_RowCol[1])
-);
 
 wire  [1:0] valid_keypoint;
 filter_keypoint u_filter_keypoint_0(
-  .filter_input_0 (filter_input_0[0]),
-  .filter_input_1 (filter_input_0[1]),
-  .filter_input_2 (filter_input_0[2]),
+  .current_col    (current_col),
+  .top_row        (buffer_data_3),
+  .mid_row        (buffer_data_2),
+  .btm_row        (blur3x3_dout),
+  .is_keypoint    (is_keypoint[0]),
   .valid_keypoint (valid_keypoint[0])
 );
 
 filter_keypoint u_filter_keypoint_1(
-  .filter_input_0 (filter_input_1[0]),
-  .filter_input_1 (filter_input_1[1]),
-  .filter_input_2 (filter_input_1[2]),
+  .current_col    (current_col),
+  .top_row        (buffer_data_5),
+  .mid_row        (buffer_data_4),
+  .btm_row        (blur5x5_1_dout),
+  .is_keypoint    (is_keypoint[1]),
   .valid_keypoint (valid_keypoint[1])
 );
 
@@ -254,33 +244,33 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     keypoint_1_we <= 1'b0;
-  else if (current_state==ST_FILTER && !no_keypoint[0] && valid_keypoint[0])
+  else if (current_state==ST_FILTER && valid_keypoint[0])
     keypoint_1_we <= 1'b1;
-  else if (no_keypoint[0])
+  else
     keypoint_1_we <= 1'b0;
 end
 
 always @(posedge clk) begin
   if (!rst_n)
     keypoint_2_we <= 1'b0;
-  else if (current_state==ST_FILTER && !no_keypoint[1] && valid_keypoint[1])
+  else if (current_state==ST_FILTER && valid_keypoint[1])
     keypoint_2_we <= 1'b1;
-  else if (no_keypoint[1])
+  else
     keypoint_2_we <= 1'b0;
 end
 
 always @(posedge clk) begin
   if (!rst_n)
     keypoint_1_din <= 1'b0;
-  else if (current_state==ST_FILTER && !no_keypoint[0] && valid_keypoint[0])
-    keypoint_1_din <= current_RowCol[0];
+  else if (current_state==ST_FILTER && valid_keypoint[0])
+    keypoint_1_din <= {img_addr, current_col};
 end
 
 always @(posedge clk) begin
   if (!rst_n)
     keypoint_2_din <= 1'b0;
-  else if (current_state==ST_FILTER && !no_keypoint[1] && valid_keypoint[1])
-    keypoint_2_din <= current_RowCol[1];
+  else if (current_state==ST_FILTER && valid_keypoint[1])
+    keypoint_2_din <= {img_addr, current_col};
 end
 /*
  *  FSM
@@ -311,14 +301,18 @@ always @(*) begin
         next_state = ST_READY;
     end
     ST_DETECT: begin
-      if(current_state==ST_DETECT)
+      if(|is_keypoint)
         next_state = ST_FILTER;
+      else if(current_col=='d639)
+        next_state = ST_UPDATE
       else
         next_state = ST_DETECT;
     end
     ST_FILTER: begin
-      if(no_keypoint[0] && no_keypoint[1])
+      if(current_col == 'd639)
         next_state = ST_UPDATE;
+      else if(current_col < 'd639)
+        next_state = ST_DETECT;
       else 
         next_state = ST_FILTER;
     end
