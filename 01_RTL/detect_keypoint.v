@@ -40,6 +40,10 @@ reg signed [8:0]  btm_0[0:2]; // wire
 reg signed [8:0]  btm_1[0:2]; // wire
 reg signed [8:0]  btm_2[0:2]; // wire
 
+wire  [7:0] a = layer_1_0[7:0];
+wire  [7:0] b = layer_0_0[7:0];
+wire signed [8:0] = top_0[0];
+
 always@(*) begin
   case(current_col)
     'd1: begin
