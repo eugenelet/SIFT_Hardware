@@ -33,6 +33,7 @@ wire          out_valid;
 wire  [15:0]  out_data;
 
 reg [8:0] test1, test2;
+reg  signed [8:0] test4, test5;
 wire signed [9:0] test3;
 
 sign_test u_sign_test(
@@ -86,6 +87,11 @@ initial begin
   test1 = 6;
   test2 = 5;
   @(negedge clk);
+
+  test5 = -5
+  test4 = 3;
+  if(test5<test4)
+    $display("correct");
 
   $display(test3);
 
