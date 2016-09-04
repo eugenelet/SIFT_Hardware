@@ -302,7 +302,7 @@ always @(*) begin
       if(|is_keypoint)
         next_state = ST_FILTER;
       else if(current_col=='d639)
-        next_state = ST_UPDATE
+        next_state = ST_UPDATE;
       else
         next_state = ST_DETECT;
     end
