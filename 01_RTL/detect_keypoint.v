@@ -18796,8 +18796,8 @@ always@(*) begin
     detect_min[25] = 0;
 end
 
-wire is_max = (|detect_max) ? 1:0;
-wire is_min = (|detect_min) ? 1:0;
+wire is_max = (&detect_max) ? 1:0;
+wire is_min = (&detect_min) ? 1:0;
 assign is_keypoint = is_max & is_min;
 
 endmodule

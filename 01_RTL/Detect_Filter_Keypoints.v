@@ -94,8 +94,7 @@ parameter ST_IDLE   = 0,
 
 assign done = (img_addr=='d480) ? 1 : 0;
 
-assign buffer_we = ((start || current_state==ST_BUFFER) && 
-  !(current_state==ST_UPDATE || current_state==ST_FILTER || current_state==ST_DETECT || current_state==ST_IDLE)) ? 1:0;
+assign buffer_we = ((current_state==ST_READY && start) || current_state==ST_BUFFER) ? 1:0;
 
 always @(posedge clk) begin
   if (!rst_n) 
@@ -324,7 +323,7 @@ always @(*) begin
     end
     ST_BUFFER: begin
       if(current_state==ST_BUFFER)
-        next_state = ST_READY;
+        next_state = ST_DETECT;
       else
         next_state = ST_BUFFER;
     end
