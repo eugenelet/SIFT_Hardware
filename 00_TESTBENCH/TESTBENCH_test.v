@@ -88,7 +88,7 @@ initial begin
   test2 = 5;
   @(negedge clk);
 
-  test5 = -5
+  test5 = -5;
   test4 = 3;
   if(test5<test4)
     $display("correct");
