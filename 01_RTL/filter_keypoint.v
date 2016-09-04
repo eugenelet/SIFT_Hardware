@@ -7074,49 +7074,13 @@ assign darker[5] = (btm[1] < (mid[1] - 'd7)) ? 1 : 0;
 assign darker[6] = (btm[0] < (mid[1] - 'd7)) ? 1 : 0;
 assign darker[7] = (mid[0] < (mid[1] - 'd7)) ? 1 : 0;
 
-reg  brighter_valid; /*wire*/
-always @(*) begin
-  if(&brighter[3:0])
-    brighter_valid = 1;
-  else if(&brighter[4:1])
-    brighter_valid = 1;
-  else if(&brighter[5:2])
-    brighter_valid = 1;
-  else if(&brighter[6:3])
-    brighter_valid = 1;
-  else if(&brighter[7:4])
-    brighter_valid = 1;
-  else if(&{brighter[7:5], brighter[0]})
-    brighter_valid = 1;
-  else if(&{brighter[7:6], brighter[1:0]})
-    brighter_valid = 1;
-  else if(&{brighter[7], brighter[2:0]})
-    brighter_valid = 1;
-  else
-    brighter_valid = 0;
-end
+wire  brighter_valid = (&brighter[3:0] | &brighter[4:1] | &brighter[5:2] | &brighter[6:3] | &brighter[7:4] | &{brighter[7:5], brighter[0]}
+                        | &{brighter[7:6], brighter[1:0]} | &{brighter[7], brighter[2:0]}) ? 1:0;
 
-reg  darker_valid; /*wire*/
-always @(*) begin
-  if(&darker[3:0])
-    darker_valid = 1;
-  else if(&darker[4:1])
-    darker_valid = 1;
-  else if(&darker[5:2])
-    darker_valid = 1;
-  else if(&darker[6:3])
-    darker_valid = 1;
-  else if(&darker[7:4])
-    darker_valid = 1;
-  else if(&{darker[7:5], darker[0]})
-    darker_valid = 1;
-  else if(&{darker[7:6], darker[1:0]})
-    darker_valid = 1;
-  else if(&{darker[7], darker[2:0]})
-    darker_valid = 1;
-  else
-    darker_valid = 0;
-end
+
+wire  darker_valid = (&darker[3:0] | &darker[4:1] | &darker[5:2] | &darker[6:3] | &darker[7:4] | &{darker[7:5], darker[0]}
+                        | &{darker[7:6], darker[1:0]} | &{darker[7], darker[2:0]}) ? 1:0;
+
 
 assign valid_keypoint = brighter_valid | darker_valid;
 
