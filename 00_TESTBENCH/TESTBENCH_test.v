@@ -39,8 +39,8 @@ wire signed [9:0] test3;
 sign_test u_sign_test(
   .clk      (clk),
   .rst_n    (rst_n),
-  .sign1    ({1'b0, test1}),
-  .sign2    ({1'b0, test2}),
+  .sign1    (test1),
+  .sign2    (test2),
   .sign3    (test3)
 );
 
