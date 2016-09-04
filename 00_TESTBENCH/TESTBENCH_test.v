@@ -95,7 +95,10 @@ initial begin
 
   $display(test3);
 
-
+  test2[3:0] = 3;
+  test1[3:0] = 4;
+  @(negedge clk);
+  $display(test3[4:0]);
   $finish;
 end
 

@@ -6,15 +6,15 @@ module sign_test(
   output reg signed	[9:0] sign3
 );
 
-wire signed [9:0] sign_1 = {1'b0, sign1};
-wire signed [9:0] sign_2 = {1'b0, sign2};
+wire signed [4:0] sign_1 = {1'b0, sign1[3:0]};
+wire signed [4:0] sign_2 = {1'b0, sign2[3:0]};
 
 
 always @(posedge clk) begin
 	if (!rst_n) 
-		sign3 <= 0;
+		sign3[4:0] <= 0;
 	else 
-		sign3 <= sign_2 - sign_1;
+		sign3[4:0] <= sign_2 - sign_1;
 end
 
 endmodule
