@@ -13,7 +13,7 @@ input  [9:0]      current_col;
 
 output          valid_keypoint;
 
-wire  [7:0]     top[0:2],
+reg  [7:0]     top[0:2],
                 mid[0:2],
                 btm[0:2];
 
