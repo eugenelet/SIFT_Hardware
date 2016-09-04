@@ -197,10 +197,10 @@ initial begin
   debug_0 = $fopen("is_kp0", "w");
   debug_1 = $fopen("is_kp1", "w");
 
-  for(i=0; i<u_core.u_detect_filter_keypoints.dog_addr_0; i++)
+  for(i=0; i<u_core.u_detect_filter_keypoints.dog_addr_0; i=i+1)
     $fwrite(debug_0, "%d %d\n", u_core.u_detect_filter_keypoints.dog_results_0[i][18:10], u_core.u_detect_filter_keypoints.dog_results_0[i][9:0]);
 
-  for(i=0; i<u_core.u_detect_filter_keypoints.dog_addr_1; i++)
+  for(i=0; i<u_core.u_detect_filter_keypoints.dog_addr_1; i=i+1)
     $fwrite(debug_1, "%d %d\n", u_core.u_detect_filter_keypoints.dog_results_1[i][18:10], u_core.u_detect_filter_keypoints.dog_results_1[i][9:0]);
 
   $fclose(debug_0);  
