@@ -32,7 +32,14 @@ wire  [15:0]  in_data;
 wire          out_valid;
 wire  [15:0]  out_data;
 
-reg signed [8:0] test1, test2, test3;
+reg [8:0] test1, test2
+reg signed [9:0] test3;
+
+module sign_test(
+  .sign1    (test1),
+  .sign2    (test2),
+  .sign3    (test3)
+);
 
 
 initial clk = 0;
@@ -70,9 +77,9 @@ initial begin
   in_valid  = 0;
   test1 = 5;
   test2 = 6;
-  test3 = test1 - test2;
   $display(test3);
-  test3 = test1 + test2;
+  test1 = 6;
+  test2 = 5;
   $display(test3);
 
 
