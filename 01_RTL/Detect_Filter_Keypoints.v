@@ -222,14 +222,14 @@ always @(posedge clk ) begin
   if (!rst_n)
     dog_results_0[dog_addr_0] <= 0;
   else if (current_state==ST_DETECT && is_keypoint[0])
-    dog_results_0[dog_addr_0] <= {img_addr, current_col};
+    dog_results_0[dog_addr_0] <= {img_addr - 1, current_col};
 end
 reg [18:0] dog_results_1[0:5000];
 always @(posedge clk ) begin
   if (!rst_n)
     dog_results_1[dog_addr_1] <= 0;
   else if (current_state==ST_DETECT && is_keypoint[0])
-    dog_results_1[dog_addr_1] <= {img_addr, current_col};
+    dog_results_1[dog_addr_1] <= {img_addr - 1, current_col};
 end
 wire  [1:0] valid_keypoint;
 filter_keypoint u_filter_keypoint_0(
@@ -290,14 +290,14 @@ always @(posedge clk) begin
   if (!rst_n)
     keypoint_1_din <= 1'b0;
   else if (current_state==ST_FILTER && valid_keypoint[0])
-    keypoint_1_din <= {img_addr, current_col};
+    keypoint_1_din <= {img_addr - 1, current_col};
 end
 
 always @(posedge clk) begin
   if (!rst_n)
     keypoint_2_din <= 1'b0;
   else if (current_state==ST_FILTER && valid_keypoint[1])
-    keypoint_2_din <= {img_addr, current_col};
+    keypoint_2_din <= {img_addr - 1, current_col};
 end
 /*
  *  FSM
