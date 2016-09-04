@@ -18606,107 +18606,107 @@ end
 
 reg    [25:0]      detect_max; //wire
 always@(*) begin
-  if(mid_1[1] >= top_0[0])
+  if(mid_1[1] > top_0[0])
     detect_max[0] = 1;
   else
     detect_max[0] = 0;
-  if(mid_1[1] >= top_0[1])
+  if(mid_1[1] > top_0[1])
     detect_max[1] = 1;
   else
     detect_max[1] = 0;
-  if(mid_1[1] >= top_0[2])
+  if(mid_1[1] > top_0[2])
     detect_max[2] = 1;
   else
     detect_max[2] = 0;
-  if(mid_1[1] >= top_1[0])
+  if(mid_1[1] > top_1[0])
     detect_max[3] = 1;
   else
     detect_max[3] = 0;
-  if(mid_1[1] >= top_1[1])
+  if(mid_1[1] > top_1[1])
     detect_max[4] = 1;
   else
     detect_max[4] = 0;
-  if(mid_1[1] >= top_1[2])
+  if(mid_1[1] > top_1[2])
     detect_max[5] = 1;
   else
     detect_max[5] = 0;
-  if(mid_1[1] >= top_2[0])
+  if(mid_1[1] > top_2[0])
     detect_max[6] = 1;
   else
     detect_max[6] = 0;
-  if(mid_1[1] >= top_2[1])
+  if(mid_1[1] > top_2[1])
     detect_max[7] = 1;
   else
     detect_max[7] = 0;
-  if(mid_1[1] >= top_2[2])
+  if(mid_1[1] > top_2[2])
     detect_max[8] = 1;
   else
     detect_max[8] = 0;
-  if(mid_1[1] >= mid_0[0])
+  if(mid_1[1] > mid_0[0])
     detect_max[9] = 1;
   else
     detect_max[9] = 0;
-  if(mid_1[1] >= mid_0[1])
+  if(mid_1[1] > mid_0[1])
     detect_max[10] = 1;
   else
     detect_max[10] = 0;
-  if(mid_1[1] >= mid_0[2])
+  if(mid_1[1] > mid_0[2])
     detect_max[11] = 1;
   else
     detect_max[11] = 0;
-  if(mid_1[1] >= mid_1[0])
+  if(mid_1[1] > mid_1[0])
     detect_max[12] = 1;
   else
     detect_max[12] = 0;
-  if(mid_1[1] >= mid_1[2])
+  if(mid_1[1] > mid_1[2])
     detect_max[13] = 1;
   else
     detect_max[13] = 0;
-  if(mid_1[1] >= mid_2[0])
+  if(mid_1[1] > mid_2[0])
     detect_max[14] = 1;
   else
     detect_max[14] = 0;
-  if(mid_1[1] >= mid_2[1])
+  if(mid_1[1] > mid_2[1])
     detect_max[15] = 1;
   else
     detect_max[15] = 0;
-  if(mid_1[1] >= mid_2[2])
+  if(mid_1[1] > mid_2[2])
     detect_max[16] = 1;
   else
     detect_max[16] = 0;
-  if(mid_1[1] >= btm_0[0])
+  if(mid_1[1] > btm_0[0])
     detect_max[17] = 1;
   else
     detect_max[17] = 0;
-  if(mid_1[1] >= btm_0[1])
+  if(mid_1[1] > btm_0[1])
     detect_max[18] = 1;
   else
     detect_max[18] = 0;
-  if(mid_1[1] >= btm_0[2])
+  if(mid_1[1] > btm_0[2])
     detect_max[19] = 1;
   else
     detect_max[19] = 0;
-  if(mid_1[1] >= btm_1[0])
+  if(mid_1[1] > btm_1[0])
     detect_max[20] = 1;
   else
     detect_max[20] = 0;
-  if(mid_1[1] >= btm_1[1])
+  if(mid_1[1] > btm_1[1])
     detect_max[21] = 1;
   else
     detect_max[21] = 0;
-  if(mid_1[1] >= btm_1[2])
+  if(mid_1[1] > btm_1[2])
     detect_max[22] = 1;
   else
     detect_max[22] = 0;
-  if(mid_1[1] >= btm_2[0])
+  if(mid_1[1] > btm_2[0])
     detect_max[23] = 1;
   else
     detect_max[23] = 0;
-  if(mid_1[1] >= btm_2[1])
+  if(mid_1[1] > btm_2[1])
     detect_max[24] = 1;
   else
     detect_max[24] = 0;
-  if(mid_1[1] >= btm_2[2])
+  if(mid_1[1] > btm_2[2])
     detect_max[25] = 1;
   else
     detect_max[25] = 0;
@@ -18714,107 +18714,107 @@ end
 
 reg    [25:0]      detect_min; //wire
 always@(*) begin
-  if(mid_1[1] <= top_0[0])
+  if(mid_1[1] < top_0[0])
     detect_min[0] = 1;
   else
     detect_min[0] = 0;
-  if(mid_1[1] <= top_0[1])
+  if(mid_1[1] < top_0[1])
     detect_min[1] = 1;
   else
     detect_min[1] = 0;
-  if(mid_1[1] <= top_0[2])
+  if(mid_1[1] < top_0[2])
     detect_min[2] = 1;
   else
     detect_min[2] = 0;
-  if(mid_1[1] <= top_1[0])
+  if(mid_1[1] < top_1[0])
     detect_min[3] = 1;
   else
     detect_min[3] = 0;
-  if(mid_1[1] <= top_1[1])
+  if(mid_1[1] < top_1[1])
     detect_min[4] = 1;
   else
     detect_min[4] = 0;
-  if(mid_1[1] <= top_1[2])
+  if(mid_1[1] < top_1[2])
     detect_min[5] = 1;
   else
     detect_min[5] = 0;
-  if(mid_1[1] <= top_2[0])
+  if(mid_1[1] < top_2[0])
     detect_min[6] = 1;
   else
     detect_min[6] = 0;
-  if(mid_1[1] <= top_2[1])
+  if(mid_1[1] < top_2[1])
     detect_min[7] = 1;
   else
     detect_min[7] = 0;
-  if(mid_1[1] <= top_2[2])
+  if(mid_1[1] < top_2[2])
     detect_min[8] = 1;
   else
     detect_min[8] = 0;
-  if(mid_1[1] <= mid_0[0])
+  if(mid_1[1] < mid_0[0])
     detect_min[9] = 1;
   else
     detect_min[9] = 0;
-  if(mid_1[1] <= mid_0[1])
+  if(mid_1[1] < mid_0[1])
     detect_min[10] = 1;
   else
     detect_min[10] = 0;
-  if(mid_1[1] <= mid_0[2])
+  if(mid_1[1] < mid_0[2])
     detect_min[11] = 1;
   else
     detect_min[11] = 0;
-  if(mid_1[1] <= mid_1[0])
+  if(mid_1[1] < mid_1[0])
     detect_min[12] = 1;
   else
     detect_min[12] = 0;
-  if(mid_1[1] <= mid_1[2])
+  if(mid_1[1] < mid_1[2])
     detect_min[13] = 1;
   else
     detect_min[13] = 0;
-  if(mid_1[1] <= mid_2[0])
+  if(mid_1[1] < mid_2[0])
     detect_min[14] = 1;
   else
     detect_min[14] = 0;
-  if(mid_1[1] <= mid_2[1])
+  if(mid_1[1] < mid_2[1])
     detect_min[15] = 1;
   else
     detect_min[15] = 0;
-  if(mid_1[1] <= mid_2[2])
+  if(mid_1[1] < mid_2[2])
     detect_min[16] = 1;
   else
     detect_min[16] = 0;
-  if(mid_1[1] <= btm_0[0])
+  if(mid_1[1] < btm_0[0])
     detect_min[17] = 1;
   else
     detect_min[17] = 0;
-  if(mid_1[1] <= btm_0[1])
+  if(mid_1[1] < btm_0[1])
     detect_min[18] = 1;
   else
     detect_min[18] = 0;
-  if(mid_1[1] <= btm_0[2])
+  if(mid_1[1] < btm_0[2])
     detect_min[19] = 1;
   else
     detect_min[19] = 0;
-  if(mid_1[1] <= btm_1[0])
+  if(mid_1[1] < btm_1[0])
     detect_min[20] = 1;
   else
     detect_min[20] = 0;
-  if(mid_1[1] <= btm_1[1])
+  if(mid_1[1] < btm_1[1])
     detect_min[21] = 1;
   else
     detect_min[21] = 0;
-  if(mid_1[1] <= btm_1[2])
+  if(mid_1[1] < btm_1[2])
     detect_min[22] = 1;
   else
     detect_min[22] = 0;
-  if(mid_1[1] <= btm_2[0])
+  if(mid_1[1] < btm_2[0])
     detect_min[23] = 1;
   else
     detect_min[23] = 0;
-  if(mid_1[1] <= btm_2[1])
+  if(mid_1[1] < btm_2[1])
     detect_min[24] = 1;
   else
     detect_min[24] = 0;
-  if(mid_1[1] <= btm_2[2])
+  if(mid_1[1] < btm_2[2])
     detect_min[25] = 1;
   else
     detect_min[25] = 0;
