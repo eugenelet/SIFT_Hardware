@@ -36,6 +36,8 @@ reg [8:0] test1, test2;
 wire signed [9:0] test3;
 
 sign_test u_sign_test(
+  .clk      (clk),
+  .rst_n    (rst_n),
   .sign1    ({1'b0, test1}),
   .sign2    ({1'b0, test2}),
   .sign3    (test3)
@@ -75,11 +77,16 @@ integer tmp;
 initial begin
   rst_n     = 1;
   in_valid  = 0;
+  @(negedge clk);
   test1 = 5;
   test2 = 6;
+  @(negedge clk);
+
   $display(test3);
   test1 = 6;
   test2 = 5;
+  @(negedge clk);
+
   $display(test3);
 
 
