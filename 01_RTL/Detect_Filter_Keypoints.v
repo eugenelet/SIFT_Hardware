@@ -209,7 +209,7 @@ always @(posedge clk ) begin
   else if (current_state==ST_DETECT && is_keypoint[0])
     dog_addr_0 <= dog_addr_0 + 1;
 end
-reg [12:0] dog_addr_0;
+reg [12:0] dog_addr_1;
 always @(posedge clk ) begin
   if (!rst_n)
     dog_addr_1 <= 0;
