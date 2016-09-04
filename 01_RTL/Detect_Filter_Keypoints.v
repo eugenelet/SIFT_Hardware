@@ -213,7 +213,7 @@ reg [12:0] dog_addr_1;
 always @(posedge clk ) begin
   if (!rst_n)
     dog_addr_1 <= 0;
-  else if (current_state==ST_DETECT && is_keypoint[0])
+  else if (current_state==ST_DETECT && is_keypoint[1])
     dog_addr_1 <= dog_addr_1 + 1;
 end
 
@@ -228,7 +228,7 @@ reg [18:0] dog_results_1[0:5000];
 always @(posedge clk ) begin
   if (!rst_n)
     dog_results_1[dog_addr_1] <= 0;
-  else if (current_state==ST_DETECT && is_keypoint[0])
+  else if (current_state==ST_DETECT && is_keypoint[1])
     dog_results_1[dog_addr_1] <= {img_addr - 1, current_col};
 end
 wire  [1:0] valid_keypoint;
