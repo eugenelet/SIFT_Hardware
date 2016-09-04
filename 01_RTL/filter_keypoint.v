@@ -3,14 +3,13 @@ module filter_keypoint(
   top_row,
   mid_row,
   btm_row,
-  is_keypoint,
   valid_keypoint
 );
 
 input  [639:0]    top_row;
 input  [639:0]    mid_row;
 input  [639:0]    btm_row;
-
+input  [9:0]      current_col;
 
 output          valid_keypoint;
 

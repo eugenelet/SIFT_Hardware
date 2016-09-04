@@ -208,7 +208,6 @@ filter_keypoint u_filter_keypoint_0(
   .top_row        (buffer_data_3),
   .mid_row        (buffer_data_2),
   .btm_row        (blur3x3_dout),
-  .is_keypoint    (is_keypoint[0]),
   .valid_keypoint (valid_keypoint[0])
 );
 
@@ -217,7 +216,6 @@ filter_keypoint u_filter_keypoint_1(
   .top_row        (buffer_data_5),
   .mid_row        (buffer_data_4),
   .btm_row        (blur5x5_1_dout),
-  .is_keypoint    (is_keypoint[1]),
   .valid_keypoint (valid_keypoint[1])
 );
 
