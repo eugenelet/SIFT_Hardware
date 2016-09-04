@@ -32,7 +32,7 @@ wire  [15:0]  in_data;
 wire          out_valid;
 wire  [15:0]  out_data;
 
-reg [8:0] test1, test2
+reg [8:0] test1, test2;
 reg signed [9:0] test3;
 
 module sign_test(
