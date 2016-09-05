@@ -177,6 +177,45 @@ initial begin
   $fclose(blur7x7_ans);
   $fclose(errorFile);
 
+/*==========================================*/
+  imageFile  = $fopen("blurredImgs1.txt","r");
+
+ 
+  for(i=0;i<`ROWS;i=i+1) begin
+    for(j=1;j<=`COLS;j=j+1) begin
+      rc=$fscanf(imageFile,"%d",u_core.blur_img_0.mem[i][j*8-1-:8]);
+    end
+  end 
+  imageFile  = $fopen("blurredImgs2.txt","r");
+
+ 
+  for(i=0;i<`ROWS;i=i+1) begin
+    for(j=1;j<=`COLS;j=j+1) begin
+      rc=$fscanf(imageFile,"%d",u_core.blur_img_1.mem[i][j*8-1-:8]);
+    end
+  end 
+  imageFile  = $fopen("blurredImgs3.txt","r");
+
+ 
+  for(i=0;i<`ROWS;i=i+1) begin
+    for(j=1;j<=`COLS;j=j+1) begin
+      rc=$fscanf(imageFile,"%d",u_core.blur_img_2.mem[i][j*8-1-:8]);
+    end
+  end 
+  imageFile  = $fopen("blurredImgs4.txt","r");
+
+ 
+  for(i=0;i<`ROWS;i=i+1) begin
+    for(j=1;j<=`COLS;j=j+1) begin
+      rc=$fscanf(imageFile,"%d",u_core.blur_img_3.mem[i][j*8-1-:8]);
+    end
+  end 
+  $fclose(imageFile);
+
+
+/*===========================================*/
+
+
   while(!u_core.detect_filter_done) begin
     @(negedge clk);
   end
