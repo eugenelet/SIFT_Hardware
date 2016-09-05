@@ -81,7 +81,7 @@ output reg    keypoint_2_we;
 output reg    [10:0] keypoint_2_addr; /*2K Keypoints*/
 output reg    [18:0] keypoint_2_din; /*ROW: 9 bit COL: 10 bit*/
 
-wire          [10:0] keypoint_1_count,
+output        [10:0] keypoint_1_count,
                      keypoint_2_count;
 
 assign keypoint_1_count = keypoint_1_addr - 1;
