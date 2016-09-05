@@ -99,7 +99,7 @@ assign buffer_we = ((current_state==ST_READY && start) || current_state==ST_READ
 always @(posedge clk) begin
   if (!rst_n) 
     img_addr <= 'd0;    
-  else if (((current_state==ST_IDLE && start) || current_state==ST_UPDATE) && img_addr<'d480) /*Needs new address every 2 cycles*/
+  else if (((current_state==ST_IDLE && start) || current_state==ST_READY ||  current_state==ST_UPDATE) && img_addr<'d480) /*Needs new address every 2 cycles*/
     img_addr <= img_addr + 'd1;
   else if (done)
     img_addr <= 'd0;
@@ -108,7 +108,7 @@ end
 always @(posedge clk) begin
   if (!rst_n) 
     blur3x3_addr <= 'd0;    
-  else if (((current_state==ST_IDLE && start) || current_state==ST_UPDATE) && blur3x3_addr<'d480)
+  else if (((current_state==ST_IDLE && start) || current_state==ST_READY ||  current_state==ST_UPDATE) && blur3x3_addr<'d480)
     blur3x3_addr <= blur3x3_addr + 'd1;
   else if (done)
     blur3x3_addr <= 'd0;
@@ -117,7 +117,7 @@ end
 always @(posedge clk) begin
   if (!rst_n) 
     blur5x5_1_addr <= 'd0;    
-  else if (((current_state==ST_IDLE && start) || current_state==ST_UPDATE) && blur5x5_1_addr<'d480)
+  else if (((current_state==ST_IDLE && start) || current_state==ST_READY ||  current_state==ST_UPDATE) && blur5x5_1_addr<'d480)
     blur5x5_1_addr <= blur5x5_1_addr + 'd1;
   else if (done)
     blur5x5_1_addr <= 'd0;
@@ -126,7 +126,7 @@ end
 always @(posedge clk) begin
   if (!rst_n) 
     blur5x5_2_addr <= 'd0;    
-  else if (((current_state==ST_IDLE && start) || current_state==ST_UPDATE) && blur5x5_2_addr<'d480)
+  else if (((current_state==ST_IDLE && start) || current_state==ST_READY ||  current_state==ST_UPDATE) && blur5x5_2_addr<'d480)
     blur5x5_2_addr <= blur5x5_2_addr + 'd1;
   else if (done)
     blur5x5_2_addr <= 'd0;
@@ -135,7 +135,7 @@ end
 always @(posedge clk) begin
   if (!rst_n) 
     blur7x7_addr <= 'd0;    
-  else if (((current_state==ST_IDLE && start) || current_state==ST_UPDATE) && blur7x7_addr<'d480)
+  else if (((current_state==ST_IDLE && start) || current_state==ST_READY ||  current_state==ST_UPDATE) && blur7x7_addr<'d480)
     blur7x7_addr <= blur7x7_addr + 'd1;
   else if (done)
     blur7x7_addr <= 'd0;
