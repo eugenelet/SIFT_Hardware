@@ -214,6 +214,74 @@ initial begin
 
 
 /*===========================================*/
+  errorFile = $fopen("error.txt","w");
+
+  blur3x3 = $fopen("blur3x3.txt","w");
+  blur3x3_ans  = $fopen("blurredImgs1.txt","r");
+  for(i=0;i<`ROWS;i=i+1) begin
+    for(j=1;j<=`COLS;j=j+1) begin
+      $fwrite(blur3x3,"%d ",u_core.blur_img_0.mem[i][j*8-1-:8]);
+      $fscanf(blur3x3_ans,"%d",tmp);
+      if(u_core.blur_img_0.mem[i][j*8-1-:8] != tmp) begin
+        error = u_core.blur_img_0.mem[i][j*8-1-:8] - tmp;
+        $fwrite(errorFile, "3x3 i:%d j:%d wrong value:%d correct value:%d error:%d\n", i, j, u_core.blur_img_0.mem[i][j*8-1-:8], tmp, error);
+      end
+    end
+    $fwrite(blur3x3,"\n",);
+  end 
+  $fclose(blur3x3);
+  $fclose(blur3x3_ans);
+  
+  blur5x5_1 = $fopen("blur5x5_1.txt","w");
+  blur5x5_1_ans  = $fopen("blurredImgs2.txt","r");
+  for(i=0;i<`ROWS;i=i+1) begin
+    for(j=1;j<=`COLS;j=j+1) begin
+      $fwrite(blur5x5_1,"%d ",u_core.blur_img_1.mem[i][j*8-1-:8]);
+      $fscanf(blur5x5_1_ans,"%d",tmp);
+      if(u_core.blur_img_1.mem[i][j*8-1-:8] != tmp) begin
+        error = u_core.blur_img_1.mem[i][j*8-1-:8] - tmp;
+        $fwrite(errorFile, "5x5_1 i:%d j:%d wrong value:%d correct value:%d error:%d\n", i, j, u_core.blur_img_1.mem[i][j*8-1-:8], tmp, error);
+      end
+    end
+    $fwrite(blur5x5_1,"\n",);
+  end 
+  $fclose(blur5x5_1);
+  $fclose(blur5x5_1_ans);
+
+  blur5x5_2 = $fopen("blur5x5_2.txt","w");
+  blur5x5_2_ans  = $fopen("blurredImgs3.txt","r");
+  for(i=0;i<`ROWS;i=i+1) begin
+    for(j=1;j<=`COLS;j=j+1) begin
+      $fwrite(blur5x5_2,"%d ",u_core.blur_img_2.mem[i][j*8-1-:8]);
+      $fscanf(blur5x5_2_ans,"%d",tmp);
+      if(u_core.blur_img_2.mem[i][j*8-1-:8] != tmp) begin
+        error = u_core.blur_img_2.mem[i][j*8-1-:8] - tmp;
+        $fwrite(errorFile, "5x5_2 i:%d j:%d wrong value:%d correct value:%d error:%d\n", i, j, u_core.blur_img_2.mem[i][j*8-1-:8], tmp, error);
+      end
+    end
+    $fwrite(blur5x5_2,"\n",);
+  end 
+  $fclose(blur5x5_2);
+  $fclose(blur5x5_2_ans);
+
+  blur7x7 = $fopen("blur7x7.txt","w");
+  blur7x7_ans  = $fopen("blurredImgs4.txt","r");
+  for(i=0;i<`ROWS;i=i+1) begin
+    for(j=1;j<=`COLS;j=j+1) begin
+      $fwrite(blur7x7,"%d ",u_core.blur_img_3.mem[i][j*8-1-:8]);
+      $fscanf(blur7x7_ans,"%d",tmp);
+      if(u_core.blur_img_3.mem[i][j*8-1-:8] != tmp) begin
+        error = u_core.blur_img_3.mem[i][j*8-1-:8] - tmp;
+        $fwrite(errorFile, "7x7 i:%d j:%d wrong value:%d correct value:%d error:%d\n", i, j, u_core.blur_img_3.mem[i][j*8-1-:8], tmp, error);
+      end
+    end
+    $fwrite(blur7x7,"\n",);
+  end 
+  $fclose(blur7x7);
+  $fclose(blur7x7_ans);
+  $fclose(errorFile);
+
+/*==========================================*/
 
 
   while(!u_core.detect_filter_done) begin
