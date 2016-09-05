@@ -73,6 +73,7 @@ integer       error;
 integer imageFile, rc, errorFile, blur3x3, blur5x5_1, blur5x5_2, blur7x7; // rc: read check
 integer blur3x3_ans, blur5x5_1_ans, blur5x5_2_ans, blur7x7_ans; // rc: read check
 integer kpt_layer1, kpt_layer2, kpt_layer1_ans, kpt_layer2_ans;
+integer kp_errorFile;
 integer tmp;
 integer debug_0, debug_1;
 initial begin
@@ -287,31 +288,48 @@ initial begin
   while(!u_core.detect_filter_done) begin
     @(negedge clk);
   end
-
-  // kpt_layer1_ans = $fopen("keypoint_layer1.txt", "r");
-  // kpt_layer2_ans = $fopen("keypoint_layer2.txt", "r");
+  error = 0;
+  kp_errorFile = $fopen("kp_error.txt", "w"),
+  kpt_layer1_ans = $fopen("keypoint_layer1.txt", "r");
+  kpt_layer2_ans = $fopen("keypoint_layer2.txt", "r");
   kpt_layer1 = $fopen("kpt1_RTL.txt", "w");
   kpt_layer2 = $fopen("kpt2_RTL.txt", "w");
-  for(i=0; i <2000; i=i+1) begin
+  for(i=0; i < u_core.u_detect_filter_keypoints.keypoint_1_count; i=i+1) begin
     $fwrite(kpt_layer1, "%d %d\n", u_core.keypoint_1_mem.mem[i][18:10], u_core.keypoint_1_mem.mem[i][9:0]);
+    $fscanf(kpt_layer1_ans,"%d",tmp);
+    error = u_core.keypoint_1_mem.mem[i][18:10] - tmp;
+    $fscanf(kpt_layer1_ans,"%d",tmp);
+    error = error + u_core.keypoint_1_mem.mem[i][9:0] - tmp;
+    if(error!=0);
+      $fwrite(kp_errorFile, "row:%d col:%d\n",u_core.keypoint_1_mem.mem[i][18:10], u_core.keypoint_1_mem.mem[i][9:0]);
+    error = 0;
   end
-  for(i=0; i <2000; i=i+1) begin
+
+  for(i=0; i < u_core.u_detect_filter_keypoints.keypoint_2_count; i=i+1) begin
     $fwrite(kpt_layer2, "%d %d\n", u_core.keypoint_2_mem.mem[i][18:10], u_core.keypoint_2_mem.mem[i][9:0]);
+    $fscanf(kpt_layer2_ans,"%d",tmp);
+    error = u_core.keypoint_2_mem.mem[i][18:10] - tmp;
+    $fscanf(kpt_layer1_ans,"%d",tmp);
+    error = error + u_core.keypoint_2_mem.mem[i][9:0] - tmp;
+    if(error!=0);
+      $fwrite(kp_errorFile, "row:%d col:%d\n",u_core.keypoint_2_mem.mem[i][18:10], u_core.keypoint_2_mem.mem[i][9:0]);
+    error = 0;
   end
   $fclose(kpt_layer1);
   $fclose(kpt_layer2);
+  $fclose(kp_error);
 
-  debug_0 = $fopen("is_kp0", "w");
+/*  debug_0 = $fopen("is_kp0", "w");
   debug_1 = $fopen("is_kp1", "w");
 
-  for(i=0; i<u_core.u_detect_filter_keypoints.dog_addr_0; i=i+1)
+  for(i=0; i< u_core.u_detect_filter_keypoints.dog_addr_0; i=i+1)
     $fwrite(debug_0, "%d %d\n", u_core.u_detect_filter_keypoints.dog_results_0[i][18:10], u_core.u_detect_filter_keypoints.dog_results_0[i][9:0]);
 
   for(i=0; i<u_core.u_detect_filter_keypoints.dog_addr_1; i=i+1)
     $fwrite(debug_1, "%d %d\n", u_core.u_detect_filter_keypoints.dog_results_1[i][18:10], u_core.u_detect_filter_keypoints.dog_results_1[i][9:0]);
 
   $fclose(debug_0);  
-  $fclose(debug_1);
+  $fclose(debug_1);*/
 
   $finish;
 end

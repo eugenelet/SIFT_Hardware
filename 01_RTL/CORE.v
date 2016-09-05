@@ -218,6 +218,8 @@ wire           detect_filter_done;
 wire  [8:0]    detect_filter_blur_addr  [0:3];
 wire  [8:0]    detect_filter_img_addr;
 wire           detect_filter_buffer_we;
+wire  [10:0]   keypoint_1_count,
+               keypoint_2_count;
 Detect_Filter_Keypoints u_detect_filter_keypoints(
   .clk              (clk),
   .rst_n            (rst_n),
@@ -249,7 +251,9 @@ Detect_Filter_Keypoints u_detect_filter_keypoints(
   .keypoint_1_din   (keypoint_1_din),
   .keypoint_2_we    (keypoint_2_we),
   .keypoint_2_addr  (keypoint_2_addr),
-  .keypoint_2_din   (keypoint_2_din)
+  .keypoint_2_din   (keypoint_2_din),
+  .keypoint_1_count (keypoint_1_count),
+  .keypoint_2_count (keypoint_2_count)
 );
 
 always @(*) begin

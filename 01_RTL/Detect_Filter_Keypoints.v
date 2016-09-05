@@ -33,7 +33,9 @@ module Detect_Filter_Keypoints(
   keypoint_1_din,
   keypoint_2_we,
   keypoint_2_addr,
-  keypoint_2_din
+  keypoint_2_din,
+  keypoint_1_count,
+  keypoint_2_count
 );
 /*SYSTEM*/
 input                 clk,
@@ -79,11 +81,18 @@ output reg    keypoint_2_we;
 output reg    [10:0] keypoint_2_addr; /*2K Keypoints*/
 output reg    [18:0] keypoint_2_din; /*ROW: 9 bit COL: 10 bit*/
 
+wire          [10:0] keypoint_1_count,
+                     keypoint_2_count;
+
+assign keypoint_1_count = keypoint_1_addr - 1;
+assign keypoint_2_count = keypoint_2_addr - 1;
+
+
 /*FSM*/
 reg         [2:0] current_state,
                   next_state;
 
-/*System State*/
+
 /*Module FSM*/
 parameter ST_IDLE   = 0,
           ST_READY  = 1,/*Idle 1 state for SRAM to get READY*/
@@ -302,6 +311,8 @@ always @(posedge clk) begin
   else if (current_state==ST_FILTER && valid_keypoint[1] && is_keypoint[1])
     keypoint_2_din <= {img_addr - 1, current_col};
 end
+
+
 /*
  *  FSM
  *
