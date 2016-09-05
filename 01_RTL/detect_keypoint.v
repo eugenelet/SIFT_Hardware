@@ -18625,7 +18625,7 @@ always@(*) begin
   if(mid_1[1] > top_1[1])
     detect_max[4] = 1;
   else
-    detect_max[4] = 0;
+    detect_max[4] = 1;
   if(mid_1[1] > top_1[2])
     detect_max[5] = 1;
   else
@@ -18657,11 +18657,11 @@ always@(*) begin
   if(mid_1[1] > mid_1[0])
     detect_max[12] = 1;
   else
-    detect_max[12] = 0;
+    detect_max[12] = 1;
   if(mid_1[1] > mid_1[2])
     detect_max[13] = 1;
   else
-    detect_max[13] = 0;
+    detect_max[13] = 1;
   if(mid_1[1] > mid_2[0])
     detect_max[14] = 1;
   else
@@ -18693,7 +18693,7 @@ always@(*) begin
   if(mid_1[1] > btm_1[1])
     detect_max[21] = 1;
   else
-    detect_max[21] = 0;
+    detect_max[21] = 1;
   if(mid_1[1] > btm_1[2])
     detect_max[22] = 1;
   else
@@ -18733,7 +18733,7 @@ always@(*) begin
   if(mid_1[1] < top_1[1])
     detect_min[4] = 1;
   else
-    detect_min[4] = 0;
+    detect_min[4] = 1;
   if(mid_1[1] < top_1[2])
     detect_min[5] = 1;
   else
@@ -18765,11 +18765,11 @@ always@(*) begin
   if(mid_1[1] < mid_1[0])
     detect_min[12] = 1;
   else
-    detect_min[12] = 0;
+    detect_min[12] = 1;
   if(mid_1[1] < mid_1[2])
     detect_min[13] = 1;
   else
-    detect_min[13] = 0;
+    detect_min[13] = 1;
   if(mid_1[1] < mid_2[0])
     detect_min[14] = 1;
   else
@@ -18801,7 +18801,7 @@ always@(*) begin
   if(mid_1[1] < btm_1[1])
     detect_min[21] = 1;
   else
-    detect_min[21] = 0;
+    detect_min[21] = 1;
   if(mid_1[1] < btm_1[2])
     detect_min[22] = 1;
   else
