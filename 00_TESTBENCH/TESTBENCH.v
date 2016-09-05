@@ -289,7 +289,9 @@ initial begin
   while(!u_core.detect_filter_done) begin
     @(negedge clk);
   end
-  error = 0;
+  integer error1 = 0;
+  integer error2 = 0;
+  integer ans1, ans2;
   kp_errorFile = $fopen("kp_error.txt", "w");
   kpt_layer1_ans = $fopen("keypoint_layer1.txt", "r");
   kpt_layer2_ans = $fopen("keypoint_layer2.txt", "r");
@@ -298,22 +300,22 @@ initial begin
   for(i=0; i < u_core.u_detect_filter_keypoints.keypoint_1_count+ 1; i=i+1) begin
     $fwrite(kpt_layer1, "%d %d\n", u_core.keypoint_1_mem.mem[i][18:10], u_core.keypoint_1_mem.mem[i][9:0]);
     dummy = $fscanf(kpt_layer1_ans,"%d",tmp);
-    error = u_core.keypoint_1_mem.mem[i][18:10] - tmp;
+    error1 = u_core.keypoint_1_mem.mem[i][18:10] - ans1;
     dummy = $fscanf(kpt_layer1_ans,"%d",tmp);
-    error = error + u_core.keypoint_1_mem.mem[i][9:0] - tmp;
-    if(error!=0);
-      $fwrite(kp_errorFile, "row:%d col:%d\n",u_core.keypoint_1_mem.mem[i][18:10], u_core.keypoint_1_mem.mem[i][9:0]);
+    error2 = u_core.keypoint_1_mem.mem[i][9:0] - ans2;
+    if(error1!=0 || error2!=0);
+      $fwrite(kp_errorFile, "row:%d col:%d ans_row:%d ans_col:%d error:%d %d\n",u_core.keypoint_1_mem.mem[i][18:10], u_core.keypoint_1_mem.mem[i][9:0], ans1, ans2, error1,error2);
     error = 0;
   end
 
   for(i=0; i < u_core.u_detect_filter_keypoints.keypoint_2_count + 1; i=i+1) begin
     $fwrite(kpt_layer2, "%d %d\n", u_core.keypoint_2_mem.mem[i][18:10], u_core.keypoint_2_mem.mem[i][9:0]);
-    dummy = $fscanf(kpt_layer2_ans,"%d",tmp);
-    error = u_core.keypoint_2_mem.mem[i][18:10] - tmp;
-    dummy = $fscanf(kpt_layer2_ans,"%d",tmp);
-    error = error + u_core.keypoint_2_mem.mem[i][9:0] - tmp;
-    if(error!=0);
-      $fwrite(kp_errorFile, "row:%d col:%d\n",u_core.keypoint_2_mem.mem[i][18:10], u_core.keypoint_2_mem.mem[i][9:0]);
+    dummy = $fscanf(kpt_layer2_ans,"%d",ans1);
+    error1 = u_core.keypoint_2_mem.mem[i][18:10] - tmp;
+    dummy = $fscanf(kpt_layer2_ans,"%d",ans2);
+    error2 = u_core.keypoint_2_mem.mem[i][9:0] - tmp;
+    if(error1!=0 || error2!=0);
+      $fwrite(kp_errorFile, "row:%d col:%d ans_row:%d ans_col:%d error:%d %d\n",u_core.keypoint_2_mem.mem[i][18:10], u_core.keypoint_2_mem.mem[i][9:0], ans1, ans2, error1,error2);
     error = 0;
   end
   $fclose(kpt_layer1);
