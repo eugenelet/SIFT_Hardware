@@ -274,7 +274,7 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     keypoint_1_we <= 1'b0;
-  else if (current_state==ST_FILTER && valid_keypoint[0])
+  else if (current_state==ST_FILTER && valid_keypoint[0] && is_keypoint[0])
     keypoint_1_we <= 1'b1;
   else
     keypoint_1_we <= 1'b0;
@@ -283,7 +283,7 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     keypoint_2_we <= 1'b0;
-  else if (current_state==ST_FILTER && valid_keypoint[1])
+  else if (current_state==ST_FILTER && valid_keypoint[1] && is_keypoint[1])
     keypoint_2_we <= 1'b1;
   else
     keypoint_2_we <= 1'b0;
@@ -292,14 +292,14 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     keypoint_1_din <= 1'b0;
-  else if (current_state==ST_FILTER && valid_keypoint[0])
+  else if (current_state==ST_FILTER && valid_keypoint[0] && is_keypoint[0])
     keypoint_1_din <= {img_addr - 1, current_col};
 end
 
 always @(posedge clk) begin
   if (!rst_n)
     keypoint_2_din <= 1'b0;
-  else if (current_state==ST_FILTER && valid_keypoint[1])
+  else if (current_state==ST_FILTER && valid_keypoint[1] && is_keypoint[1])
     keypoint_2_din <= {img_addr - 1, current_col};
 end
 /*
