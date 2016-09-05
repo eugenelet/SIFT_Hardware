@@ -94,6 +94,18 @@ parameter ST_IDLE   = 0,
 
 assign done = (img_addr=='d480) ? 1 : 0;
 
+/*Provide 2 Cycle for READY STATE*/
+reg     ready_start_relay;
+always @(posedge clk) begin
+  if (!rst_n) 
+    ready_start_relay <= 1'b0;
+  else if (current_state == ST_READY)
+    ready_start_relay <= 1'b1; 
+  else if (current_state == ST_IDLE)
+    ready_start_relay <= 1'b0;
+end
+
+
 assign buffer_we = ((current_state==ST_READY && start) || current_state==ST_BUFFER) ? 1:0;
 
 always @(posedge clk) begin
@@ -142,16 +154,7 @@ always @(posedge clk) begin
 end
 
 
-/*Provide 2 Cycle for READY STATE*/
-reg     ready_start_relay;
-always @(posedge clk) begin
-  if (!rst_n) 
-    ready_start_relay <= 1'b0;
-  else if (current_state == ST_READY)
-    ready_start_relay <= 1'b1; 
-  else if (current_state == ST_IDLE)
-    ready_start_relay <= 1'b0;
-end
+
 
 /*Counter for current column*/
 reg   [9:0] current_col;
