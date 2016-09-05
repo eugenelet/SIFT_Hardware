@@ -251,9 +251,7 @@ Detect_Filter_Keypoints u_detect_filter_keypoints(
   .keypoint_1_din   (keypoint_1_din),
   .keypoint_2_we    (keypoint_2_we),
   .keypoint_2_addr  (keypoint_2_addr),
-  .keypoint_2_din   (keypoint_2_din),
-  .keypoint_1_count (keypoint_1_count),
-  .keypoint_2_count (keypoint_2_count)
+  .keypoint_2_din   (keypoint_2_din)
 );
 
 always @(*) begin

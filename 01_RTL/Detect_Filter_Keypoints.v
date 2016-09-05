@@ -34,8 +34,6 @@ module Detect_Filter_Keypoints(
   keypoint_2_we,
   keypoint_2_addr,
   keypoint_2_din,
-  keypoint_1_count,
-  keypoint_2_count
 );
 /*SYSTEM*/
 input                 clk,
@@ -80,12 +78,6 @@ output reg    [18:0] keypoint_1_din; /*ROW: 9 bit COL: 10 bit*/
 output reg    keypoint_2_we;
 output reg    [10:0] keypoint_2_addr; /*2K Keypoints*/
 output reg    [18:0] keypoint_2_din; /*ROW: 9 bit COL: 10 bit*/
-
-output        [10:0] keypoint_1_count,
-                     keypoint_2_count;
-
-assign keypoint_1_count = keypoint_1_addr - 1;
-assign keypoint_2_count = keypoint_2_addr - 1;
 
 
 /*FSM*/
@@ -214,7 +206,7 @@ detect_keypoint u_detect_keypoint_1(
 );
 
 
-reg [20:0] dog_addr_0;
+/*reg [20:0] dog_addr_0;
 always @(posedge clk ) begin
   if (!rst_n)
     dog_addr_0 <= 0;
@@ -242,7 +234,7 @@ always @(posedge clk ) begin
     dog_results_1[dog_addr_1] <= 0;
   else if (current_state==ST_DETECT && is_keypoint[1])
     dog_results_1[dog_addr_1] <= {img_addr - 1, current_col};
-end
+end*/
 wire  [1:0] valid_keypoint;
 filter_keypoint u_filter_keypoint_0(
   .current_col    (current_col),
