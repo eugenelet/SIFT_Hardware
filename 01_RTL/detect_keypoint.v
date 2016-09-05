@@ -1,30 +1,30 @@
 module detect_keypoint(
-  layer_0_0,
+  layer_0_0, /*img*/
   layer_0_1,
   layer_0_2,
-  layer_1_0,
+  layer_1_0, /*Blur 0*/
   layer_1_1,
   layer_1_2,
-  layer_2_0,
+  layer_2_0, /*Blur 1*/
   layer_2_1,
   layer_2_2,
-  layer_3_0,
+  layer_3_0, /*Blur 2*/
   layer_3_1,
   layer_3_2,
   current_col,
   is_keypoint
 );
 
-input       [5119:0]   layer_0_0, /*img*/
+input       [5119:0]   layer_0_0,
                        layer_0_1,
                        layer_0_2,
-                       layer_1_0, /*Blur 0*/
+                       layer_1_0,
                        layer_1_1,
                        layer_1_2,
-                       layer_2_0, /*Blur 1*/
+                       layer_2_0,
                        layer_2_1,
                        layer_2_2,
-                       layer_3_0, /*Blur 2*/
+                       layer_3_0,
                        layer_3_1,
                        layer_3_2;
 input       [9:0]      current_col;
@@ -39,34 +39,6 @@ reg signed [8:0]  mid_2[0:2]; // wire
 reg signed [8:0]  btm_0[0:2]; // wire
 reg signed [8:0]  btm_1[0:2]; // wire
 reg signed [8:0]  btm_2[0:2]; // wire
-
-wire signed [8:0] top_0_0 = top_0[0];
-wire signed [8:0] top_0_1 = top_0[1];
-wire signed [8:0] top_0_2 = top_0[2];
-wire signed [8:0] top_1_0 = top_1[0];
-wire signed [8:0] top_1_1 = top_1[1];
-wire signed [8:0] top_1_2 = top_1[2];
-wire signed [8:0] top_2_0 = top_2[0];
-wire signed [8:0] top_2_1 = top_2[1];
-wire signed [8:0] top_2_2 = top_2[2];
-wire signed [8:0] mid_0_0 = mid_0[0];
-wire signed [8:0] mid_0_1 = mid_0[1];
-wire signed [8:0] mid_0_2 = mid_0[2];
-wire signed [8:0] mid_1_0 = mid_1[0];
-wire signed [8:0] mid_1_1 = mid_1[1];
-wire signed [8:0] mid_1_2 = mid_1[2];
-wire signed [8:0] mid_2_0 = mid_2[0];
-wire signed [8:0] mid_2_1 = mid_2[1];
-wire signed [8:0] mid_2_2 = mid_2[2];
-wire signed [8:0] btm_0_0 = btm_0[0];
-wire signed [8:0] btm_0_1 = btm_0[1];
-wire signed [8:0] btm_0_2 = btm_0[2];
-wire signed [8:0] btm_1_0 = btm_1[0];
-wire signed [8:0] btm_1_1 = btm_1[1];
-wire signed [8:0] btm_1_2 = btm_1[2];
-wire signed [8:0] btm_2_0 = btm_2[0];
-wire signed [8:0] btm_2_1 = btm_2[1];
-wire signed [8:0] btm_2_2 = btm_2[2];
 
 always@(*) begin
   case(current_col)
@@ -18604,220 +18576,108 @@ always@(*) begin
   endcase
 end
 
-reg    [25:0]      detect_max; //wire
+reg    [11:0]      detect_max; //wire
 always@(*) begin
   if(mid_1[1] > top_0[0])
     detect_max[0] = 1;
   else
     detect_max[0] = 0;
-  if(mid_1[1] > top_0[1])
+  if(mid_1[1] > top_0[2])
     detect_max[1] = 1;
   else
-    detect_max[1] = 1;
-  if(mid_1[1] > top_0[2])
+    detect_max[1] = 0;
+  if(mid_1[1] > top_2[0])
     detect_max[2] = 1;
   else
     detect_max[2] = 0;
-  if(mid_1[1] > top_1[0])
+  if(mid_1[1] > top_2[2])
     detect_max[3] = 1;
   else
-    detect_max[3] = 1;
-  if(mid_1[1] > top_1[1])
+    detect_max[3] = 0;
+  if(mid_1[1] > mid_0[0])
     detect_max[4] = 1;
   else
-    detect_max[4] = 1;
-  if(mid_1[1] > top_1[2])
+    detect_max[4] = 0;
+  if(mid_1[1] > mid_0[2])
     detect_max[5] = 1;
   else
-    detect_max[5] = 1;
-  if(mid_1[1] > top_2[0])
+    detect_max[5] = 0;
+  if(mid_1[1] > mid_2[0])
     detect_max[6] = 1;
   else
     detect_max[6] = 0;
-  if(mid_1[1] > top_2[1])
+  if(mid_1[1] > mid_2[2])
     detect_max[7] = 1;
   else
-    detect_max[7] = 1;
-  if(mid_1[1] > top_2[2])
+    detect_max[7] = 0;
+  if(mid_1[1] > btm_0[0])
     detect_max[8] = 1;
   else
     detect_max[8] = 0;
-  if(mid_1[1] > mid_0[0])
+  if(mid_1[1] > btm_0[2])
     detect_max[9] = 1;
   else
     detect_max[9] = 0;
-  if(mid_1[1] > mid_0[1])
+  if(mid_1[1] > btm_2[0])
     detect_max[10] = 1;
   else
-    detect_max[10] = 1;
-  if(mid_1[1] > mid_0[2])
+    detect_max[10] = 0;
+  if(mid_1[1] > btm_2[2])
     detect_max[11] = 1;
   else
     detect_max[11] = 0;
-  if(mid_1[1] > mid_1[0])
-    detect_max[12] = 1;
-  else
-    detect_max[12] = 1;
-  if(mid_1[1] > mid_1[2])
-    detect_max[13] = 1;
-  else
-    detect_max[13] = 1;
-  if(mid_1[1] > mid_2[0])
-    detect_max[14] = 1;
-  else
-    detect_max[14] = 0;
-  if(mid_1[1] > mid_2[1])
-    detect_max[15] = 1;
-  else
-    detect_max[15] = 1;
-  if(mid_1[1] > mid_2[2])
-    detect_max[16] = 1;
-  else
-    detect_max[16] = 0;
-  if(mid_1[1] > btm_0[0])
-    detect_max[17] = 1;
-  else
-    detect_max[17] = 0;
-  if(mid_1[1] > btm_0[1])
-    detect_max[18] = 1;
-  else
-    detect_max[18] = 1;
-  if(mid_1[1] > btm_0[2])
-    detect_max[19] = 1;
-  else
-    detect_max[19] = 0;
-  if(mid_1[1] > btm_1[0])
-    detect_max[20] = 1;
-  else
-    detect_max[20] = 1;
-  if(mid_1[1] > btm_1[1])
-    detect_max[21] = 1;
-  else
-    detect_max[21] = 1;
-  if(mid_1[1] > btm_1[2])
-    detect_max[22] = 1;
-  else
-    detect_max[22] = 1;
-  if(mid_1[1] > btm_2[0])
-    detect_max[23] = 1;
-  else
-    detect_max[23] = 0;
-  if(mid_1[1] > btm_2[1])
-    detect_max[24] = 1;
-  else
-    detect_max[24] = 1;
-  if(mid_1[1] > btm_2[2])
-    detect_max[25] = 1;
-  else
-    detect_max[25] = 0;
 end
 
-reg    [25:0]      detect_min; //wire
+reg    [11:0]      detect_min; //wire
 always@(*) begin
   if(mid_1[1] < top_0[0])
     detect_min[0] = 1;
   else
     detect_min[0] = 0;
-  if(mid_1[1] < top_0[1])
+  if(mid_1[1] < top_0[2])
     detect_min[1] = 1;
   else
-    detect_min[1] = 1;
-  if(mid_1[1] < top_0[2])
+    detect_min[1] = 0;
+  if(mid_1[1] < top_2[0])
     detect_min[2] = 1;
   else
     detect_min[2] = 0;
-  if(mid_1[1] < top_1[0])
+  if(mid_1[1] < top_2[2])
     detect_min[3] = 1;
   else
-    detect_min[3] = 1;
-  if(mid_1[1] < top_1[1])
+    detect_min[3] = 0;
+  if(mid_1[1] < mid_0[0])
     detect_min[4] = 1;
   else
-    detect_min[4] = 1;
-  if(mid_1[1] < top_1[2])
+    detect_min[4] = 0;
+  if(mid_1[1] < mid_0[2])
     detect_min[5] = 1;
   else
-    detect_min[5] = 1;
-  if(mid_1[1] < top_2[0])
+    detect_min[5] = 0;
+  if(mid_1[1] < mid_2[0])
     detect_min[6] = 1;
   else
     detect_min[6] = 0;
-  if(mid_1[1] < top_2[1])
+  if(mid_1[1] < mid_2[2])
     detect_min[7] = 1;
   else
-    detect_min[7] = 1;
-  if(mid_1[1] < top_2[2])
+    detect_min[7] = 0;
+  if(mid_1[1] < btm_0[0])
     detect_min[8] = 1;
   else
     detect_min[8] = 0;
-  if(mid_1[1] < mid_0[0])
+  if(mid_1[1] < btm_0[2])
     detect_min[9] = 1;
   else
     detect_min[9] = 0;
-  if(mid_1[1] < mid_0[1])
+  if(mid_1[1] < btm_2[0])
     detect_min[10] = 1;
   else
-    detect_min[10] = 1;
-  if(mid_1[1] < mid_0[2])
+    detect_min[10] = 0;
+  if(mid_1[1] < btm_2[2])
     detect_min[11] = 1;
   else
     detect_min[11] = 0;
-  if(mid_1[1] < mid_1[0])
-    detect_min[12] = 1;
-  else
-    detect_min[12] = 1;
-  if(mid_1[1] < mid_1[2])
-    detect_min[13] = 1;
-  else
-    detect_min[13] = 1;
-  if(mid_1[1] < mid_2[0])
-    detect_min[14] = 1;
-  else
-    detect_min[14] = 0;
-  if(mid_1[1] < mid_2[1])
-    detect_min[15] = 1;
-  else
-    detect_min[15] = 1;
-  if(mid_1[1] < mid_2[2])
-    detect_min[16] = 1;
-  else
-    detect_min[16] = 0;
-  if(mid_1[1] < btm_0[0])
-    detect_min[17] = 1;
-  else
-    detect_min[17] = 0;
-  if(mid_1[1] < btm_0[1])
-    detect_min[18] = 1;
-  else
-    detect_min[18] = 1;
-  if(mid_1[1] < btm_0[2])
-    detect_min[19] = 1;
-  else
-    detect_min[19] = 0;
-  if(mid_1[1] < btm_1[0])
-    detect_min[20] = 1;
-  else
-    detect_min[20] = 1;
-  if(mid_1[1] < btm_1[1])
-    detect_min[21] = 1;
-  else
-    detect_min[21] = 1;
-  if(mid_1[1] < btm_1[2])
-    detect_min[22] = 1;
-  else
-    detect_min[22] = 1;
-  if(mid_1[1] < btm_2[0])
-    detect_min[23] = 1;
-  else
-    detect_min[23] = 0;
-  if(mid_1[1] < btm_2[1])
-    detect_min[24] = 1;
-  else
-    detect_min[24] = 1;
-  if(mid_1[1] < btm_2[2])
-    detect_min[25] = 1;
-  else
-    detect_min[25] = 0;
 end
 
 wire is_max = (&detect_max) ? 1:0;
