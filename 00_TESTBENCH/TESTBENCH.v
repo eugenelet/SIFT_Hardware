@@ -310,7 +310,7 @@ initial begin
     $fwrite(kpt_layer2, "%d %d\n", u_core.keypoint_2_mem.mem[i][18:10], u_core.keypoint_2_mem.mem[i][9:0]);
     dummy = $fscanf(kpt_layer2_ans,"%d",tmp);
     error = u_core.keypoint_2_mem.mem[i][18:10] - tmp;
-    dummy = $fscanf(kpt_layer1_ans,"%d",tmp);
+    dummy = $fscanf(kpt_layer2_ans,"%d",tmp);
     error = error + u_core.keypoint_2_mem.mem[i][9:0] - tmp;
     if(error!=0);
       $fwrite(kp_errorFile, "row:%d col:%d\n",u_core.keypoint_2_mem.mem[i][18:10], u_core.keypoint_2_mem.mem[i][9:0]);
