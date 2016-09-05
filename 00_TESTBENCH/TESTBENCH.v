@@ -76,6 +76,7 @@ integer kpt_layer1, kpt_layer2, kpt_layer1_ans, kpt_layer2_ans;
 integer kp_errorFile;
 integer tmp;
 integer debug_0, debug_1;
+integer dummy;
 initial begin
   rst_n     = 1;
   in_valid  = 0;
@@ -118,7 +119,7 @@ initial begin
   for(i=0;i<`ROWS;i=i+1) begin
     for(j=1;j<=`COLS;j=j+1) begin
       $fwrite(blur3x3,"%d ",u_core.blur_img_0.mem[i][j*8-1-:8]);
-      $fscanf(blur3x3_ans,"%d",tmp);
+      dummy = $fscanf(blur3x3_ans,"%d",tmp);
       if(u_core.blur_img_0.mem[i][j*8-1-:8] != tmp) begin
         error = u_core.blur_img_0.mem[i][j*8-1-:8] - tmp;
         $fwrite(errorFile, "3x3 i:%d j:%d wrong value:%d correct value:%d error:%d\n", i, j, u_core.blur_img_0.mem[i][j*8-1-:8], tmp, error);
@@ -134,7 +135,7 @@ initial begin
   for(i=0;i<`ROWS;i=i+1) begin
     for(j=1;j<=`COLS;j=j+1) begin
       $fwrite(blur5x5_1,"%d ",u_core.blur_img_1.mem[i][j*8-1-:8]);
-      $fscanf(blur5x5_1_ans,"%d",tmp);
+      dummy = $fscanf(blur5x5_1_ans,"%d",tmp);
       if(u_core.blur_img_1.mem[i][j*8-1-:8] != tmp) begin
         error = u_core.blur_img_1.mem[i][j*8-1-:8] - tmp;
         $fwrite(errorFile, "5x5_1 i:%d j:%d wrong value:%d correct value:%d error:%d\n", i, j, u_core.blur_img_1.mem[i][j*8-1-:8], tmp, error);
@@ -150,7 +151,7 @@ initial begin
   for(i=0;i<`ROWS;i=i+1) begin
     for(j=1;j<=`COLS;j=j+1) begin
       $fwrite(blur5x5_2,"%d ",u_core.blur_img_2.mem[i][j*8-1-:8]);
-      $fscanf(blur5x5_2_ans,"%d",tmp);
+      dummy = $fscanf(blur5x5_2_ans,"%d",tmp);
       if(u_core.blur_img_2.mem[i][j*8-1-:8] != tmp) begin
         error = u_core.blur_img_2.mem[i][j*8-1-:8] - tmp;
         $fwrite(errorFile, "5x5_2 i:%d j:%d wrong value:%d correct value:%d error:%d\n", i, j, u_core.blur_img_2.mem[i][j*8-1-:8], tmp, error);
@@ -166,7 +167,7 @@ initial begin
   for(i=0;i<`ROWS;i=i+1) begin
     for(j=1;j<=`COLS;j=j+1) begin
       $fwrite(blur7x7,"%d ",u_core.blur_img_3.mem[i][j*8-1-:8]);
-      $fscanf(blur7x7_ans,"%d",tmp);
+      dummy = $fscanf(blur7x7_ans,"%d",tmp);
       if(u_core.blur_img_3.mem[i][j*8-1-:8] != tmp) begin
         error = u_core.blur_img_3.mem[i][j*8-1-:8] - tmp;
         $fwrite(errorFile, "7x7 i:%d j:%d wrong value:%d correct value:%d error:%d\n", i, j, u_core.blur_img_3.mem[i][j*8-1-:8], tmp, error);
@@ -222,7 +223,7 @@ initial begin
   for(i=0;i<`ROWS;i=i+1) begin
     for(j=1;j<=`COLS;j=j+1) begin
       $fwrite(blur3x3,"%d ",u_core.blur_img_0.mem[i][j*8-1-:8]);
-      $fscanf(blur3x3_ans,"%d",tmp);
+      dummy = $fscanf(blur3x3_ans,"%d",tmp);
       if(u_core.blur_img_0.mem[i][j*8-1-:8] != tmp) begin
         error = u_core.blur_img_0.mem[i][j*8-1-:8] - tmp;
         $fwrite(errorFile, "3x3 i:%d j:%d wrong value:%d correct value:%d error:%d\n", i, j, u_core.blur_img_0.mem[i][j*8-1-:8], tmp, error);
@@ -238,7 +239,7 @@ initial begin
   for(i=0;i<`ROWS;i=i+1) begin
     for(j=1;j<=`COLS;j=j+1) begin
       $fwrite(blur5x5_1,"%d ",u_core.blur_img_1.mem[i][j*8-1-:8]);
-      $fscanf(blur5x5_1_ans,"%d",tmp);
+      dummy = $fscanf(blur5x5_1_ans,"%d",tmp);
       if(u_core.blur_img_1.mem[i][j*8-1-:8] != tmp) begin
         error = u_core.blur_img_1.mem[i][j*8-1-:8] - tmp;
         $fwrite(errorFile, "5x5_1 i:%d j:%d wrong value:%d correct value:%d error:%d\n", i, j, u_core.blur_img_1.mem[i][j*8-1-:8], tmp, error);
@@ -254,7 +255,7 @@ initial begin
   for(i=0;i<`ROWS;i=i+1) begin
     for(j=1;j<=`COLS;j=j+1) begin
       $fwrite(blur5x5_2,"%d ",u_core.blur_img_2.mem[i][j*8-1-:8]);
-      $fscanf(blur5x5_2_ans,"%d",tmp);
+      dummy = $fscanf(blur5x5_2_ans,"%d",tmp);
       if(u_core.blur_img_2.mem[i][j*8-1-:8] != tmp) begin
         error = u_core.blur_img_2.mem[i][j*8-1-:8] - tmp;
         $fwrite(errorFile, "5x5_2 i:%d j:%d wrong value:%d correct value:%d error:%d\n", i, j, u_core.blur_img_2.mem[i][j*8-1-:8], tmp, error);
@@ -270,7 +271,7 @@ initial begin
   for(i=0;i<`ROWS;i=i+1) begin
     for(j=1;j<=`COLS;j=j+1) begin
       $fwrite(blur7x7,"%d ",u_core.blur_img_3.mem[i][j*8-1-:8]);
-      $fscanf(blur7x7_ans,"%d",tmp);
+      dummy = $fscanf(blur7x7_ans,"%d",tmp);
       if(u_core.blur_img_3.mem[i][j*8-1-:8] != tmp) begin
         error = u_core.blur_img_3.mem[i][j*8-1-:8] - tmp;
         $fwrite(errorFile, "7x7 i:%d j:%d wrong value:%d correct value:%d error:%d\n", i, j, u_core.blur_img_3.mem[i][j*8-1-:8], tmp, error);
@@ -289,16 +290,16 @@ initial begin
     @(negedge clk);
   end
   error = 0;
-  kp_errorFile = $fopen("kp_error.txt", "w"),
+  kp_errorFile = $fopen("kp_error.txt", "w");
   kpt_layer1_ans = $fopen("keypoint_layer1.txt", "r");
   kpt_layer2_ans = $fopen("keypoint_layer2.txt", "r");
   kpt_layer1 = $fopen("kpt1_RTL.txt", "w");
   kpt_layer2 = $fopen("kpt2_RTL.txt", "w");
   for(i=0; i < u_core.u_detect_filter_keypoints.keypoint_1_count; i=i+1) begin
     $fwrite(kpt_layer1, "%d %d\n", u_core.keypoint_1_mem.mem[i][18:10], u_core.keypoint_1_mem.mem[i][9:0]);
-    $fscanf(kpt_layer1_ans,"%d",tmp);
+    dummy = $fscanf(kpt_layer1_ans,"%d",tmp);
     error = u_core.keypoint_1_mem.mem[i][18:10] - tmp;
-    $fscanf(kpt_layer1_ans,"%d",tmp);
+    dummy = $fscanf(kpt_layer1_ans,"%d",tmp);
     error = error + u_core.keypoint_1_mem.mem[i][9:0] - tmp;
     if(error!=0);
       $fwrite(kp_errorFile, "row:%d col:%d\n",u_core.keypoint_1_mem.mem[i][18:10], u_core.keypoint_1_mem.mem[i][9:0]);
@@ -307,9 +308,9 @@ initial begin
 
   for(i=0; i < u_core.u_detect_filter_keypoints.keypoint_2_count; i=i+1) begin
     $fwrite(kpt_layer2, "%d %d\n", u_core.keypoint_2_mem.mem[i][18:10], u_core.keypoint_2_mem.mem[i][9:0]);
-    $fscanf(kpt_layer2_ans,"%d",tmp);
+    dummy = $fscanf(kpt_layer2_ans,"%d",tmp);
     error = u_core.keypoint_2_mem.mem[i][18:10] - tmp;
-    $fscanf(kpt_layer1_ans,"%d",tmp);
+    dummy = $fscanf(kpt_layer1_ans,"%d",tmp);
     error = error + u_core.keypoint_2_mem.mem[i][9:0] - tmp;
     if(error!=0);
       $fwrite(kp_errorFile, "row:%d col:%d\n",u_core.keypoint_2_mem.mem[i][18:10], u_core.keypoint_2_mem.mem[i][9:0]);
