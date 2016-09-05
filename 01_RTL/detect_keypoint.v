@@ -27,7 +27,7 @@ input       [5119:0]   layer_0_0,
                        layer_3_0,
                        layer_3_1,
                        layer_3_2;
-input       [9:0]      current_col,
+input       [9:0]      current_col;
 output                 is_keypoint;
 
 reg signed [8:0]  top_0[0:2]; // wire
