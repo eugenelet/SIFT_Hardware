@@ -18613,7 +18613,7 @@ always@(*) begin
   if(mid_1[1] > top_0[1])
     detect_max[1] = 1;
   else
-    detect_max[1] = 0;
+    detect_max[1] = 1;
   if(mid_1[1] > top_0[2])
     detect_max[2] = 1;
   else
@@ -18621,7 +18621,7 @@ always@(*) begin
   if(mid_1[1] > top_1[0])
     detect_max[3] = 1;
   else
-    detect_max[3] = 0;
+    detect_max[3] = 1;
   if(mid_1[1] > top_1[1])
     detect_max[4] = 1;
   else
@@ -18629,7 +18629,7 @@ always@(*) begin
   if(mid_1[1] > top_1[2])
     detect_max[5] = 1;
   else
-    detect_max[5] = 0;
+    detect_max[5] = 1;
   if(mid_1[1] > top_2[0])
     detect_max[6] = 1;
   else
@@ -18637,7 +18637,7 @@ always@(*) begin
   if(mid_1[1] > top_2[1])
     detect_max[7] = 1;
   else
-    detect_max[7] = 0;
+    detect_max[7] = 1;
   if(mid_1[1] > top_2[2])
     detect_max[8] = 1;
   else
@@ -18649,7 +18649,7 @@ always@(*) begin
   if(mid_1[1] > mid_0[1])
     detect_max[10] = 1;
   else
-    detect_max[10] = 0;
+    detect_max[10] = 1;
   if(mid_1[1] > mid_0[2])
     detect_max[11] = 1;
   else
@@ -18669,7 +18669,7 @@ always@(*) begin
   if(mid_1[1] > mid_2[1])
     detect_max[15] = 1;
   else
-    detect_max[15] = 0;
+    detect_max[15] = 1;
   if(mid_1[1] > mid_2[2])
     detect_max[16] = 1;
   else
@@ -18681,7 +18681,7 @@ always@(*) begin
   if(mid_1[1] > btm_0[1])
     detect_max[18] = 1;
   else
-    detect_max[18] = 0;
+    detect_max[18] = 1;
   if(mid_1[1] > btm_0[2])
     detect_max[19] = 1;
   else
@@ -18689,7 +18689,7 @@ always@(*) begin
   if(mid_1[1] > btm_1[0])
     detect_max[20] = 1;
   else
-    detect_max[20] = 0;
+    detect_max[20] = 1;
   if(mid_1[1] > btm_1[1])
     detect_max[21] = 1;
   else
@@ -18697,7 +18697,7 @@ always@(*) begin
   if(mid_1[1] > btm_1[2])
     detect_max[22] = 1;
   else
-    detect_max[22] = 0;
+    detect_max[22] = 1;
   if(mid_1[1] > btm_2[0])
     detect_max[23] = 1;
   else
@@ -18705,7 +18705,7 @@ always@(*) begin
   if(mid_1[1] > btm_2[1])
     detect_max[24] = 1;
   else
-    detect_max[24] = 0;
+    detect_max[24] = 1;
   if(mid_1[1] > btm_2[2])
     detect_max[25] = 1;
   else
@@ -18721,7 +18721,7 @@ always@(*) begin
   if(mid_1[1] < top_0[1])
     detect_min[1] = 1;
   else
-    detect_min[1] = 0;
+    detect_min[1] = 1;
   if(mid_1[1] < top_0[2])
     detect_min[2] = 1;
   else
@@ -18729,7 +18729,7 @@ always@(*) begin
   if(mid_1[1] < top_1[0])
     detect_min[3] = 1;
   else
-    detect_min[3] = 0;
+    detect_min[3] = 1;
   if(mid_1[1] < top_1[1])
     detect_min[4] = 1;
   else
@@ -18737,7 +18737,7 @@ always@(*) begin
   if(mid_1[1] < top_1[2])
     detect_min[5] = 1;
   else
-    detect_min[5] = 0;
+    detect_min[5] = 1;
   if(mid_1[1] < top_2[0])
     detect_min[6] = 1;
   else
@@ -18745,7 +18745,7 @@ always@(*) begin
   if(mid_1[1] < top_2[1])
     detect_min[7] = 1;
   else
-    detect_min[7] = 0;
+    detect_min[7] = 1;
   if(mid_1[1] < top_2[2])
     detect_min[8] = 1;
   else
@@ -18757,7 +18757,7 @@ always@(*) begin
   if(mid_1[1] < mid_0[1])
     detect_min[10] = 1;
   else
-    detect_min[10] = 0;
+    detect_min[10] = 1;
   if(mid_1[1] < mid_0[2])
     detect_min[11] = 1;
   else
@@ -18777,7 +18777,7 @@ always@(*) begin
   if(mid_1[1] < mid_2[1])
     detect_min[15] = 1;
   else
-    detect_min[15] = 0;
+    detect_min[15] = 1;
   if(mid_1[1] < mid_2[2])
     detect_min[16] = 1;
   else
@@ -18789,7 +18789,7 @@ always@(*) begin
   if(mid_1[1] < btm_0[1])
     detect_min[18] = 1;
   else
-    detect_min[18] = 0;
+    detect_min[18] = 1;
   if(mid_1[1] < btm_0[2])
     detect_min[19] = 1;
   else
@@ -18797,7 +18797,7 @@ always@(*) begin
   if(mid_1[1] < btm_1[0])
     detect_min[20] = 1;
   else
-    detect_min[20] = 0;
+    detect_min[20] = 1;
   if(mid_1[1] < btm_1[1])
     detect_min[21] = 1;
   else
@@ -18805,7 +18805,7 @@ always@(*) begin
   if(mid_1[1] < btm_1[2])
     detect_min[22] = 1;
   else
-    detect_min[22] = 0;
+    detect_min[22] = 1;
   if(mid_1[1] < btm_2[0])
     detect_min[23] = 1;
   else
@@ -18813,7 +18813,7 @@ always@(*) begin
   if(mid_1[1] < btm_2[1])
     detect_min[24] = 1;
   else
-    detect_min[24] = 0;
+    detect_min[24] = 1;
   if(mid_1[1] < btm_2[2])
     detect_min[25] = 1;
   else
