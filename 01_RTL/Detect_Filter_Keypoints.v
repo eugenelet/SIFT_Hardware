@@ -202,14 +202,14 @@ detect_keypoint u_detect_keypoint_1(
 );
 
 
-reg [12:0] dog_addr_0;
+reg [20:0] dog_addr_0;
 always @(posedge clk ) begin
   if (!rst_n)
     dog_addr_0 <= 0;
   else if (current_state==ST_DETECT && is_keypoint[0])
     dog_addr_0 <= dog_addr_0 + 1;
 end
-reg [12:0] dog_addr_1;
+reg [20:0] dog_addr_1;
 always @(posedge clk ) begin
   if (!rst_n)
     dog_addr_1 <= 0;
@@ -217,14 +217,14 @@ always @(posedge clk ) begin
     dog_addr_1 <= dog_addr_1 + 1;
 end
 
-reg [18:0] dog_results_0[0:5000];
+reg [18:0] dog_results_0[0:10000];
 always @(posedge clk ) begin
   if (!rst_n)
     dog_results_0[dog_addr_0] <= 0;
   else if (current_state==ST_DETECT && is_keypoint[0])
     dog_results_0[dog_addr_0] <= {img_addr - 1, current_col};
 end
-reg [18:0] dog_results_1[0:5000];
+reg [18:0] dog_results_1[0:10000];
 always @(posedge clk ) begin
   if (!rst_n)
     dog_results_1[dog_addr_1] <= 0;
