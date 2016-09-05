@@ -318,7 +318,7 @@ initial begin
   end
   $fclose(kpt_layer1);
   $fclose(kpt_layer2);
-  $fclose(kp_error);
+  $fclose(kp_errorFile);
 
 /*  debug_0 = $fopen("is_kp0", "w");
   debug_1 = $fopen("is_kp1", "w");
