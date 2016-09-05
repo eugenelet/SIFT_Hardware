@@ -77,6 +77,9 @@ integer kp_errorFile;
 integer tmp;
 integer debug_0, debug_1;
 integer dummy;
+integer error1;
+integer error2;
+integer ans1, ans2;
 initial begin
   rst_n     = 1;
   in_valid  = 0;
@@ -289,9 +292,8 @@ initial begin
   while(!u_core.detect_filter_done) begin
     @(negedge clk);
   end
-  integer error1 = 0;
-  integer error2 = 0;
-  integer ans1, ans2;
+  error1 = 0;
+  error2 = 0;
   kp_errorFile = $fopen("kp_error.txt", "w");
   kpt_layer1_ans = $fopen("keypoint_layer1.txt", "r");
   kpt_layer2_ans = $fopen("keypoint_layer2.txt", "r");
