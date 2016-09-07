@@ -390,6 +390,7 @@ Gaussian_Blur_3x3 u_g_blur0(
 );
 assign blur_din_0 = blur_result_0;
 
+wire  [5119:0]  blur_result_1;
 Gaussian_Blur_5x5_0 u_g_blur1(
   .clk            (clk),
   .rst_n          (rst_n),
@@ -403,6 +404,7 @@ Gaussian_Blur_5x5_0 u_g_blur1(
 );
 assign blur_din_1 = blur_result_1;
 
+wire  [5119:0]  blur_result_2;
 Gaussian_Blur_5x5_1 u_g_blur2(
   .clk            (clk),
   .rst_n          (rst_n),
@@ -416,6 +418,7 @@ Gaussian_Blur_5x5_1 u_g_blur2(
 );
 assign blur_din_2 = blur_result_2;
 
+wire  [5119:0]  blur_result_3;
 Gaussian_Blur_7x7 u_g_blur3(
   .clk            (clk),
   .rst_n          (rst_n),
