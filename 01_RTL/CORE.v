@@ -148,17 +148,30 @@ wire  [8:0]    gaussian_img_addr;
 wire  [3:0]    gaussian_done;
 wire           gaussian_buffer_we;
 wire  [3:0]    gaussian_fill_zero;
-Gaussian_Blur_3x3 g_blur_3x3(
+Gaussian_Blur g_blur(
   .clk            (clk),
   .rst_n          (rst_n),
+  .img_dout       (img_dout),
   .buffer_data_0  (buffer_data_0),
   .buffer_data_1  (buffer_data_1),
   .buffer_data_2  (buffer_data_2),
+  .buffer_data_3  (buffer_data_3),
+  .buffer_data_4  (buffer_data_4),
+  .buffer_data_5  (buffer_data_5),
   .start          (gaussian_start),
   .done           (gaussian_done[0]),
   .blur_mem_we    (blur_mem_we[0]),
+  .blur_mem_we    (blur_mem_we[1]),
+  .blur_mem_we    (blur_mem_we[2]),
+  .blur_mem_we    (blur_mem_we[3]),
   .blur_addr      (gaussian_blur_addr[0]),
+  .blur_addr      (gaussian_blur_addr[1]),
+  .blur_addr      (gaussian_blur_addr[2]),
+  .blur_addr      (gaussian_blur_addr[3]),
   .blur_din       (blur_din[0]),
+  .blur_din       (blur_din[1]),
+  .blur_din       (blur_din[2]),
+  .blur_din       (blur_din[3]),
   .img_addr       (gaussian_img_addr),
   .buffer_we      (gaussian_buffer_we),
   .fill_zero      (gaussian_fill_zero[0])
