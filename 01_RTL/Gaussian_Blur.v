@@ -332,7 +332,7 @@ Gaussian_Blur_3x3 u_g_blur0(
   .blur_din       (blur_din_0)
 );
 
-Gaussian_Blur_5x5_0 u_g_blur1(
+/*Gaussian_Blur_5x5_0 u_g_blur1(
   .clk            (clk),
   .rst_n          (rst_n),
   .buffer_data_0  (buffer_data_0),
@@ -366,7 +366,7 @@ Gaussian_Blur_7x7 u_g_blur3(
   .buffer_data_6  (buffer_data_5),
   .current_state  (current_state),
   .blur_din       (blur_din_3)
-);
+);*/
 
 
 /*
