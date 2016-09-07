@@ -116,7 +116,7 @@ wire    [5119:0]  buffer_data_7;
 wire    [5119:0]  buffer_data_8;
 wire    [5119:0]  buffer_data_9;
 reg               buffer_we; /*wire*/
-wire              fill_zero;
+reg              fill_zero;  /*wire*/
 // wire              buffer_mode = (gaussian_done)?L_IDLE:L_GAUSSIAN;
 /*System Line Buffer*/
 Line_Buffer_10 l_buf_10(

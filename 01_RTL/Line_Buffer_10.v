@@ -31,7 +31,6 @@ input       [5119:0]  blur_data_0;
 input       [5119:0]  blur_data_1;
 input       [5119:0]  blur_data_2;
 input       [5119:0]  blur_data_3;
-input       [8:0]     img_addr;
 /*From Working Module*/
 input       [2:0]     buffer_mode;
 input                 buffer_we;
