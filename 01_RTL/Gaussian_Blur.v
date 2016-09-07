@@ -284,7 +284,7 @@ always @(posedge clk) begin
     fill_zero <= 1'b0;
 end
 
-assign buffer_we = ((current_state==ST_IDLE && start) || (current_state==ST_READY && ready_start_relay) || current_state==ST_GAUSSIAN_9 ) ? 1:0;
+assign buffer_we = ((current_state==ST_IDLE && start) || (current_state==ST_READY && ready_start_relay) || (current_state==ST_GAUSSIAN_9 && !fill_zero) ) ? 1:0;
 
 always @(posedge clk) begin
   if (!rst_n) 
