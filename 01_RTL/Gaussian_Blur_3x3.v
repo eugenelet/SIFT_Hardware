@@ -4,15 +4,30 @@ module Gaussian_Blur_3x3(
   buffer_data_0,
   buffer_data_1,
   buffer_data_2,
+  current_state,
   blur_din
 );
 
-input       			 clk;
-input       			 rst_n;
+input                 clk;
+input                 rst_n;
+input         [3:0]   current_state;
 input       [5119:0]   buffer_data_0;
 input       [5119:0]   buffer_data_1;
 input       [5119:0]   buffer_data_2;
-output reg   [5119:0]	blur_din;
+output reg  [5119:0]  blur_din;
+
+parameter ST_IDLE        = 0,
+          ST_READY       = 1,/*Idle 1 state for SRAM to get READY*/
+          ST_GAUSSIAN_0  = 2,
+          ST_GAUSSIAN_1  = 3,
+          ST_GAUSSIAN_2  = 4,
+          ST_GAUSSIAN_3  = 5,
+          ST_GAUSSIAN_4  = 6,
+          ST_GAUSSIAN_5  = 7,
+          ST_GAUSSIAN_6  = 8,
+          ST_GAUSSIAN_7  = 9,
+          ST_GAUSSIAN_8  = 10,
+          ST_GAUSSIAN_9  = 11;
 
 reg       [95:0]  G_Kernel_3x3  [0:1];
 always @(posedge clk) begin
@@ -26,9 +41,9 @@ always @(posedge clk) begin
   end
 end
 
-reg	[23:0]	layer0[0:63]; //wire
-reg	[23:0]	layer1[0:63]; //wire
-reg	[23:0]	layer2[0:63]; //wire
+reg    [23:0]    layer0[0:63]; //wire
+reg    [23:0]    layer1[0:63]; //wire
+reg    [23:0]    layer2[0:63]; //wire
 always @(*) begin
   case(current_state)
     ST_GAUSSIAN_0: begin
