@@ -354,7 +354,7 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     blur_mem_we_1 <= 1'b0;
-  else if (current_state==ST_GAUSSIAN_9 && blur_addr_1<'d480 && img_addr > 'd2)
+  else if (current_state==ST_GAUSSIAN_9 && blur_addr_1<'d480 && img_addr > 'd3)
     blur_mem_we_1 <= 1'b1;
   else
     blur_mem_we_1 <= 1'b0;
@@ -363,7 +363,7 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     blur_mem_we_2 <= 1'b0;
-  else if (current_state==ST_GAUSSIAN_9 && blur_addr_2<'d480 && img_addr > 'd2)
+  else if (current_state==ST_GAUSSIAN_9 && blur_addr_2<'d480 && img_addr > 'd3)
     blur_mem_we_2 <= 1'b1;
   else
     blur_mem_we_2 <= 1'b0;
@@ -372,7 +372,7 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     blur_mem_we_3 <= 1'b0;
-  else if (current_state==ST_GAUSSIAN_9 && blur_addr_3<'d480 && img_addr > 'd2)
+  else if (current_state==ST_GAUSSIAN_9 && blur_addr_3<'d480 && img_addr > 'd3)
     blur_mem_we_3 <= 1'b1;
   else
     blur_mem_we_3 <= 1'b0;
