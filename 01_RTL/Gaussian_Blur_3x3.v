@@ -293,9 +293,9 @@ always @(posedge clk) begin
 end
 
 
-wire  [23:0]  layer0[0:63];
-wire  [23:0]  layer1[0:63];
-wire  [23:0]  layer2[0:63];
+reg [23:0]  layer0[0:63]; //wire
+reg [23:0]  layer1[0:63]; //wire
+reg [23:0]  layer2[0:63]; //wire
 always @(*) begin
   case(current_state)
     ST_GAUSSIAN_0: begin
@@ -12670,10 +12670,7 @@ always @(posedge clk) begin
   else if (current_state==ST_GAUSSIAN_9)
     blur_din[5119:5112] <= kernel_img_sum_63[39:32];/*Q8.32 -> Q8.0*/
   else if (current_state==ST_IDLE)
-    blur_din[5119:5112] <= 'd0;
-end
-
-
+    blur_din[5119:5
 
 
 
