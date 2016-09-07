@@ -77,7 +77,7 @@ always @(posedge clk) begin
     buffer_data_1 <= 'd0;    
   else if (buffer_mode==SYS_IDLE)
     buffer_data_1 <= 'd0;
-  else if (buffer_mode==SYS_GAUSSIAN)
+  else if (buffer_mode==SYS_GAUSSIAN && buffer_we)
     buffer_data_1 <= buffer_data_0;
   else if (buffer_mode==SYS_DETECT_FILTER && buffer_we)
     buffer_data_1 <= buffer_data_0;
@@ -88,7 +88,7 @@ always @(posedge clk) begin
     buffer_data_2 <= 'd0;    
   else if (buffer_mode==SYS_IDLE)
     buffer_data_2 <= 'd0;
-  else if (buffer_mode==SYS_GAUSSIAN)
+  else if (buffer_mode==SYS_GAUSSIAN && buffer_we)
     buffer_data_2 <= buffer_data_1;
   else if (buffer_mode==SYS_DETECT_FILTER && buffer_we)
     buffer_data_2 <= blur_data_0;
@@ -99,7 +99,7 @@ always @(posedge clk) begin
     buffer_data_3 <= 'd0;    
   else if (buffer_mode==SYS_IDLE)
     buffer_data_3 <= 'd0;
-  else if (buffer_mode==SYS_GAUSSIAN)
+  else if (buffer_mode==SYS_GAUSSIAN && buffer_we)
     buffer_data_3 <= buffer_data_2;
   else if (buffer_mode==SYS_DETECT_FILTER && buffer_we)
     buffer_data_3 <= buffer_data_2;
@@ -110,7 +110,7 @@ always @(posedge clk) begin
     buffer_data_4 <= 'd0;    
   else if (buffer_mode==SYS_IDLE)
     buffer_data_4 <= 'd0;
-  else if (buffer_mode==SYS_GAUSSIAN)
+  else if (buffer_mode==SYS_GAUSSIAN && buffer_we)
     buffer_data_4 <= buffer_data_3;
   else if (buffer_mode==SYS_DETECT_FILTER && buffer_we)
     buffer_data_4 <= blur_data_1;
@@ -121,7 +121,7 @@ always @(posedge clk) begin
     buffer_data_5 <= 'd0;    
   else if (buffer_mode==SYS_IDLE)
     buffer_data_5 <= 'd0;
-  else if (buffer_mode==SYS_GAUSSIAN)
+  else if (buffer_mode==SYS_GAUSSIAN && buffer_we)
     buffer_data_5 <= buffer_data_4;
   else if (buffer_mode==SYS_DETECT_FILTER && buffer_we)
     buffer_data_5 <= buffer_data_4;
