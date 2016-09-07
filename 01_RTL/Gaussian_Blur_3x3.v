@@ -233,6 +233,18 @@ always @(posedge clk) begin
   else if (img_addr=='d480 || current_state==ST_IDLE)
     buffer_we <= 1'b0;
 end*/
+
+
+reg     ready_start_relay;
+always @(posedge clk) begin
+  if (!rst_n) 
+    ready_start_relay <= 1'b0;
+  else if (current_state == ST_READY)
+    ready_start_relay <= 1'b1; 
+  else if (current_state == ST_IDLE)
+    ready_start_relay <= 1'b0;
+end
+
 always @(posedge clk) begin
   if (!rst_n) 
     fill_zero <= 1'b0;    
@@ -282,15 +294,6 @@ always @(posedge clk) begin
     blur_mem_we <= 1'b0;
 end
 
-reg     ready_start_relay;
-always @(posedge clk) begin
-  if (!rst_n) 
-    ready_start_relay <= 1'b0;
-  else if (current_state == ST_READY)
-    ready_start_relay <= 1'b1; 
-  else if (current_state == ST_IDLE)
-    ready_start_relay <= 1'b0;
-end
 
 reg [23:0]  layer0[0:63]; //wire
 reg [23:0]  layer1[0:63]; //wire
