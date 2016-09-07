@@ -289,7 +289,7 @@ assign buffer_we = ((current_state==ST_IDLE && start) || (current_state==ST_READ
 always @(posedge clk) begin
   if (!rst_n) 
     img_addr <= 'd0;    
-  else if (((current_state==ST_IDLE && start) || current_state==ST_GAUSSIAN_7) && img_addr<'d480)
+  else if (((current_state==ST_IDLE && start) || (current_state==ST_READY && ready_start_relay) || current_state==ST_GAUSSIAN_8) && img_addr<'d480)
     img_addr <= img_addr + 'd1;
   else if (done)
     img_addr <= 'd0;
