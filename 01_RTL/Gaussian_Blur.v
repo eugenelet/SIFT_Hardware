@@ -278,7 +278,7 @@ end
 always @(posedge clk) begin
   if (!rst_n) 
     fill_zero <= 1'b0;    
-  else if (img_addr=='d480)
+  else if (img_addr=='d480 && current_state==ST_GAUSSIAN_9)
     fill_zero <= 1'b1;
   else
     fill_zero <= 1'b0;
