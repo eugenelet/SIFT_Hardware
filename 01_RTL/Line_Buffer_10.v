@@ -5,6 +5,7 @@ module Line_Buffer_10(
   buffer_mode,
   buffer_we,
   img_data,
+  fill_zero,
   blur_data_0,
   blur_data_1,
   blur_data_2,
@@ -30,7 +31,7 @@ input       [5119:0]  blur_data_0;
 input       [5119:0]  blur_data_1;
 input       [5119:0]  blur_data_2;
 input       [5119:0]  blur_data_3;
-
+input       [8:0]     img_addr;
 /*From Working Module*/
 input       [2:0]     buffer_mode;
 input                 buffer_we;
@@ -65,7 +66,7 @@ always @(posedge clk) begin
     buffer_data_0 <= 'd0;
   else if (buffer_mode==SYS_GAUSSIAN && buffer_we)
     buffer_data_0 <= img_data;
-  else if (buffer_mode==SYS_GAUSSIAN && !buffer_we)
+  else if (buffer_mode==SYS_GAUSSIAN && fill_zero)
     buffer_data_0 <= 'd0;
   else if (buffer_mode==SYS_DETECT_FILTER && buffer_we)
     buffer_data_0 <= img_data;

@@ -116,6 +116,7 @@ wire    [5119:0]  buffer_data_7;
 wire    [5119:0]  buffer_data_8;
 wire    [5119:0]  buffer_data_9;
 reg               buffer_we; /*wire*/
+wire              fill_zero;
 // wire              buffer_mode = (gaussian_done)?L_IDLE:L_GAUSSIAN;
 /*System Line Buffer*/
 Line_Buffer_10 l_buf_10(
@@ -124,6 +125,7 @@ Line_Buffer_10 l_buf_10(
   .buffer_mode    (current_state),
   .buffer_we      (buffer_we),
   .img_data       (img_dout),
+  .fill_zero      (fill_zero),
   .blur_data_0    (blur_dout[0]),
   .blur_data_1    (blur_dout[1]),
   .blur_data_2    (blur_dout[2]),
@@ -145,6 +147,7 @@ wire  [8:0]    gaussian_blur_addr  [0:3];
 wire  [8:0]    gaussian_img_addr;
 wire  [3:0]    gaussian_done;
 wire           gaussian_buffer_we;
+wire  [3:0]    gaussian_fill_zero;
 Gaussian_Blur_3x3 g_blur_3x3(
   .clk            (clk),
   .rst_n          (rst_n),
@@ -157,10 +160,11 @@ Gaussian_Blur_3x3 g_blur_3x3(
   .blur_addr      (gaussian_blur_addr[0]),
   .blur_din       (blur_din[0]),
   .img_addr       (gaussian_img_addr),
-  .buffer_we      (gaussian_buffer_we)
+  .buffer_we      (gaussian_buffer_we),
+  .fill_zero      (gaussian_fill_zero[0])
 );
 
-Gaussian_Blur_5x5_1 g_blur_5x5_1(
+/*Gaussian_Blur_5x5_1 g_blur_5x5_1(
   .clk            (clk),
   .rst_n          (rst_n),
   .buffer_data_0  (buffer_data_0),
@@ -174,7 +178,8 @@ Gaussian_Blur_5x5_1 g_blur_5x5_1(
   .blur_addr      (gaussian_blur_addr[1]),
   .blur_din       (blur_din[1]),
   .img_addr       (gaussian_img_addr),
-  .buffer_we      (gaussian_buffer_we)
+  .buffer_we      (gaussian_buffer_we),
+  .fill_zero      (gaussian_fill_zero[1])
 );
 
 Gaussian_Blur_5x5_2 g_blur_5x5_2(
@@ -191,7 +196,8 @@ Gaussian_Blur_5x5_2 g_blur_5x5_2(
   .blur_addr      (gaussian_blur_addr[2]),
   .blur_din       (blur_din[2]),
   .img_addr       (gaussian_img_addr),
-  .buffer_we      (gaussian_buffer_we)
+  .buffer_we      (gaussian_buffer_we),
+  .fill_zero      (gaussian_fill_zero[2])
 );
 
 Gaussian_Blur_7x7 g_blur_7x7(
@@ -210,8 +216,9 @@ Gaussian_Blur_7x7 g_blur_7x7(
   .blur_addr      (gaussian_blur_addr[3]),
   .blur_din       (blur_din[3]),
   .img_addr       (gaussian_img_addr),
-  .buffer_we      (gaussian_buffer_we)
-);
+  .buffer_we      (gaussian_buffer_we),
+  .fill_zero      (gaussian_fill_zero[3])
+);*/
 
 wire           detect_filter_start = (current_state==ST_DETECT_FILTER) ? 1:0;
 wire           detect_filter_done;
@@ -262,6 +269,7 @@ always @(*) begin
     blur_addr[3] = gaussian_blur_addr[3];    
     buffer_we = gaussian_buffer_we;
     img_addr  = gaussian_img_addr;
+    fill_zero = |gaussian_fill_zero;
   end
   else if (current_state == ST_DETECT_FILTER) begin
     blur_addr[0] = detect_filter_blur_addr[0];  
@@ -270,6 +278,16 @@ always @(*) begin
     blur_addr[3] = detect_filter_blur_addr[3];  
     buffer_we = detect_filter_buffer_we;
     img_addr  = detect_filter_img_addr;
+    fill_zero = 0;
+  end
+  else begin
+    blur_addr[0] = 0;
+    blur_addr[1] = 0;  
+    blur_addr[2] = 0;  
+    blur_addr[3] = 0;  
+    buffer_we = 0;
+    img_addr  = 0;
+    fill_zero = 0;
   end
 end
 
