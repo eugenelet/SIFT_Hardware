@@ -296,7 +296,7 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     done <= 1'b0;    
-  else if (current_state==ST_GAUSSIAN_9 && blur_addr=='d480)
+  else if (current_state==ST_GAUSSIAN_9 && blur_addr_0=='d480)
     done <= 1'b1;
   else if (current_state==ST_IDLE)
     done <= 1'b0;
@@ -354,7 +354,7 @@ Gaussian_Blur_5x5_1 u_g_blur2(
   .current_state  (current_state),
   .blur_din       (blur_din_2)
 );
-Gaussian_Blur_7x7 u_g_blur0(
+Gaussian_Blur_7x7 u_g_blur3(
   .clk            (clk),
   .rst_n          (rst_n),
   .buffer_data_0  (img_dout),
