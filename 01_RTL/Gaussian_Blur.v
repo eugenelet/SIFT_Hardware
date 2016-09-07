@@ -1,5 +1,8 @@
 `timescale 1ns/10ps
 `include  "Gaussian_Blur_3x3.v"
+`include  "Gaussian_Blur_5x5_0.v"
+`include  "Gaussian_Blur_5x5_1.v"
+`include  "Gaussian_Blur_7x7.v"
 module Gaussian_Blur(
   clk,
   rst_n,
@@ -296,7 +299,7 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     done <= 1'b0;    
-  else if (current_state==ST_GAUSSIAN_9 && blur_addr_0=='d480)
+  else if (current_state==ST_GAUSSIAN_9  && blur_addr_3=='d480)
     done <= 1'b1;
   else if (current_state==ST_IDLE)
     done <= 1'b0;
@@ -314,11 +317,65 @@ end
 
 always @(posedge clk) begin
   if (!rst_n)
+    blur_addr_1 <= 'd0;
+  else if (blur_mem_we_1 && blur_addr_1<'d480)
+    blur_addr_1 <= blur_addr_1 + 'd1;
+  else if (current_state==ST_IDLE)
+    blur_addr_1 <= 'd0;
+end
+
+always @(posedge clk) begin
+  if (!rst_n)
+    blur_addr_2 <= 'd0;
+  else if (blur_mem_we_2 && blur_addr_2<'d480)
+    blur_addr_2 <= blur_addr_2 + 'd1;
+  else if (current_state==ST_IDLE)
+    blur_addr_2 <= 'd0;
+end
+
+always @(posedge clk) begin
+  if (!rst_n)
+    blur_addr_3 <= 'd0;
+  else if (blur_mem_we_3 && blur_addr_3<'d480)
+    blur_addr_3 <= blur_addr_3 + 'd1;
+  else if (current_state==ST_IDLE)
+    blur_addr_3 <= 'd0;
+end
+
+always @(posedge clk) begin
+  if (!rst_n)
     blur_mem_we_0 <= 1'b0;
   else if (current_state==ST_GAUSSIAN_9 && blur_addr_0<'d480)
     blur_mem_we_0 <= 1'b1;
   else
     blur_mem_we_0 <= 1'b0;
+end
+
+always @(posedge clk) begin
+  if (!rst_n)
+    blur_mem_we_1 <= 1'b0;
+  else if (current_state==ST_GAUSSIAN_9 && blur_addr_1<'d480 && img_addr > 'd3)
+    blur_mem_we_1 <= 1'b1;
+  else
+    blur_mem_we_1 <= 1'b0;
+end
+
+always @(posedge clk) begin
+  if (!rst_n)
+    blur_mem_we_2 <= 1'b0;
+  else if (current_state==ST_GAUSSIAN_9 && blur_addr_2<'d480 && img_addr > 'd3)
+    blur_mem_we_2 <= 1'b1;
+  else
+    blur_mem_we_2 <= 1'b0;
+end
+
+always @(posedge clk) begin
+  if (!rst_n)
+    blur_mem_we_3 <= 1'b0;
+  else if (current_state==ST_GAUSSIAN_9 && blur_addr_3<'d480 && img_addr > 'd3)
+    blur_mem_we_3 <= 1'b1;
+  else
+    blur_mem_we_3 <= 1'b0;
 end
 
 wire  [5119:0]  blur_result_0;
@@ -333,7 +390,7 @@ Gaussian_Blur_3x3 u_g_blur0(
 );
 assign blur_din_0 = blur_result_0;
 
-/*Gaussian_Blur_5x5_0 u_g_blur1(
+Gaussian_Blur_5x5_0 u_g_blur1(
   .clk            (clk),
   .rst_n          (rst_n),
   .buffer_data_0  (buffer_data_0),
@@ -344,6 +401,8 @@ assign blur_din_0 = blur_result_0;
   .current_state  (current_state),
   .blur_din       (blur_din_1)
 );
+assign blur_din_1 = blur_result_1;
+
 Gaussian_Blur_5x5_1 u_g_blur2(
   .clk            (clk),
   .rst_n          (rst_n),
@@ -355,6 +414,8 @@ Gaussian_Blur_5x5_1 u_g_blur2(
   .current_state  (current_state),
   .blur_din       (blur_din_2)
 );
+assign blur_din_2 = blur_result_2;
+
 Gaussian_Blur_7x7 u_g_blur3(
   .clk            (clk),
   .rst_n          (rst_n),
@@ -367,7 +428,9 @@ Gaussian_Blur_7x7 u_g_blur3(
   .buffer_data_6  (buffer_data_5),
   .current_state  (current_state),
   .blur_din       (blur_din_3)
-);*/
+);
+assign blur_din_3 = blur_result_3;
+
 
 
 /*
