@@ -64,10 +64,10 @@ always @(posedge clk) begin
     buffer_data_0 <= 'd0;    
   else if (buffer_mode==SYS_IDLE)
     buffer_data_0 <= 'd0;
-  else if (buffer_mode==SYS_GAUSSIAN && buffer_we)
-    buffer_data_0 <= img_data;
   else if (buffer_mode==SYS_GAUSSIAN && fill_zero)
     buffer_data_0 <= 'd0;
+  else if (buffer_mode==SYS_GAUSSIAN && buffer_we)
+    buffer_data_0 <= img_data;
   else if (buffer_mode==SYS_DETECT_FILTER && buffer_we)
     buffer_data_0 <= img_data;
 end
