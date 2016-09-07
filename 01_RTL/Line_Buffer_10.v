@@ -34,6 +34,7 @@ input       [5119:0]  blur_data_3;
 /*From Working Module*/
 input       [2:0]     buffer_mode;
 input                 buffer_we;
+input                 fill_zero;
 
 /*BUFFER OUT*/
 output reg  [5119:0]  buffer_data_0;
