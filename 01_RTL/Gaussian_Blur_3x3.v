@@ -292,7 +292,6 @@ always @(posedge clk) begin
     ready_start_relay <= 1'b0;
 end
 
-
 reg [23:0]  layer0[0:63]; //wire
 reg [23:0]  layer1[0:63]; //wire
 reg [23:0]  layer2[0:63]; //wire
@@ -12670,7 +12669,11 @@ always @(posedge clk) begin
   else if (current_state==ST_GAUSSIAN_9)
     blur_din[5119:5112] <= kernel_img_sum_63[39:32];/*Q8.32 -> Q8.0*/
   else if (current_state==ST_IDLE)
-    blur_din[5119:5
+    blur_din[5119:5112] <= 'd0;
+end
+
+
+
 
 
 
