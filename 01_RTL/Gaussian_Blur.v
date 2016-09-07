@@ -53,7 +53,7 @@ output reg  [8:0]     img_addr;
 
 
 /*BLUR SRAM Control*/
-output reg  [5119:0]  blur_din_0,
+output      [5119:0]  blur_din_0,
                       blur_din_1,
                       blur_din_2,
                       blur_din_3;
@@ -321,7 +321,7 @@ always @(posedge clk) begin
     blur_mem_we_0 <= 1'b0;
 end
 
-
+wire  [5119:0]  blur_result_0;
 Gaussian_Blur_3x3 u_g_blur0(
   .clk            (clk),
   .rst_n          (rst_n),
@@ -329,8 +329,9 @@ Gaussian_Blur_3x3 u_g_blur0(
   .buffer_data_1  (buffer_data_1),
   .buffer_data_2  (buffer_data_2),
   .current_state  (current_state),
-  .blur_din       (blur_din_0)
+  .blur_din       (blur_result_0)
 );
+assign blur_din_0 = blur_result_0;
 
 /*Gaussian_Blur_5x5_0 u_g_blur1(
   .clk            (clk),
