@@ -80,6 +80,8 @@ integer dummy;
 integer error1;
 integer error2;
 integer ans1, ans2;
+integer targetFile;
+integer temp;
 initial begin
   rst_n     = 1;
   in_valid  = 0;
@@ -183,40 +185,157 @@ initial begin
   $fclose(errorFile);
 
 /*==========================================*/
-/*  imageFile  = $fopen("blurredImgs1.txt","r");
 
- 
-  for(i=0;i<`ROWS;i=i+1) begin
-    for(j=1;j<=`COLS;j=j+1) begin
-      rc=$fscanf(imageFile,"%d",u_core.blur_img_0.mem[i][j*8-1-:8]);
-    end
-  end 
-  imageFile  = $fopen("blurredImgs2.txt","r");
+  targetFile = $fopen("targetRowColDespt.txt", "r");
+  rc = $fscanf(targetFile, "%d", u_core.tar_descpt_group_num);
 
- 
-  for(i=0;i<`ROWS;i=i+1) begin
-    for(j=1;j<=`COLS;j=j+1) begin
-      rc=$fscanf(imageFile,"%d",u_core.blur_img_1.mem[i][j*8-1-:8]);
-    end
-  end 
-  imageFile  = $fopen("blurredImgs3.txt","r");
-
- 
-  for(i=0;i<`ROWS;i=i+1) begin
-    for(j=1;j<=`COLS;j=j+1) begin
-      rc=$fscanf(imageFile,"%d",u_core.blur_img_2.mem[i][j*8-1-:8]);
-    end
-  end 
-  imageFile  = $fopen("blurredImgs4.txt","r");
-
- 
-  for(i=0;i<`ROWS;i=i+1) begin
-    for(j=1;j<=`COLS;j=j+1) begin
-      rc=$fscanf(imageFile,"%d",u_core.blur_img_3.mem[i][j*8-1-:8]);
-    end
-  end 
-  $fclose(imageFile);*/
-
+   for(i = 0; i < targetKptNum; i = i + 1) begin
+            temp = i & 2'b11;
+            if(temp[1:0] == 2'b00) begin
+                rc = $fscanf(targetFile, "%d", target_0_mem.mem[i / 4][402:394]);//row
+                rc = $fscanf(targetFile, "%d", target_0_mem.mem[i / 4][393:384]);//col
+                rc = $fscanf(targetFile, "%d", target_0_mem.mem[i / 4][383:372]);//32th dim
+                rc = $fscanf(targetFile, "%d", target_0_mem.mem[i / 4][371:360]);
+                rc = $fscanf(targetFile, "%d", target_0_mem.mem[i / 4][359:348]);
+                rc = $fscanf(targetFile, "%d", target_0_mem.mem[i / 4][347:336]);
+                rc = $fscanf(targetFile, "%d", target_0_mem.mem[i / 4][335:324]);
+                rc = $fscanf(targetFile, "%d", target_0_mem.mem[i / 4][323:312]);
+                rc = $fscanf(targetFile, "%d", target_0_mem.mem[i / 4][311:300]);
+                rc = $fscanf(targetFile, "%d", target_0_mem.mem[i / 4][299:288]);
+                rc = $fscanf(targetFile, "%d", target_0_mem.mem[i / 4][287:276]);
+                rc = $fscanf(targetFile, "%d", target_0_mem.mem[i / 4][275:264]);
+                rc = $fscanf(targetFile, "%d", target_0_mem.mem[i / 4][263:252]);
+                rc = $fscanf(targetFile, "%d", target_0_mem.mem[i / 4][251:240]);
+                rc = $fscanf(targetFile, "%d", target_0_mem.mem[i / 4][239:228]);
+                rc = $fscanf(targetFile, "%d", target_0_mem.mem[i / 4][227:216]);
+                rc = $fscanf(targetFile, "%d", target_0_mem.mem[i / 4][215:204]);
+                rc = $fscanf(targetFile, "%d", target_0_mem.mem[i / 4][203:192]);
+                rc = $fscanf(targetFile, "%d", target_0_mem.mem[i / 4][191:180]);
+                rc = $fscanf(targetFile, "%d", target_0_mem.mem[i / 4][179:168]);
+                rc = $fscanf(targetFile, "%d", target_0_mem.mem[i / 4][167:156]);
+                rc = $fscanf(targetFile, "%d", target_0_mem.mem[i / 4][155:144]);
+                rc = $fscanf(targetFile, "%d", target_0_mem.mem[i / 4][143:132]);
+                rc = $fscanf(targetFile, "%d", target_0_mem.mem[i / 4][131:120]);
+                rc = $fscanf(targetFile, "%d", target_0_mem.mem[i / 4][119:108]);
+                rc = $fscanf(targetFile, "%d", target_0_mem.mem[i / 4][107:96] );  
+                rc = $fscanf(targetFile, "%d", target_0_mem.mem[i / 4][95:84]  );    
+                rc = $fscanf(targetFile, "%d", target_0_mem.mem[i / 4][83:72]  );    
+                rc = $fscanf(targetFile, "%d", target_0_mem.mem[i / 4][71:60]  );    
+                rc = $fscanf(targetFile, "%d", target_0_mem.mem[i / 4][59:48]  );    
+                rc = $fscanf(targetFile, "%d", target_0_mem.mem[i / 4][47:36]  );    
+                rc = $fscanf(targetFile, "%d", target_0_mem.mem[i / 4][35:24]  );    
+                rc = $fscanf(targetFile, "%d", target_0_mem.mem[i / 4][23:12]  );    
+                rc = $fscanf(targetFile, "%d", target_0_mem.mem[i / 4][11:0]   );//1st dim
+            end
+            else if(temp[1:0] == 2'b01) begin
+                rc = $fscanf(targetFile, "%d", target_1_mem.mem[i / 4][402:394]);//row
+                rc = $fscanf(targetFile, "%d", target_1_mem.mem[i / 4][393:384]);//col
+                rc = $fscanf(targetFile, "%d", target_1_mem.mem[i / 4][383:372]);//32th dim
+                rc = $fscanf(targetFile, "%d", target_1_mem.mem[i / 4][371:360]);
+                rc = $fscanf(targetFile, "%d", target_1_mem.mem[i / 4][359:348]);
+                rc = $fscanf(targetFile, "%d", target_1_mem.mem[i / 4][347:336]);
+                rc = $fscanf(targetFile, "%d", target_1_mem.mem[i / 4][335:324]);
+                rc = $fscanf(targetFile, "%d", target_1_mem.mem[i / 4][323:312]);
+                rc = $fscanf(targetFile, "%d", target_1_mem.mem[i / 4][311:300]);
+                rc = $fscanf(targetFile, "%d", target_1_mem.mem[i / 4][299:288]);
+                rc = $fscanf(targetFile, "%d", target_1_mem.mem[i / 4][287:276]);
+                rc = $fscanf(targetFile, "%d", target_1_mem.mem[i / 4][275:264]);
+                rc = $fscanf(targetFile, "%d", target_1_mem.mem[i / 4][263:252]);
+                rc = $fscanf(targetFile, "%d", target_1_mem.mem[i / 4][251:240]);
+                rc = $fscanf(targetFile, "%d", target_1_mem.mem[i / 4][239:228]);
+                rc = $fscanf(targetFile, "%d", target_1_mem.mem[i / 4][227:216]);
+                rc = $fscanf(targetFile, "%d", target_1_mem.mem[i / 4][215:204]);
+                rc = $fscanf(targetFile, "%d", target_1_mem.mem[i / 4][203:192]);
+                rc = $fscanf(targetFile, "%d", target_1_mem.mem[i / 4][191:180]);
+                rc = $fscanf(targetFile, "%d", target_1_mem.mem[i / 4][179:168]);
+                rc = $fscanf(targetFile, "%d", target_1_mem.mem[i / 4][167:156]);
+                rc = $fscanf(targetFile, "%d", target_1_mem.mem[i / 4][155:144]);
+                rc = $fscanf(targetFile, "%d", target_1_mem.mem[i / 4][143:132]);
+                rc = $fscanf(targetFile, "%d", target_1_mem.mem[i / 4][131:120]);
+                rc = $fscanf(targetFile, "%d", target_1_mem.mem[i / 4][119:108]);
+                rc = $fscanf(targetFile, "%d", target_1_mem.mem[i / 4][107:96] );  
+                rc = $fscanf(targetFile, "%d", target_1_mem.mem[i / 4][95:84]  );    
+                rc = $fscanf(targetFile, "%d", target_1_mem.mem[i / 4][83:72]  );    
+                rc = $fscanf(targetFile, "%d", target_1_mem.mem[i / 4][71:60]  );    
+                rc = $fscanf(targetFile, "%d", target_1_mem.mem[i / 4][59:48]  );    
+                rc = $fscanf(targetFile, "%d", target_1_mem.mem[i / 4][47:36]  );    
+                rc = $fscanf(targetFile, "%d", target_1_mem.mem[i / 4][35:24]  );    
+                rc = $fscanf(targetFile, "%d", target_1_mem.mem[i / 4][23:12]  );    
+                rc = $fscanf(targetFile, "%d", target_1_mem.mem[i / 4][11:0]   );//1st dim
+            end
+            else if(temp[1:0] == 2'b10) begin
+                rc = $fscanf(targetFile, "%d", target_2_mem.mem[i / 4][402:394]);//row
+                rc = $fscanf(targetFile, "%d", target_2_mem.mem[i / 4][393:384]);//col
+                rc = $fscanf(targetFile, "%d", target_2_mem.mem[i / 4][383:372]);//32th dim
+                rc = $fscanf(targetFile, "%d", target_2_mem.mem[i / 4][371:360]);
+                rc = $fscanf(targetFile, "%d", target_2_mem.mem[i / 4][359:348]);
+                rc = $fscanf(targetFile, "%d", target_2_mem.mem[i / 4][347:336]);
+                rc = $fscanf(targetFile, "%d", target_2_mem.mem[i / 4][335:324]);
+                rc = $fscanf(targetFile, "%d", target_2_mem.mem[i / 4][323:312]);
+                rc = $fscanf(targetFile, "%d", target_2_mem.mem[i / 4][311:300]);
+                rc = $fscanf(targetFile, "%d", target_2_mem.mem[i / 4][299:288]);
+                rc = $fscanf(targetFile, "%d", target_2_mem.mem[i / 4][287:276]);
+                rc = $fscanf(targetFile, "%d", target_2_mem.mem[i / 4][275:264]);
+                rc = $fscanf(targetFile, "%d", target_2_mem.mem[i / 4][263:252]);
+                rc = $fscanf(targetFile, "%d", target_2_mem.mem[i / 4][251:240]);
+                rc = $fscanf(targetFile, "%d", target_2_mem.mem[i / 4][239:228]);
+                rc = $fscanf(targetFile, "%d", target_2_mem.mem[i / 4][227:216]);
+                rc = $fscanf(targetFile, "%d", target_2_mem.mem[i / 4][215:204]);
+                rc = $fscanf(targetFile, "%d", target_2_mem.mem[i / 4][203:192]);
+                rc = $fscanf(targetFile, "%d", target_2_mem.mem[i / 4][191:180]);
+                rc = $fscanf(targetFile, "%d", target_2_mem.mem[i / 4][179:168]);
+                rc = $fscanf(targetFile, "%d", target_2_mem.mem[i / 4][167:156]);
+                rc = $fscanf(targetFile, "%d", target_2_mem.mem[i / 4][155:144]);
+                rc = $fscanf(targetFile, "%d", target_2_mem.mem[i / 4][143:132]);
+                rc = $fscanf(targetFile, "%d", target_2_mem.mem[i / 4][131:120]);
+                rc = $fscanf(targetFile, "%d", target_2_mem.mem[i / 4][119:108]);
+                rc = $fscanf(targetFile, "%d", target_2_mem.mem[i / 4][107:96] );  
+                rc = $fscanf(targetFile, "%d", target_2_mem.mem[i / 4][95:84]  );    
+                rc = $fscanf(targetFile, "%d", target_2_mem.mem[i / 4][83:72]  );    
+                rc = $fscanf(targetFile, "%d", target_2_mem.mem[i / 4][71:60]  );    
+                rc = $fscanf(targetFile, "%d", target_2_mem.mem[i / 4][59:48]  );    
+                rc = $fscanf(targetFile, "%d", target_2_mem.mem[i / 4][47:36]  );    
+                rc = $fscanf(targetFile, "%d", target_2_mem.mem[i / 4][35:24]  );    
+                rc = $fscanf(targetFile, "%d", target_2_mem.mem[i / 4][23:12]  );    
+                rc = $fscanf(targetFile, "%d", target_2_mem.mem[i / 4][11:0]   );//1st dim
+            end
+            else begin
+                rc = $fscanf(targetFile, "%d", target_3_mem.mem[i / 4][402:394]);//row
+                rc = $fscanf(targetFile, "%d", target_3_mem.mem[i / 4][393:384]);//col
+                rc = $fscanf(targetFile, "%d", target_3_mem.mem[i / 4][383:372]);//32th dim
+                rc = $fscanf(targetFile, "%d", target_3_mem.mem[i / 4][371:360]);
+                rc = $fscanf(targetFile, "%d", target_3_mem.mem[i / 4][359:348]);
+                rc = $fscanf(targetFile, "%d", target_3_mem.mem[i / 4][347:336]);
+                rc = $fscanf(targetFile, "%d", target_3_mem.mem[i / 4][335:324]);
+                rc = $fscanf(targetFile, "%d", target_3_mem.mem[i / 4][323:312]);
+                rc = $fscanf(targetFile, "%d", target_3_mem.mem[i / 4][311:300]);
+                rc = $fscanf(targetFile, "%d", target_3_mem.mem[i / 4][299:288]);
+                rc = $fscanf(targetFile, "%d", target_3_mem.mem[i / 4][287:276]);
+                rc = $fscanf(targetFile, "%d", target_3_mem.mem[i / 4][275:264]);
+                rc = $fscanf(targetFile, "%d", target_3_mem.mem[i / 4][263:252]);
+                rc = $fscanf(targetFile, "%d", target_3_mem.mem[i / 4][251:240]);
+                rc = $fscanf(targetFile, "%d", target_3_mem.mem[i / 4][239:228]);
+                rc = $fscanf(targetFile, "%d", target_3_mem.mem[i / 4][227:216]);
+                rc = $fscanf(targetFile, "%d", target_3_mem.mem[i / 4][215:204]);
+                rc = $fscanf(targetFile, "%d", target_3_mem.mem[i / 4][203:192]);
+                rc = $fscanf(targetFile, "%d", target_3_mem.mem[i / 4][191:180]);
+                rc = $fscanf(targetFile, "%d", target_3_mem.mem[i / 4][179:168]);
+                rc = $fscanf(targetFile, "%d", target_3_mem.mem[i / 4][167:156]);
+                rc = $fscanf(targetFile, "%d", target_3_mem.mem[i / 4][155:144]);
+                rc = $fscanf(targetFile, "%d", target_3_mem.mem[i / 4][143:132]);
+                rc = $fscanf(targetFile, "%d", target_3_mem.mem[i / 4][131:120]);
+                rc = $fscanf(targetFile, "%d", target_3_mem.mem[i / 4][119:108]);
+                rc = $fscanf(targetFile, "%d", target_3_mem.mem[i / 4][107:96] );  
+                rc = $fscanf(targetFile, "%d", target_3_mem.mem[i / 4][95:84]  );    
+                rc = $fscanf(targetFile, "%d", target_3_mem.mem[i / 4][83:72]  );    
+                rc = $fscanf(targetFile, "%d", target_3_mem.mem[i / 4][71:60]  );    
+                rc = $fscanf(targetFile, "%d", target_3_mem.mem[i / 4][59:48]  );    
+                rc = $fscanf(targetFile, "%d", target_3_mem.mem[i / 4][47:36]  );    
+                rc = $fscanf(targetFile, "%d", target_3_mem.mem[i / 4][35:24]  );    
+                rc = $fscanf(targetFile, "%d", target_3_mem.mem[i / 4][23:12]  );    
+                rc = $fscanf(targetFile, "%d", target_3_mem.mem[i / 4][11:0]   );//1st dim
+            end
+        end
 
 /*===========================================*/
 
@@ -257,6 +376,7 @@ initial begin
   $fclose(kpt_layer2);
   $fclose(kp_errorFile);
 
+    
 /*  debug_0 = $fopen("is_kp0", "w");
   debug_1 = $fopen("is_kp1", "w");
 

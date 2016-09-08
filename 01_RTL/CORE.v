@@ -85,7 +85,7 @@ wire          keypoint_1_we;
 wire  [10:0]  keypoint_1_addr;
 wire  [18:0]  keypoint_1_din;
 wire  [18:0]  keypoint_1_dout;
-bmem_2000x19 keypoint_1_mem(
+bmem_2048x19 keypoint_1_mem(
   .clk  (clk),
   .we   (keypoint_1_we),
   .addr (keypoint_1_addr),
@@ -97,7 +97,7 @@ wire          keypoint_2_we;
 wire  [10:0]  keypoint_2_addr;
 wire  [18:0]  keypoint_2_din;
 wire  [18:0]  keypoint_2_dout;
-bmem_2000x19 keypoint_2_mem(
+bmem_2048x19 keypoint_2_mem(
   .clk  (clk),
   .we   (keypoint_2_we),
   .addr (keypoint_2_addr),
@@ -105,6 +105,135 @@ bmem_2000x19 keypoint_2_mem(
   .dout (keypoint_2_dout)
 );
 
+wire           target_0_we;
+wire  [8:0]    target_addr;
+wire  [402:0]  target_0_din;
+wire  [402:0]  target_0_dout;
+bmem_512x403 target_0_mem(
+  .clk  (clk),
+  .we   (target_0_we),
+  .addr (target_addr),
+  .din  (target_0_din),
+  .dout (target_0_dout)
+);
+
+wire           target_1_we;
+wire  [402:0]  target_1_din;
+wire  [402:0]  target_1_dout;
+bmem_512x403 target_1_mem(
+  .clk  (clk),
+  .we   (target_1_we),
+  .addr (target_addr),
+  .din  (target_1_din),
+  .dout (target_1_dout)
+);
+
+wire           target_2_we;
+wire  [402:0]  target_2_din;
+wire  [402:0]  target_2_dout;
+bmem_512x403 target_2_mem(
+  .clk  (clk),
+  .we   (target_0_we),
+  .addr (target_addr),
+  .din  (target_0_din),
+  .dout (target_0_dout)
+);
+
+wire           target_3_we;
+wire  [402:0]  target_3_din;
+wire  [402:0]  target_3_dout;
+bmem_512x403 target_3_mem(
+  .clk  (clk),
+  .we   (target_3_we),
+  .addr (target_addr),
+  .din  (target_3_din),
+  .dout (target_3_dout)
+);
+
+wire  [3:0]   matched_we;
+wire  [46:0]  matched_0_din;
+wire  [46:0]  matched_0_dout;
+wire  [8:0]  matched_addr1,
+             matched_addr2;
+bmem_512x47 matched_0_mem(
+  .clk  (clk),
+  .we   (matched_we[0]),
+  .addr1(matched_addr1),
+  .addr2(matched_addr2),
+  .din  (matched_0_din),
+  .dout1(),
+  .dout2(matched_0_dout)
+);
+
+wire  [46:0]  matched_1_din;
+wire  [46:0]  matched_1_dout;
+bmem_512x47 matched_1_mem(
+  .clk  (clk),
+  .we   (matched_we[1]),
+  .addr1(matched_addr1),
+  .addr2(matched_addr2),
+  .din  (matched_1_din),
+  .dout1(),
+  .dout2(matched_1_dout)
+);
+wire  [46:0]  matched_2_din;
+wire  [46:0]  matched_2_dout;
+bmem_512x47 matched_2_mem(
+  .clk  (clk),
+  .we   (matched_we[2]),
+  .addr1(matched_addr1),
+  .addr2(matched_addr2),
+  .din  (matched_2_din),
+  .dout1(),
+  .dout2(matched_2_dout)
+);
+wire  [46:0]  matched_3_din;
+wire  [46:0]  matched_3_dout;
+bmem_512x47 matched_3_mem(
+  .clk  (clk),
+  .we   (matched_we[3]),
+  .addr1(matched_addr),
+  .addr2(matched_addr),
+  .din  (matched_3_din),
+  .dout1(),
+  .dout2(matched_3_dout)
+);
+
+wire          keypoint_2_we;
+wire  [10:0]  keypoint_2_addr;
+wire  [18:0]  keypoint_2_din;
+wire  [18:0]  keypoint_2_dout;
+bmem_2048x19 keypoint_2_mem(
+  .clk  (clk),
+  .we   (keypoint_2_we),
+  .addr (keypoint_2_addr),
+  .din  (keypoint_2_din),
+  .dout (keypoint_2_dout)
+);
+
+wire          keypoint_2_we;
+wire  [10:0]  keypoint_2_addr;
+wire  [18:0]  keypoint_2_din;
+wire  [18:0]  keypoint_2_dout;
+bmem_2048x19 keypoint_2_mem(
+  .clk  (clk),
+  .we   (keypoint_2_we),
+  .addr (keypoint_2_addr),
+  .din  (keypoint_2_din),
+  .dout (keypoint_2_dout)
+);
+
+wire          keypoint_2_we;
+wire  [10:0]  keypoint_2_addr;
+wire  [18:0]  keypoint_2_din;
+wire  [18:0]  keypoint_2_dout;
+bmem_2048x19 keypoint_2_mem(
+  .clk  (clk),
+  .we   (keypoint_2_we),
+  .addr (keypoint_2_addr),
+  .din  (keypoint_2_din),
+  .dout (keypoint_2_dout)
+);
 wire    [5119:0]  buffer_data_0;
 wire    [5119:0]  buffer_data_1;
 wire    [5119:0]  buffer_data_2;
@@ -116,7 +245,8 @@ wire    [5119:0]  buffer_data_7;
 wire    [5119:0]  buffer_data_8;
 wire    [5119:0]  buffer_data_9;
 reg               buffer_we; /*wire*/
-reg              fill_zero;  /*wire*/
+reg               fill_zero;  /*wire*/
+wire    [5119:0]  buffer_in;
 // wire              buffer_mode = (gaussian_done)?L_IDLE:L_GAUSSIAN;
 /*System Line Buffer*/
 Line_Buffer_10 l_buf_10(
@@ -124,6 +254,7 @@ Line_Buffer_10 l_buf_10(
   .rst_n          (rst_n),
   .buffer_mode    (current_state),
   .buffer_we      (buffer_we),
+  .in_data        (buffer_in),
   .img_data       (img_dout),
   .fill_zero      (fill_zero),
   .blur_data_0    (blur_dout[0]),
@@ -177,69 +308,14 @@ Gaussian_Blur g_blur(
   .fill_zero      (gaussian_fill_zero[0])
 );
 
-/*Gaussian_Blur_5x5_1 g_blur_5x5_1(
-  .clk            (clk),
-  .rst_n          (rst_n),
-  .buffer_data_0  (buffer_data_0),
-  .buffer_data_1  (buffer_data_1),
-  .buffer_data_2  (buffer_data_2),
-  .buffer_data_3  (buffer_data_3),
-  .buffer_data_4  (buffer_data_4),
-  .start          (gaussian_start),
-  .done           (gaussian_done[1]),
-  .blur_mem_we    (blur_mem_we[1]),
-  .blur_addr      (gaussian_blur_addr[1]),
-  .blur_din       (blur_din[1]),
-  .img_addr       (gaussian_img_addr),
-  .buffer_we      (gaussian_buffer_we),
-  .fill_zero      (gaussian_fill_zero[1])
-);
-
-Gaussian_Blur_5x5_2 g_blur_5x5_2(
-  .clk            (clk),
-  .rst_n          (rst_n),
-  .buffer_data_0  (buffer_data_0),
-  .buffer_data_1  (buffer_data_1),
-  .buffer_data_2  (buffer_data_2),
-  .buffer_data_3  (buffer_data_3),
-  .buffer_data_4  (buffer_data_4),
-  .start          (gaussian_start),
-  .done           (gaussian_done[2]),
-  .blur_mem_we    (blur_mem_we[2]),
-  .blur_addr      (gaussian_blur_addr[2]),
-  .blur_din       (blur_din[2]),
-  .img_addr       (gaussian_img_addr),
-  .buffer_we      (gaussian_buffer_we),
-  .fill_zero      (gaussian_fill_zero[2])
-);
-
-Gaussian_Blur_7x7 g_blur_7x7(
-  .clk            (clk),
-  .rst_n          (rst_n),
-  .img_dout       (img_dout),
-  .buffer_data_1  (buffer_data_0),
-  .buffer_data_2  (buffer_data_1),
-  .buffer_data_3  (buffer_data_2),
-  .buffer_data_4  (buffer_data_3),
-  .buffer_data_5  (buffer_data_4),
-  .buffer_data_6  (buffer_data_5),
-  .start          (gaussian_start),
-  .done           (gaussian_done[3]),
-  .blur_mem_we    (blur_mem_we[3]),
-  .blur_addr      (gaussian_blur_addr[3]),
-  .blur_din       (blur_din[3]),
-  .img_addr       (gaussian_img_addr),
-  .buffer_we      (gaussian_buffer_we),
-  .fill_zero      (gaussian_fill_zero[3])
-);*/
-
 wire           detect_filter_start = (current_state==ST_DETECT_FILTER) ? 1:0;
 wire           detect_filter_done;
 wire  [8:0]    detect_filter_blur_addr  [0:3];
 wire  [8:0]    detect_filter_img_addr;
 wire           detect_filter_buffer_we;
-wire  [10:0]   keypoint_1_count,
-               keypoint_2_count;
+wire  [10:0]   detect_filter_keypoint_1_addr,
+               detect_filter_keypoint_2_addr;
+
 Detect_Filter_Keypoints u_detect_filter_keypoints(
   .clk              (clk),
   .rst_n            (rst_n),
@@ -267,24 +343,119 @@ Detect_Filter_Keypoints u_detect_filter_keypoints(
   .buffer_data_8    (buffer_data_8),
   .buffer_data_9    (buffer_data_9),
   .keypoint_1_we    (keypoint_1_we),
-  .keypoint_1_addr  (keypoint_1_addr),
+  .keypoint_1_addr  (detect_filter_keypoint_1_addr),
   .keypoint_1_din   (keypoint_1_din),
   .keypoint_2_we    (keypoint_2_we),
-  .keypoint_2_addr  (keypoint_2_addr),
+  .keypoint_2_addr  (detect_filter_keypoint_2_addr),
   .keypoint_2_din   (keypoint_2_din)
 );
 
+reg [10:0]  keypoint_num_1;
+always @(posedge clk ) begin
+  if (!rst_n) 
+    keypoint_num_1 <= 0;    
+  else if (current_state==ST_DETECT_FILTER)
+    keypoint_num_1 <= detect_filter_keypoint_1_addr;
+  else if (current_state==ST_IDLE)
+    keypoint_num_1 <= 0;
+end
+
+reg [10:0]  keypoint_num_2;
+always @(posedge clk ) begin
+  if (!rst_n) 
+    keypoint_num_2 <= 0;    
+  else if (current_state==ST_DETECT_FILTER)
+    keypoint_num_2 <= detect_filter_keypoint_1_addr;
+  else if (current_state==ST_IDLE)
+    keypoint_num_2 <= 0;
+end
+
+wire           compute_match_start = (current_state==ST_COMPUTE_MATCH) ? 1:0;
+wire           compute_match_done;
+wire  [10:0]   kpt_addr;
+wire           compute_match_buffer_we;
+wire  [5119:0] blurred_addr;
+wire           readFrom;
+wire  [402:0]  row_col_descpt1,
+               row_col_descpt2,
+               row_col_descpt3,
+               row_col_descpt4;   
+wire           descriptor_request,
+               descriptor_valid;
+computeDescriptor u_computeDescriptor(
+    .clk                (clk),
+    .rst_n              (rst_n),
+    .start              (compute_match_start),//同時也送進match
+    .kptRowCol1         (keypoint_1_dout),
+    .kptRowCol2         (keypoint_2_dout),
+    .layer1_num         (keypoint_num_1),//wire接進來，值不能改
+    .layer2_num         (keypoint_num_2),
+    .line_buffer_0      (buffer_in),
+    .line_buffer_1      (line_buffer_0),
+    .line_buffer_2      (line_buffer_1),
+    .kpt_addr           (kpt_addr),
+    .blurred_addr       (blurred_addr),
+    .row_col_descpt1    (row_col_descpt1),//FF，用wire送進match
+    .row_col_descpt2    (row_col_descpt2),
+    .row_col_descpt3    (row_col_descpt3),
+    .row_col_descpt4    (row_col_descpt4),
+    .descriptor_request (descriptor_request),//match在要了
+    .descriptor_valid   (descriptor_valid),//告訴match，4個擺好了
+    .readFrom           (readFrom),
+    .LB_WE              (compute_match_buffer_we)
+);
+
+
+
+
+reg[8:0]  tar_descpt_group_num;
+match u_match(
+    .clk                  (clk),
+    .rst_n                (rst_n),
+    .start                (compute_match_start),
+    .done                 (compute_match_done),
+    .descriptor_request   (descriptor_request),
+    .descriptor_valid     (descriptor_valid),
+    .tar_descpt_group_num (tar_descpt_group_num),
+    .image_R_C_D_0        (row_col_descpt1),//image's row col descriptor
+    .image_R_C_D_1        (row_col_descpt2),
+    .image_R_C_D_2        (row_col_descpt3),
+    .image_R_C_D_3        (row_col_descpt4),
+    .tar_addr             (target_addr),//讀target mem的addr(4個共用)
+    .tar_R_C_D_0          (target_0_dout),
+    .tar_R_C_D_1          (target_1_dout),
+    .tar_R_C_D_2          (target_2_dout),
+    .tar_R_C_D_3          (target_3_dout),
+    .matched_addr_1       (matched_addr1),//4個共用
+    .matched_WE           (matched_we),//4 bit
+    .matched_din_0        (matched_din_0),//接給matched的din
+    .matched_din_1        (matched_din_1),
+    .matched_din_2        (matched_din_2),
+    .matched_din_3        (matched_din_3),
+    .matched_addr_2       (matched_addr2),//4個共用
+    .matched_dout2_0      (matched_dout2_0),
+    .matched_dout2_1      (matched_dout2_1),
+    .matched_dout2_2      (matched_dout2_2),
+    .matched_dout2_3      (matched_dout2_3),
+    .layer1_num           (layer1_num),
+    .layer2_num           (layer2_num)
+);
+
 always @(*) begin
-  if (current_state == ST_GAUSSIAN) begin
-    blur_addr[0] = gaussian_blur_addr[0];    
-    blur_addr[1] = gaussian_blur_addr[1];    
-    blur_addr[2] = gaussian_blur_addr[2];    
-    blur_addr[3] = gaussian_blur_addr[3];    
-    buffer_we = gaussian_buffer_we;
-    img_addr  = gaussian_img_addr;
-    fill_zero = |gaussian_fill_zero;
-  end
-  else if (current_state == ST_DETECT_FILTER) begin
+  case(current_state)
+    ST_GAUSSIAN: begin
+      blur_addr[0] = gaussian_blur_addr[0];    
+      blur_addr[1] = gaussian_blur_addr[1];    
+      blur_addr[2] = gaussian_blur_addr[2];    
+      blur_addr[3] = gaussian_blur_addr[3];    
+      buffer_we = gaussian_buffer_we;
+      img_addr  = gaussian_img_addr;
+      fill_zero = |gaussian_fill_zero;
+      keypoint_1_addr = 0;
+      keypoint_2_addr = 0;
+      buffer_in = 0;
+    end
+  ST_DETECT_FILTER: begin
     blur_addr[0] = detect_filter_blur_addr[0];  
     blur_addr[1] = detect_filter_blur_addr[1];  
     blur_addr[2] = detect_filter_blur_addr[2];  
@@ -292,8 +463,22 @@ always @(*) begin
     buffer_we = detect_filter_buffer_we;
     img_addr  = detect_filter_img_addr;
     fill_zero = 0;
+    keypoint_1_addr = detect_filter_keypoint_1_addr;
+    keypoint_2_addr = detect_filter_keypoint_2_addr;
+    buffer_in = 0;
+  ST_COMPUTE_MATCH: begin
+    blur_addr[0] = blurred_addr;  
+    blur_addr[1] = blurred_addr;  
+    blur_addr[2] = 0;  
+    blur_addr[3] = 0;  
+    buffer_we = compute_match_buffer_we;
+    img_addr  = 0;
+    fill_zero = 0;
+    keypoint_1_addr = kpt_addr;
+    keypoint_2_addr = kpt_addr;
+    buffer_in = (readFrom) ? blur_dout[1] : blur_dout[0];
   end
-  else begin
+  default: begin
     blur_addr[0] = 0;
     blur_addr[1] = 0;  
     blur_addr[2] = 0;  
@@ -301,6 +486,9 @@ always @(*) begin
     buffer_we = 0;
     img_addr  = 0;
     fill_zero = 0;
+    keypoint_1_addr = 0;
+    keypoint_2_addr = 0;
+    buffer_in = 0;
   end
 end
 
@@ -335,9 +523,15 @@ always @(*) begin
     end
     ST_DETECT_FILTER: begin
       if(detect_filter_done)
-        next_state = ST_END;
+        next_state = ST_COMPUTE_MATCH;
       else
         next_state = ST_DETECT_FILTER;
+    end
+    ST_COMPUTE_MATCH: begin
+      if(compute_match_done)
+        next_state = ST_END;
+      else 
+        next_state = ST_COMPUTE_MATCH;
     end
     ST_END: begin /*DEBUG STATE*/
         next_state = ST_END;
