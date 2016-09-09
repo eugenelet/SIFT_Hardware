@@ -344,7 +344,6 @@ initial begin
 
 
   while(!u_core.detect_filter_done) begin
-    $display("%d", u_core.u_match.img_group_counter);
     @(negedge clk);
   end
 
@@ -384,7 +383,7 @@ initial begin
 
 
   while(!u_core.compute_match_done) begin
-      
+      $display("%d", u_core.u_match.img_group_counter);
       @(negedge clk);
   end
   $display("========= Compute and Match DONE =========");
