@@ -381,10 +381,7 @@ module CORE(
 
 
     reg[8:0]  tar_descpt_group_num;
-    wire[46:0] matched_dout2_0;
-    wire[46:0] matched_dout2_1;
-    wire[46:0] matched_dout2_2;
-    wire[46:0] matched_dout2_3;
+    
     match u_match(
         .clk                  (clk),
         .rst_n                (rst_n),
@@ -409,10 +406,10 @@ module CORE(
         .matched_din_2        (matched_2_din),
         .matched_din_3        (matched_3_din),
         .matched_addr_2       (matched_addr2),//4個共用
-        .matched_dout2_0      (matched_dout2_0),
-        .matched_dout2_1      (matched_dout2_1),
-        .matched_dout2_2      (matched_dout2_2),
-        .matched_dout2_3      (matched_dout2_3),
+        .matched_dout2_0      (matched_0_dout),
+        .matched_dout2_1      (matched_1_dout),
+        .matched_dout2_2      (matched_2_dout),
+        .matched_dout2_3      (matched_3_dout),
         .layer1_num           (keypoint_num_1),
         .layer2_num           (keypoint_num_2)
     );
