@@ -405,7 +405,7 @@ initial begin
 
   cycleCount = 0;
   while(!u_core.compute_match_done) begin
-      $display("img_group_counter : %d", u_core.u_match.img_group_counter);
+      // $display("img_group_counter : %d", u_core.u_match.img_group_counter);
       @(negedge clk);
       cycleCount = cycleCount + 1;
   end
