@@ -404,10 +404,10 @@ module CORE(
         .tar_R_C_D_3          (target_3_dout),
         .matched_addr_1       (matched_addr1),//4個共用
         .matched_WE           (matched_we),//4 bit
-        .matched_din_0        (matched_din_0),//接給matched的din
-        .matched_din_1        (matched_din_1),
-        .matched_din_2        (matched_din_2),
-        .matched_din_3        (matched_din_3),
+        .matched_din_0        (matched_0_din),//接給matched的din
+        .matched_din_1        (matched_1_din),
+        .matched_din_2        (matched_2_din),
+        .matched_din_3        (matched_3_din),
         .matched_addr_2       (matched_addr2),//4個共用
         .matched_dout2_0      (matched_dout2_0),
         .matched_dout2_1      (matched_dout2_1),
