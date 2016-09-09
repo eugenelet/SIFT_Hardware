@@ -81,6 +81,7 @@ integer error1;
 integer error2;
 integer ans1, ans2;
 integer targetFile;
+integer targetKptNum;
 integer temp;
 initial begin
   rst_n     = 1;
@@ -187,8 +188,8 @@ initial begin
 /*==========================================*/
 
   targetFile = $fopen("targetRowColDespt.txt", "r");
-  rc = $fscanf(targetFile, "%d", u_core.tar_descpt_group_num);
-
+  rc = $fscanf(targetFile, "%d", targetKptNum);
+  u_core.tar_descpt_group_num = targetKptNum/4;
    for(i = 0; i < targetKptNum; i = i + 1) begin
             temp = i & 2'b11;
             if(temp[1:0] == 2'b00) begin
@@ -376,7 +377,47 @@ initial begin
   $fclose(kpt_layer2);
   $fclose(kp_errorFile);
 
-    
+
+  while(!u_core.compute_match_done)
+      @(negedge clk);
+
+   $display("========= haha END GOOD =========");
+   // match_succeed_num = 0;
+   // ansFile = $fscanf("")
+   // rc = $fscanf(ansFile, "%d", match_succeed_num_ANS);
+   // $display("Ans matched num : %d", match_succeed_num_ANS);
+   for(i = 0; i < targetKptNum; i = i + 1) begin
+       temp = i & 2'b11;
+       if(temp[1:0] == 2'b00) begin
+           if(matched_0.mem[i / 4][27:14] < matched_0.mem[i / 4][13:0] * 0.75) begin//dist < dist2
+               // programOutput[match_succeed_num] = {target_0.mem[i / 4][402:394], target_0.mem[i / 4][393:384], matched_0.mem[i / 4][46:38], matched_0.mem[i / 4][37:28]};
+               $display("%d %d %d %d", target_0_mem.mem[i / 4][402:394], target_0_mem.mem[i / 4][393:384], matched_0_mem.mem[i / 4][46:38], matched_0_mem.mem[i / 4][37:28]);
+               // match_succeed_num = match_succeed_num + 1;
+           end
+       end
+       else if(temp[1:0] == 2'b01) begin
+           if(matched_1.mem[i / 4][27:14] < matched_1.mem[i / 4][13:0] * 0.75) begin//dist < dist2
+               // programOutput[match_succeed_num] = {target_1.mem[i / 4][402:394], target_1.mem[i / 4][393:384], matched_1.mem[i / 4][46:38], matched_1.mem[i / 4][37:28]};
+               $display("%d %d %d %d", target_1.mem_mem[i / 4][402:394], target_1.mem_mem[i / 4][393:384], matched_1_mem.mem[i / 4][46:38], matched_1_mem.mem[i / 4][37:28]);
+               // match_succeed_num = match_succeed_num + 1;
+           end
+       end
+       else if(temp[1:0] == 2'b10) begin
+           if(matched_2_mem.mem[i / 4][27:14] < matched_2_mem.mem[i / 4][13:0] * 0.75) begin//dist < dist2
+               // programOutput[match_succeed_num] = {target_2.mem[i / 4][402:394], target_2.mem[i / 4][393:384], matched_2.mem[i / 4][46:38], matched_2.mem[i / 4][37:28]};
+               $display("%d %d %d %d", target_2_mem.mem[i / 4][402:394], target_2_mem.mem[i / 4][393:384], matched_2_mem.mem[i / 4][46:38], matched_2_mem.mem[i / 4][37:28]);
+               // match_succeed_num = match_succeed_num + 1;
+           end
+       end
+       else begin
+           if(matched_3_mem.mem[i / 4][27:14] < matched_3_mem.mem[i / 4][13:0] * 0.75) begin//dist < dist2
+               // programOutput[match_succeed_num] = {target_3.mem[i / 4][402:394], target_3.mem[i / 4][393:384], matched_3.mem[i / 4][46:38], matched_3.mem[i / 4][37:28]};
+               $display("%d %d %d %d", target_3_mem.mem[i / 4][402:394], target_3_mem.mem[i / 4][393:384], matched_3_mem.mem[i / 4][46:38], matched_3_mem.mem[i / 4][37:28]);
+               // match_succeed_num = match_succeed_num + 1;
+           end
+       end    
+   end
+   //output的可能比ans少幾個
 /*  debug_0 = $fopen("is_kp0", "w");
   debug_1 = $fopen("is_kp1", "w");
 
@@ -390,7 +431,6 @@ initial begin
   $fclose(debug_1);*/
 
   $finish;
-end
 
 
 
