@@ -384,6 +384,19 @@ initial begin
   $display("layer1_num : %d", u_core.u_match.layer1_num);
   $display("layer2_num : %d", u_core.u_match.layer2_num);
   $display("img_group_num : %d", u_core.u_match.img_descpt_group_num);
+
+
+  for(i = 0; i < 512; i=i+1) begin
+    for(j = 46; j >=0; j=j-1) begin
+      u_core.matched_0_mem.mem[i][j] = 1;
+      u_core.matched_1_mem.mem[i][j] = 1;
+      u_core.matched_2_mem.mem[i][j] = 1;
+      u_core.matched_3_mem.mem[i][j] = 1;
+    end
+  end
+
+
+
   while(!u_core.compute_match_done) begin
       $display("img_group_counter : %d", u_core.u_match.img_group_counter);
       @(negedge clk);
