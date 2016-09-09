@@ -83,6 +83,7 @@ integer ans1, ans2;
 integer targetFile;
 integer targetKptNum;
 integer temp;
+integer cycleCount;
 initial begin
   rst_n     = 1;
   in_valid  = 0;
@@ -113,11 +114,16 @@ initial begin
 
   // repeat(1000) @(negedge clk);
   $display("test!");
-  while(!u_core.gaussian_done[0]) //begin
+  cycleCount = 0;
+  while(!u_core.gaussian_done[0]) begin
     @(negedge clk);
+    cycleCount = cycleCount + 1;
+  end
+
     // $display("gaussian");    
   // end
   $display("========= Gaussian DONE =========");
+  $display("Gaussian Cycle Count:%d", cycleCount);
 
   errorFile = $fopen("error.txt","w");
 
@@ -342,13 +348,14 @@ initial begin
 /*===========================================*/
 
 
-
+  cycleCount = 0;
   while(!u_core.detect_filter_done) begin
     @(negedge clk);
+    cycleCount = cycleCount + 1;
   end
 
   $display("========= Detect & Filter DONE =========");
-
+  $display("Detect and Filter Count:%d", cycleCount);
   error1 = 0;
   error2 = 0;
   kp_errorFile = $fopen("kp_error.txt", "w");
@@ -396,12 +403,14 @@ initial begin
   end
 
 
-
+  cycleCount = 0;
   while(!u_core.compute_match_done) begin
       $display("img_group_counter : %d", u_core.u_match.img_group_counter);
       @(negedge clk);
+      cycleCount = cycleCount + 1;
   end
   $display("========= Compute and Match DONE =========");
+  $display("Compute and Match Cycle Count:%d", cycleCount);
   $display("%d", targetKptNum);
    // match_succeed_num = 0;
    // ansFile = $fscanf("")
