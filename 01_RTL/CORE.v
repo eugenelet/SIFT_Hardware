@@ -343,7 +343,7 @@ module CORE(
     wire           compute_match_done;
     wire  [10:0]   kpt_addr;
     wire           compute_match_buffer_we;
-    wire  [5119:0] blurred_addr;
+    wire  [8:0]    blurred_addr;
     wire           readFrom;
     wire  [402:0]  row_col_descpt1,
                    row_col_descpt2,
@@ -365,7 +365,7 @@ module CORE(
         .line_buffer_1      (line_buffer_1),
         .line_buffer_2      (line_buffer_2),
         .kpt_addr           (kpt_addr),
-        .blurred_addr       (blurred_addr),
+        .modified_blurred_addr(blurred_addr),
         .row_col_descpt1    (row_col_descpt1),//FF，用wire送進match
         .row_col_descpt2    (row_col_descpt2),
         .row_col_descpt3    (row_col_descpt3),
