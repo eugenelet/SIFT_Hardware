@@ -101,13 +101,13 @@ module computeDescriptor(
     //////////////////////////////
     
     accumulateOrientation u_accumulateOrientation(
-        .LB_0               (line_buffer_0)
-        .LB_1               (line_buffer_1)
-        .LB_2               (line_buffer_2)
-        .row                (kptRowCol_FF[18:10])
-        .col                (kptRowCol_FF[9:0])
-        .cycle_count        (cycle_count)
-        .row_accu_result1   (row_accu_result1)
+        .LB_0               (line_buffer_0),
+        .LB_1               (line_buffer_1),
+        .LB_2               (line_buffer_2),
+        .row                (kptRowCol_FF[18:10]),
+        .col                (kptRowCol_FF[9:0]),
+        .cycle_count        (cycle_count),
+        .row_accu_result1   (row_accu_result1),
         .row_accu_result2   (row_accu_result2)
     );
     
