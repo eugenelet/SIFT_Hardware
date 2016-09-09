@@ -117,6 +117,7 @@ initial begin
     @(negedge clk);
     // $display("gaussian");    
   // end
+  $display("========= Gaussian DONE =========");
 
   errorFile = $fopen("error.txt","w");
 
@@ -345,6 +346,9 @@ initial begin
   while(!u_core.detect_filter_done) begin
     @(negedge clk);
   end
+
+  $display("========= Detect & Filter DONE =========");
+
   error1 = 0;
   error2 = 0;
   kp_errorFile = $fopen("kp_error.txt", "w");
@@ -381,7 +385,7 @@ initial begin
   while(!u_core.compute_match_done)
       @(negedge clk);
 
-   $display("========= haha END GOOD =========");
+  $display("========= Compute and Match DONE =========");
    // match_succeed_num = 0;
    // ansFile = $fscanf("")
    // rc = $fscanf(ansFile, "%d", match_succeed_num_ANS);
