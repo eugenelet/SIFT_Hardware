@@ -5,7 +5,6 @@ module match(
     done,
     descriptor_request,
     descriptor_valid,
-    img_descpt_group_num,
     tar_descpt_group_num,
     //
     image_R_C_D_0,//image's row col descriptor
