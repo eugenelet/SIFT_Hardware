@@ -10,7 +10,7 @@ module computeDescriptor(
     line_buffer_1,
     line_buffer_2,
     kpt_addr,
-    blurred_addr,
+    modified_blurred_addr,
     row_col_descpt1,//FF，用wire送進match
     row_col_descpt2,
     row_col_descpt3,
@@ -18,7 +18,8 @@ module computeDescriptor(
     descriptor_request,//match在要了
     descriptor_valid,//告訴match，4個擺好了
     readFrom,
-    LB_WE
+    LB_WE,
+    fillZero
 );
 
     input               clk,
@@ -51,6 +52,8 @@ module computeDescriptor(
     
     output  reg         readFrom;//從layer1還從layer2讀
     
+    output              fillZero;
+    
     //////////////////////////////
     
     parameter   ST_IDLE             = 'd0,
@@ -74,6 +77,7 @@ module computeDescriptor(
                 row_accu_result2;
     
     reg [8:0]   blurred_addr;
+    reg [8:0]   pre_modified_blurred_addr;
     
     reg [402:0] inner_row_col_descpt1,
                 inner_row_col_descpt2,
@@ -92,11 +96,12 @@ module computeDescriptor(
     //////////////////////////////
     
     assign totalKptNum              = layer1_num + layer2_num;
-    assign new_layer2_num           = layer2_num - totalKptNum[1:0];
+    assign new_layer2_num           = layer2_num - totalKptNum[1:0];//layer1_num + new_layer2_num = multiple of 4
     assign descriptor_valid         = (cs == ST_DESCPT_VALID)? 1'b1 : 1'b0;
     assign modified_blurred_addr    = (blurred_addr > 'd480)? 'd480 : blurred_addr;//若overflow就會讀出0
     assign kptRowCol                = (readFrom)? kptRowCol2 : kptRowCol1;
     assign LB_WE                    = (ns == ST_LB_GET)? 1'b1 : 1'b0;
+    assign fillZero                 = (pre_modified_blurred_addr == 'd480)? 1'b1 : 1'b0; 
     
     //////////////////////////////
     
@@ -112,6 +117,15 @@ module computeDescriptor(
     );
     
     //////////////////////////////
+    
+    always @(posedge clk) begin //pre_modified_blurred_addr
+    
+        if(!rst_n)
+            pre_modified_blurred_addr <= 'd0;
+        else
+            pre_modified_blurred_addr <= modified_blurred_addr;
+    
+    end
     
     always @(posedge clk) begin //inner_row_col_descpt1
     

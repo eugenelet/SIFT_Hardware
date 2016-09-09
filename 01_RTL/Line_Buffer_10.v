@@ -72,6 +72,8 @@ always @(posedge clk) begin
     buffer_data_0 <= img_data;
   else if (buffer_mode==SYS_DETECT_FILTER && buffer_we)
     buffer_data_0 <= img_data;
+  else if (buffer_mode==SYS_COMPUTE_MATCH && fill_zero)
+    buffer_data_0 <= 0;
   else if (buffer_mode==SYS_COMPUTE_MATCH && buffer_we)
     buffer_data_0 <= in_data;
 end

@@ -351,6 +351,7 @@ module CORE(
                    row_col_descpt4;   
     wire           descriptor_request,
                    descriptor_valid;
+    wire           compute_match_fill_zero;
                    
     computeDescriptor u_computeDescriptor(
         .clk                (clk),
@@ -360,9 +361,9 @@ module CORE(
         .kptRowCol2         (keypoint_2_dout),
         .layer1_num         (keypoint_num_1),//wire接進來，值不能改
         .layer2_num         (keypoint_num_2),
-        .line_buffer_0      (buffer_in),
-        .line_buffer_1      (line_buffer_0),
-        .line_buffer_2      (line_buffer_1),
+        .line_buffer_0      (line_buffer_0),
+        .line_buffer_1      (line_buffer_1),
+        .line_buffer_2      (line_buffer_2),
         .kpt_addr           (kpt_addr),
         .blurred_addr       (blurred_addr),
         .row_col_descpt1    (row_col_descpt1),//FF，用wire送進match
@@ -372,7 +373,8 @@ module CORE(
         .descriptor_request (descriptor_request),//match在要了
         .descriptor_valid   (descriptor_valid),//告訴match，4個擺好了
         .readFrom           (readFrom),
-        .LB_WE              (compute_match_buffer_we)
+        .LB_WE              (compute_match_buffer_we),
+        .fillZero           (compute_match_fill_zero)
     );
 
 
@@ -444,7 +446,7 @@ module CORE(
         blur_addr[3] = 0;  
         buffer_we = compute_match_buffer_we;
         img_addr  = 0;
-        fill_zero = 0;
+        fill_zero = compute_match_fill_zero;
         keypoint_1_addr = kpt_addr;
         keypoint_2_addr = kpt_addr;
         buffer_in = (readFrom) ? blur_dout[1] : blur_dout[0];
