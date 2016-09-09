@@ -4,6 +4,7 @@ module Line_Buffer_10(
   rst_n,
   buffer_mode,
   buffer_we,
+  in_data,
   img_data,
   fill_zero,
   blur_data_0,
@@ -26,6 +27,7 @@ input                 clk,
                       rst_n;
 
 /*From SRAM*/
+input       [5119:0]  in_data;
 input       [5119:0]  img_data;
 input       [5119:0]  blur_data_0;
 input       [5119:0]  blur_data_1;
@@ -70,6 +72,10 @@ always @(posedge clk) begin
     buffer_data_0 <= img_data;
   else if (buffer_mode==SYS_DETECT_FILTER && buffer_we)
     buffer_data_0 <= img_data;
+  else if (buffer_mode==SYS_COMPUTE_MATCH && fill_zero)
+    buffer_data_0 <= 0;
+  else if (buffer_mode==SYS_COMPUTE_MATCH && buffer_we)
+    buffer_data_0 <= in_data;
 end
 
 always @(posedge clk) begin
@@ -80,6 +86,8 @@ always @(posedge clk) begin
   else if (buffer_mode==SYS_GAUSSIAN && buffer_we)
     buffer_data_1 <= buffer_data_0;
   else if (buffer_mode==SYS_DETECT_FILTER && buffer_we)
+    buffer_data_1 <= buffer_data_0;
+  else if (buffer_mode==SYS_COMPUTE_MATCH && buffer_we)
     buffer_data_1 <= buffer_data_0;
 end
 
@@ -92,6 +100,8 @@ always @(posedge clk) begin
     buffer_data_2 <= buffer_data_1;
   else if (buffer_mode==SYS_DETECT_FILTER && buffer_we)
     buffer_data_2 <= blur_data_0;
+  else if (buffer_mode==SYS_COMPUTE_MATCH && buffer_we)
+    buffer_data_2 <= buffer_data_1;
 end
 
 always @(posedge clk) begin
