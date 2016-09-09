@@ -334,7 +334,7 @@ module CORE(
       if (!rst_n) 
         keypoint_num_2 <= 0;    
       else if (current_state==ST_DETECT_FILTER)
-        keypoint_num_2 <= detect_filter_keypoint_1_addr;
+        keypoint_num_2 <= detect_filter_keypoint_2_addr;
       else if (current_state==ST_IDLE)
         keypoint_num_2 <= 0;
     end
