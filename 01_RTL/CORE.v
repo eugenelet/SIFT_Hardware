@@ -409,8 +409,8 @@ module CORE(
         .matched_dout2_1      (matched_dout2_1),
         .matched_dout2_2      (matched_dout2_2),
         .matched_dout2_3      (matched_dout2_3),
-        .layer1_num           (layer1_num),
-        .layer2_num           (layer2_num)
+        .layer1_num           (keypoint_num_1),
+        .layer2_num           (keypoint_num_2)
     );
 
     always @(*) begin
