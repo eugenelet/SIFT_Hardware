@@ -381,10 +381,10 @@ module CORE(
 
 
     reg[8:0]  tar_descpt_group_num;
-    wire[8:0] matched_dout2_0;
-    wire[8:0] matched_dout2_1;
-    wire[8:0] matched_dout2_2;
-    wire[8:0] matched_dout2_3;
+    wire[46:0] matched_dout2_0;
+    wire[46:0] matched_dout2_1;
+    wire[46:0] matched_dout2_2;
+    wire[46:0] matched_dout2_3;
     match u_match(
         .clk                  (clk),
         .rst_n                (rst_n),
