@@ -436,6 +436,7 @@ module CORE(
         keypoint_1_addr = detect_filter_keypoint_1_addr;
         keypoint_2_addr = detect_filter_keypoint_2_addr;
         buffer_in = 0;
+      end
       ST_COMPUTE_MATCH: begin
         blur_addr[0] = blurred_addr;  
         blur_addr[1] = blurred_addr;  
@@ -460,7 +461,8 @@ module CORE(
         keypoint_2_addr = 0;
         buffer_in = 0;
       end
-    end
+    endcase
+  end
 
 
     /*
