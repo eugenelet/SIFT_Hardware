@@ -398,7 +398,7 @@ initial begin
        else if(temp[1:0] == 2'b01) begin
            if(u_core.matched_1_mem.mem[i / 4][27:14] < u_core.matched_1_mem.mem[i / 4][13:0] * 0.75) begin//dist < dist2
                // programOutput[match_succeed_num] = {target_1.mem[i / 4][402:394], target_1.mem[i / 4][393:384], matched_1.mem[i / 4][46:38], matched_1.mem[i / 4][37:28]};
-               $display("%d %d %d %d", u_core.target_1_mem.mem_mem[i / 4][402:394], u_core.target_1.mem_mem[i / 4][393:384], u_core.matched_1_mem.mem[i / 4][46:38], u_core.matched_1_mem.mem[i / 4][37:28]);
+               $display("%d %d %d %d", u_core.target_1_mem.mem[i / 4][402:394], u_core.target_1.mem_mem[i / 4][393:384], u_core.matched_1_mem.mem[i / 4][46:38], u_core.matched_1_mem.mem[i / 4][37:28]);
                // match_succeed_num = match_succeed_num + 1;
            end
        end
