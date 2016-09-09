@@ -77,7 +77,7 @@ module CORE(
 
     /*SRAM for KeyPoints*/
     wire          keypoint_1_we;
-    wire  [10:0]  keypoint_1_addr;
+    reg   [10:0]  keypoint_1_addr;
     wire  [18:0]  keypoint_1_din;
     wire  [18:0]  keypoint_1_dout;
     bmem_2048x19 keypoint_1_mem(
@@ -89,7 +89,7 @@ module CORE(
     );
 
     wire          keypoint_2_we;
-    wire  [10:0]  keypoint_2_addr;
+    reg   [10:0]  keypoint_2_addr;
     wire  [18:0]  keypoint_2_din;
     wire  [18:0]  keypoint_2_dout;
     bmem_2048x19 keypoint_2_mem(
@@ -215,7 +215,7 @@ module CORE(
     wire    [5119:0]  buffer_data_9;
     reg               buffer_we; /*wire*/
     reg               fill_zero;  /*wire*/
-    wire    [5119:0]  buffer_in;
+    reg     [5119:0]  buffer_in;
     // wire              buffer_mode = (gaussian_done)?L_IDLE:L_GAUSSIAN;
     /*System Line Buffer*/
     Line_Buffer_10 l_buf_10(
@@ -421,7 +421,7 @@ module CORE(
           buffer_we = gaussian_buffer_we;
           img_addr  = gaussian_img_addr;
           fill_zero = |gaussian_fill_zero;
-          keypoint_1_addr = 0;
+          keypoint_1_ = 0;
           keypoint_2_addr = 0;
           buffer_in = 0;
         end
