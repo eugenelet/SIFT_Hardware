@@ -423,7 +423,7 @@ module CORE(
           buffer_we = gaussian_buffer_we;
           img_addr  = gaussian_img_addr;
           fill_zero = |gaussian_fill_zero;
-          keypoint_1_ = 0;
+          keypoint_1_addr = 0;
           keypoint_2_addr = 0;
           buffer_in = 0;
         end

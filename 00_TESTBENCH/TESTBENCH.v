@@ -429,9 +429,8 @@ initial begin
 
   $fclose(debug_0);  
   $fclose(debug_1);*/
-
   $finish;
-
+end
 
 
 
