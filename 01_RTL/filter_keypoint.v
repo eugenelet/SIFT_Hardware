@@ -7056,23 +7056,23 @@ end
 wire  [7:0] brighter;
 wire  [7:0] darker;
 
-assign brighter[0] = (top[0] > (mid[1] + 'd7)) ? 1 : 0;
-assign brighter[1] = (top[1] > (mid[1] + 'd7)) ? 1 : 0;
-assign brighter[2] = (top[2] > (mid[1] + 'd7)) ? 1 : 0;
-assign brighter[3] = (mid[2] > (mid[1] + 'd7)) ? 1 : 0;
-assign brighter[4] = (btm[2] > (mid[1] + 'd7)) ? 1 : 0;
-assign brighter[5] = (btm[1] > (mid[1] + 'd7)) ? 1 : 0;
-assign brighter[6] = (btm[0] > (mid[1] + 'd7)) ? 1 : 0;
-assign brighter[7] = (mid[0] > (mid[1] + 'd7)) ? 1 : 0;
+assign brighter[0] = (top[0] > (mid[1] + 'd6)) ? 1 : 0;
+assign brighter[1] = (top[1] > (mid[1] + 'd6)) ? 1 : 0;
+assign brighter[2] = (top[2] > (mid[1] + 'd6)) ? 1 : 0;
+assign brighter[3] = (mid[2] > (mid[1] + 'd6)) ? 1 : 0;
+assign brighter[4] = (btm[2] > (mid[1] + 'd6)) ? 1 : 0;
+assign brighter[5] = (btm[1] > (mid[1] + 'd6)) ? 1 : 0;
+assign brighter[6] = (btm[0] > (mid[1] + 'd6)) ? 1 : 0;
+assign brighter[7] = (mid[0] > (mid[1] + 'd6)) ? 1 : 0;
 
-assign darker[0] = (top[0] < (mid[1] - 'd7)) ? 1 : 0;
-assign darker[1] = (top[1] < (mid[1] - 'd7)) ? 1 : 0;
-assign darker[2] = (top[2] < (mid[1] - 'd7)) ? 1 : 0;
-assign darker[3] = (mid[2] < (mid[1] - 'd7)) ? 1 : 0;
-assign darker[4] = (btm[2] < (mid[1] - 'd7)) ? 1 : 0;
-assign darker[5] = (btm[1] < (mid[1] - 'd7)) ? 1 : 0;
-assign darker[6] = (btm[0] < (mid[1] - 'd7)) ? 1 : 0;
-assign darker[7] = (mid[0] < (mid[1] - 'd7)) ? 1 : 0;
+assign darker[0] = (top[0] < (mid[1] - 'd6)) ? 1 : 0;
+assign darker[1] = (top[1] < (mid[1] - 'd6)) ? 1 : 0;
+assign darker[2] = (top[2] < (mid[1] - 'd6)) ? 1 : 0;
+assign darker[3] = (mid[2] < (mid[1] - 'd6)) ? 1 : 0;
+assign darker[4] = (btm[2] < (mid[1] - 'd6)) ? 1 : 0;
+assign darker[5] = (btm[1] < (mid[1] - 'd6)) ? 1 : 0;
+assign darker[6] = (btm[0] < (mid[1] - 'd6)) ? 1 : 0;
+assign darker[7] = (mid[0] < (mid[1] - 'd6)) ? 1 : 0;
 
 wire  brighter_valid = (&brighter[3:0] | &brighter[4:1] | &brighter[5:2] | &brighter[6:3] | &brighter[7:4] | &{brighter[7:5], brighter[0]}
                         | &{brighter[7:6], brighter[1:0]} | &{brighter[7], brighter[2:0]}) ? 1:0;
