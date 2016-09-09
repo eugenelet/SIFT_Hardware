@@ -389,30 +389,30 @@ initial begin
    for(i = 0; i < targetKptNum; i = i + 1) begin
        temp = i & 2'b11;
        if(temp[1:0] == 2'b00) begin
-           if(matched_0.mem[i / 4][27:14] < matched_0.mem[i / 4][13:0] * 0.75) begin//dist < dist2
+           if(u_core.matched_0_mem.mem[i / 4][27:14] < u_core.matched_0_mem.mem[i / 4][13:0] * 0.75) begin//dist < dist2
                // programOutput[match_succeed_num] = {target_0.mem[i / 4][402:394], target_0.mem[i / 4][393:384], matched_0.mem[i / 4][46:38], matched_0.mem[i / 4][37:28]};
-               $display("%d %d %d %d", target_0_mem.mem[i / 4][402:394], target_0_mem.mem[i / 4][393:384], matched_0_mem.mem[i / 4][46:38], matched_0_mem.mem[i / 4][37:28]);
+               $display("%d %d %d %d", u_core.target_0_mem.mem[i / 4][402:394], u_core.target_0_mem.mem[i / 4][393:384], u_core.matched_0_mem.mem[i / 4][46:38], u_core.matched_0_mem.mem[i / 4][37:28]);
                // match_succeed_num = match_succeed_num + 1;
            end
        end
        else if(temp[1:0] == 2'b01) begin
-           if(matched_1.mem[i / 4][27:14] < matched_1.mem[i / 4][13:0] * 0.75) begin//dist < dist2
+           if(u_core.matched_1_mem.mem[i / 4][27:14] < u_core.matched_1_mem.mem[i / 4][13:0] * 0.75) begin//dist < dist2
                // programOutput[match_succeed_num] = {target_1.mem[i / 4][402:394], target_1.mem[i / 4][393:384], matched_1.mem[i / 4][46:38], matched_1.mem[i / 4][37:28]};
-               $display("%d %d %d %d", target_1.mem_mem[i / 4][402:394], target_1.mem_mem[i / 4][393:384], matched_1_mem.mem[i / 4][46:38], matched_1_mem.mem[i / 4][37:28]);
+               $display("%d %d %d %d", u_core.target_1.mem_mem[i / 4][402:394], u_core.target_1.mem_mem[i / 4][393:384], u_core.matched_1_mem.mem[i / 4][46:38], u_core.matched_1_mem.mem[i / 4][37:28]);
                // match_succeed_num = match_succeed_num + 1;
            end
        end
        else if(temp[1:0] == 2'b10) begin
-           if(matched_2_mem.mem[i / 4][27:14] < matched_2_mem.mem[i / 4][13:0] * 0.75) begin//dist < dist2
+           if(u_core.matched_2_mem.mem[i / 4][27:14] < u_core.matched_2_mem.mem[i / 4][13:0] * 0.75) begin//dist < dist2
                // programOutput[match_succeed_num] = {target_2.mem[i / 4][402:394], target_2.mem[i / 4][393:384], matched_2.mem[i / 4][46:38], matched_2.mem[i / 4][37:28]};
-               $display("%d %d %d %d", target_2_mem.mem[i / 4][402:394], target_2_mem.mem[i / 4][393:384], matched_2_mem.mem[i / 4][46:38], matched_2_mem.mem[i / 4][37:28]);
+               $display("%d %d %d %d", u_core.target_2_mem.mem[i / 4][402:394], u_core.target_2_mem.mem[i / 4][393:384], u_core.matched_2_mem.mem[i / 4][46:38], u_core.matched_2_mem.mem[i / 4][37:28]);
                // match_succeed_num = match_succeed_num + 1;
            end
        end
        else begin
-           if(matched_3_mem.mem[i / 4][27:14] < matched_3_mem.mem[i / 4][13:0] * 0.75) begin//dist < dist2
+           if(u_core.matched_3_mem.mem[i / 4][27:14] < u_core.matched_3_mem.mem[i / 4][13:0] * 0.75) begin//dist < dist2
                // programOutput[match_succeed_num] = {target_3.mem[i / 4][402:394], target_3.mem[i / 4][393:384], matched_3.mem[i / 4][46:38], matched_3.mem[i / 4][37:28]};
-               $display("%d %d %d %d", target_3_mem.mem[i / 4][402:394], target_3_mem.mem[i / 4][393:384], matched_3_mem.mem[i / 4][46:38], matched_3_mem.mem[i / 4][37:28]);
+               $display("%d %d %d %d", u_core.target_3_mem.mem[i / 4][402:394], u_core.target_3_mem.mem[i / 4][393:384], u_core.matched_3_mem.mem[i / 4][46:38], u_core.matched_3_mem.mem[i / 4][37:28]);
                // match_succeed_num = match_succeed_num + 1;
            end
        end    
