@@ -389,6 +389,7 @@ initial begin
       @(negedge clk);
   end
   $display("========= Compute and Match DONE =========");
+  $display("%d", targetKptNum);
    // match_succeed_num = 0;
    // ansFile = $fscanf("")
    // rc = $fscanf(ansFile, "%d", match_succeed_num_ANS);
