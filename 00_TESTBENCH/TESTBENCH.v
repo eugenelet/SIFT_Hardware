@@ -381,9 +381,11 @@ initial begin
   $fclose(kpt_layer2);
   $fclose(kp_errorFile);
 
-
+  $display("layer1_num : %d", u_core.u_match.layer1_num);
+  $display("layer2_num : %d", u_core.u_match.layer2_num);
+  $display("img_group_num : %d", u_core.u_match.img_group_num);
   while(!u_core.compute_match_done) begin
-      $display("%d", u_core.u_match.img_group_counter);
+      $display("img_group_counter : %d", u_core.u_match.img_group_counter);
       @(negedge clk);
   end
   $display("========= Compute and Match DONE =========");
