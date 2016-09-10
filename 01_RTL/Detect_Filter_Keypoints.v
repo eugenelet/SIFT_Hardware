@@ -331,6 +331,8 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     keypoint_1_din <= 1'b0;
+  else if (current_state==ST_NO_FILTER && !filter_on && is_keypoint[0])
+    keypoint_1_din <= {img_addr - 1, current_col};
   else if (current_state==ST_FILTER && valid_keypoint[0] && is_keypoint[0])
     keypoint_1_din <= {img_addr - 1, current_col};
 end
@@ -338,6 +340,8 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     keypoint_2_din <= 1'b0;
+  else if (current_state==ST_NO_FILTER && !filter_on && is_keypoint[1])
+    keypoint_2_din <= {img_addr - 1, current_col};
   else if (current_state==ST_FILTER && valid_keypoint[1] && is_keypoint[1])
     keypoint_2_din <= {img_addr - 1, current_col};
 end
