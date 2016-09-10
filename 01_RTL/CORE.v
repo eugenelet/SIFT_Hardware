@@ -2,17 +2,15 @@
 module CORE(
     clk,
     rst_n,
-    in_valid,
-    in_data,
-    out_valid,
-    out_data
+    start,
+    filter_on,
+    filter_threshold
 );
     input           clk;
     input           rst_n;
-    input           in_valid;/*USED AS START SIGNAL FOR NOW*/
-    input   [15:0]  in_data;
-    output          out_valid;
-    output  [15:0]  out_data;
+    input           start;
+    input           filter_on;
+    input[3:0]      filter_threshold;
 
     /*FSM*/
     reg         [2:0] current_state,
@@ -280,8 +278,6 @@ module CORE(
     wire           detect_filter_buffer_we;
     wire  [10:0]   detect_filter_keypoint_1_addr,
                    detect_filter_keypoint_2_addr;
-    reg            filter_on;
-
     Detect_Filter_Keypoints u_detect_filter_keypoints(
       .clk              (clk),
       .rst_n            (rst_n),
@@ -314,7 +310,8 @@ module CORE(
       .keypoint_2_we    (keypoint_2_we),
       .keypoint_2_addr  (detect_filter_keypoint_2_addr),
       .keypoint_2_din   (keypoint_2_din),
-      .filter_on        (filter_on)
+      .filter_on        (filter_on),
+      .filter_threshold (filter_threshold)
     );
 
     reg [10:0]  keypoint_num_1;
@@ -483,7 +480,7 @@ module CORE(
     always @(*) begin
       case(current_state)
         ST_IDLE: begin
-          if(in_valid)
+          if(start)
             next_state = ST_GAUSSIAN;
           else
             next_state = ST_IDLE;

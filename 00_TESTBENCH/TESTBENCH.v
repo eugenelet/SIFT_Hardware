@@ -27,43 +27,22 @@ end
 
 reg           clk;
 reg           rst_n;
-reg           in_valid;
-wire  [15:0]  in_data;
-wire          out_valid;
-wire  [15:0]  out_data;
-
-
+reg           start;
+reg           filter_on;
+reg[3:0]      filter_threshold;
 
 
 initial clk = 0;
 always #(`CLK_PERIOD/2) clk = ~clk;
 
-/*initial begin
-  rst_n = 1;
-  repeat(3) @(negedge clk);
-  rst_n = 0;
-  @(negedge clk);
-  rst_n = 1;
-end*/
 
-/*integer counter;
-initial begin
-  for(counter=0;counter<`MAX_LATENCY;counter=counter+1)
-    @(negedge clk);
-  
-  $display("");
-  $display("FAIL: simulation time over %d cycles!!",`MAX_LATENCY);
-  $display("");
-  $finish;
-end*/
 
 CORE u_core(
-  clk,
-  rst_n,
-  in_valid,
-  in_data,
-  out_valid,
-  out_data
+  .clk              (clk),
+  .rst_n            (rst_n),
+  .start            (start),
+  .filter_on        (filter_on),
+  .filter_threshold (filter_threshold)
 );
 
 
@@ -86,23 +65,21 @@ integer temp;
 integer cycleCount;
 initial begin
   rst_n     = 1;
-  in_valid  = 0;
+  start  = 0;
   imageFile  = $fopen("originalImage.txt","r");
-  u_core.filter_on = 0; /*Turns filter on*/
+  filter_on = 0; /*Turns filter on*/
+  filter_threshold = 6; /*Sets fitler threshold*/
 
-  // repeat(5) @(negedge clk);
-  
   for(i=0;i<`ROWS;i=i+1) begin
     for(j=0;j<`COLS*8;j=j+1) begin
       u_core.ori_img.mem[i][j] = 1'b1;
-      // $display("test:%d", originalImage[i][j]);
     end
   end 
+
   // read test pattern from file
   for(i=0;i<`ROWS;i=i+1) begin
     for(j=1;j<=`COLS;j=j+1) begin
       rc=$fscanf(imageFile,"%d",u_core.ori_img.mem[i][j*8-1-:8]);
-      // $display("i:%d j:%d valuee:%d", i, j, originalImage[i][j*8-1-:8]);
     end
   end 
   $fclose(imageFile);
@@ -111,10 +88,9 @@ initial begin
   rst_n     = 0;
   @(negedge clk);
   rst_n     = 1;
-  in_valid  = 1;
+  start  = 1;
 
   // repeat(1000) @(negedge clk);
-  $display("test!");
   cycleCount = 0;
   while(!u_core.gaussian_done[0]) begin
     @(negedge clk);

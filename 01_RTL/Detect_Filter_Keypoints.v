@@ -34,14 +34,16 @@ module Detect_Filter_Keypoints(
   keypoint_2_we,
   keypoint_2_addr,
   keypoint_2_din,
-  filter_on
+  filter_on,
+  filter_threshold
 );
 /*SYSTEM*/
-input                 clk,
-                      rst_n,
-                      start,
-                      filter_on;
-output                done;
+input        clk,
+             rst_n,
+             start,
+             filter_on;
+input[3:0]   filter_threshold;
+output       done;
 
 /*To line Buffer*/
 output               buffer_we;
@@ -278,11 +280,12 @@ always @(*) begin
 end
 
 filter_keypoint u_filter_keypoint(
-  .current_col    (current_col),
-  .top_row        (top_row),
-  .mid_row        (mid_row),
-  .btm_row        (btm_row),
-  .valid_keypoint (filter_valid)
+  .current_col      (current_col),
+  .top_row          (top_row),
+  .mid_row          (mid_row),
+  .btm_row          (btm_row),
+  .valid_keypoint   (filter_valid),
+  .filter_threshold (filter_threshold)
 );
 
 
