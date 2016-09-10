@@ -238,14 +238,14 @@ wire          filter_valid;
 
 always @(*) begin
   /*2 Keypoints*/
-  if (keypoint_count==2 && filter_count==0) begin
+  if (current_state==ST_FILTER && keypoint_count==2 && filter_count==0) begin
     top_row = buffer_data_3;
     mid_row = buffer_data_2;
     btm_row = blur3x3_dout;
     valid_keypoint[0] = filter_valid;
     valid_keypoint[1] = 0;
   end
-  else if (keypoint_count==2 && filter_count==1) begin
+  else if (current_state==ST_FILTER && keypoint_count==2 && filter_count==1) begin
     top_row = buffer_data_5;
     mid_row = buffer_data_4;
     btm_row = blur5x5_1_dout;
@@ -253,14 +253,14 @@ always @(*) begin
     valid_keypoint[1] = filter_valid;
   end
   /*Only 1 Keypoint*/  
-  else if (is_keypoint[0]) begin
+  else if (current_state==ST_FILTER && is_keypoint[0]) begin
     top_row = buffer_data_3;
     mid_row = buffer_data_2;
     btm_row = blur3x3_dout;
     valid_keypoint[0] = filter_valid;
     valid_keypoint[1] = 0;
   end
-  else if (is_keypoint[1]) begin
+  else if (current_state==ST_FILTER && is_keypoint[1]) begin
     top_row = buffer_data_5;
     mid_row = buffer_data_4;
     btm_row = blur5x5_1_dout;
