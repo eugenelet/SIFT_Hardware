@@ -34,11 +34,13 @@ module Detect_Filter_Keypoints(
   keypoint_2_we,
   keypoint_2_addr,
   keypoint_2_din,
+  filter_on
 );
 /*SYSTEM*/
 input                 clk,
                       rst_n,
-                      start;
+                      start,
+                      filter_on;
 output                done;
 
 /*To line Buffer*/
@@ -86,12 +88,13 @@ reg         [2:0] current_state,
 
 
 /*Module FSM*/
-parameter ST_IDLE   = 0,
-          ST_READY  = 1,/*Idle 1 state for SRAM to get READY*/
-          ST_DETECT = 2,
-          ST_FILTER = 3,
-          ST_UPDATE = 4,/*Grants a cycle to update MEM addr*/
-          ST_BUFFER = 5;/*Grants buffer a cycle to update*/
+parameter ST_IDLE       = 0,
+          ST_READY      = 1,/*Idle 1 state for SRAM to get READY*/
+          ST_DETECT     = 2,
+          ST_NO_FILTER  = 3,
+          ST_FILTER     = 4,
+          ST_UPDATE     = 5,/*Grants a cycle to update MEM addr*/
+          ST_BUFFER     = 6;/*Grants buffer a cycle to update*/
 
 assign done = (img_addr=='d480) ? 1 : 0;
 
@@ -160,16 +163,6 @@ end
 /*Counter for current column*/
 reg   [9:0] current_col;
 wire   [1:0] is_keypoint;
-always @(posedge clk) begin
-  if (!rst_n) 
-    current_col <= 'd1;    
-  else if ((current_state==ST_FILTER || (current_state==ST_DETECT && !(|is_keypoint))) && current_col < 'd639) /*if no keypoints found*/
-    current_col <= current_col + 1;
-  else if (current_state==ST_UPDATE || current_state==ST_IDLE)
-    current_col <= 'd1;
-end
-
-
 detect_keypoint u_detect_keypoint_0(
   .layer_0_0        (buffer_data_1),
   .layer_0_1        (buffer_data_0),
@@ -223,6 +216,18 @@ always @(posedge clk) begin
     filter_count <= filter_count + 1;
   else if (current_state==ST_UPDATE)
     filter_count <= 0;
+end
+
+
+always @(posedge clk) begin
+  if (!rst_n) 
+    current_col <= 'd1;    
+  else if (( (current_state==ST_FILTER && filter_count==(keypoint_count-1)) ||
+             (current_state==ST_NO_FILTER ||
+             (current_state==ST_DETECT && !(|is_keypoint))) && current_col < 'd639) /*if no keypoints found*/
+    current_col <= current_col + 1;
+  else if (current_state==ST_UPDATE || current_state==ST_IDLE)
+    current_col <= 'd1;
 end
 
 reg[5119:0]   top_row,
@@ -296,6 +301,8 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     keypoint_1_we <= 1'b0;
+  else if (current_state==ST_NO_FILTER && !filter_on && is_keypoint[0])
+    keypoint_1_we <= 1'b1;
   else if (current_state==ST_FILTER && valid_keypoint[0] && is_keypoint[0])
     keypoint_1_we <= 1'b1;
   else
@@ -305,6 +312,8 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     keypoint_2_we <= 1'b0;
+  else if (current_state==ST_NO_FILTER && !filter_on && is_keypoint[1])
+    keypoint_2_we <= 1'b1;
   else if (current_state==ST_FILTER && valid_keypoint[1] && is_keypoint[1])
     keypoint_2_we <= 1'b1;
   else
@@ -355,12 +364,22 @@ always @(*) begin
         next_state = ST_READY;
     end
     ST_DETECT: begin
-      if(|is_keypoint)
+      if(|is_keypoint && filter_on)
         next_state = ST_FILTER;
+      else if(|is_keypoint)
+        next_state = ST_NO_FILTER;
       else if(current_col=='d639)
         next_state = ST_UPDATE;
       else
         next_state = ST_DETECT;
+    end
+    ST_NO_FILTER: begin
+      else if(current_col == 'd639)
+        next_state = ST_UPDATE;
+      else if(current_col < 'd639)
+        next_state = ST_DETECT;
+      else 
+        next_state = ST_NO_FILTER;
     end
     ST_FILTER: begin
       if(filter_count < keypoint_count)

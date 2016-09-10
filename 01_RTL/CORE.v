@@ -100,10 +100,8 @@ module CORE(
       .dout (keypoint_2_dout)
     );
     
-    ////////////////////////////// target memory
-    
+    /*SRAM for Target*/
     wire  [8:0]    target_addr;//shared
-    
     wire           target_0_we;
     wire  [402:0]  target_0_din;
     wire  [402:0]  target_0_dout;
@@ -148,8 +146,7 @@ module CORE(
       .dout (target_3_dout)
     );
     
-    ////////////////////////////// matched memory
-    
+    /*SRAM for Matched*/
     wire  [8:0]  matched_addr1, matched_addr2;//shared
     wire  [3:0]   matched_we;//write din to addr1
     
@@ -201,8 +198,7 @@ module CORE(
       .dout2(matched_3_dout)
     );
 
-    ////////////////////////////// Line Buffer
-    
+    /*Line Buffer*/    
     wire    [5119:0]  buffer_data_0;
     wire    [5119:0]  buffer_data_1;
     wire    [5119:0]  buffer_data_2;
@@ -242,7 +238,7 @@ module CORE(
       .buffer_data_9  (buffer_data_9)
     );
 
-    wire    gaussian_start = (current_state==ST_GAUSSIAN)?1:0;
+    wire           gaussian_start = (current_state==ST_GAUSSIAN)?1:0;
     wire  [8:0]    gaussian_blur_addr  [0:3];
     wire  [8:0]    gaussian_img_addr;
     wire  [3:0]    gaussian_done;
@@ -284,6 +280,7 @@ module CORE(
     wire           detect_filter_buffer_we;
     wire  [10:0]   detect_filter_keypoint_1_addr,
                    detect_filter_keypoint_2_addr;
+    reg            filter_on;
 
     Detect_Filter_Keypoints u_detect_filter_keypoints(
       .clk              (clk),
@@ -316,7 +313,8 @@ module CORE(
       .keypoint_1_din   (keypoint_1_din),
       .keypoint_2_we    (keypoint_2_we),
       .keypoint_2_addr  (detect_filter_keypoint_2_addr),
-      .keypoint_2_din   (keypoint_2_din)
+      .keypoint_2_din   (keypoint_2_din),
+      .filter_on        (filter_on)
     );
 
     reg [10:0]  keypoint_num_1;
