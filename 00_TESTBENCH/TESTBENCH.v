@@ -69,7 +69,7 @@ initial begin
   imageFile  = $fopen("originalImage.txt","r");
   filter_on = 1; /*Turns filter on*/
   filter_threshold = 'd6; /*Sets fitler threshold*/
-
+  u_core.u_detect_filter_keypoints.u_filter_keypoint.test = 6;
   for(i=0;i<`ROWS;i=i+1) begin
     for(j=0;j<`COLS*8;j=j+1) begin
       u_core.ori_img.mem[i][j] = 1'b1;
