@@ -271,13 +271,6 @@ module CORE(
       .fill_zero      (gaussian_fill_zero[0])
     );
 
-    reg[3:0] filter_thres;
-    always @(posedge clk) begin
-      if (!rst_n) 
-        filter_thres <= 0;        
-      else if (current_state==ST_IDLE)
-        filter_thres <= filter_threshold;
-    end
 
     wire           detect_filter_start = (current_state==ST_DETECT_FILTER) ? 1:0;
     wire           detect_filter_done;
@@ -319,7 +312,7 @@ module CORE(
       .keypoint_2_addr  (detect_filter_keypoint_2_addr),
       .keypoint_2_din   (keypoint_2_din),
       .filter_on        (filter_on),
-      .filter_threshold (filter_thres)
+      .filter_threshold (filter_threshold)
     );
 
     reg [10:0]  keypoint_num_1;
