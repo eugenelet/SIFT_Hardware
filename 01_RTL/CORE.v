@@ -10,7 +10,7 @@ module CORE(
     input           rst_n;
     input           start;
     input           filter_on;
-    input[3:0]      filter_threshold;
+    input[7:0]      filter_threshold;
 
     /*FSM*/
     reg         [2:0] current_state,
