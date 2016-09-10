@@ -325,9 +325,15 @@ initial begin
 
 
   cycleCount = 0;
+  filterCount = 0;
+  detectCount = 0;
   while(!u_core.detect_filter_done) begin
     @(negedge clk);
     cycleCount = cycleCount + 1;
+    if(u_core.u_detect_filter_keypoints.current_state == ST_FILTER)
+      filterCount = filterCount + 1;
+    if(u_core.u_detect_filter_keypoints.current_state == ST_DETECT)
+      detectCount = detectCount + 1;
   end
 
   $display("========= Detect & Filter DONE =========");
@@ -350,7 +356,7 @@ initial begin
     error = 0;
   end
 
-  for(i=0; i < u_core.u_detect_filter_keypoints.keypoint_2_addr + 1; i=i+1) begin
+  for(i=0; i < u_core.u_detect_filter_keypoints.keypoint_2_addr; i=i+1) begin
     $fwrite(kpt_layer2, "%d %d\n", u_core.keypoint_2_mem.mem[i][18:10], u_core.keypoint_2_mem.mem[i][9:0]);
     dummy = $fscanf(kpt_layer2_ans,"%d",ans1);
     error1 = u_core.keypoint_2_mem.mem[i][18:10] - ans1;
@@ -364,6 +370,9 @@ initial begin
   $fclose(kpt_layer2);
   $fclose(kp_errorFile);
 
+
+  $display("Detect Cycle : %d", detectCount);
+  $display("Filter Cycle : %d", filterCount);
   $display("layer1_num : %d", u_core.u_match.layer1_num);
   $display("layer2_num : %d", u_core.u_match.layer2_num);
   $display("img_group_num : %d", u_core.u_match.img_descpt_group_num);
