@@ -11,7 +11,7 @@ input[5119:0]    top_row;
 input[5119:0]    mid_row;
 input[5119:0]    btm_row;
 input[9:0]      current_col;
-input[3:0]      filter_threshold;   
+input[8:0]      filter_threshold;   
 
 output          valid_keypoint;
 

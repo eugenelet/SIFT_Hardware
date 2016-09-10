@@ -39,7 +39,7 @@ reg           clk;
 reg           rst_n;
 reg           start;
 reg           filter_on;
-reg[3:0]      filter_threshold;
+reg[8:0]      filter_threshold;
 
 
 initial clk = 0;
