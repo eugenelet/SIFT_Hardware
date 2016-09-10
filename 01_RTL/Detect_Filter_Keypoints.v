@@ -214,7 +214,7 @@ always @(posedge clk) begin
     filter_count <= 0;    
   else if (current_state==ST_FILTER && filter_count<keypoint_count) 
     filter_count <= filter_count + 1;
-  else if (current_state==ST_UPDATE)
+  else if (current_state==ST_UPDATE || current_state==ST_DETECT)
     filter_count <= 0;
 end
 
@@ -224,7 +224,7 @@ always @(posedge clk) begin
     current_col <= 'd1;    
   else if (( (current_state==ST_FILTER && filter_count==(keypoint_count-1)) ||
               current_state==ST_NO_FILTER ||
-             (current_state==ST_DETECT && !(|is_keypoint))) && current_col < 'd639) /*if no keypoints found*/
+             (current_state==ST_DETECT && !(|is_keypoint)) ) && current_col < 'd639) /*if no keypoints found*/
     current_col <= current_col + 1;
   else if (current_state==ST_UPDATE || current_state==ST_IDLE)
     current_col <= 'd1;
