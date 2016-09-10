@@ -216,20 +216,20 @@ module CORE(
     reg               buffer_we; /*wire*/
     reg               fill_zero;  /*wire*/
     reg     [5119:0]  buffer_in;
+    wire              buffer_mode = (current_state==ST_DETECT_FILTER) ? 1 : 0;
     // wire              buffer_mode = (gaussian_done)?L_IDLE:L_GAUSSIAN;
     /*System Line Buffer*/
     Line_Buffer_10 l_buf_10(
       .clk            (clk),
       .rst_n          (rst_n),
-      .buffer_mode    (current_state),
+      .buffer_mode    (buffer_mode),
       .buffer_we      (buffer_we),
-      .in_data        (buffer_in),
-      .img_data       (img_dout),
       .fill_zero      (fill_zero),
-      .blur_data_0    (blur_dout[0]),
-      .blur_data_1    (blur_dout[1]),
-      .blur_data_2    (blur_dout[2]),
-      .blur_data_3    (blur_dout[3]),
+      .in_data0       (buffer_in),
+      .in_data1       (blur_dout[0]),
+      .in_data2       (blur_dout[1]),
+      .in_data3       (blur_dout[2]),
+      .in_data4       (blur_dout[3]),
       .buffer_data_0  (buffer_data_0),
       .buffer_data_1  (buffer_data_1),
       .buffer_data_2  (buffer_data_2),
@@ -426,7 +426,7 @@ module CORE(
           fill_zero = |gaussian_fill_zero;
           keypoint_1_addr = 0;
           keypoint_2_addr = 0;
-          buffer_in = 0;
+          buffer_in = img_dout;
         end
       ST_DETECT_FILTER: begin
         blur_addr[0] = detect_filter_blur_addr[0];  
@@ -438,7 +438,7 @@ module CORE(
         fill_zero = 0;
         keypoint_1_addr = detect_filter_keypoint_1_addr;
         keypoint_2_addr = detect_filter_keypoint_2_addr;
-        buffer_in = 0;
+        buffer_in = img_dout;
       end
       ST_COMPUTE_MATCH: begin
         blur_addr[0] = blurred_addr;  

@@ -4,13 +4,12 @@ module Line_Buffer_10(
   rst_n,
   buffer_mode,
   buffer_we,
-  in_data,
-  img_data,
   fill_zero,
-  blur_data_0,
-  blur_data_1,
-  blur_data_2,
-  blur_data_3,
+  in_data0,
+  in_data1,
+  in_data2,
+  in_data3,
+  in_data4,
   buffer_data_0,
   buffer_data_1,
   buffer_data_2,
@@ -27,16 +26,15 @@ input                 clk,
                       rst_n;
 
 /*From SRAM*/
-input       [5119:0]  in_data;
-input       [5119:0]  img_data;
-input       [5119:0]  blur_data_0;
-input       [5119:0]  blur_data_1;
-input       [5119:0]  blur_data_2;
-input       [5119:0]  blur_data_3;
+input       [5119:0]  in_data0;
+input       [5119:0]  in_data1;
+input       [5119:0]  in_data2;
+input       [5119:0]  in_data3;
+input       [5119:0]  in_data4;
 /*From Working Module*/
-input       [2:0]     buffer_mode;
+input                 buffer_mode; /*0: 10 regs as a group   1: 5 groups, 2 each*/
 input                 buffer_we;
-input                 fill_zero;
+input                 fill_zero; /*Used in Gaussian blur & Match*/
 
 /*BUFFER OUT*/
 output reg  [5119:0]  buffer_data_0;
@@ -50,90 +48,54 @@ output reg  [5119:0]  buffer_data_7;
 output reg  [5119:0]  buffer_data_8;
 output reg  [5119:0]  buffer_data_9;
 
-/*System State*/
-parameter         SYS_IDLE          = 0,
-                  SYS_GAUSSIAN      = 1,
-                  SYS_DETECT_FILTER = 2,
-                  SYS_COMPUTE_MATCH = 3,
-                  SYS_END           = 4; //FOR DEBUG
-
-
-
-
 
 always @(posedge clk) begin
   if (!rst_n) 
-    buffer_data_0 <= 'd0;    
-  else if (buffer_mode==SYS_IDLE)
     buffer_data_0 <= 'd0;
-  else if (buffer_mode==SYS_GAUSSIAN && fill_zero)
+  else if (!buffer_mode && fill_zero)
     buffer_data_0 <= 'd0;
-  else if (buffer_mode==SYS_GAUSSIAN && buffer_we)
-    buffer_data_0 <= img_data;
-  else if (buffer_mode==SYS_DETECT_FILTER && buffer_we)
-    buffer_data_0 <= img_data;
-  else if (buffer_mode==SYS_COMPUTE_MATCH && fill_zero)
-    buffer_data_0 <= 0;
-  else if (buffer_mode==SYS_COMPUTE_MATCH && buffer_we)
-    buffer_data_0 <= in_data;
+  else if (!buffer_mode && buffer_we)
+    buffer_data_0 <= in_data0;
+  else if (buffer_mode && buffer_we)
+    buffer_data_0 <= in_data0;
 end
 
 always @(posedge clk) begin
   if (!rst_n) 
-    buffer_data_1 <= 'd0;    
-  else if (buffer_mode==SYS_IDLE)
-    buffer_data_1 <= 'd0;
-  else if (buffer_mode==SYS_GAUSSIAN && buffer_we)
-    buffer_data_1 <= buffer_data_0;
-  else if (buffer_mode==SYS_DETECT_FILTER && buffer_we)
-    buffer_data_1 <= buffer_data_0;
-  else if (buffer_mode==SYS_COMPUTE_MATCH && buffer_we)
+    buffer_data_1 <= 'd0; 
+  else if (buffer_we)
     buffer_data_1 <= buffer_data_0;
 end
 
 always @(posedge clk) begin
   if (!rst_n) 
     buffer_data_2 <= 'd0;    
-  else if (buffer_mode==SYS_IDLE)
-    buffer_data_2 <= 'd0;
-  else if (buffer_mode==SYS_GAUSSIAN && buffer_we)
+  else if (!buffer_mode && buffer_we)
     buffer_data_2 <= buffer_data_1;
-  else if (buffer_mode==SYS_DETECT_FILTER && buffer_we)
-    buffer_data_2 <= blur_data_0;
-  else if (buffer_mode==SYS_COMPUTE_MATCH && buffer_we)
-    buffer_data_2 <= buffer_data_1;
+  else if (buffer_mode && buffer_we)
+    buffer_data_2 <= in_data1;
 end
 
 always @(posedge clk) begin
   if (!rst_n) 
     buffer_data_3 <= 'd0;    
-  else if (buffer_mode==SYS_IDLE)
-    buffer_data_3 <= 'd0;
-  else if (buffer_mode==SYS_GAUSSIAN && buffer_we)
-    buffer_data_3 <= buffer_data_2;
-  else if (buffer_mode==SYS_DETECT_FILTER && buffer_we)
+  else if (buffer_we)
     buffer_data_3 <= buffer_data_2;
 end
 
 always @(posedge clk) begin
   if (!rst_n) 
     buffer_data_4 <= 'd0;    
-  else if (buffer_mode==SYS_IDLE)
-    buffer_data_4 <= 'd0;
-  else if (buffer_mode==SYS_GAUSSIAN && buffer_we)
+  else if (!buffer_mode && buffer_we)
     buffer_data_4 <= buffer_data_3;
-  else if (buffer_mode==SYS_DETECT_FILTER && buffer_we)
-    buffer_data_4 <= blur_data_1;
+  else if (buffer_mode && buffer_we)
+    buffer_data_4 <= in_data2;
 end
 
 always @(posedge clk) begin
   if (!rst_n) 
     buffer_data_5 <= 'd0;    
-  else if (buffer_mode==SYS_IDLE)
-    buffer_data_5 <= 'd0;
-  else if (buffer_mode==SYS_GAUSSIAN && buffer_we)
-    buffer_data_5 <= buffer_data_4;
-  else if (buffer_mode==SYS_DETECT_FILTER && buffer_we)
+  else if (buffer_we)
     buffer_data_5 <= buffer_data_4;
 end
 
@@ -141,36 +103,32 @@ end
 always @(posedge clk) begin
   if (!rst_n) 
     buffer_data_6 <= 'd0;    
-  else if (buffer_mode==SYS_IDLE)
-    buffer_data_6 <= 'd0;
-  else if (buffer_mode==SYS_DETECT_FILTER && buffer_we)
-    buffer_data_6 <= blur_data_2;
+  else if (!buffer_mode && buffer_we)
+    buffer_data_6 <= buffer_data_5;
+  else if (buffer_mode && buffer_we)
+    buffer_data_6 <= in_data3;
 end
 
 always @(posedge clk) begin
   if (!rst_n) 
     buffer_data_7 <= 'd0;    
-  else if (buffer_mode==SYS_IDLE)
-    buffer_data_7 <= 'd0;
-  else if (buffer_mode==SYS_DETECT_FILTER && buffer_we)
+  else if (buffer_we)
     buffer_data_7 <= buffer_data_6;
 end
 
 always @(posedge clk) begin
   if (!rst_n) 
     buffer_data_8 <= 'd0;    
-  else if (buffer_mode==SYS_IDLE)
-    buffer_data_8 <= 'd0;
-  else if (buffer_mode==SYS_DETECT_FILTER && buffer_we)
-    buffer_data_8 <= blur_data_3;
+  else if (!buffer_mode && buffer_we)
+    buffer_data_8 <= buffer_data_7;
+  else if (buffer_mode && buffer_we)
+    buffer_data_8 <= in_data4;
 end
 
 always @(posedge clk) begin
   if (!rst_n) 
     buffer_data_9 <= 'd0;    
-  else if (buffer_mode==SYS_IDLE)
-    buffer_data_9 <= 'd0;
-  else if (buffer_mode==SYS_DETECT_FILTER && buffer_we)
+  else if (buffer_we)
     buffer_data_9 <= buffer_data_8;
 end
 
