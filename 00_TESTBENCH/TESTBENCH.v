@@ -463,36 +463,4 @@ initial begin
 end
 
 
-
-/*
-`ifdef RTL
-CORE u_core(
-  clk,
-  rst_n,
-  in_valid,
-  in_data,
-  out_valid,
-  out_data
-);
-`endif
-`ifdef GATE
-CORE u_core(
-  clk,
-  rst_n,
-  in_valid,
-  in_data,
-  out_valid,
-  out_data
-);
-`endif
-`ifdef POST
-CHIP u_chip(
-  clk,
-  rst_n,
-  in_valid,
-  in_data,
-  out_valid,
-  out_data
-);
-`endif*/
 endmodule 
