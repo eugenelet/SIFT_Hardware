@@ -267,6 +267,14 @@ always @(*) begin
     valid_keypoint[0] = 0;
     valid_keypoint[1] = filter_valid;
   end
+  else begin
+    top_row = 0;
+    mid_row = 0;
+    btm_row = 0;
+    valid_keypoint[0] = 0;
+    valid_keypoint[1] = 0;
+    
+  end
 end
 
 filter_keypoint u_filter_keypoint(
