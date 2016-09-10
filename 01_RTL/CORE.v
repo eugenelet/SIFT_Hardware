@@ -319,7 +319,7 @@ module CORE(
       .keypoint_2_addr  (detect_filter_keypoint_2_addr),
       .keypoint_2_din   (keypoint_2_din),
       .filter_on        (filter_on),
-      .filter_threshold (filter_threshold)
+      .filter_threshold (filter_thres)
     );
 
     reg [10:0]  keypoint_num_1;
