@@ -35,11 +35,11 @@ initial begin
   `endif
 end
 
-reg           clk;
-reg           rst_n;
-reg           start;
-reg           filter_on;
-reg[8:0]      filter_threshold;
+reg             clk;
+reg             rst_n;
+reg             start;
+reg             filter_on;
+reg signed[9:0] filter_threshold;
 
 
 initial clk = 0;

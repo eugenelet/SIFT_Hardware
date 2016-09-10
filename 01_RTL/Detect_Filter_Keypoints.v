@@ -38,11 +38,11 @@ module Detect_Filter_Keypoints(
   filter_threshold
 );
 /*SYSTEM*/
-input        clk,
-             rst_n,
-             start,
-             filter_on;
-input[8:0]   filter_threshold;
+input             clk,
+                  rst_n,
+                  start,
+                  filter_on;
+input signed[9:0] filter_threshold;
 output       done;
 
 /*To line Buffer*/

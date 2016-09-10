@@ -7,28 +7,28 @@ module filter_keypoint(
   filter_threshold
 );
 
-input[5119:0]    top_row;
-input[5119:0]    mid_row;
-input[5119:0]    btm_row;
-input[9:0]      current_col;
-input[8:0]      filter_threshold;   
+input[5119:0]     top_row;
+input[5119:0]     mid_row;
+input[5119:0]     btm_row;
+input[9:0]        current_col;
+input signed[9:0] filter_threshold;   
 
 output          valid_keypoint;
 
-reg  [7:0]     top[0:2],
+reg signed[8:0] top[0:2],
                 mid[0:2],
                 btm[0:2];
 
 
-wire[7:0] top_0 = top[0];
-wire[7:0] top_1 = top[1];
-wire[7:0] top_2 = top[2];
-wire[7:0] mid_0 = mid[0];
-wire[7:0] mid_1 = mid[1];
-wire[7:0] mid_2 = mid[2];
-wire[7:0] btm_0 = btm[0];
-wire[7:0] btm_1 = btm[1];
-wire[7:0] btm_2 = btm[2];
+wire signed [8:0] top_0 = top[0];
+wire signed [8:0] top_1 = top[1];
+wire signed [8:0] top_2 = top[2];
+wire signed [8:0] mid_0 = mid[0];
+wire signed [8:0] mid_1 = mid[1];
+wire signed [8:0] mid_2 = mid[2];
+wire signed [8:0] btm_0 = btm[0];
+wire signed [8:0] btm_1 = btm[1];
+wire signed [8:0] btm_2 = btm[2];
 
 always@(*) begin
   case(current_col)
