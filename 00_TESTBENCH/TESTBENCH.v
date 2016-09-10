@@ -88,7 +88,7 @@ initial begin
   rst_n     = 1;
   in_valid  = 0;
   imageFile  = $fopen("originalImage.txt","r");
-  u_core.filter_on = 1; /*Turns filter on*/
+  u_core.filter_on = 0; /*Turns filter on*/
 
   // repeat(5) @(negedge clk);
   
