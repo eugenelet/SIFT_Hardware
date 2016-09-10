@@ -7,6 +7,16 @@
 `define CLK_PERIOD  10.0
 
 module TESTBENCH();
+
+/*Module FSM*/
+parameter ST_IDLE       = 0,
+          ST_READY      = 1,/*Idle 1 state for SRAM to get READY*/
+          ST_DETECT     = 2,
+          ST_NO_FILTER  = 3,
+          ST_FILTER     = 4,
+          ST_UPDATE     = 5,/*Grants a cycle to update MEM addr*/
+          ST_BUFFER     = 6;/*Grants buffer a cycle to update*/
+
 initial begin
   `ifdef GATE
     $sdf_annotate("CORE_syn.sdf",u_core);
