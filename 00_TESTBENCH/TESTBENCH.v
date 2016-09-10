@@ -357,9 +357,9 @@ initial begin
   kpt_layer2 = $fopen("kpt2_RTL.txt", "w");
   for(i=0; i < u_core.u_detect_filter_keypoints.keypoint_1_addr; i=i+1) begin
     $fwrite(kpt_layer1, "%d %d\n", u_core.keypoint_1_mem.mem[i][18:10], u_core.keypoint_1_mem.mem[i][9:0]);
-    dummy = $fscanf(kpt_layer1_ans,"%d",tmp);
+    dummy = $fscanf(kpt_layer1_ans,"%d",ans1);
     error1 = u_core.keypoint_1_mem.mem[i][18:10] - ans1;
-    dummy = $fscanf(kpt_layer1_ans,"%d",tmp);
+    dummy = $fscanf(kpt_layer1_ans,"%d",ans2);
     error2 = u_core.keypoint_1_mem.mem[i][9:0] - ans2;
     if(error1!=0 || error2!=0)
       $fwrite(kp_errorFile, "row:%d col:%d ans_row:%d ans_col:%d error:%d %d\n",u_core.keypoint_1_mem.mem[i][18:10], u_core.keypoint_1_mem.mem[i][9:0], ans1, ans2, error1,error2);
