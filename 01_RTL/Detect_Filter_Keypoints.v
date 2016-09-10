@@ -390,7 +390,7 @@ always @(*) begin
         next_state = ST_NO_FILTER;
     end
     ST_FILTER: begin
-      if(filter_count < keypoint_count)
+      if(filter_count < keypoint_count - 1)
         next_state = ST_FILTER;
       else if(current_col == 'd639)
         next_state = ST_UPDATE;
