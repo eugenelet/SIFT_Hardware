@@ -67,7 +67,7 @@ initial begin
   rst_n     = 1;
   start  = 0;
   imageFile  = $fopen("originalImage.txt","r");
-  filter_on = 0; /*Turns filter on*/
+  filter_on = 1; /*Turns filter on*/
   filter_threshold = 6; /*Sets fitler threshold*/
 
   for(i=0;i<`ROWS;i=i+1) begin
