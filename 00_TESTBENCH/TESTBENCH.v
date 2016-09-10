@@ -62,7 +62,7 @@ integer ans1, ans2;
 integer targetFile;
 integer targetKptNum;
 integer temp;
-integer cycleCount;
+integer cycleCount, detectCount, filterCount;
 initial begin
   rst_n     = 1;
   start  = 0;
