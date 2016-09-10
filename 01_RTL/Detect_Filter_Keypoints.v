@@ -205,52 +205,73 @@ detect_keypoint u_detect_keypoint_1(
   .is_keypoint      (is_keypoint[1])
 );
 
-
-/*reg [20:0] dog_addr_0;
-always @(posedge clk ) begin
-  if (!rst_n)
-    dog_addr_0 <= 0;
-  else if (current_state==ST_DETECT && is_keypoint[0])
-    dog_addr_0 <= dog_addr_0 + 1;
-end
-reg [20:0] dog_addr_1;
-always @(posedge clk ) begin
-  if (!rst_n)
-    dog_addr_1 <= 0;
-  else if (current_state==ST_DETECT && is_keypoint[1])
-    dog_addr_1 <= dog_addr_1 + 1;
+reg[1:0]  keypoint_count;
+always @(posedge clk) begin
+  if (!rst_n) 
+    keypoint_count <= 0;    
+  else if (current_state==ST_DETECT) 
+    keypoint_count <= is_keypoint[0] + is_keypoint[1];
+  else if (current_state==ST_UPDATE)
+    keypoint_count <= 0;
 end
 
-reg [18:0] dog_results_0[0:10000];
-always @(posedge clk ) begin
-  if (!rst_n)
-    dog_results_0[dog_addr_0] <= 0;
-  else if (current_state==ST_DETECT && is_keypoint[0])
-    dog_results_0[dog_addr_0] <= {img_addr - 1, current_col};
+reg[1:0] filter_count;
+always @(posedge clk) begin
+  if (!rst_n) 
+    filter_count <= 0;    
+  else if (current_state==ST_FILTER && filter_count<keypoint_count) 
+    filter_count <= filter_count + 1;
+  else if (current_state==ST_UPDATE)
+    filter_count <= 0;
 end
-reg [18:0] dog_results_1[0:10000];
-always @(posedge clk ) begin
-  if (!rst_n)
-    dog_results_1[dog_addr_1] <= 0;
-  else if (current_state==ST_DETECT && is_keypoint[1])
-    dog_results_1[dog_addr_1] <= {img_addr - 1, current_col};
-end*/
-wire  [1:0] valid_keypoint;
-filter_keypoint u_filter_keypoint_0(
+
+reg[5119:0]   top_row,
+              mid_row,
+              btm_row;
+reg[1:0]      valid_keypoint;
+wire          filter_valid;
+
+always @(*) begin
+  /*2 Keypoints*/
+  if (keypoint_count==2 && filter_count==0) begin
+    top_row = buffer_data_3;
+    mid_row = buffer_data_2;
+    btm_row = blur3x3_dout;
+    valid_keypoint[0] = filter_valid;
+    valid_keypoint[1] = 0;
+  end
+  else if (keypoint_count==2 && filter_count==1) begin
+    top_row = buffer_data_5;
+    mid_row = buffer_data_4;
+    btm_row = blur5x5_1_dout;
+    valid_keypoint[0] = 0;
+    valid_keypoint[1] = filter_valid;
+  end
+  /*Only 1 Keypoint*/  
+  else if (is_keypoint[0]) begin
+    top_row = buffer_data_3;
+    mid_row = buffer_data_2;
+    btm_row = blur3x3_dout;
+    valid_keypoint[0] = filter_valid;
+    valid_keypoint[1] = 0;
+  end
+  else if (is_keypoint[1]) begin
+    top_row = buffer_data_5;
+    mid_row = buffer_data_4;
+    btm_row = blur5x5_1_dout;
+    valid_keypoint[0] = 0;
+    valid_keypoint[1] = filter_valid;
+  end
+end
+
+filter_keypoint u_filter_keypoint(
   .current_col    (current_col),
-  .top_row        (buffer_data_3),
-  .mid_row        (buffer_data_2),
-  .btm_row        (blur3x3_dout),
-  .valid_keypoint (valid_keypoint[0])
+  .top_row        (top_row),
+  .mid_row        (mid_row),
+  .btm_row        (btm_row),
+  .valid_keypoint (filter_valid)
 );
 
-filter_keypoint u_filter_keypoint_1(
-  .current_col    (current_col),
-  .top_row        (buffer_data_5),
-  .mid_row        (buffer_data_4),
-  .btm_row        (blur5x5_1_dout),
-  .valid_keypoint (valid_keypoint[1])
-);
 
 
 /*Addr. increment done when current_state==ST_DETECT*/
@@ -342,7 +363,9 @@ always @(*) begin
         next_state = ST_DETECT;
     end
     ST_FILTER: begin
-      if(current_col == 'd639)
+      if(filter_count < keypoint_count)
+        next_state = ST_FILTER;
+      else if(current_col == 'd639)
         next_state = ST_UPDATE;
       else if(current_col < 'd639)
         next_state = ST_DETECT;
