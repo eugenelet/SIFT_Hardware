@@ -19,6 +19,17 @@ reg  [7:0]     top[0:2],
                 mid[0:2],
                 btm[0:2];
 
+
+wire[7:0] top_0 = top[0];
+wire[7:0] top_1 = top[1];
+wire[7:0] top_2 = top[2];
+wire[7:0] mid_0 = mid[0];
+wire[7:0] mid_1 = mid[1];
+wire[7:0] mid_2 = mid[2];
+wire[7:0] btm_0 = btm[0];
+wire[7:0] btm_1 = btm[1];
+wire[7:0] btm_2 = btm[2];
+
 always@(*) begin
   case(current_col)
     'd1: begin
