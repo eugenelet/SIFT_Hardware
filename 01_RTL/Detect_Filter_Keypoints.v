@@ -42,7 +42,7 @@ input        clk,
              rst_n,
              start,
              filter_on;
-input[7:0]   filter_threshold;
+input[3:0]   filter_threshold;
 output       done;
 
 /*To line Buffer*/

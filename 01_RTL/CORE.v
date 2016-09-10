@@ -10,7 +10,7 @@ module CORE(
     input           rst_n;
     input           start;
     input           filter_on;
-    input[7:0]      filter_threshold;
+    input[3:0]      filter_threshold;
 
     /*FSM*/
     reg         [2:0] current_state,
@@ -270,6 +270,14 @@ module CORE(
       .buffer_we      (gaussian_buffer_we),
       .fill_zero      (gaussian_fill_zero[0])
     );
+
+    reg[3:0] filter_thres;
+    always @(posedge clk) begin
+      if (!rst_n) 
+        filter_thres <= 0;        
+      else if (current_state==ST_IDLE)
+        filter_thres <= filter_threshold;
+    end
 
     wire           detect_filter_start = (current_state==ST_DETECT_FILTER) ? 1:0;
     wire           detect_filter_done;
