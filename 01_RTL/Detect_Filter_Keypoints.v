@@ -88,6 +88,7 @@ output reg    [18:0] keypoint_2_din; /*ROW: 9 bit COL: 10 bit*/
 reg         [2:0] current_state,
                   next_state;
 
+parameter MAX_KEYPOINT = 'd2048;
 
 /*Module FSM*/
 parameter ST_IDLE       = 0,
@@ -309,12 +310,20 @@ always @(posedge clk) begin
     keypoint_2_addr <= 'd0;
 end
 
+/*Mangement of Keypoint SRAM Overflow*/
+wire  keypoint_1_full = (keypoint_1_addr == (MAX_KEYPOINT - 1)) ? 1 : 0;
+wire  keypoint_2_full = (keypoint_2_addr == (MAX_KEYPOINT - 1)) ? 1 : 0;
+
 always @(posedge clk) begin
   if (!rst_n)
     keypoint_1_we <= 1'b0;
-  else if (current_state==ST_NO_FILTER && !filter_on && is_keypoint[0])
+  else if (current_state==ST_NO_FILTER && !filter_on && is_keypoint[0] && !keypoint_1_full)
     keypoint_1_we <= 1'b1;
-  else if (current_state==ST_FILTER && valid_keypoint[0] && is_keypoint[0])
+  else if (current_state==ST_NO_FILTER && !filter_on && is_keypoint[1] && !keypoint_1_full && keypoint_2_full)
+    keypoint_1_we <= 1'b1;
+  else if (current_state==ST_FILTER && valid_keypoint[0] && is_keypoint[0] && !keypoint_1_full)
+    keypoint_1_we <= 1'b1;
+  else if (current_state==ST_FILTER && valid_keypoint[1] && is_keypoint[1] && !keypoint_1_full && keypoint_2_full)
     keypoint_1_we <= 1'b1;
   else
     keypoint_1_we <= 1'b0;
@@ -323,9 +332,13 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     keypoint_2_we <= 1'b0;
-  else if (current_state==ST_NO_FILTER && !filter_on && is_keypoint[1])
+  else if (current_state==ST_NO_FILTER && !filter_on && is_keypoint[1] && !keypoint_2_full)
     keypoint_2_we <= 1'b1;
-  else if (current_state==ST_FILTER && valid_keypoint[1] && is_keypoint[1])
+  else if (current_state==ST_NO_FILTER && !filter_on && is_keypoint[0] && !keypoint_2_full && keypoint_1_full)
+    keypoint_2_we <= 1'b1;
+  else if (current_state==ST_FILTER && valid_keypoint[1] && is_keypoint[1] && !keypoint_2_full)
+    keypoint_2_we <= 1'b1;
+  else if (current_state==ST_FILTER && valid_keypoint[0] && is_keypoint[0] && !keypoint_2_full && keypoint_1_full)
     keypoint_2_we <= 1'b1;
   else
     keypoint_2_we <= 1'b0;
