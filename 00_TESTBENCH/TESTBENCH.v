@@ -109,7 +109,7 @@ initial begin
     // $display("gaussian");    
   // end
   $display("========= Gaussian DONE =========");
-  $display("Gaussian Cycle Count:%d", cycleCount);
+  $display("Gaussian Cycle:%d Cycles", cycleCount);
 
   errorFile = $fopen("error.txt","w");
 
@@ -347,7 +347,7 @@ initial begin
   end
 
   $display("========= Detect & Filter DONE =========");
-  $display("Detect and Filter Count:%d", cycleCount);
+  $display("Detect and Filter:%d Cycles", cycleCount);
   error1 = 0;
   error2 = 0;
   kp_errorFile = $fopen("kp_error.txt", "w");
@@ -405,7 +405,7 @@ initial begin
       cycleCount = cycleCount + 1;
   end
   $display("========= Compute and Match DONE =========");
-  $display("Compute and Match Cycle Count:%d", cycleCount);
+  $display("Compute and Match:%d Cycles", cycleCount);
   $display("%d", targetKptNum);
    // match_succeed_num = 0;
    // ansFile = $fscanf("")
