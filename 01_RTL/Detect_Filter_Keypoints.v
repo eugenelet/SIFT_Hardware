@@ -311,8 +311,8 @@ always @(posedge clk) begin
 end
 
 /*Mangement of Keypoint SRAM Overflow*/
-wire  keypoint_1_full = (keypoint_1_addr == (MAX_KEYPOINT - 1)) ? 1 : 0;
-wire  keypoint_2_full = (keypoint_2_addr == (MAX_KEYPOINT - 1)) ? 1 : 0;
+wire  keypoint_1_full = (keypoint_1_addr == MAX_KEYPOINT) ? 1 : 0;
+wire  keypoint_2_full = (keypoint_2_addr == MAX_KEYPOINT) ? 1 : 0;
 
 always @(posedge clk) begin
   if (!rst_n)
