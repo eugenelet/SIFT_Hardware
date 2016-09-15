@@ -72,7 +72,7 @@ integer ans1, ans2;
 integer targetFile;
 integer targetKptNum;
 integer temp;
-integer cycleCount, detectCount, filterCount;
+integer cycleCount, detectCount, filterCount, kp_count;
 initial begin
   rst_n             = 1;
   start             = 0;
@@ -337,6 +337,7 @@ initial begin
   cycleCount = 0;
   filterCount = 0;
   detectCount = 0;
+  kp_count = 0;
   while(!u_core.detect_filter_done) begin
     @(negedge clk);
     cycleCount = cycleCount + 1;
@@ -344,6 +345,10 @@ initial begin
       filterCount = filterCount + 1;
     if(u_core.u_detect_filter_keypoints.current_state == ST_DETECT)
       detectCount = detectCount + 1;
+    if(u_core.u_detect_filter_keypoints.current_state==ST_DETECT && u_core.u_detect_filter_keypoints.is_keypoint[0])
+      kp_count = kp_count + 1;
+    if(u_core.u_detect_filter_keypoints.current_state==ST_DETECT && u_core.u_detect_filter_keypoints.is_keypoint[1])
+      kp_count = kp_count + 1;
   end
 
   $display("========= Detect & Filter DONE =========");
@@ -383,6 +388,7 @@ initial begin
 
   $display("Detect Cycle : %d", detectCount);
   $display("Filter Cycle : %d", filterCount);
+  $display("Detect Key Point Count : %d", kp_count);
   $display("layer1_num : %d", u_core.u_match.layer1_num);
   $display("layer2_num : %d", u_core.u_match.layer2_num);
   $display("img_group_num : %d", u_core.u_match.img_descpt_group_num);
