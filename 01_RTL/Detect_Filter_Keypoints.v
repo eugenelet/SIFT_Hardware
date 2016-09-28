@@ -117,47 +117,47 @@ assign buffer_we = ((current_state==ST_READY && start) || current_state==ST_BUFF
 
 always @(posedge clk) begin
   if (!rst_n) 
-    img_addr <= 'd0;    
-  else if (((current_state==ST_IDLE && start) || (current_state==ST_READY && !ready_start_relay) ||  current_state==ST_UPDATE) && img_addr<'d480) /*Needs new address every 2 cycles*/
+    img_addr <= 'd7;/*'d0;*/
+  else if (((current_state==ST_IDLE && start) || (current_state==ST_READY && !ready_start_relay) ||  current_state==ST_UPDATE) && img_addr<'d472/*'d480*/) /*Needs new address every 2 cycles*/
     img_addr <= img_addr + 'd1;
   else if (done)
-    img_addr <= 'd0;
+    img_addr <= 'd7;/*'d0;*/
 end
 
 always @(posedge clk) begin
   if (!rst_n) 
-    blur3x3_addr <= 'd0;    
-  else if (((current_state==ST_IDLE && start) || (current_state==ST_READY && !ready_start_relay) ||  current_state==ST_UPDATE) && blur3x3_addr<'d480)
+    blur3x3_addr <= 'd7;    
+  else if (((current_state==ST_IDLE && start) || (current_state==ST_READY && !ready_start_relay) ||  current_state==ST_UPDATE) && blur3x3_addr<'d472)
     blur3x3_addr <= blur3x3_addr + 'd1;
   else if (done)
-    blur3x3_addr <= 'd0;
+    blur3x3_addr <= 'd7;
 end
 
 always @(posedge clk) begin
   if (!rst_n) 
-    blur5x5_1_addr <= 'd0;    
-  else if (((current_state==ST_IDLE && start) || (current_state==ST_READY && !ready_start_relay) ||  current_state==ST_UPDATE) && blur5x5_1_addr<'d480)
+    blur5x5_1_addr <= 'd7;    
+  else if (((current_state==ST_IDLE && start) || (current_state==ST_READY && !ready_start_relay) ||  current_state==ST_UPDATE) && blur5x5_1_addr<'d472)
     blur5x5_1_addr <= blur5x5_1_addr + 'd1;
   else if (done)
-    blur5x5_1_addr <= 'd0;
+    blur5x5_1_addr <= 'd7;
 end
 
 always @(posedge clk) begin
   if (!rst_n) 
-    blur5x5_2_addr <= 'd0;    
-  else if (((current_state==ST_IDLE && start) || (current_state==ST_READY && !ready_start_relay) ||  current_state==ST_UPDATE) && blur5x5_2_addr<'d480)
+    blur5x5_2_addr <= 'd7;    
+  else if (((current_state==ST_IDLE && start) || (current_state==ST_READY && !ready_start_relay) ||  current_state==ST_UPDATE) && blur5x5_2_addr<'d472)
     blur5x5_2_addr <= blur5x5_2_addr + 'd1;
   else if (done)
-    blur5x5_2_addr <= 'd0;
+    blur5x5_2_addr <= 'd7;
 end
 
 always @(posedge clk) begin
   if (!rst_n) 
-    blur7x7_addr <= 'd0;    
-  else if (((current_state==ST_IDLE && start) || (current_state==ST_READY && !ready_start_relay) ||  current_state==ST_UPDATE) && blur7x7_addr<'d480)
+    blur7x7_addr <= 'd7;    
+  else if (((current_state==ST_IDLE && start) || (current_state==ST_READY && !ready_start_relay) ||  current_state==ST_UPDATE) && blur7x7_addr<'d472)
     blur7x7_addr <= blur7x7_addr + 'd1;
   else if (done)
-    blur7x7_addr <= 'd0;
+    blur7x7_addr <= 'd7;
 end
 
 
@@ -165,7 +165,8 @@ end
 
 /*Counter for current column*/
 reg   [9:0] current_col;
-wire   [1:0] is_keypoint;
+wire   [63:0] is_keypoint_0;
+wire   [63:0] is_keypoint_1;
 detect_keypoint u_detect_keypoint_0(
   .layer_0_0        (buffer_data_1),
   .layer_0_1        (buffer_data_0),
@@ -201,6 +202,8 @@ detect_keypoint u_detect_keypoint_1(
   .is_keypoint      (is_keypoint[1])
 );
 
+/* Scheduling of Keypoints */
+
 reg[1:0]  keypoint_count;
 always @(posedge clk) begin
   if (!rst_n) 
@@ -224,13 +227,13 @@ end
 
 always @(posedge clk) begin
   if (!rst_n) 
-    current_col <= 'd1;    
+    current_col <= 'd8;    
   else if (( (current_state==ST_FILTER && filter_count==(keypoint_count-1)) ||
               current_state==ST_NO_FILTER ||
-             (current_state==ST_DETECT && !(|is_keypoint)) ) && current_col < 'd639) /*if no keypoints found*/
+             (current_state==ST_DETECT && !(|is_keypoint)) ) && current_col < 'd631/*'d639*/) /*if no keypoints found*/
     current_col <= current_col + 1;
   else if (current_state==ST_UPDATE || current_state==ST_IDLE)
-    current_col <= 'd1;
+    current_col <= 'd8;
 end
 
 reg[5119:0]   top_row,
@@ -289,7 +292,7 @@ filter_keypoint u_filter_keypoint(
   .filter_threshold (filter_threshold)
 );
 
-
+/* MEMORY */
 
 /*Addr. increment done when current_state==ST_DETECT*/
 always @(posedge clk) begin

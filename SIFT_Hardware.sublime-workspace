@@ -225,7 +225,7 @@
 			],
 			[
 				"els",
-				"else	else"
+				"else\telse"
 			],
 			[
 				"TEM",
@@ -519,6 +519,32 @@
 	},
 	"buffers":
 	[
+		{
+			"contents": "move implementation up\npg 4 colunm first\nadder tree\ndont need precise state\nimplementation rsult\ngaussian blur image to describe\n\n\n\nlist detect keypoint\nestimate\nnormalize filter kp\n[ ]dynamic treshold\n\ndiagram \nmatch flow\n\ntiming diagram\n\npie chart\nbar chart of SW and HW Comparison\n-Pie Chart from BAR CHART (ARROW)\n\nTry dynamic on SW before HW implementation\n\nDon't add memory by brute force\n\n\n9/18\n----\npg 13 programable\npg 15 FSM FIX\npg 8 column\n mv point 1 2\n??? Level (Feature)\nCompare with original SIFT\npg 3 mention H matrix\n- change Diagram\na page to describe line buffer utilization\nimage level parallelism\n4x4 keypoint level parallelism\n\nHardware implementaiton on FPGa\npg 26 system integration \nDEADLINE\n\n\nFPGA\n----\nWE and ADDR or ORI\nTARGET WE and ADDR of TARGET\nOUTPUT MEM\nDONE\n\n\n09/20\n-----\n\nchange all to K and M\n\n-use finger to direct pg 2 explain why every module is needed\n - embedded system\n - describe every scenario\n\n-use picture to describe pg3\n - emplhazie multi object\n - smooth\n - RTL our current progress\n\n-pg 4 differentiate target and image (use arrow to show)\n - describe why every step is needed\n - desciptor (why needed? explain.)\n - matching: method?\n\n-pg 5 exlpain a litle on DoG\n\n-pg 6 emphasize DoG\n\n-pg 7 explain why FAST/filter is needed\n - CORNER Detection\n\n-pg 8 exlpain where's the keypoint\n - 4x4 example (explain)\n-pg 9 matching picture fix\n-pg 10 filter before generator\n - descbie CPU specs\n - explain the execution time portion\n\n-pg11 explain every modules' usage\n-explain why line buffer needed (pre xxx row)\n - explain every line\n - explain briefly\n\n-pg 14 descibe\n-pg blur level\n-pg 16 explain why multiple arrow needed\n-pg 17 all pixel (white and gray)\n - down smapling\n-pg18 % of kep\n-FAST TO FILTER\n-pg19 threshold describe\n - remove 1st\n - talk bout original method\n - define valid\n-pg 21 emphasize on feature extraction\n\t- change mag to dir\n-pg22 change mag to dir\n - modify table\n-pg 23 neighbouring 9x9 needed <-- explain\n\t- why 4 itration is needed for 4 keypt\n-pg 24 write a simple pseudocode(2 for loop)\n\t- REMOVE DOTS I.D. -> ID    T.D. -> TD\n\t- fix 1 2, m-1 m\n-pg 26 dont need to explain inner & outer\n - image and target, explain\n-pg 28 total\n - K M, only read out dominant\n-pg 29 detect pixel by pixel that's why dominant (scheduler added later)\n-pg 31 remove GB feature\n - use arrow to show improvement\n-pg 32 dynamic threshold\n - high accuracy (2K)\n - high throughput (1K)\n\n4.30pm tomorrow\n\n-explain the goal of a module\n\n21-9-2016\n----------\nrotation of vehicle\nwhy smooth needed\nitersation of for looop for GB\nwhy FAST is used\narea constraint 640\n\n9-23\n----\ncut is kp to 32\nthreshold (can turn of off)\nmatch -> use abs instead of 1st and 2nd min",
+			"settings":
+			{
+				"buffer_size": 2713,
+				"line_ending": "Unix",
+				"name": "move implementation up"
+			}
+		},
+		{
+			"file": "01_RTL/detect_keypoint.v",
+			"settings":
+			{
+				"buffer_size": 1331455,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "01_RTL/CORE.v",
+			"settings":
+			{
+				"buffer_size": 16100,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -581,10 +607,13 @@
 	},
 	"expanded_folders":
 	[
-		"/home/gene/Documents/NCTU/Project/SIFT_Hardware"
+		"/home/gene/Documents/NCTU/Project/SIFT_Hardware",
+		"/home/gene/Documents/NCTU/Project/SIFT_Hardware/01_RTL"
 	],
 	"file_history":
 	[
+		"/home/gene/Documents/NCTU/Year4Sem1/Digital_Image_Processing/DIP_hw1/readBMP.c",
+		"/home/gene/Downloads/readbmp.c",
 		"/home/gene/Documents/NCTU/Project/SIFT_Hardware/DoG/01_RTL/SAD.v",
 		"/home/gene/Documents/NCTU/Project/SIFT/src/main.cpp",
 		"/home/gene/Documents/NCTU/Project/SIFT/src/dumpFilterKeyPoints.cpp",
@@ -710,9 +739,7 @@
 		"/home/gene/Documents/NCTU/Year3Sem2/Global_Issues/final_report.odt",
 		"/home/gene/Public/jailhouse/hypervisor/setup.c",
 		"/home/gene/Public/jailhouse/hypervisor/include/jailhouse/header.h",
-		"/home/gene/Public/jailhouse/hypervisor/include/jailhouse/entry.h",
-		"/home/gene/Public/jailhouse/driver/main.c",
-		"/home/gene/Public/jailhouse/hypervisor/include/jailhouse/control.h"
+		"/home/gene/Public/jailhouse/hypervisor/include/jailhouse/entry.h"
 	],
 	"find":
 	{
@@ -872,8 +899,97 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2713,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2713,
+								2713
+							]
+						],
+						"settings":
+						{
+							"auto_name": "move implementation up",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 2913.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "01_RTL/detect_keypoint.v",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1331455,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1331431,
+								1331431
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Verilog/Verilog.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 446896.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "01_RTL/CORE.v",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 16100,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Verilog/Verilog.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
 			]
 		}
 	],
