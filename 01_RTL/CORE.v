@@ -277,8 +277,8 @@ module CORE(
     wire  [8:0]    detect_filter_blur_addr  [0:3];
     wire  [8:0]    detect_filter_img_addr;
     wire           detect_filter_buffer_we;
-    wire  [10:0]   detect_filter_keypoint_1_addr,
-                   detect_filter_keypoint_2_addr;
+    wire  [10:0]   detect_filter_keypoint_addr;
+                   // detect_filter_keypoint_2_addr;
     Detect_Filter_Keypoints u_detect_filter_keypoints(
       .clk              (clk),
       .rst_n            (rst_n),
