@@ -80,10 +80,10 @@ module CORE(
     wire  [19:0]  keypoint_dout;
     bmem_2048x20 keypoint_mem(
       .clk  (clk),
-      .we   (keypoint_1_we),
-      .addr (keypoint_1_addr),
-      .din  (keypoint_1_din),
-      .dout (keypoint_1_dout)
+      .we   (keypoint_we),
+      .addr (keypoint_addr),
+      .din  (keypoint_din),
+      .dout (keypoint_dout)
     );
 
 /*    wire          keypoint_2_we;
