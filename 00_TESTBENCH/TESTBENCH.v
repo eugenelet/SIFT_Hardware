@@ -360,8 +360,27 @@ initial begin
   kpt_layer2_ans = $fopen("keypoint_layer2.txt", "r");
   kpt_layer1 = $fopen("kpt1_RTL.txt", "w");
   kpt_layer2 = $fopen("kpt2_RTL.txt", "w");*/
+
   kpt_total_ans = $fopen("keypoint.txt", "r");
   kpt_total = $fopen("kpt_RTL.txt", "w");
+  
+  for(i=0; i < u_core.u_detect_filter_keypoints.keypoint_addr; i=i+1) 
+    $fwrite(kpt_total, "%d %d %d\n", u_core.keypoint_mem.mem[i][19], u_core.keypoint_mem.mem[i][18:10], u_core.keypoint_mem.mem[i][9:0]);
+
+  while (!$feof(kpt_total_ans)) begin
+    dummy = $fscanf(kpt_total_ans,"%d",ans1);
+    dummy = $fscanf(kpt_total_ans,"%d",ans2);
+    dummy = $fscanf(kpt_total_ans,"%d",ans3);
+    for(i=0; i < u_core.u_detect_filter_keypoints.keypoint_addr; i=i+1) 
+      if (u_core.keypoint_mem.mem[i][19]==ans1 && u_core.keypoint_mem.mem[i][18:10]==ans2 && u_core.keypoint_mem.mem[i][9:0]==ans3)
+        match = 1;
+    if (match = 1)
+      match = 0;
+    else 
+      $fwrite(kp_errorFile, "layer:%d row:%d col:%d \n", ans1, ans2, ans3);
+  end
+
+/*
   for(i=0; i < u_core.u_detect_filter_keypoints.keypoint_addr; i=i+1) begin
     $fwrite(kpt_total, "%d %d %d\n", u_core.keypoint_mem.mem[i][19], u_core.keypoint_mem.mem[i][18:10], u_core.keypoint_mem.mem[i][9:0]);
     dummy = $fscanf(kpt_total_ans,"%d",ans1);
@@ -374,7 +393,7 @@ initial begin
       $fwrite(kp_errorFile, "layer:%d row:%d col:%d ans_layer:%d ans_row:%d ans_col:%d error:%d %d %d\n",
         u_core.keypoint_mem.mem[i][19], u_core.keypoint_mem.mem[i][18:10], u_core.keypoint_mem.mem[i][9:0], ans1, ans2, ans3, error1,error2,error3);
     error = 0;
-  end
+  end*/
   /*for(i=0; i < u_core.u_detect_filter_keypoints.keypoint_1_addr; i=i+1) begin
     $fwrite(kpt_layer1, "%d %d\n", u_core.keypoint_1_mem.mem[i][18:10], u_core.keypoint_1_mem.mem[i][9:0]);
     dummy = $fscanf(kpt_layer1_ans,"%d",ans1);
