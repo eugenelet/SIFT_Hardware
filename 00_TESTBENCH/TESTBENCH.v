@@ -73,6 +73,7 @@ integer targetFile;
 integer targetKptNum;
 integer temp;
 integer cycleCount, detectCount, filterCount, kp_count;
+integer match;
 initial begin
   rst_n             = 1;
   start             = 0;
@@ -363,7 +364,7 @@ initial begin
 
   kpt_total_ans = $fopen("keypoint.txt", "r");
   kpt_total = $fopen("kpt_RTL.txt", "w");
-  
+
   for(i=0; i < u_core.u_detect_filter_keypoints.keypoint_addr; i=i+1) 
     $fwrite(kpt_total, "%d %d %d\n", u_core.keypoint_mem.mem[i][19], u_core.keypoint_mem.mem[i][18:10], u_core.keypoint_mem.mem[i][9:0]);
 
