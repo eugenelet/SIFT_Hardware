@@ -363,7 +363,7 @@ initial begin
   kpt_total_ans = $fopen("keypoint.txt", "r");
   kpt_total = $fopen("kpt_RTL.txt", "w");
   for(i=0; i < u_core.u_detect_filter_keypoints.keypoint_addr; i=i+1) begin
-    $fwrite(kpt_total, "%d %d %d\n", u_core.keypoint_mem.mem[i][19], u_core.keypoint_mem.mem[i][18:10], u_core.keypoint_1_mem.mem[i][9:0]);
+    $fwrite(kpt_total, "%d %d %d\n", u_core.keypoint_mem.mem[i][19], u_core.keypoint_mem.mem[i][18:10], u_core.keypoint_mem.mem[i][9:0]);
     dummy = $fscanf(kpt_total_ans,"%d",ans1);
     error1 = u_core.keypoint_mem.mem[i][19] - ans1;
     dummy = $fscanf(kpt_total_ans,"%d",ans2);
