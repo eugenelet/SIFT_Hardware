@@ -28,12 +28,9 @@ module Detect_Filter_Keypoints(
   buffer_data_7,
   buffer_data_8,
   buffer_data_9,
-  keypoint_1_we,
-  keypoint_1_addr,
-  keypoint_1_din,
-  keypoint_2_we,
-  keypoint_2_addr,
-  keypoint_2_din,
+  keypoint_we,
+  keypoint_addr,
+  keypoint_din,
   filter_on,
   filter_threshold
 );
