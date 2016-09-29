@@ -180,7 +180,7 @@ initial begin
 
 /*==========================================*/
 
-  targetFile = $fopen("targetRowColDespt.txt", "r");
+  /*targetFile = $fopen("targetRowColDespt.txt", "r");
   rc = $fscanf(targetFile, "%d", targetKptNum);
   u_core.tar_descpt_group_num = targetKptNum/4;
    for(i = 0; i < targetKptNum; i = i + 1) begin
@@ -329,7 +329,7 @@ initial begin
                 rc = $fscanf(targetFile, "%d", u_core.target_3_mem.mem[i / 4][23:12]  );    
                 rc = $fscanf(targetFile, "%d", u_core.target_3_mem.mem[i / 4][11:0]   );//1st dim
             end
-        end
+        end*/
 
 /*===========================================*/
 
