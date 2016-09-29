@@ -455,8 +455,7 @@ module CORE(
         buffer_we = 0;
         img_addr  = 0;
         fill_zero = 0;
-        keypoint_1_addr = 0;
-        keypoint_2_addr = 0;
+        keypoint_addr = 0;
         buffer_in = 0;
       end
     endcase
@@ -496,13 +495,13 @@ module CORE(
             next_state = ST_END;//ST_COMPUTE_MATCH;
           else
             next_state = ST_DETECT_FILTER;
-        end
+        end/*
         ST_COMPUTE_MATCH: begin
           if(compute_match_done)
             next_state = ST_END;
           else 
             next_state = ST_COMPUTE_MATCH;
-        end
+        end*/
         ST_END: begin /*DEBUG STATE*/
             next_state = ST_END;
         end
