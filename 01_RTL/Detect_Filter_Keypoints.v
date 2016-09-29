@@ -2232,7 +2232,7 @@ always @(posedge clk) begin
     is_keypoint_reg_0 <= 'd0;    
   else if (current_state == ST_DETECT) 
     is_keypoint_reg_0 <= is_keypoint_0;
-  else if ( (current_state==ST_FILTER || current_state==ST_NO_FILTER) && !filter_layer && is_keypoint_reg_0[0]) )
+  else if ( (current_state==ST_FILTER || current_state==ST_NO_FILTER) && !filter_layer && is_keypoint_reg_0[0]) 
     is_keypoint_reg_0 <= is_keypoint_reg_0 & 64'hfffffffffffffffe;
   else if ( (current_state==ST_FILTER || current_state==ST_NO_FILTER) && !filter_layer && (!is_keypoint_reg_0[0] && is_keypoint_reg_0[1]) )
     is_keypoint_reg_0 <= is_keypoint_reg_0 & 64'hfffffffffffffffd;
