@@ -2814,14 +2814,14 @@ end
   else
     keypoint_2_we <= 1'b0;
 end*/
-
+wire[8:0] img_addr_1 = img_addr - 1;
 always @(posedge clk) begin
   if (!rst_n)
     keypoint_din <= 1'b0;
   else if (current_state==ST_NO_FILTER && !filter_on && (!keypoint_layer_1_empty || !keypoint_layer_2_empty))
-    keypoint_din <= {filter_layer, img_addr - 1, filter_col};
+    keypoint_din <= {filter_layer, img_addr_1, filter_col};
   else if (current_state==ST_FILTER && valid_keypoint && (!keypoint_layer_1_empty || !keypoint_layer_2_empty))
-    keypoint_din <= {filter_layer, img_addr - 1, filter_col};
+    keypoint_din <= {filter_layer, img_addr_1, filter_col};
 end
 
 /*always @(posedge clk) begin
