@@ -62,13 +62,13 @@ integer       error;
 integer imageFile, rc, errorFile, blur3x3, blur5x5_1, blur5x5_2, blur7x7; // rc: read check
 integer blur3x3_ans, blur5x5_1_ans, blur5x5_2_ans, blur7x7_ans; // rc: read check
 integer kpt_layer1, kpt_layer2, kpt_layer1_ans, kpt_layer2_ans;
+integer kpt_total, kpt_total_ans;
 integer kp_errorFile;
 integer tmp;
 integer debug_0, debug_1;
 integer dummy;
-integer error1;
-integer error2;
-integer ans1, ans2;
+integer error1, error2, error3;
+integer ans1, ans2, ans3;
 integer targetFile;
 integer targetKptNum;
 integer temp;
@@ -78,7 +78,7 @@ initial begin
   start             = 0;
   imageFile         = $fopen("originalImage.txt","r");
   filter_on         = 1; /*Turns filter on*/
-  filter_threshold  = 'd6; /*Sets fitler threshold*/
+  filter_threshold  = 'd2; /*Sets fitler threshold*/
   for(i=0;i<`ROWS;i=i+1) begin
     for(j=0;j<`COLS*8;j=j+1) begin
       u_core.ori_img.mem[i][j] = 1'b1;
@@ -345,10 +345,10 @@ initial begin
       filterCount = filterCount + 1;
     if(u_core.u_detect_filter_keypoints.current_state == ST_DETECT)
       detectCount = detectCount + 1;
-    if(u_core.u_detect_filter_keypoints.current_state==ST_DETECT && u_core.u_detect_filter_keypoints.is_keypoint[0])
-      kp_count = kp_count + 1;
+    if(u_core.u_detect_filter_keypoints.current_state==ST_FILTER)
+      kp_count = kp_count + 1;/*
     if(u_core.u_detect_filter_keypoints.current_state==ST_DETECT && u_core.u_detect_filter_keypoints.is_keypoint[1])
-      kp_count = kp_count + 1;
+      kp_count = kp_count + 1;*/
   end
 
   $display("========= Detect & Filter DONE =========");
@@ -356,11 +356,26 @@ initial begin
   error1 = 0;
   error2 = 0;
   kp_errorFile = $fopen("kp_error.txt", "w");
-  kpt_layer1_ans = $fopen("keypoint_layer1.txt", "r");
+  /*kpt_layer1_ans = $fopen("keypoint_layer1.txt", "r");
   kpt_layer2_ans = $fopen("keypoint_layer2.txt", "r");
   kpt_layer1 = $fopen("kpt1_RTL.txt", "w");
-  kpt_layer2 = $fopen("kpt2_RTL.txt", "w");
-  for(i=0; i < u_core.u_detect_filter_keypoints.keypoint_1_addr; i=i+1) begin
+  kpt_layer2 = $fopen("kpt2_RTL.txt", "w");*/
+  kpt_total_ans = $fopen("keypoint.txt", "r");
+  kpt_total = $fopen("kpt_RTL.txt", "w");
+  for(i=0; i < u_core.u_detect_filter_keypoints.keypoint_addr; i=i+1) begin
+    $fwrite(kpt_total, "%d %d %d\n", u_core.keypoint_mem.mem[i][19], u_core.keypoint_mem.mem[i][18:10], u_core.keypoint_1_mem.mem[i][9:0]);
+    dummy = $fscanf(kpt_total_ans,"%d",ans1);
+    error1 = u_core.keypoint_mem.mem[i][19] - ans1;
+    dummy = $fscanf(kpt_total_ans,"%d",ans2);
+    error2 = u_core.keypoint_mem.mem[i][18:10] - ans2;
+    dummy = $fscanf(kpt_total_ans,"%d",ans3);
+    error3 = u_core.keypoint_mem.mem[i][9:0] - ans3;
+    if(error1!=0 || error2!=0 || error3!=0)
+      $fwrite(kp_errorFile, "layer:%d row:%d col:%d ans_layer:%d ans_row:%d ans_col:%d error:%d %d %d\n",
+        u_core.keypoint_mem.mem[i][19], u_core.keypoint_mem.mem[i][18:10], u_core.keypoint_mem.mem[i][9:0], ans1, ans2, ans3, error1,error2,error3);
+    error = 0;
+  end
+  /*for(i=0; i < u_core.u_detect_filter_keypoints.keypoint_1_addr; i=i+1) begin
     $fwrite(kpt_layer1, "%d %d\n", u_core.keypoint_1_mem.mem[i][18:10], u_core.keypoint_1_mem.mem[i][9:0]);
     dummy = $fscanf(kpt_layer1_ans,"%d",ans1);
     error1 = u_core.keypoint_1_mem.mem[i][18:10] - ans1;
@@ -369,9 +384,9 @@ initial begin
     if(error1!=0 || error2!=0)
       $fwrite(kp_errorFile, "row:%d col:%d ans_row:%d ans_col:%d error:%d %d\n",u_core.keypoint_1_mem.mem[i][18:10], u_core.keypoint_1_mem.mem[i][9:0], ans1, ans2, error1,error2);
     error = 0;
-  end
+  end*/
 
-  for(i=0; i < u_core.u_detect_filter_keypoints.keypoint_2_addr; i=i+1) begin
+  /*for(i=0; i < u_core.u_detect_filter_keypoints.keypoint_2_addr; i=i+1) begin
     $fwrite(kpt_layer2, "%d %d\n", u_core.keypoint_2_mem.mem[i][18:10], u_core.keypoint_2_mem.mem[i][9:0]);
     dummy = $fscanf(kpt_layer2_ans,"%d",ans1);
     error1 = u_core.keypoint_2_mem.mem[i][18:10] - ans1;
@@ -380,20 +395,23 @@ initial begin
     if(error1!=0 || error2!=0)
       $fwrite(kp_errorFile, "row:%d col:%d ans_row:%d ans_col:%d error:%d %d\n",u_core.keypoint_2_mem.mem[i][18:10], u_core.keypoint_2_mem.mem[i][9:0], ans1, ans2, error1,error2);
     error = 0;
-  end
-  $fclose(kpt_layer1);
-  $fclose(kpt_layer2);
+  end*/
+
+  // $fclose(kpt_layer1);
+  // $fclose(kpt_layer2);
+  $fclose(kpt_total);
+  $fclose(kpt_total_ans);
   $fclose(kp_errorFile);
 
 
   $display("Detect Cycle : %d", detectCount);
   $display("Filter Cycle : %d", filterCount);
   $display("Detect Key Point Count : %d", kp_count);
-  $display("layer1_num : %d", u_core.u_match.layer1_num);
-  $display("layer2_num : %d", u_core.u_match.layer2_num);
-  $display("img_group_num : %d", u_core.u_match.img_descpt_group_num);
+  // $display("layer1_num : %d", u_core.u_match.layer1_num);
+  // $display("layer2_num : %d", u_core.u_match.layer2_num);
+  // $display("img_group_num : %d", u_core.u_match.img_descpt_group_num);
 
-
+/*
   for(i = 0; i < 512; i=i+1) begin
     for(j = 46; j >=0; j=j-1) begin
       u_core.matched_0_mem.mem[i][j] = 1;
@@ -447,7 +465,7 @@ initial begin
                // match_succeed_num = match_succeed_num + 1;
            end
        end    
-   end
+   end*/
    //output的可能比ans少幾個
 /*  debug_0 = $fopen("is_kp0", "w");
   debug_1 = $fopen("is_kp1", "w");

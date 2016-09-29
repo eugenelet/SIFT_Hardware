@@ -99,7 +99,7 @@ parameter ST_IDLE       = 0,
           ST_UPDATE     = 5,/*Grants a cycle to update MEM addr*/
           ST_BUFFER     = 6;/*Grants buffer a cycle to update*/
 
-assign done = (img_addr=='d480) ? 1 : 0;
+assign done = (img_addr=='d472) ? 1 : 0;
 
 /*Provide 2 Cycle for READY STATE*/
 reg     ready_start_relay;
@@ -164,7 +164,7 @@ end
 
 
 /*Counter for current column*/
-reg   [9:0] current_col;
+reg    [9:0]  current_col;
 wire   [63:0] is_keypoint_0;
 wire   [63:0] is_keypoint_1;
 detect_keypoint u_detect_keypoint_0_0(
@@ -2876,7 +2876,7 @@ always @(*) begin
         next_state = ST_DETECT;
     end
     ST_NO_FILTER: begin
-      if(!keypoint_layer_1_empty && !keypoint_layer_2_empty)
+      if(!keypoint_layer_1_empty || !keypoint_layer_2_empty)
         next_state = ST_NO_FILTER;
       else if(current_col > 'd631/*'d639*/)
         next_state = ST_UPDATE;
@@ -2886,7 +2886,7 @@ always @(*) begin
         next_state = ST_NO_FILTER;
     end
     ST_FILTER: begin
-      if(!keypoint_layer_1_empty && !keypoint_layer_2_empty)
+      if(!keypoint_layer_1_empty || !keypoint_layer_2_empty)
         next_state = ST_FILTER;
       else if(current_col > 'd631)
         next_state = ST_UPDATE;

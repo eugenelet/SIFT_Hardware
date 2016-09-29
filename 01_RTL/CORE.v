@@ -74,11 +74,11 @@ module CORE(
     );
 
     /*SRAM for KeyPoints*/
-    wire          keypoint_1_we;
-    reg   [10:0]  keypoint_1_addr;
-    wire  [18:0]  keypoint_1_din;
-    wire  [18:0]  keypoint_1_dout;
-    bmem_2048x19 keypoint_1_mem(
+    wire          keypoint_we;
+    reg   [10:0]  keypoint_addr;
+    wire  [19:0]  keypoint_din;
+    wire  [19:0]  keypoint_dout;
+    bmem_2048x20 keypoint_mem(
       .clk  (clk),
       .we   (keypoint_1_we),
       .addr (keypoint_1_addr),
@@ -86,7 +86,7 @@ module CORE(
       .dout (keypoint_1_dout)
     );
 
-    wire          keypoint_2_we;
+/*    wire          keypoint_2_we;
     reg   [10:0]  keypoint_2_addr;
     wire  [18:0]  keypoint_2_din;
     wire  [18:0]  keypoint_2_dout;
@@ -96,7 +96,7 @@ module CORE(
       .addr (keypoint_2_addr),
       .din  (keypoint_2_din),
       .dout (keypoint_2_dout)
-    );
+    );*/
     
     /*SRAM for Target*/
     wire  [8:0]    target_addr;//shared
@@ -305,27 +305,27 @@ module CORE(
       .buffer_data_7    (buffer_data_7),
       .buffer_data_8    (buffer_data_8),
       .buffer_data_9    (buffer_data_9),
-      .keypoint_1_we    (keypoint_1_we),
-      .keypoint_1_addr  (detect_filter_keypoint_1_addr),
-      .keypoint_1_din   (keypoint_1_din),
-      .keypoint_2_we    (keypoint_2_we),
-      .keypoint_2_addr  (detect_filter_keypoint_2_addr),
-      .keypoint_2_din   (keypoint_2_din),
+      .keypoint_we    (keypoint_we),
+      .keypoint_addr  (detect_filter_keypoint_addr),
+      .keypoint_din   (keypoint_din),
+      // .keypoint_2_we    (keypoint_2_we),
+      // .keypoint_2_addr  (detect_filter_keypoint_2_addr),
+      // .keypoint_2_din   (keypoint_2_din),
       .filter_on        (filter_on),
       .filter_threshold (filter_threshold)
     );
 
-    reg [10:0]  keypoint_num_1;
+    reg [10:0]  keypoint_num;
     always @(posedge clk ) begin
       if (!rst_n) 
-        keypoint_num_1 <= 0;    
+        keypoint_num <= 0;    
       else if (current_state==ST_DETECT_FILTER)
-        keypoint_num_1 <= detect_filter_keypoint_1_addr;
+        keypoint_num <= detect_filter_keypoint_addr;
       else if (current_state==ST_IDLE)
-        keypoint_num_1 <= 0;
+        keypoint_num <= 0;
     end
 
-    reg [10:0]  keypoint_num_2;
+    /*reg [10:0]  keypoint_num_2;
     always @(posedge clk ) begin
       if (!rst_n) 
         keypoint_num_2 <= 0;    
@@ -333,9 +333,9 @@ module CORE(
         keypoint_num_2 <= detect_filter_keypoint_2_addr;
       else if (current_state==ST_IDLE)
         keypoint_num_2 <= 0;
-    end
+    end*/
 
-    wire           compute_match_start = (current_state==ST_COMPUTE_MATCH) ? 1:0;
+    /*wire           compute_match_start = (current_state==ST_COMPUTE_MATCH) ? 1:0;
     wire           compute_match_done;
     wire  [10:0]   kpt_addr;
     wire           compute_match_buffer_we;
@@ -408,7 +408,7 @@ module CORE(
         .matched_dout2_3      (matched_3_dout),
         .layer1_num           (keypoint_num_1),
         .layer2_num           (keypoint_num_2)
-    );
+    );*/
 
     always @(*) begin
       case(current_state)
@@ -420,8 +420,7 @@ module CORE(
           buffer_we = gaussian_buffer_we;
           img_addr  = gaussian_img_addr;
           fill_zero = |gaussian_fill_zero;
-          keypoint_1_addr = 0;
-          keypoint_2_addr = 0;
+          keypoint_addr = 0;
           buffer_in = img_dout;
         end
       ST_DETECT_FILTER: begin
@@ -432,11 +431,11 @@ module CORE(
         buffer_we = detect_filter_buffer_we;
         img_addr  = detect_filter_img_addr;
         fill_zero = 0;
-        keypoint_1_addr = detect_filter_keypoint_1_addr;
-        keypoint_2_addr = detect_filter_keypoint_2_addr;
+        keypoint_addr = detect_filter_keypoint_addr;
+        // keypoint_2_addr = detect_filter_keypoint_2_addr;
         buffer_in = img_dout;
       end
-      ST_COMPUTE_MATCH: begin
+      /*ST_COMPUTE_MATCH: begin
         blur_addr[0] = blurred_addr;  
         blur_addr[1] = blurred_addr;  
         blur_addr[2] = 0;  
@@ -447,7 +446,7 @@ module CORE(
         keypoint_1_addr = kpt_addr;
         keypoint_2_addr = kpt_addr;
         buffer_in = (readFrom) ? blur_dout[1] : blur_dout[0];
-      end
+      end*/
       default: begin
         blur_addr[0] = 0;
         blur_addr[1] = 0;  
@@ -494,7 +493,7 @@ module CORE(
         end
         ST_DETECT_FILTER: begin
           if(detect_filter_done)
-            next_state = ST_COMPUTE_MATCH;
+            next_state = ST_END;//ST_COMPUTE_MATCH;
           else
             next_state = ST_DETECT_FILTER;
         end
