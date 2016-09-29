@@ -375,7 +375,7 @@ initial begin
     for(i=0; i < u_core.u_detect_filter_keypoints.keypoint_addr; i=i+1) 
       if (u_core.keypoint_mem.mem[i][19]==ans1 && u_core.keypoint_mem.mem[i][18:10]==ans2 && u_core.keypoint_mem.mem[i][9:0]==ans3)
         match = 1;
-    if (match = 1)
+    if (match == 1)
       match = 0;
     else 
       $fwrite(kp_errorFile, "layer:%d row:%d col:%d \n", ans1, ans2, ans3);
