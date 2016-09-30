@@ -126,14 +126,14 @@ module accumulateOrientation( //combinational
     assign pixel_5_temp2        = LB_0_Wanted[47:40] - LB_2_Wanted[47:40];
     assign pixel_6_temp2        = LB_0_Wanted[55:48] - LB_2_Wanted[55:48];
     assign pixel_7_temp2        = LB_0_Wanted[63:56] - LB_2_Wanted[63:56];
-    assign pixel_8_temp2        = LB_0_Wanted[79:72] - LB_2_Wanted[63:56];
-    assign pixel_9_temp2        = LB_0_Wanted[87:80] - LB_2_Wanted[71:64];
-    assign pixel_10_temp2       = LB_0_Wanted[95:88] - LB_2_Wanted[79:72];
-    assign pixel_11_temp2       = LB_0_Wanted[103:96] - LB_2_Wanted[87:80];
-    assign pixel_12_temp2       = LB_0_Wanted[111:104] - LB_2_Wanted[95:88];
-    assign pixel_13_temp2       = LB_0_Wanted[119:112] - LB_2_Wanted[103:96];
-    assign pixel_14_temp2       = LB_0_Wanted[127:120] - LB_2_Wanted[111:104];
-    assign pixel_15_temp2       = LB_0_Wanted[135:128] - LB_2_Wanted[119:112];
+    assign pixel_8_temp2        = LB_0_Wanted[71:64] - LB_2_Wanted[71:64];
+    assign pixel_9_temp2        = LB_0_Wanted[79:72] - LB_2_Wanted[79:72];
+    assign pixel_10_temp2       = LB_0_Wanted[87:80] - LB_2_Wanted[87:80];
+    assign pixel_11_temp2       = LB_0_Wanted[95:88] - LB_2_Wanted[95:88];
+    assign pixel_12_temp2       = LB_0_Wanted[103:96] - LB_2_Wanted[103:96];
+    assign pixel_13_temp2       = LB_0_Wanted[111:104] - LB_2_Wanted[111:104];
+    assign pixel_14_temp2       = LB_0_Wanted[119:112] - LB_2_Wanted[119:112];
+    assign pixel_15_temp2       = LB_0_Wanted[127:120] - LB_2_Wanted[127:120];
         
     assign abs_pixel_1_temp1    = ~pixel_1_temp1 + 1'b1;
     assign abs_pixel_1_temp2    = ~pixel_1_temp2 + 1'b1;
@@ -215,12 +215,12 @@ module accumulateOrientation( //combinational
                 else
                     p1_bin = 'd1;
             2'b01://4th quadrant
-                if(pixel_1_temp1 > abs_pixel_1_temp2)
+                if(pixel_1_temp1 >= abs_pixel_1_temp2)
                     p1_bin = 'd7;
                 else
                     p1_bin = 'd6;
             2'b10://2nd quadrant
-                if(abs_pixel_1_temp1 > pixel_1_temp2)
+                if(abs_pixel_1_temp1 >= pixel_1_temp2)
                     p1_bin = 'd3;
                 else
                     p1_bin = 'd2;
@@ -265,12 +265,12 @@ module accumulateOrientation( //combinational
                 else
                     p2_bin = 'd1;
             2'b01://4th quadrant
-                if(pixel_2_temp1 > abs_pixel_2_temp2)
+                if(pixel_2_temp1 >= abs_pixel_2_temp2)
                     p2_bin = 'd7;
                 else
                     p2_bin = 'd6;
             2'b10://2nd quadrant
-                if(abs_pixel_2_temp1 > pixel_2_temp2)
+                if(abs_pixel_2_temp1 >= pixel_2_temp2)
                     p2_bin = 'd3;
                 else
                     p2_bin = 'd2;
@@ -315,12 +315,12 @@ module accumulateOrientation( //combinational
                 else
                     p3_bin = 'd1;
             2'b01://4th quadrant
-                if(pixel_3_temp1 > abs_pixel_3_temp2)
+                if(pixel_3_temp1 >= abs_pixel_3_temp2)
                     p3_bin = 'd7;
                 else
                     p3_bin = 'd6;
             2'b10://2nd quadrant
-                if(abs_pixel_3_temp1 > pixel_3_temp2)
+                if(abs_pixel_3_temp1 >= pixel_3_temp2)
                     p3_bin = 'd3;
                 else
                     p3_bin = 'd2;
@@ -365,12 +365,12 @@ module accumulateOrientation( //combinational
                 else
                     p4_bin = 'd1;
             2'b01://4th quadrant
-                if(pixel_4_temp1 > abs_pixel_4_temp2)
+                if(pixel_4_temp1 >= abs_pixel_4_temp2)
                     p4_bin = 'd7;
                 else
                     p4_bin = 'd6;
             2'b10://2nd quadrant
-                if(abs_pixel_4_temp1 > pixel_4_temp2)
+                if(abs_pixel_4_temp1 >= pixel_4_temp2)
                     p4_bin = 'd3;
                 else
                     p4_bin = 'd2;
@@ -415,12 +415,12 @@ module accumulateOrientation( //combinational
                 else
                     p5_bin = 'd1;
             2'b01://4th quadrant
-                if(pixel_5_temp1 > abs_pixel_5_temp2)
+                if(pixel_5_temp1 >= abs_pixel_5_temp2)
                     p5_bin = 'd7;
                 else
                     p5_bin = 'd6;
             2'b10://2nd quadrant
-                if(abs_pixel_5_temp1 > pixel_5_temp2)
+                if(abs_pixel_5_temp1 >= pixel_5_temp2)
                     p5_bin = 'd3;
                 else
                     p5_bin = 'd2;
@@ -465,12 +465,12 @@ module accumulateOrientation( //combinational
                 else
                     p6_bin = 'd1;
             2'b01://4th quadrant
-                if(pixel_6_temp1 > abs_pixel_6_temp2)
+                if(pixel_6_temp1 >= abs_pixel_6_temp2)
                     p6_bin = 'd7;
                 else
                     p6_bin = 'd6;
             2'b10://2nd quadrant
-                if(abs_pixel_6_temp1 > pixel_6_temp2)
+                if(abs_pixel_6_temp1 >= pixel_6_temp2)
                     p6_bin = 'd3;
                 else
                     p6_bin = 'd2;
@@ -515,12 +515,12 @@ module accumulateOrientation( //combinational
                 else
                     p7_bin = 'd1;
             2'b01://4th quadrant
-                if(pixel_7_temp1 > abs_pixel_7_temp2)
+                if(pixel_7_temp1 >= abs_pixel_7_temp2)
                     p7_bin = 'd7;
                 else
                     p7_bin = 'd6;
             2'b10://2nd quadrant
-                if(abs_pixel_7_temp1 > pixel_7_temp2)
+                if(abs_pixel_7_temp1 >= pixel_7_temp2)
                     p7_bin = 'd3;
                 else
                     p7_bin = 'd2;
@@ -565,12 +565,12 @@ module accumulateOrientation( //combinational
                 else
                     p8_bin = 'd1;
             2'b01://4th quadrant
-                if(pixel_8_temp1 > abs_pixel_8_temp2)
+                if(pixel_8_temp1 >= abs_pixel_8_temp2)
                     p8_bin = 'd7;
                 else
                     p8_bin = 'd6;
             2'b10://2nd quadrant
-                if(abs_pixel_8_temp1 > pixel_8_temp2)
+                if(abs_pixel_8_temp1 >= pixel_8_temp2)
                     p8_bin = 'd3;
                 else
                     p8_bin = 'd2;
@@ -615,12 +615,12 @@ module accumulateOrientation( //combinational
                 else
                     p9_bin = 'd1;
             2'b01://4th quadrant
-                if(pixel_9_temp1 > abs_pixel_9_temp2)
+                if(pixel_9_temp1 >= abs_pixel_9_temp2)
                     p9_bin = 'd7;
                 else
                     p9_bin = 'd6;
             2'b10://2nd quadrant
-                if(abs_pixel_9_temp1 > pixel_9_temp2)
+                if(abs_pixel_9_temp1 >= pixel_9_temp2)
                     p9_bin = 'd3;
                 else
                     p9_bin = 'd2;
@@ -665,12 +665,12 @@ module accumulateOrientation( //combinational
                 else
                     p10_bin = 'd1;
             2'b01://4th quadrant
-                if(pixel_10_temp1 > abs_pixel_10_temp2)
+                if(pixel_10_temp1 >= abs_pixel_10_temp2)
                     p10_bin = 'd7;
                 else
                     p10_bin = 'd6;
             2'b10://2nd quadrant
-                if(abs_pixel_10_temp1 > pixel_10_temp2)
+                if(abs_pixel_10_temp1 >= pixel_10_temp2)
                     p10_bin = 'd3;
                 else
                     p10_bin = 'd2;
@@ -715,12 +715,12 @@ module accumulateOrientation( //combinational
                 else
                     p11_bin = 'd1;
             2'b01://4th quadrant
-                if(pixel_11_temp1 > abs_pixel_11_temp2)
+                if(pixel_11_temp1 >= abs_pixel_11_temp2)
                     p11_bin = 'd7;
                 else
                     p11_bin = 'd6;
             2'b10://2nd quadrant
-                if(abs_pixel_11_temp1 > pixel_11_temp2)
+                if(abs_pixel_11_temp1 >= pixel_11_temp2)
                     p11_bin = 'd3;
                 else
                     p11_bin = 'd2;
@@ -765,12 +765,12 @@ module accumulateOrientation( //combinational
                 else
                     p12_bin = 'd1;
             2'b01://4th quadrant
-                if(pixel_12_temp1 > abs_pixel_12_temp2)
+                if(pixel_12_temp1 >= abs_pixel_12_temp2)
                     p12_bin = 'd7;
                 else
                     p12_bin = 'd6;
             2'b10://2nd quadrant
-                if(abs_pixel_12_temp1 > pixel_12_temp2)
+                if(abs_pixel_12_temp1 >= pixel_12_temp2)
                     p12_bin = 'd3;
                 else
                     p12_bin = 'd2;
@@ -815,12 +815,12 @@ module accumulateOrientation( //combinational
                 else
                     p13_bin = 'd1;
             2'b01://4th quadrant
-                if(pixel_13_temp1 > abs_pixel_13_temp2)
+                if(pixel_13_temp1 >= abs_pixel_13_temp2)
                     p13_bin = 'd7;
                 else
                     p13_bin = 'd6;
             2'b10://2nd quadrant
-                if(abs_pixel_13_temp1 > pixel_13_temp2)
+                if(abs_pixel_13_temp1 >= pixel_13_temp2)
                     p13_bin = 'd3;
                 else
                     p13_bin = 'd2;
@@ -865,12 +865,12 @@ module accumulateOrientation( //combinational
                 else
                     p14_bin = 'd1;
             2'b01://4th quadrant
-                if(pixel_14_temp1 > abs_pixel_14_temp2)
+                if(pixel_14_temp1 >= abs_pixel_14_temp2)
                     p14_bin = 'd7;
                 else
                     p14_bin = 'd6;
             2'b10://2nd quadrant
-                if(abs_pixel_14_temp1 > pixel_14_temp2)
+                if(abs_pixel_14_temp1 >= pixel_14_temp2)
                     p14_bin = 'd3;
                 else
                     p14_bin = 'd2;
@@ -915,12 +915,12 @@ module accumulateOrientation( //combinational
                 else
                     p15_bin = 'd1;
             2'b01://4th quadrant
-                if(pixel_15_temp1 > abs_pixel_15_temp2)
+                if(pixel_15_temp1 >= abs_pixel_15_temp2)
                     p15_bin = 'd7;
                 else
                     p15_bin = 'd6;
             2'b10://2nd quadrant
-                if(abs_pixel_15_temp1 > pixel_15_temp2)
+                if(abs_pixel_15_temp1 >= pixel_15_temp2)
                     p15_bin = 'd3;
                 else
                     p15_bin = 'd2;

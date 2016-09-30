@@ -50,7 +50,7 @@ module match(
                         tar_R_C_D_1,
                         tar_R_C_D_2,
                         tar_R_C_D_3;
-    input       [46:0]  matched_dout2_0,
+    input       [48:0]  matched_dout2_0,
                         matched_dout2_1,
                         matched_dout2_2,
                         matched_dout2_3;
@@ -61,7 +61,7 @@ module match(
     output      [8:0]   matched_addr_1;//這
     output      [8:0]   matched_addr_2;
     output      [3:0]   matched_WE;
-    output      [46:0]  matched_din_0,
+    output      [48:0]  matched_din_0,
                         matched_din_1,
                         matched_din_2,
                         matched_din_3;
@@ -93,7 +93,7 @@ module match(
                 tar_RCD_FF_2,
                 tar_RCD_FF_3;
                 
-    reg[46:0]   matched_dout2_FF_0,
+    reg[48:0]   matched_dout2_FF_0,
                 matched_dout2_FF_1,
                 matched_dout2_FF_2,
                 matched_dout2_FF_3;
@@ -158,7 +158,7 @@ module match(
     //////////////////////////////
     
     always @(posedge clk) begin //matched_dout2_FF_0, matched_dout2_FF_1, matched_dout2_FF_2, matched_dout2_FF_3
-        //接matched_MEM讀出來的
+        //catch from matched_MEM
         if(!rst_n) begin
             matched_dout2_FF_0 <= 'd0;
             matched_dout2_FF_1 <= 'd0;
@@ -204,7 +204,7 @@ module match(
     end
     
     always @(posedge clk) begin //tar_group_counter
-        //(tar_group_counter)其實也是讀targetMEM的address
+        //(tar_group_counter)is also address of targetMEM
         if(!rst_n)
             tar_group_counter <= 'd0;
         else if(ns==ST_SEND_REQUEST)
@@ -222,7 +222,7 @@ module match(
             img_group_counter <= 'd0;
         else if(cs==ST_IDLE && start)
             img_group_counter <= 'd1;
-        else if(cs==ST_READ_COMPUTE && ns==ST_SEND_REQUEST)//所有T掃過一遍了
+        else if(cs==ST_READ_COMPUTE && ns==ST_SEND_REQUEST)//scan all T
             img_group_counter <= img_group_counter + 1'b1;
         else
             img_group_counter <= img_group_counter;
@@ -280,7 +280,7 @@ module match(
                     ns = ST_SEND_REQUEST;
                 else if((tar_group_counter-1'b1 == tar_group_num) && (img_group_counter==img_group_num))//全部target掃過且image沒了
                     ns = ST_DONE;
-                else//target還沒掃完
+                else//hasn't yet scan all T
                     ns = ST_READ_COMPUTE;
             ST_DONE:
                 ns = ST_IDLE;

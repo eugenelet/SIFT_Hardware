@@ -6,7 +6,7 @@ module computeDistance(//combinational,should have m * n copies
 
     input       [383:0] A;//(12 bit) * (32 dim)
     input       [383:0] B;
-    output      [13:0]  distance;
+    output      [14:0]  distance;
     
     //////////////////////////////
     

@@ -14,18 +14,18 @@ module compareDist(//combinational
                         img1,
                         img2,
                         img3;
-    input       [46:0]  matched_MEM;
+    input       [48:0]  matched_MEM;
     output              WE;
-    output  reg [46:0]  matched_MEM_din;//min's row, min's col, min, min2
+    output  reg [48:0]  matched_MEM_din;//min's row, min's col, min, min2
     
     //////////////////////////////
     
-    wire        [13:0]  dist0,
+    wire        [14:0]  dist0,
                         dist1,
                         dist2,
                         dist3;
                         
-    wire        [13:0]  mem_min,
+    wire        [14:0]  mem_min,
                         mem_min2;
     
     wire                comp_result_01,
@@ -33,12 +33,12 @@ module compareDist(//combinational
                         comp_result_min,
                         comp_result_min2;
                                             
-    wire        [13:0]  min_01,//01裡小的
+    wire        [14:0]  min_01,//01裡小的
                         max_01,//01裡大的
                         min_23,//23裡小的
                         max_23;//23裡大的
     
-    wire        [13:0]  min,
+    wire        [14:0]  min,
                         min2,
                         new_min,
                         new_min2;
@@ -51,8 +51,8 @@ module compareDist(//combinational
     
     //////////////////////////////
     
-    assign mem_min                  = matched_MEM[27:14];//現在MEM裡的min
-    assign mem_min2                 = matched_MEM[13:0];//現在MEM裡的min2
+    assign mem_min                  = matched_MEM[29:15];//現在MEM裡的min
+    assign mem_min2                 = matched_MEM[14:0];//現在MEM裡的min2
             
     assign comp_result_01           = dist0 < dist1;
     assign min_01                   = (comp_result_01)? dist0 : dist1;
@@ -107,13 +107,13 @@ module compareDist(//combinational
     
         case(whoIsMin)
             2'b00://0最小
-                matched_MEM_din = { ((minHasChanged)? img0[402:384] : matched_MEM[46:28]), new_min, new_min2 };//min, min2, mem_min, mem_min2 => new_min, new_min2
+                matched_MEM_din = { ((minHasChanged)? img0[402:384] : matched_MEM[48:30]), new_min, new_min2 };//min, min2, mem_min, mem_min2 => new_min, new_min2
             2'b01:                                                                                         
-                matched_MEM_din = { ((minHasChanged)? img1[402:384] : matched_MEM[46:28]), new_min, new_min2 };
+                matched_MEM_din = { ((minHasChanged)? img1[402:384] : matched_MEM[48:30]), new_min, new_min2 };
             2'b10:                                                                                         
-                matched_MEM_din = { ((minHasChanged)? img2[402:384] : matched_MEM[46:28]), new_min, new_min2 };
+                matched_MEM_din = { ((minHasChanged)? img2[402:384] : matched_MEM[48:30]), new_min, new_min2 };
             2'b11:                                                                                  
-                matched_MEM_din = { ((minHasChanged)? img3[402:384] : matched_MEM[46:28]), new_min, new_min2 };
+                matched_MEM_din = { ((minHasChanged)? img3[402:384] : matched_MEM[48:30]), new_min, new_min2 };
             default:
                 matched_MEM_din = 'd0;
         endcase
