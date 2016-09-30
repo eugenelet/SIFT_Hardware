@@ -148,9 +148,9 @@ module CORE(
     wire  [8:0]  matched_addr1, matched_addr2;//shared
     wire  [3:0]   matched_we;//write din to addr1
     
-    wire  [46:0]  matched_0_din;
-    wire  [46:0]  matched_0_dout;
-    bmem_512x47 matched_0_mem(
+    wire  [48:0]  matched_0_din;
+    wire  [48:0]  matched_0_dout;
+    bmem_512x49 matched_0_mem(
       .clk  (clk),
       .we   (matched_we[0]),
       .addr1(matched_addr1),
@@ -160,9 +160,9 @@ module CORE(
       .dout2(matched_0_dout)
     );
 
-    wire  [46:0]  matched_1_din;
-    wire  [46:0]  matched_1_dout;
-    bmem_512x47 matched_1_mem(
+    wire  [48:0]  matched_1_din;
+    wire  [48:0]  matched_1_dout;
+    bmem_512x49 matched_1_mem(
       .clk  (clk),
       .we   (matched_we[1]),
       .addr1(matched_addr1),
@@ -172,9 +172,9 @@ module CORE(
       .dout2(matched_1_dout)
     );
     
-    wire  [46:0]  matched_2_din;
-    wire  [46:0]  matched_2_dout;
-    bmem_512x47 matched_2_mem(
+    wire  [48:0]  matched_2_din;
+    wire  [48:0]  matched_2_dout;
+    bmem_512x49 matched_2_mem(
       .clk  (clk),
       .we   (matched_we[2]),
       .addr1(matched_addr1),
@@ -184,9 +184,9 @@ module CORE(
       .dout2(matched_2_dout)
     );
     
-    wire  [46:0]  matched_3_din;
-    wire  [46:0]  matched_3_dout;
-    bmem_512x47 matched_3_mem(
+    wire  [48:0]  matched_3_din;
+    wire  [48:0]  matched_3_dout;
+    bmem_512x49 matched_3_mem(
       .clk  (clk),
       .we   (matched_we[3]),
       .addr1(matched_addr1),
