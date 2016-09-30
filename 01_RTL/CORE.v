@@ -344,11 +344,10 @@ module CORE(
         .rst_n              (rst_n),
         .start              (compute_match_start),//同時也送進match
         .kptRowCol          (keypoint_dout),
-        .layer1_num         (keypoint_num_1),//wire接進來，值不能改
-        .layer2_num         (keypoint_num_2),
         .line_buffer_0      (buffer_data_0),
         .line_buffer_1      (buffer_data_1),
         .line_buffer_2      (buffer_data_2),
+        .kpt_num            (keypoint_num),//wire接進來，值不能改
         .kpt_addr           (kpt_addr),
         .modified_blurred_addr(blurred_addr),
         .row_col_descpt1    (row_col_descpt1),//FF，用wire送進match
