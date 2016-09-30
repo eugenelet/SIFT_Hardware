@@ -38,7 +38,7 @@ module match(
                         rst_n;
     input               start,
                         descriptor_valid;
-    input       [10:0]  kpt_num,
+    input       [10:0]  kpt_num;
                         
     input       [8:0]   tar_descpt_group_num;
     
