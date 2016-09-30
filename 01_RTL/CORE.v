@@ -349,7 +349,7 @@ module CORE(
         .line_buffer_2      (buffer_data_2),
         .kpt_num            (keypoint_num),//wire接進來，值不能改
         .kpt_addr           (kpt_addr),
-        .modified_blurred_addr(blurred_addr),
+        .blurred_addr       (blurred_addr),
         .row_col_descpt1    (row_col_descpt1),//FF，用wire送進match
         .row_col_descpt2    (row_col_descpt2),
         .row_col_descpt3    (row_col_descpt3),
