@@ -8,7 +8,7 @@ module computeDescriptor(
     line_buffer_2,
     kpt_num,//can't change
     kpt_addr,
-    modified_blurred_addr,
+    blurred_addr,
     row_col_descpt1,//FF，send into match using wire
     row_col_descpt2,
     row_col_descpt3,
