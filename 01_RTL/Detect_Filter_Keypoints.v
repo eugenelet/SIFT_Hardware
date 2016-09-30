@@ -96,7 +96,7 @@ parameter ST_IDLE       = 0,
           ST_UPDATE     = 5,/*Grants a cycle to update MEM addr*/
           ST_BUFFER     = 6;/*Grants buffer a cycle to update*/
 
-assign done = (img_addr=='d472) ? 1 : 0;
+assign done = (img_addr=='d473) ? 1 : 0;
 
 /*Provide 2 Cycle for READY STATE*/
 reg     ready_start_relay;
@@ -115,7 +115,7 @@ assign buffer_we = ((current_state==ST_READY && start) || current_state==ST_BUFF
 always @(posedge clk) begin
   if (!rst_n) 
     img_addr <= 'd7;/*'d0;*/
-  else if (((current_state==ST_IDLE && start) || (current_state==ST_READY && !ready_start_relay) ||  current_state==ST_UPDATE) && img_addr<'d472/*'d480*/) /*Needs new address every 2 cycles*/
+  else if (((current_state==ST_IDLE && start) || (current_state==ST_READY && !ready_start_relay) ||  current_state==ST_UPDATE) && img_addr<'d473/*'d480*/) /*Needs new address every 2 cycles*/
     img_addr <= img_addr + 'd1;
   else if (done)
     img_addr <= 'd7;/*'d0;*/
