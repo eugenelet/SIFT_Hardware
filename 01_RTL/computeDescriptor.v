@@ -68,7 +68,6 @@ module computeDescriptor(
                 row_accu_result2;
     
     reg [8:0]   blurred_addr;
-    reg [8:0]   pre_modified_blurred_addr;
     
     reg [402:0] inner_row_col_descpt1,
                 inner_row_col_descpt2,

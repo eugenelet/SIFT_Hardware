@@ -31,16 +31,15 @@ module match(
     matched_dout2_2,
     matched_dout2_3,
     //
-    layer1_num,
-    layer2_num
+    kpt_num
 );
 
     input               clk,
                         rst_n;
     input               start,
                         descriptor_valid;
-    input       [10:0]  layer1_num,
-                        layer2_num;
+    input       [10:0]  kpt_num,
+                        
     input       [8:0]   tar_descpt_group_num;
     
     input       [402:0] image_R_C_D_0,
@@ -108,7 +107,7 @@ module match(
     assign matched_WE           = (cs == ST_READ_COMPUTE)? matched_WE_fake : 4'b0000;
     assign matched_addr_1       = tar_group_counter - 2'b10;
     assign debug                = (cs == ST_READ_COMPUTE)? 1'b1 : 1'b0;
-    assign img_descpt_group_num = (layer1_num + layer2_num) / 4;
+    assign img_descpt_group_num = kpt_num / 4;
     
     //////////////////////////////
     
