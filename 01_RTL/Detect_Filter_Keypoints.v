@@ -2893,15 +2893,17 @@ always @(*) begin
         next_state = ST_FILTER;
     end
     ST_UPDATE: begin
-      if(current_state==ST_UPDATE && img_addr!='d472/*'d479*/)
-        next_state = ST_BUFFER;
-      else if(img_addr == 'd472/*'d479*/)
-        next_state = ST_IDLE;
+      if(current_state==ST_UPDATE /*&& img_addr!='d472*//*'d479*/)
+        next_state = ST_BUFFER;/*
+      else if(img_addr == 'd472'd479)
+        next_state = ST_IDLE;*/
       else
         next_state = ST_UPDATE;
     end
     ST_BUFFER: begin
-      if(current_state==ST_BUFFER)
+      if(img_addr == 'd473)
+        next_state = ST_IDLE;
+      else if(current_state==ST_BUFFER)
         next_state = ST_DETECT;
       else
         next_state = ST_BUFFER;
