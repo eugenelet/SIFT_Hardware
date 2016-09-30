@@ -392,7 +392,7 @@ module CORE(
         .matched_dout2_1      (matched_1_dout),
         .matched_dout2_2      (matched_2_dout),
         .matched_dout2_3      (matched_3_dout),
-        .kpt_num              (keypoint_num),
+        .kpt_num              (keypoint_num)
     );
 
     always @(*) begin
