@@ -1,25 +1,22 @@
 module computeDescriptor(
     clk,
     rst_n,
-    start,//同時也送進match
-    kptRowCol1,
-    kptRowCol2,
-    layer1_num,//wire接進來，值不能改
-    layer2_num,
+    start,//same as the one into match
+    kptRowCol,
     line_buffer_0,
     line_buffer_1,
     line_buffer_2,
+    kpt_num,//can't change
     kpt_addr,
     modified_blurred_addr,
-    row_col_descpt1,//FF，用wire送進match
+    row_col_descpt1,//FF，send into match using wire
     row_col_descpt2,
     row_col_descpt3,
     row_col_descpt4,
-    descriptor_request,//match在要了
-    descriptor_valid,//告訴match，4個擺好了
+    descriptor_request,//match is requesting
+    descriptor_valid,//tell match, 4 descpts are ready
     readFrom,
-    LB_WE,
-    fillZero
+    LB_WE
 );
 
     input               clk,
@@ -28,20 +25,18 @@ module computeDescriptor(
                          
     input               descriptor_request;
     
-    input       [18:0]  kptRowCol1,//接mem讀出來的wire
-                        kptRowCol2;
-    
-    input       [10:0]  layer1_num;
-    input       [10:0]  layer2_num;
+    input       [19:0]  kptRowCol;//kptMEM output wire
                     
-    input       [5119:0]line_buffer_0,//把line buffer的3條output拉進來
+    input       [5119:0]line_buffer_0,//drag 3 output of LB in
                         line_buffer_1,
                         line_buffer_2;
     
     output              LB_WE;
     
     output  reg [10:0]  kpt_addr;
-    output      [8:0]   modified_blurred_addr;
+    input       [10:0]  kpt_num;
+    
+    output      [8:0]   blurred_addr;
     
     output  reg [402:0] row_col_descpt1,
                         row_col_descpt2,
@@ -50,9 +45,7 @@ module computeDescriptor(
                     
     output              descriptor_valid;
     
-    output  reg         readFrom;//從layer1還從layer2讀
-    
-    output              fillZero;
+    output  reg         readFrom;//readFrom layer 1 or layer 2 
     
     //////////////////////////////
     
@@ -70,10 +63,8 @@ module computeDescriptor(
     
     //////////////////////////////
     
-    wire[18:0]  kptRowCol;
-    wire[11:0]  totalKptNum;
-    wire[10:0]  new_layer2_num;
-    wire[95:0]  row_accu_result1,//從combinational接出來的wire
+    wire[10:0]  new_kpt_num;
+    wire[95:0]  row_accu_result1,//from combination(8 x 12 = 96)
                 row_accu_result2;
     
     reg [8:0]   blurred_addr;
@@ -84,24 +75,20 @@ module computeDescriptor(
                 inner_row_col_descpt3,
                 inner_row_col_descpt4;
     
-    reg [18:0]  kptRowCol_FF;//接從mem讀出來的
+    reg [18:0]  kptRowCol_FF;//catch from memory out
 
-    reg [3:0]   cycle_count;//ST_LB_GET的cycle_count
+    reg [4:0]   cycle_count;//cycle_count of ST_LB_GET
     
-    reg [2:0]   descpt_ready_num;//已經放幾個在inner_FF了
+    reg [2:0]   descpt_ready_num;//how many descpts are ready in inner_FF
     
     reg [95:0]  accu_8_dim_1,//8 int x 12 = 96
                 accu_8_dim_2;
                 
     //////////////////////////////
     
-    assign totalKptNum              = layer1_num + layer2_num;
-    assign new_layer2_num           = layer2_num - totalKptNum[1:0];//layer1_num + new_layer2_num = multiple of 4
+    assign new_kpt_num              = kpt_num - kpt_num[1:0];
     assign descriptor_valid         = (cs == ST_DESCPT_VALID)? 1'b1 : 1'b0;
-    assign modified_blurred_addr    = (blurred_addr > 'd480)? 'd480 : blurred_addr;//若overflow就會讀出0
-    assign kptRowCol                = (readFrom)? kptRowCol2 : kptRowCol1;
     assign LB_WE                    = (ns == ST_LB_GET)? 1'b1 : 1'b0;
-    assign fillZero                 = (pre_modified_blurred_addr == 'd480)? 1'b1 : 1'b0; 
     
     //////////////////////////////
     
@@ -111,32 +98,22 @@ module computeDescriptor(
         .LB_2               (line_buffer_2),
         .row                (kptRowCol_FF[18:10]),
         .col                (kptRowCol_FF[9:0]),
-        .cycle_count        (cycle_count),
         .row_accu_result1   (row_accu_result1),
         .row_accu_result2   (row_accu_result2)
     );
     
     //////////////////////////////
     
-    always @(posedge clk) begin //pre_modified_blurred_addr
-    
-        if(!rst_n)
-            pre_modified_blurred_addr <= 'd0;
-        else
-            pre_modified_blurred_addr <= modified_blurred_addr;
-    
-    end
-    
     always @(posedge clk) begin //inner_row_col_descpt1
     
         if(!rst_n)
             inner_row_col_descpt1 <= 'd0;
         else if(cs==ST_GET_KPT && descpt_ready_num=='d0)
-            inner_row_col_descpt1 <= { kptRowCol_FF, {384{1'b0}} };//寫進row col
-        else if(cs==ST_LB_GET && descpt_ready_num=='d0 && cycle_count=='d6)
-            inner_row_col_descpt1 <= { inner_row_col_descpt1[402:384], accu_8_dim_1 + row_accu_result1, accu_8_dim_2 + row_accu_result2, {192{1'b0}} };//寫進前16維
-        else if(cs==ST_LB_GET && descpt_ready_num=='d0 && cycle_count=='d9)
-            inner_row_col_descpt1 <= { inner_row_col_descpt1[402:192],  accu_8_dim_1 + row_accu_result1, accu_8_dim_2 + row_accu_result2};//寫進後16維
+            inner_row_col_descpt1 <= { kptRowCol_FF, {384{1'b0}} };//write row col
+        else if(cs==ST_LB_GET && descpt_ready_num=='d0 && cycle_count=='d10)
+            inner_row_col_descpt1 <= { inner_row_col_descpt1[402:384], accu_8_dim_1 + row_accu_result1, accu_8_dim_2 + row_accu_result2, {192{1'b0}} };//write first 16 dims
+        else if(cs==ST_LB_GET && descpt_ready_num=='d0 && cycle_count=='d17)
+            inner_row_col_descpt1 <= { inner_row_col_descpt1[402:192],  accu_8_dim_1 + row_accu_result1, accu_8_dim_2 + row_accu_result2};//write last 16 dims
         else
             inner_row_col_descpt1 <= inner_row_col_descpt1;
     
@@ -147,11 +124,11 @@ module computeDescriptor(
         if(!rst_n)
             inner_row_col_descpt2 <= 'd0;
         else if(cs==ST_GET_KPT && descpt_ready_num=='d1)
-            inner_row_col_descpt2 <= { kptRowCol_FF, {384{1'b0}} };//寫進row col
-        else if(cs==ST_LB_GET && descpt_ready_num=='d1 && cycle_count=='d6)
-            inner_row_col_descpt2 <= { inner_row_col_descpt2[402:384], accu_8_dim_1 + row_accu_result1, accu_8_dim_2 + row_accu_result2, {192{1'b0}} };//寫進前16維
-        else if(cs==ST_LB_GET && descpt_ready_num=='d1 && cycle_count=='d9)
-            inner_row_col_descpt2 <= { inner_row_col_descpt2[402:192],  accu_8_dim_1 + row_accu_result1, accu_8_dim_2 + row_accu_result2};//寫進後16維
+            inner_row_col_descpt2 <= { kptRowCol_FF, {384{1'b0}} };//write row col
+        else if(cs==ST_LB_GET && descpt_ready_num=='d1 && cycle_count=='d10)
+            inner_row_col_descpt2 <= { inner_row_col_descpt2[402:384], accu_8_dim_1 + row_accu_result1, accu_8_dim_2 + row_accu_result2, {192{1'b0}} };//write first row col
+        else if(cs==ST_LB_GET && descpt_ready_num=='d1 && cycle_count=='d17)
+            inner_row_col_descpt2 <= { inner_row_col_descpt2[402:192],  accu_8_dim_1 + row_accu_result1, accu_8_dim_2 + row_accu_result2};//write last row col
         else
             inner_row_col_descpt2 <= inner_row_col_descpt2;
     
@@ -162,11 +139,11 @@ module computeDescriptor(
         if(!rst_n)
             inner_row_col_descpt3 <= 'd0;
         else if(cs==ST_GET_KPT && descpt_ready_num=='d2)
-            inner_row_col_descpt3 <= { kptRowCol_FF, {384{1'b0}} };//寫進row col
-        else if(cs==ST_LB_GET && descpt_ready_num=='d2 && cycle_count=='d6)
-            inner_row_col_descpt3 <= { inner_row_col_descpt3[402:384], accu_8_dim_1 + row_accu_result1, accu_8_dim_2 + row_accu_result2, {192{1'b0}} };//寫進前16維
-        else if(cs==ST_LB_GET && descpt_ready_num=='d2 && cycle_count=='d9)
-            inner_row_col_descpt3 <= { inner_row_col_descpt3[402:192],  accu_8_dim_1 + row_accu_result1, accu_8_dim_2 + row_accu_result2};//寫進後16維
+            inner_row_col_descpt3 <= { kptRowCol_FF, {384{1'b0}} };//wirte row col
+        else if(cs==ST_LB_GET && descpt_ready_num=='d2 && cycle_count=='d10)
+            inner_row_col_descpt3 <= { inner_row_col_descpt3[402:384], accu_8_dim_1 + row_accu_result1, accu_8_dim_2 + row_accu_result2, {192{1'b0}} };//write first 16 dims
+        else if(cs==ST_LB_GET && descpt_ready_num=='d2 && cycle_count=='d17)
+            inner_row_col_descpt3 <= { inner_row_col_descpt3[402:192],  accu_8_dim_1 + row_accu_result1, accu_8_dim_2 + row_accu_result2};//write last 16 dims
         else
             inner_row_col_descpt3 <= inner_row_col_descpt3;
     
@@ -177,11 +154,11 @@ module computeDescriptor(
         if(!rst_n)
             inner_row_col_descpt4 <= 'd0;
         else if(cs==ST_GET_KPT && descpt_ready_num=='d3)
-            inner_row_col_descpt4 <= { kptRowCol_FF, {384{1'b0}} };//寫進row col
-        else if(cs==ST_LB_GET && descpt_ready_num=='d3 && cycle_count=='d6)
-            inner_row_col_descpt4 <= { inner_row_col_descpt4[402:384], accu_8_dim_1 + row_accu_result1, accu_8_dim_2 + row_accu_result2, {192{1'b0}} };//寫進前16維
-        else if(cs==ST_LB_GET && descpt_ready_num=='d3 && cycle_count=='d9)
-            inner_row_col_descpt4 <= { inner_row_col_descpt4[402:192],  accu_8_dim_1 + row_accu_result1, accu_8_dim_2 + row_accu_result2};//寫進後16維
+            inner_row_col_descpt4 <= { kptRowCol_FF, {384{1'b0}} };//write row col
+        else if(cs==ST_LB_GET && descpt_ready_num=='d3 && cycle_count=='d10)
+            inner_row_col_descpt4 <= { inner_row_col_descpt4[402:384], accu_8_dim_1 + row_accu_result1, accu_8_dim_2 + row_accu_result2, {192{1'b0}} };//write first 16 dims
+        else if(cs==ST_LB_GET && descpt_ready_num=='d3 && cycle_count=='d17)
+            inner_row_col_descpt4 <= { inner_row_col_descpt4[402:192],  accu_8_dim_1 + row_accu_result1, accu_8_dim_2 + row_accu_result2};//write last 16 dims
         else
             inner_row_col_descpt4 <= inner_row_col_descpt4;
     
@@ -197,12 +174,12 @@ module computeDescriptor(
             accu_8_dim_1 <= 'd0;
             accu_8_dim_2 <= 'd0;
         end
-        else if(cycle_count == 'd6) begin
+        else if(cycle_count == 'd10) begin
             accu_8_dim_1 <= row_accu_result1;
             accu_8_dim_2 <= row_accu_result2;
         end
-        else if(cycle_count>='d3 && cycle_count<='d9) begin
-            accu_8_dim_1 <= accu_8_dim_1 + row_accu_result1;//row_accu_result1是要寫進累加的8個整數
+        else if(cycle_count>='d3 && cycle_count<='d17) begin
+            accu_8_dim_1 <= accu_8_dim_1 + row_accu_result1;
             accu_8_dim_2 <= accu_8_dim_2 + row_accu_result2;
         end
         else begin
@@ -233,7 +210,7 @@ module computeDescriptor(
             descpt_ready_num <= 'd0;
         else if(cs == ST_DESCPT_VALID)//送出去了，歸0
             descpt_ready_num <= 'd0;
-        else if(ns == ST_FINISH_ONE)//擺好一個
+        else if(cs==ST_LB_GET && ns==ST_FINISH_ONE)//擺好一個
             descpt_ready_num <= descpt_ready_num + 1'b1;
         else
             descpt_ready_num <= descpt_ready_num;
@@ -244,22 +221,18 @@ module computeDescriptor(
     
         if(!rst_n)
             readFrom <= 1'b0;
-        else if(start)
-            readFrom <= 1'b0;
-        else if(readFrom==1'b0 && kpt_addr==layer1_num-1'b1 && ns==ST_FINISH_ONE)
-            readFrom <= 1'b1;
+        else if(cs == ST_WAITING_KPT)
+            readFrom <= kptRowCol[19];
         else
             readFrom <= readFrom;
     
     end
-    
+
     always @(posedge clk) begin //kpt_addr
     
         if(!rst_n)
             kpt_addr <= 'd0;
         else if(cs == ST_IDLE)
-            kpt_addr <= 'd0;
-        else if(readFrom==1'b0 && kpt_addr==layer1_num-1'b1 && cs==ST_LB_GET && ns==ST_FINISH_ONE)
             kpt_addr <= 'd0;
         else if(cs==ST_LB_GET && ns==ST_FINISH_ONE)
             kpt_addr <= kpt_addr + 1'b1;
@@ -273,7 +246,7 @@ module computeDescriptor(
         if(!rst_n)
             kptRowCol_FF <= 'd0;
         else if(cs == ST_WAITING_KPT)
-            kptRowCol_FF <= kptRowCol;
+            kptRowCol_FF <= kptRowCol[18:0];
         else
             kptRowCol_FF <= kptRowCol_FF;
             
@@ -284,7 +257,7 @@ module computeDescriptor(
         if(!rst_n)
             blurred_addr <= 'd0;
         else if(cs == ST_GET_KPT)
-            blurred_addr <= kptRowCol_FF[18:10] - 3'b100;//從kptRow - 4那列開始讀
+            blurred_addr <= kptRowCol_FF[18:10] - 4'b1000;//從kptRow - 8那列開始讀
         else
             blurred_addr <= blurred_addr + 1'b1;
     
@@ -339,19 +312,19 @@ module computeDescriptor(
             ST_WAITING_BLUR:
                 ns = ST_LB_GET;
             ST_LB_GET:
-                if(cycle_count == 4'b1001)
+                if(cycle_count == 'd17)
                     ns = ST_FINISH_ONE;
                 else
                     ns = ST_LB_GET;
             ST_FINISH_ONE:
-                if(descpt_ready_num != 3'b100)//還沒擺滿
+                if(descpt_ready_num != 3'b100)//not finish 4 yet
                     ns = ST_WAITING_KPT;
                 else if(descriptor_request == 1'b1)
                     ns = ST_DESCPT_VALID;
                 else
                     ns = ST_FINISH_ONE;
             ST_DESCPT_VALID:
-                if(readFrom==1'b1 && kpt_addr==new_layer2_num)
+                if(readFrom==1'b1 && kpt_addr==new_kpt_num)
                     ns = ST_IDLE;
                 else
                     ns = ST_WAITING_KPT;

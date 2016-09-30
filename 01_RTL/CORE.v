@@ -325,17 +325,17 @@ module CORE(
         keypoint_num <= 0;
     end
 
-    /*reg [10:0]  keypoint_num_2;
+    reg [10:0]  keypoint_num;
     always @(posedge clk ) begin
       if (!rst_n) 
-        keypoint_num_2 <= 0;    
+        keypoint_num <= 0;    
       else if (current_state==ST_DETECT_FILTER)
-        keypoint_num_2 <= detect_filter_keypoint_2_addr;
+        keypoint_num <= detect_filter_keypoint_addr;
       else if (current_state==ST_IDLE)
-        keypoint_num_2 <= 0;
-    end*/
+        keypoint_num <= 0;
+    end
 
-    /*wire           compute_match_start = (current_state==ST_COMPUTE_MATCH) ? 1:0;
+    wire           compute_match_start = (current_state==ST_COMPUTE_MATCH) ? 1:0;
     wire           compute_match_done;
     wire  [10:0]   kpt_addr;
     wire           compute_match_buffer_we;
@@ -347,14 +347,12 @@ module CORE(
                    row_col_descpt4;   
     wire           descriptor_request,
                    descriptor_valid;
-    wire           compute_match_fill_zero;
                    
     computeDescriptor u_computeDescriptor(
         .clk                (clk),
         .rst_n              (rst_n),
         .start              (compute_match_start),//同時也送進match
-        .kptRowCol1         (keypoint_1_dout),
-        .kptRowCol2         (keypoint_2_dout),
+        .kptRowCol          (keypoint_dout),
         .layer1_num         (keypoint_num_1),//wire接進來，值不能改
         .layer2_num         (keypoint_num_2),
         .line_buffer_0      (buffer_data_0),
@@ -369,10 +367,8 @@ module CORE(
         .descriptor_request (descriptor_request),//match在要了
         .descriptor_valid   (descriptor_valid),//告訴match，4個擺好了
         .readFrom           (readFrom),
-        .LB_WE              (compute_match_buffer_we),
-        .fillZero           (compute_match_fill_zero)
+        .LB_WE              (compute_match_buffer_we)
     );
-
 
 
 
@@ -408,7 +404,7 @@ module CORE(
         .matched_dout2_3      (matched_3_dout),
         .layer1_num           (keypoint_num_1),
         .layer2_num           (keypoint_num_2)
-    );*/
+    );
 
     always @(*) begin
       case(current_state)
@@ -432,21 +428,19 @@ module CORE(
         img_addr  = detect_filter_img_addr;
         fill_zero = 0;
         keypoint_addr = detect_filter_keypoint_addr;
-        // keypoint_2_addr = detect_filter_keypoint_2_addr;
         buffer_in = img_dout;
       end
-      /*ST_COMPUTE_MATCH: begin
+      ST_COMPUTE_MATCH: begin
         blur_addr[0] = blurred_addr;  
         blur_addr[1] = blurred_addr;  
         blur_addr[2] = 0;  
         blur_addr[3] = 0;  
         buffer_we = compute_match_buffer_we;
         img_addr  = 0;
-        fill_zero = compute_match_fill_zero;
-        keypoint_1_addr = kpt_addr;
-        keypoint_2_addr = kpt_addr;
+        fill_zero = 0;
+        keypoint_addr = kpt_addr;
         buffer_in = (readFrom) ? blur_dout[1] : blur_dout[0];
-      end*/
+      end
       default: begin
         blur_addr[0] = 0;
         blur_addr[1] = 0;  
@@ -492,16 +486,16 @@ module CORE(
         end
         ST_DETECT_FILTER: begin
           if(detect_filter_done)
-            next_state = ST_END;//ST_COMPUTE_MATCH;
+            next_state = ST_COMPUTE_MATCH;
           else
             next_state = ST_DETECT_FILTER;
-        end/*
+        end
         ST_COMPUTE_MATCH: begin
           if(compute_match_done)
             next_state = ST_END;
           else 
             next_state = ST_COMPUTE_MATCH;
-        end*/
+        end
         ST_END: begin /*DEBUG STATE*/
             next_state = ST_END;
         end

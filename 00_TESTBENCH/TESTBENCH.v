@@ -181,7 +181,7 @@ initial begin
 
 /*==========================================*/
 
-  /*targetFile = $fopen("targetRowColDespt.txt", "r");
+  targetFile = $fopen("targetRowColDespt.txt", "r");
   rc = $fscanf(targetFile, "%d", targetKptNum);
   u_core.tar_descpt_group_num = targetKptNum/4;
    for(i = 0; i < targetKptNum; i = i + 1) begin
@@ -330,7 +330,7 @@ initial begin
                 rc = $fscanf(targetFile, "%d", u_core.target_3_mem.mem[i / 4][23:12]  );    
                 rc = $fscanf(targetFile, "%d", u_core.target_3_mem.mem[i / 4][11:0]   );//1st dim
             end
-        end*/
+        end
 
 /*===========================================*/
 
@@ -431,7 +431,7 @@ initial begin
   // $display("layer2_num : %d", u_core.u_match.layer2_num);
   // $display("img_group_num : %d", u_core.u_match.img_descpt_group_num);
 
-/*
+
   for(i = 0; i < 512; i=i+1) begin
     for(j = 46; j >=0; j=j-1) begin
       u_core.matched_0_mem.mem[i][j] = 1;
@@ -485,7 +485,7 @@ initial begin
                // match_succeed_num = match_succeed_num + 1;
            end
        end    
-   end*/
+   end
    //output的可能比ans少幾個
 /*  debug_0 = $fopen("is_kp0", "w");
   debug_1 = $fopen("is_kp1", "w");
