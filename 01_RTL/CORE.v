@@ -325,15 +325,6 @@ module CORE(
         keypoint_num <= 0;
     end
 
-    reg [10:0]  keypoint_num;
-    always @(posedge clk ) begin
-      if (!rst_n) 
-        keypoint_num <= 0;    
-      else if (current_state==ST_DETECT_FILTER)
-        keypoint_num <= detect_filter_keypoint_addr;
-      else if (current_state==ST_IDLE)
-        keypoint_num <= 0;
-    end
 
     wire           compute_match_start = (current_state==ST_COMPUTE_MATCH) ? 1:0;
     wire           compute_match_done;
