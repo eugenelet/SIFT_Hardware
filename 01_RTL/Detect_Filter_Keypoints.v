@@ -177,7 +177,7 @@ detect_keypoint u_detect_keypoint_0_0(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 0),
+  .current_col      (current_col + 10'd0),
   .is_keypoint      (is_keypoint_0[0])
 );
 detect_keypoint u_detect_keypoint_0_1(
@@ -193,7 +193,7 @@ detect_keypoint u_detect_keypoint_0_1(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 1),
+  .current_col      (current_col + 10'd1),
   .is_keypoint      (is_keypoint_0[1])
 );
 detect_keypoint u_detect_keypoint_0_2(
@@ -209,7 +209,7 @@ detect_keypoint u_detect_keypoint_0_2(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 2),
+  .current_col      (current_col + 10'd2),
   .is_keypoint      (is_keypoint_0[2])
 );
 detect_keypoint u_detect_keypoint_0_3(
@@ -225,7 +225,7 @@ detect_keypoint u_detect_keypoint_0_3(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 3),
+  .current_col      (current_col + 10'd3),
   .is_keypoint      (is_keypoint_0[3])
 );
 detect_keypoint u_detect_keypoint_0_4(
@@ -241,7 +241,7 @@ detect_keypoint u_detect_keypoint_0_4(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 4),
+  .current_col      (current_col + 10'd4),
   .is_keypoint      (is_keypoint_0[4])
 );
 detect_keypoint u_detect_keypoint_0_5(
@@ -257,7 +257,7 @@ detect_keypoint u_detect_keypoint_0_5(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 5),
+  .current_col      (current_col + 10'd5),
   .is_keypoint      (is_keypoint_0[5])
 );
 detect_keypoint u_detect_keypoint_0_6(
@@ -273,7 +273,7 @@ detect_keypoint u_detect_keypoint_0_6(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 6),
+  .current_col      (current_col + 10'd6),
   .is_keypoint      (is_keypoint_0[6])
 );
 detect_keypoint u_detect_keypoint_0_7(
@@ -289,7 +289,7 @@ detect_keypoint u_detect_keypoint_0_7(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 7),
+  .current_col      (current_col + 10'd7),
   .is_keypoint      (is_keypoint_0[7])
 );
 detect_keypoint u_detect_keypoint_0_8(
@@ -305,7 +305,7 @@ detect_keypoint u_detect_keypoint_0_8(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 8),
+  .current_col      (current_col + 10'd8),
   .is_keypoint      (is_keypoint_0[8])
 );
 detect_keypoint u_detect_keypoint_0_9(
@@ -321,7 +321,7 @@ detect_keypoint u_detect_keypoint_0_9(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 9),
+  .current_col      (current_col + 10'd9),
   .is_keypoint      (is_keypoint_0[9])
 );
 detect_keypoint u_detect_keypoint_0_10(
@@ -337,7 +337,7 @@ detect_keypoint u_detect_keypoint_0_10(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 10),
+  .current_col      (current_col + 10'd10),
   .is_keypoint      (is_keypoint_0[10])
 );
 detect_keypoint u_detect_keypoint_0_11(
@@ -353,7 +353,7 @@ detect_keypoint u_detect_keypoint_0_11(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 11),
+  .current_col      (current_col + 10'd11),
   .is_keypoint      (is_keypoint_0[11])
 );
 detect_keypoint u_detect_keypoint_0_12(
@@ -369,7 +369,7 @@ detect_keypoint u_detect_keypoint_0_12(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 12),
+  .current_col      (current_col + 10'd12),
   .is_keypoint      (is_keypoint_0[12])
 );
 detect_keypoint u_detect_keypoint_0_13(
@@ -385,7 +385,7 @@ detect_keypoint u_detect_keypoint_0_13(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 13),
+  .current_col      (current_col + 10'd13),
   .is_keypoint      (is_keypoint_0[13])
 );
 detect_keypoint u_detect_keypoint_0_14(
@@ -401,7 +401,7 @@ detect_keypoint u_detect_keypoint_0_14(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 14),
+  .current_col      (current_col + 10'd14),
   .is_keypoint      (is_keypoint_0[14])
 );
 detect_keypoint u_detect_keypoint_0_15(
@@ -417,7 +417,7 @@ detect_keypoint u_detect_keypoint_0_15(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 15),
+  .current_col      (current_col + 10'd15),
   .is_keypoint      (is_keypoint_0[15])
 );
 detect_keypoint u_detect_keypoint_0_16(
@@ -433,7 +433,7 @@ detect_keypoint u_detect_keypoint_0_16(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 16),
+  .current_col      (current_col + 10'd16),
   .is_keypoint      (is_keypoint_0[16])
 );
 detect_keypoint u_detect_keypoint_0_17(
@@ -449,7 +449,7 @@ detect_keypoint u_detect_keypoint_0_17(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 17),
+  .current_col      (current_col + 10'd17),
   .is_keypoint      (is_keypoint_0[17])
 );
 detect_keypoint u_detect_keypoint_0_18(
@@ -465,7 +465,7 @@ detect_keypoint u_detect_keypoint_0_18(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 18),
+  .current_col      (current_col + 10'd18),
   .is_keypoint      (is_keypoint_0[18])
 );
 detect_keypoint u_detect_keypoint_0_19(
@@ -481,7 +481,7 @@ detect_keypoint u_detect_keypoint_0_19(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 19),
+  .current_col      (current_col + 10'd19),
   .is_keypoint      (is_keypoint_0[19])
 );
 detect_keypoint u_detect_keypoint_0_20(
@@ -497,7 +497,7 @@ detect_keypoint u_detect_keypoint_0_20(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 20),
+  .current_col      (current_col + 10'd20),
   .is_keypoint      (is_keypoint_0[20])
 );
 detect_keypoint u_detect_keypoint_0_21(
@@ -513,7 +513,7 @@ detect_keypoint u_detect_keypoint_0_21(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 21),
+  .current_col      (current_col + 10'd21),
   .is_keypoint      (is_keypoint_0[21])
 );
 detect_keypoint u_detect_keypoint_0_22(
@@ -529,7 +529,7 @@ detect_keypoint u_detect_keypoint_0_22(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 22),
+  .current_col      (current_col + 10'd22),
   .is_keypoint      (is_keypoint_0[22])
 );
 detect_keypoint u_detect_keypoint_0_23(
@@ -545,7 +545,7 @@ detect_keypoint u_detect_keypoint_0_23(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 23),
+  .current_col      (current_col + 10'd23),
   .is_keypoint      (is_keypoint_0[23])
 );
 detect_keypoint u_detect_keypoint_0_24(
@@ -561,7 +561,7 @@ detect_keypoint u_detect_keypoint_0_24(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 24),
+  .current_col      (current_col + 10'd24),
   .is_keypoint      (is_keypoint_0[24])
 );
 detect_keypoint u_detect_keypoint_0_25(
@@ -577,7 +577,7 @@ detect_keypoint u_detect_keypoint_0_25(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 25),
+  .current_col      (current_col + 10'd25),
   .is_keypoint      (is_keypoint_0[25])
 );
 detect_keypoint u_detect_keypoint_0_26(
@@ -593,7 +593,7 @@ detect_keypoint u_detect_keypoint_0_26(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 26),
+  .current_col      (current_col + 10'd26),
   .is_keypoint      (is_keypoint_0[26])
 );
 detect_keypoint u_detect_keypoint_0_27(
@@ -609,7 +609,7 @@ detect_keypoint u_detect_keypoint_0_27(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 27),
+  .current_col      (current_col + 10'd27),
   .is_keypoint      (is_keypoint_0[27])
 );
 detect_keypoint u_detect_keypoint_0_28(
@@ -625,7 +625,7 @@ detect_keypoint u_detect_keypoint_0_28(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 28),
+  .current_col      (current_col + 10'd28),
   .is_keypoint      (is_keypoint_0[28])
 );
 detect_keypoint u_detect_keypoint_0_29(
@@ -641,7 +641,7 @@ detect_keypoint u_detect_keypoint_0_29(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 29),
+  .current_col      (current_col + 10'd29),
   .is_keypoint      (is_keypoint_0[29])
 );
 detect_keypoint u_detect_keypoint_0_30(
@@ -657,7 +657,7 @@ detect_keypoint u_detect_keypoint_0_30(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 30),
+  .current_col      (current_col + 10'd30),
   .is_keypoint      (is_keypoint_0[30])
 );
 detect_keypoint u_detect_keypoint_0_31(
@@ -673,7 +673,7 @@ detect_keypoint u_detect_keypoint_0_31(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 31),
+  .current_col      (current_col + 10'd31),
   .is_keypoint      (is_keypoint_0[31])
 );
 detect_keypoint u_detect_keypoint_0_32(
@@ -689,7 +689,7 @@ detect_keypoint u_detect_keypoint_0_32(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 32),
+  .current_col      (current_col + 10'd32),
   .is_keypoint      (is_keypoint_0[32])
 );
 detect_keypoint u_detect_keypoint_0_33(
@@ -705,7 +705,7 @@ detect_keypoint u_detect_keypoint_0_33(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 33),
+  .current_col      (current_col + 10'd33),
   .is_keypoint      (is_keypoint_0[33])
 );
 detect_keypoint u_detect_keypoint_0_34(
@@ -721,7 +721,7 @@ detect_keypoint u_detect_keypoint_0_34(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 34),
+  .current_col      (current_col + 10'd34),
   .is_keypoint      (is_keypoint_0[34])
 );
 detect_keypoint u_detect_keypoint_0_35(
@@ -737,7 +737,7 @@ detect_keypoint u_detect_keypoint_0_35(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 35),
+  .current_col      (current_col + 10'd35),
   .is_keypoint      (is_keypoint_0[35])
 );
 detect_keypoint u_detect_keypoint_0_36(
@@ -753,7 +753,7 @@ detect_keypoint u_detect_keypoint_0_36(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 36),
+  .current_col      (current_col + 10'd36),
   .is_keypoint      (is_keypoint_0[36])
 );
 detect_keypoint u_detect_keypoint_0_37(
@@ -769,7 +769,7 @@ detect_keypoint u_detect_keypoint_0_37(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 37),
+  .current_col      (current_col + 10'd37),
   .is_keypoint      (is_keypoint_0[37])
 );
 detect_keypoint u_detect_keypoint_0_38(
@@ -785,7 +785,7 @@ detect_keypoint u_detect_keypoint_0_38(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 38),
+  .current_col      (current_col + 10'd38),
   .is_keypoint      (is_keypoint_0[38])
 );
 detect_keypoint u_detect_keypoint_0_39(
@@ -801,7 +801,7 @@ detect_keypoint u_detect_keypoint_0_39(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 39),
+  .current_col      (current_col + 10'd39),
   .is_keypoint      (is_keypoint_0[39])
 );
 detect_keypoint u_detect_keypoint_0_40(
@@ -817,7 +817,7 @@ detect_keypoint u_detect_keypoint_0_40(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 40),
+  .current_col      (current_col + 10'd40),
   .is_keypoint      (is_keypoint_0[40])
 );
 detect_keypoint u_detect_keypoint_0_41(
@@ -833,7 +833,7 @@ detect_keypoint u_detect_keypoint_0_41(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 41),
+  .current_col      (current_col + 10'd41),
   .is_keypoint      (is_keypoint_0[41])
 );
 detect_keypoint u_detect_keypoint_0_42(
@@ -849,7 +849,7 @@ detect_keypoint u_detect_keypoint_0_42(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 42),
+  .current_col      (current_col + 10'd42),
   .is_keypoint      (is_keypoint_0[42])
 );
 detect_keypoint u_detect_keypoint_0_43(
@@ -865,7 +865,7 @@ detect_keypoint u_detect_keypoint_0_43(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 43),
+  .current_col      (current_col + 10'd43),
   .is_keypoint      (is_keypoint_0[43])
 );
 detect_keypoint u_detect_keypoint_0_44(
@@ -881,7 +881,7 @@ detect_keypoint u_detect_keypoint_0_44(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 44),
+  .current_col      (current_col + 10'd44),
   .is_keypoint      (is_keypoint_0[44])
 );
 detect_keypoint u_detect_keypoint_0_45(
@@ -897,7 +897,7 @@ detect_keypoint u_detect_keypoint_0_45(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 45),
+  .current_col      (current_col + 10'd45),
   .is_keypoint      (is_keypoint_0[45])
 );
 detect_keypoint u_detect_keypoint_0_46(
@@ -913,7 +913,7 @@ detect_keypoint u_detect_keypoint_0_46(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 46),
+  .current_col      (current_col + 10'd46),
   .is_keypoint      (is_keypoint_0[46])
 );
 detect_keypoint u_detect_keypoint_0_47(
@@ -929,7 +929,7 @@ detect_keypoint u_detect_keypoint_0_47(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 47),
+  .current_col      (current_col + 10'd47),
   .is_keypoint      (is_keypoint_0[47])
 );
 detect_keypoint u_detect_keypoint_0_48(
@@ -945,7 +945,7 @@ detect_keypoint u_detect_keypoint_0_48(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 48),
+  .current_col      (current_col + 10'd48),
   .is_keypoint      (is_keypoint_0[48])
 );
 detect_keypoint u_detect_keypoint_0_49(
@@ -961,7 +961,7 @@ detect_keypoint u_detect_keypoint_0_49(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 49),
+  .current_col      (current_col + 10'd49),
   .is_keypoint      (is_keypoint_0[49])
 );
 detect_keypoint u_detect_keypoint_0_50(
@@ -977,7 +977,7 @@ detect_keypoint u_detect_keypoint_0_50(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 50),
+  .current_col      (current_col + 10'd50),
   .is_keypoint      (is_keypoint_0[50])
 );
 detect_keypoint u_detect_keypoint_0_51(
@@ -993,7 +993,7 @@ detect_keypoint u_detect_keypoint_0_51(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 51),
+  .current_col      (current_col + 10'd51),
   .is_keypoint      (is_keypoint_0[51])
 );
 detect_keypoint u_detect_keypoint_0_52(
@@ -1009,7 +1009,7 @@ detect_keypoint u_detect_keypoint_0_52(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 52),
+  .current_col      (current_col + 10'd52),
   .is_keypoint      (is_keypoint_0[52])
 );
 detect_keypoint u_detect_keypoint_0_53(
@@ -1025,7 +1025,7 @@ detect_keypoint u_detect_keypoint_0_53(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 53),
+  .current_col      (current_col + 10'd53),
   .is_keypoint      (is_keypoint_0[53])
 );
 detect_keypoint u_detect_keypoint_0_54(
@@ -1041,7 +1041,7 @@ detect_keypoint u_detect_keypoint_0_54(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 54),
+  .current_col      (current_col + 10'd54),
   .is_keypoint      (is_keypoint_0[54])
 );
 detect_keypoint u_detect_keypoint_0_55(
@@ -1057,7 +1057,7 @@ detect_keypoint u_detect_keypoint_0_55(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 55),
+  .current_col      (current_col + 10'd55),
   .is_keypoint      (is_keypoint_0[55])
 );
 detect_keypoint u_detect_keypoint_0_56(
@@ -1073,7 +1073,7 @@ detect_keypoint u_detect_keypoint_0_56(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 56),
+  .current_col      (current_col + 10'd56),
   .is_keypoint      (is_keypoint_0[56])
 );
 detect_keypoint u_detect_keypoint_0_57(
@@ -1089,7 +1089,7 @@ detect_keypoint u_detect_keypoint_0_57(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 57),
+  .current_col      (current_col + 10'd57),
   .is_keypoint      (is_keypoint_0[57])
 );
 detect_keypoint u_detect_keypoint_0_58(
@@ -1105,7 +1105,7 @@ detect_keypoint u_detect_keypoint_0_58(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 58),
+  .current_col      (current_col + 10'd58),
   .is_keypoint      (is_keypoint_0[58])
 );
 detect_keypoint u_detect_keypoint_0_59(
@@ -1121,7 +1121,7 @@ detect_keypoint u_detect_keypoint_0_59(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 59),
+  .current_col      (current_col + 10'd59),
   .is_keypoint      (is_keypoint_0[59])
 );
 detect_keypoint u_detect_keypoint_0_60(
@@ -1137,7 +1137,7 @@ detect_keypoint u_detect_keypoint_0_60(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 60),
+  .current_col      (current_col + 10'd60),
   .is_keypoint      (is_keypoint_0[60])
 );
 detect_keypoint u_detect_keypoint_0_61(
@@ -1153,7 +1153,7 @@ detect_keypoint u_detect_keypoint_0_61(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 61),
+  .current_col      (current_col + 10'd61),
   .is_keypoint      (is_keypoint_0[61])
 );
 detect_keypoint u_detect_keypoint_0_62(
@@ -1169,7 +1169,7 @@ detect_keypoint u_detect_keypoint_0_62(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 62),
+  .current_col      (current_col + 10'd62),
   .is_keypoint      (is_keypoint_0[62])
 );
 detect_keypoint u_detect_keypoint_0_63(
@@ -1185,7 +1185,7 @@ detect_keypoint u_detect_keypoint_0_63(
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
   .layer_3_2        (blur5x5_2_dout),
-  .current_col      (current_col + 63),
+  .current_col      (current_col + 10'd63),
   .is_keypoint      (is_keypoint_0[63])
 );
 
@@ -1202,7 +1202,7 @@ detect_keypoint u_detect_keypoint_1_0(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 0),
+  .current_col      (current_col + 10'd0),
   .is_keypoint      (is_keypoint_1[0])
 );
 detect_keypoint u_detect_keypoint_1_1(
@@ -1218,7 +1218,7 @@ detect_keypoint u_detect_keypoint_1_1(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 1),
+  .current_col      (current_col + 10'd1),
   .is_keypoint      (is_keypoint_1[1])
 );
 detect_keypoint u_detect_keypoint_1_2(
@@ -1234,7 +1234,7 @@ detect_keypoint u_detect_keypoint_1_2(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 2),
+  .current_col      (current_col + 10'd2),
   .is_keypoint      (is_keypoint_1[2])
 );
 detect_keypoint u_detect_keypoint_1_3(
@@ -1250,7 +1250,7 @@ detect_keypoint u_detect_keypoint_1_3(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 3),
+  .current_col      (current_col + 10'd3),
   .is_keypoint      (is_keypoint_1[3])
 );
 detect_keypoint u_detect_keypoint_1_4(
@@ -1266,7 +1266,7 @@ detect_keypoint u_detect_keypoint_1_4(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 4),
+  .current_col      (current_col + 10'd4),
   .is_keypoint      (is_keypoint_1[4])
 );
 detect_keypoint u_detect_keypoint_1_5(
@@ -1282,7 +1282,7 @@ detect_keypoint u_detect_keypoint_1_5(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 5),
+  .current_col      (current_col + 10'd5),
   .is_keypoint      (is_keypoint_1[5])
 );
 detect_keypoint u_detect_keypoint_1_6(
@@ -1298,7 +1298,7 @@ detect_keypoint u_detect_keypoint_1_6(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 6),
+  .current_col      (current_col + 10'd6),
   .is_keypoint      (is_keypoint_1[6])
 );
 detect_keypoint u_detect_keypoint_1_7(
@@ -1314,7 +1314,7 @@ detect_keypoint u_detect_keypoint_1_7(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 7),
+  .current_col      (current_col + 10'd7),
   .is_keypoint      (is_keypoint_1[7])
 );
 detect_keypoint u_detect_keypoint_1_8(
@@ -1330,7 +1330,7 @@ detect_keypoint u_detect_keypoint_1_8(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 8),
+  .current_col      (current_col + 10'd8),
   .is_keypoint      (is_keypoint_1[8])
 );
 detect_keypoint u_detect_keypoint_1_9(
@@ -1346,7 +1346,7 @@ detect_keypoint u_detect_keypoint_1_9(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 9),
+  .current_col      (current_col + 10'd9),
   .is_keypoint      (is_keypoint_1[9])
 );
 detect_keypoint u_detect_keypoint_1_10(
@@ -1362,7 +1362,7 @@ detect_keypoint u_detect_keypoint_1_10(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 10),
+  .current_col      (current_col + 10'd10),
   .is_keypoint      (is_keypoint_1[10])
 );
 detect_keypoint u_detect_keypoint_1_11(
@@ -1378,7 +1378,7 @@ detect_keypoint u_detect_keypoint_1_11(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 11),
+  .current_col      (current_col + 10'd11),
   .is_keypoint      (is_keypoint_1[11])
 );
 detect_keypoint u_detect_keypoint_1_12(
@@ -1394,7 +1394,7 @@ detect_keypoint u_detect_keypoint_1_12(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 12),
+  .current_col      (current_col + 10'd12),
   .is_keypoint      (is_keypoint_1[12])
 );
 detect_keypoint u_detect_keypoint_1_13(
@@ -1410,7 +1410,7 @@ detect_keypoint u_detect_keypoint_1_13(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 13),
+  .current_col      (current_col + 10'd13),
   .is_keypoint      (is_keypoint_1[13])
 );
 detect_keypoint u_detect_keypoint_1_14(
@@ -1426,7 +1426,7 @@ detect_keypoint u_detect_keypoint_1_14(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 14),
+  .current_col      (current_col + 10'd14),
   .is_keypoint      (is_keypoint_1[14])
 );
 detect_keypoint u_detect_keypoint_1_15(
@@ -1442,7 +1442,7 @@ detect_keypoint u_detect_keypoint_1_15(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 15),
+  .current_col      (current_col + 10'd15),
   .is_keypoint      (is_keypoint_1[15])
 );
 detect_keypoint u_detect_keypoint_1_16(
@@ -1458,7 +1458,7 @@ detect_keypoint u_detect_keypoint_1_16(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 16),
+  .current_col      (current_col + 10'd16),
   .is_keypoint      (is_keypoint_1[16])
 );
 detect_keypoint u_detect_keypoint_1_17(
@@ -1474,7 +1474,7 @@ detect_keypoint u_detect_keypoint_1_17(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 17),
+  .current_col      (current_col + 10'd17),
   .is_keypoint      (is_keypoint_1[17])
 );
 detect_keypoint u_detect_keypoint_1_18(
@@ -1490,7 +1490,7 @@ detect_keypoint u_detect_keypoint_1_18(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 18),
+  .current_col      (current_col + 10'd18),
   .is_keypoint      (is_keypoint_1[18])
 );
 detect_keypoint u_detect_keypoint_1_19(
@@ -1506,7 +1506,7 @@ detect_keypoint u_detect_keypoint_1_19(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 19),
+  .current_col      (current_col + 10'd19),
   .is_keypoint      (is_keypoint_1[19])
 );
 detect_keypoint u_detect_keypoint_1_20(
@@ -1522,7 +1522,7 @@ detect_keypoint u_detect_keypoint_1_20(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 20),
+  .current_col      (current_col + 10'd20),
   .is_keypoint      (is_keypoint_1[20])
 );
 detect_keypoint u_detect_keypoint_1_21(
@@ -1538,7 +1538,7 @@ detect_keypoint u_detect_keypoint_1_21(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 21),
+  .current_col      (current_col + 10'd21),
   .is_keypoint      (is_keypoint_1[21])
 );
 detect_keypoint u_detect_keypoint_1_22(
@@ -1554,7 +1554,7 @@ detect_keypoint u_detect_keypoint_1_22(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 22),
+  .current_col      (current_col + 10'd22),
   .is_keypoint      (is_keypoint_1[22])
 );
 detect_keypoint u_detect_keypoint_1_23(
@@ -1570,7 +1570,7 @@ detect_keypoint u_detect_keypoint_1_23(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 23),
+  .current_col      (current_col + 10'd23),
   .is_keypoint      (is_keypoint_1[23])
 );
 detect_keypoint u_detect_keypoint_1_24(
@@ -1586,7 +1586,7 @@ detect_keypoint u_detect_keypoint_1_24(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 24),
+  .current_col      (current_col + 10'd24),
   .is_keypoint      (is_keypoint_1[24])
 );
 detect_keypoint u_detect_keypoint_1_25(
@@ -1602,7 +1602,7 @@ detect_keypoint u_detect_keypoint_1_25(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 25),
+  .current_col      (current_col + 10'd25),
   .is_keypoint      (is_keypoint_1[25])
 );
 detect_keypoint u_detect_keypoint_1_26(
@@ -1618,7 +1618,7 @@ detect_keypoint u_detect_keypoint_1_26(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 26),
+  .current_col      (current_col + 10'd26),
   .is_keypoint      (is_keypoint_1[26])
 );
 detect_keypoint u_detect_keypoint_1_27(
@@ -1634,7 +1634,7 @@ detect_keypoint u_detect_keypoint_1_27(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 27),
+  .current_col      (current_col + 10'd27),
   .is_keypoint      (is_keypoint_1[27])
 );
 detect_keypoint u_detect_keypoint_1_28(
@@ -1650,7 +1650,7 @@ detect_keypoint u_detect_keypoint_1_28(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 28),
+  .current_col      (current_col + 10'd28),
   .is_keypoint      (is_keypoint_1[28])
 );
 detect_keypoint u_detect_keypoint_1_29(
@@ -1666,7 +1666,7 @@ detect_keypoint u_detect_keypoint_1_29(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 29),
+  .current_col      (current_col + 10'd29),
   .is_keypoint      (is_keypoint_1[29])
 );
 detect_keypoint u_detect_keypoint_1_30(
@@ -1682,7 +1682,7 @@ detect_keypoint u_detect_keypoint_1_30(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 30),
+  .current_col      (current_col + 10'd30),
   .is_keypoint      (is_keypoint_1[30])
 );
 detect_keypoint u_detect_keypoint_1_31(
@@ -1698,7 +1698,7 @@ detect_keypoint u_detect_keypoint_1_31(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 31),
+  .current_col      (current_col + 10'd31),
   .is_keypoint      (is_keypoint_1[31])
 );
 detect_keypoint u_detect_keypoint_1_32(
@@ -1714,7 +1714,7 @@ detect_keypoint u_detect_keypoint_1_32(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 32),
+  .current_col      (current_col + 10'd32),
   .is_keypoint      (is_keypoint_1[32])
 );
 detect_keypoint u_detect_keypoint_1_33(
@@ -1730,7 +1730,7 @@ detect_keypoint u_detect_keypoint_1_33(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 33),
+  .current_col      (current_col + 10'd33),
   .is_keypoint      (is_keypoint_1[33])
 );
 detect_keypoint u_detect_keypoint_1_34(
@@ -1746,7 +1746,7 @@ detect_keypoint u_detect_keypoint_1_34(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 34),
+  .current_col      (current_col + 10'd34),
   .is_keypoint      (is_keypoint_1[34])
 );
 detect_keypoint u_detect_keypoint_1_35(
@@ -1762,7 +1762,7 @@ detect_keypoint u_detect_keypoint_1_35(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 35),
+  .current_col      (current_col + 10'd35),
   .is_keypoint      (is_keypoint_1[35])
 );
 detect_keypoint u_detect_keypoint_1_36(
@@ -1778,7 +1778,7 @@ detect_keypoint u_detect_keypoint_1_36(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 36),
+  .current_col      (current_col + 10'd36),
   .is_keypoint      (is_keypoint_1[36])
 );
 detect_keypoint u_detect_keypoint_1_37(
@@ -1794,7 +1794,7 @@ detect_keypoint u_detect_keypoint_1_37(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 37),
+  .current_col      (current_col + 10'd37),
   .is_keypoint      (is_keypoint_1[37])
 );
 detect_keypoint u_detect_keypoint_1_38(
@@ -1810,7 +1810,7 @@ detect_keypoint u_detect_keypoint_1_38(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 38),
+  .current_col      (current_col + 10'd38),
   .is_keypoint      (is_keypoint_1[38])
 );
 detect_keypoint u_detect_keypoint_1_39(
@@ -1826,7 +1826,7 @@ detect_keypoint u_detect_keypoint_1_39(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 39),
+  .current_col      (current_col + 10'd39),
   .is_keypoint      (is_keypoint_1[39])
 );
 detect_keypoint u_detect_keypoint_1_40(
@@ -1842,7 +1842,7 @@ detect_keypoint u_detect_keypoint_1_40(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 40),
+  .current_col      (current_col + 10'd40),
   .is_keypoint      (is_keypoint_1[40])
 );
 detect_keypoint u_detect_keypoint_1_41(
@@ -1858,7 +1858,7 @@ detect_keypoint u_detect_keypoint_1_41(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 41),
+  .current_col      (current_col + 10'd41),
   .is_keypoint      (is_keypoint_1[41])
 );
 detect_keypoint u_detect_keypoint_1_42(
@@ -1874,7 +1874,7 @@ detect_keypoint u_detect_keypoint_1_42(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 42),
+  .current_col      (current_col + 10'd42),
   .is_keypoint      (is_keypoint_1[42])
 );
 detect_keypoint u_detect_keypoint_1_43(
@@ -1890,7 +1890,7 @@ detect_keypoint u_detect_keypoint_1_43(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 43),
+  .current_col      (current_col + 10'd43),
   .is_keypoint      (is_keypoint_1[43])
 );
 detect_keypoint u_detect_keypoint_1_44(
@@ -1906,7 +1906,7 @@ detect_keypoint u_detect_keypoint_1_44(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 44),
+  .current_col      (current_col + 10'd44),
   .is_keypoint      (is_keypoint_1[44])
 );
 detect_keypoint u_detect_keypoint_1_45(
@@ -1922,7 +1922,7 @@ detect_keypoint u_detect_keypoint_1_45(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 45),
+  .current_col      (current_col + 10'd45),
   .is_keypoint      (is_keypoint_1[45])
 );
 detect_keypoint u_detect_keypoint_1_46(
@@ -1938,7 +1938,7 @@ detect_keypoint u_detect_keypoint_1_46(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 46),
+  .current_col      (current_col + 10'd46),
   .is_keypoint      (is_keypoint_1[46])
 );
 detect_keypoint u_detect_keypoint_1_47(
@@ -1954,7 +1954,7 @@ detect_keypoint u_detect_keypoint_1_47(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 47),
+  .current_col      (current_col + 10'd47),
   .is_keypoint      (is_keypoint_1[47])
 );
 detect_keypoint u_detect_keypoint_1_48(
@@ -1970,7 +1970,7 @@ detect_keypoint u_detect_keypoint_1_48(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 48),
+  .current_col      (current_col + 10'd48),
   .is_keypoint      (is_keypoint_1[48])
 );
 detect_keypoint u_detect_keypoint_1_49(
@@ -1986,7 +1986,7 @@ detect_keypoint u_detect_keypoint_1_49(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 49),
+  .current_col      (current_col + 10'd49),
   .is_keypoint      (is_keypoint_1[49])
 );
 detect_keypoint u_detect_keypoint_1_50(
@@ -2002,7 +2002,7 @@ detect_keypoint u_detect_keypoint_1_50(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 50),
+  .current_col      (current_col + 10'd50),
   .is_keypoint      (is_keypoint_1[50])
 );
 detect_keypoint u_detect_keypoint_1_51(
@@ -2018,7 +2018,7 @@ detect_keypoint u_detect_keypoint_1_51(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 51),
+  .current_col      (current_col + 10'd51),
   .is_keypoint      (is_keypoint_1[51])
 );
 detect_keypoint u_detect_keypoint_1_52(
@@ -2034,7 +2034,7 @@ detect_keypoint u_detect_keypoint_1_52(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 52),
+  .current_col      (current_col + 10'd52),
   .is_keypoint      (is_keypoint_1[52])
 );
 detect_keypoint u_detect_keypoint_1_53(
@@ -2050,7 +2050,7 @@ detect_keypoint u_detect_keypoint_1_53(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 53),
+  .current_col      (current_col + 10'd53),
   .is_keypoint      (is_keypoint_1[53])
 );
 detect_keypoint u_detect_keypoint_1_54(
@@ -2066,7 +2066,7 @@ detect_keypoint u_detect_keypoint_1_54(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 54),
+  .current_col      (current_col + 10'd54),
   .is_keypoint      (is_keypoint_1[54])
 );
 detect_keypoint u_detect_keypoint_1_55(
@@ -2082,7 +2082,7 @@ detect_keypoint u_detect_keypoint_1_55(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 55),
+  .current_col      (current_col + 10'd55),
   .is_keypoint      (is_keypoint_1[55])
 );
 detect_keypoint u_detect_keypoint_1_56(
@@ -2098,7 +2098,7 @@ detect_keypoint u_detect_keypoint_1_56(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 56),
+  .current_col      (current_col + 10'd56),
   .is_keypoint      (is_keypoint_1[56])
 );
 detect_keypoint u_detect_keypoint_1_57(
@@ -2114,7 +2114,7 @@ detect_keypoint u_detect_keypoint_1_57(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 57),
+  .current_col      (current_col + 10'd57),
   .is_keypoint      (is_keypoint_1[57])
 );
 detect_keypoint u_detect_keypoint_1_58(
@@ -2130,7 +2130,7 @@ detect_keypoint u_detect_keypoint_1_58(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 58),
+  .current_col      (current_col + 10'd58),
   .is_keypoint      (is_keypoint_1[58])
 );
 detect_keypoint u_detect_keypoint_1_59(
@@ -2146,7 +2146,7 @@ detect_keypoint u_detect_keypoint_1_59(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 59),
+  .current_col      (current_col + 10'd59),
   .is_keypoint      (is_keypoint_1[59])
 );
 detect_keypoint u_detect_keypoint_1_60(
@@ -2162,7 +2162,7 @@ detect_keypoint u_detect_keypoint_1_60(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 60),
+  .current_col      (current_col + 10'd60),
   .is_keypoint      (is_keypoint_1[60])
 );
 detect_keypoint u_detect_keypoint_1_61(
@@ -2178,7 +2178,7 @@ detect_keypoint u_detect_keypoint_1_61(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 61),
+  .current_col      (current_col + 10'd61),
   .is_keypoint      (is_keypoint_1[61])
 );
 detect_keypoint u_detect_keypoint_1_62(
@@ -2194,7 +2194,7 @@ detect_keypoint u_detect_keypoint_1_62(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 62),
+  .current_col      (current_col + 10'd62),
   .is_keypoint      (is_keypoint_1[62])
 );
 detect_keypoint u_detect_keypoint_1_63(
@@ -2210,9 +2210,10 @@ detect_keypoint u_detect_keypoint_1_63(
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
   .layer_3_2        (blur7x7_dout),
-  .current_col      (current_col + 63),
+  .current_col      (current_col + 10'd63),
   .is_keypoint      (is_keypoint_1[63])
 );
+
 
 
 reg[63:0] is_keypoint_reg_0;
