@@ -4,7 +4,6 @@ module CORE(
     rst_n,
     start,
     filter_on,
-    filter_threshold,
     img_din,
     img_addr_in,
     img_we,
@@ -21,13 +20,14 @@ module CORE(
     matched_0_dout,
     matched_1_dout,
     matched_2_dout,
-    matched_3_dout
+    matched_3_dout,
+    adaptiveToogle,
+    adaptiveMode
 );
     input           clk;
     input           rst_n;
     input           start;
     input           filter_on;
-    input signed[9:0]      filter_threshold;
 
     input[5119:0]   img_din;
     input           img_we;
@@ -49,6 +49,9 @@ module CORE(
                     matched_1_dout,
                     matched_2_dout,
                     matched_3_dout;
+
+    input           adaptiveToogle;
+    input[1:0]      adaptiveMode;
 
     /*FSM*/
     reg         [2:0] current_state,
@@ -122,18 +125,6 @@ module CORE(
       .din  (keypoint_din),
       .dout (keypoint_dout)
     );
-
-/*    wire          keypoint_2_we;
-    reg   [10:0]  keypoint_2_addr;
-    wire  [18:0]  keypoint_2_din;
-    wire  [18:0]  keypoint_2_dout;
-    bmem_2048x19 keypoint_2_mem(
-      .clk  (clk),
-      .we   (keypoint_2_we),
-      .addr (keypoint_2_addr),
-      .din  (keypoint_2_din),
-      .dout (keypoint_2_dout)
-    );*/
     
     /*SRAM for Target*/
     reg[8:0]    target_addr;//shared
@@ -220,6 +211,18 @@ module CORE(
       .din  (matched_3_din),
       .dout1(),
       .dout2(matched_3_dout)
+    );
+
+    /* Adaptive Threshold Module*/
+    reg[10:0]         keypoint_num;
+    wire signed[9:0]  filter_threshold;
+    adaptiveThreshold u_adapt(
+      .clk              (clk),
+      .rst_n            (rst_n),
+      .adptiveToogle    (adaptiveToogle),
+      .adaptiveMode     (adaptiveMode),
+      .filter_threshold (filter_threshold),
+      .keypoint_num     (keypoint_num)
     );
 
     /*Line Buffer*/    
@@ -341,7 +344,6 @@ module CORE(
       .filter_threshold (filter_threshold)
     );
 
-    reg [10:0]  keypoint_num;
     always @(posedge clk ) begin
       if (!rst_n) 
         keypoint_num <= 0;    
