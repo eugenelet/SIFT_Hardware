@@ -714,7 +714,7 @@ initial begin
    // rc = $fscanf(ansFile, "%d", match_succeed_num_ANS);
    // $display("Ans matched num : %d", match_succeed_num_ANS);
    
-   @(negedge clk);
+  /* @(negedge clk);
    matched_pairs = $fopen("matched_pairs.txt", "w");
    matched_addr2_in = 0;
    @(negedge clk);
@@ -776,8 +776,8 @@ initial begin
                // match_succeed_num = match_succeed_num + 1;
            end
        end    
-   end
-   /*for(i = 0; i < targetKptNum; i = i + 1) begin
+   end*/
+   for(i = 0; i < targetKptNum; i = i + 1) begin
        temp = i & 2'b11;
        if(temp[1:0] == 2'b00) begin
             if(u_core.matched_0_mem.mem[i / 4][29:15] < u_core.matched_0_mem.mem[i / 4][14:0] * 0.72) begin//dist < dist2
@@ -807,7 +807,7 @@ initial begin
                // match_succeed_num = match_succeed_num + 1;
            end
        end    
-   end*/
+   end
    //output的可能比ans少幾個
 /*  debug_0 = $fopen("is_kp0", "w");
   debug_1 = $fopen("is_kp1", "w");
