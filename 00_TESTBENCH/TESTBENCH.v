@@ -714,11 +714,12 @@ initial begin
    // rc = $fscanf(ansFile, "%d", match_succeed_num_ANS);
    // $display("Ans matched num : %d", match_succeed_num_ANS);
    
+   @(negedge clk);
    matched_pairs = $fopen("matched_pairs.txt", "w");
    matched_addr2_in = 0;
    @(negedge clk);
-   matched_addr2_in = 1;
-   @(negedge clk);
+   // matched_addr2_in = 1;
+   // @(negedge clk);
 
    for(i = 0; i < targetKptNum; i = i + 1) begin
      temp = i & 2'b11;
