@@ -4,13 +4,51 @@ module CORE(
     rst_n,
     start,
     filter_on,
-    filter_threshold
+    filter_threshold,
+    img_din,
+    img_addr_in,
+    img_we,
+    target_0_we,
+    target_1_we,
+    target_2_we,
+    target_3_we,
+    target_0_din,
+    target_1_din,
+    target_2_din,
+    target_3_din,
+    target_addr_in,
+    matched_addr2_in,
+    matched_0_dout,
+    matched_1_dout,
+    matched_2_dout,
+    matched_3_dout
 );
     input           clk;
     input           rst_n;
     input           start;
     input           filter_on;
     input signed[9:0]      filter_threshold;
+
+    input[5119:0]   img_din;
+    input           img_we;
+    input[8:0]      img_addr_in;
+
+    input           target_0_we,
+                    target_1_we,
+                    target_2_we,
+                    target_3_we;
+    input[402:0]    target_0_din,
+                    target_1_din,
+                    target_2_din,
+                    target_3_din;
+    input[8:0]      target_addr_in;
+
+    input[8:0]      matched_addr2_in;
+
+    output[48:0]    matched_0_dout,
+                    matched_1_dout,
+                    matched_2_dout,
+                    matched_3_dout;
 
     /*FSM*/
     reg         [2:0] current_state,
@@ -27,12 +65,11 @@ module CORE(
 
 
     reg     [8:0]     img_addr; /*wire*/
-    reg     [5119:0]  img_din;
     wire    [5119:0]  img_dout;
     /*SRAM for Original Image*/
     bmem_480x5120 ori_img(
       .clk  (clk),
-      .we   (1'b0),
+      .we   (img_we),
       .addr (img_addr),
       .din  (img_din),
       .dout (img_dout)
@@ -99,10 +136,7 @@ module CORE(
     );*/
     
     /*SRAM for Target*/
-    wire  [8:0]    target_addr;//shared
-    wire           target_0_we;
-    wire  [402:0]  target_0_din;
-    wire  [402:0]  target_0_dout;
+    reg[8:0]    target_addr;//shared
     bmem_512x403 target_0_mem(
       .clk  (clk),
       .we   (target_0_we),
@@ -111,8 +145,6 @@ module CORE(
       .dout (target_0_dout)
     );
 
-    wire           target_1_we;
-    wire  [402:0]  target_1_din;
     wire  [402:0]  target_1_dout;
     bmem_512x403 target_1_mem(
       .clk  (clk),
@@ -122,8 +154,6 @@ module CORE(
       .dout (target_1_dout)
     );
 
-    wire           target_2_we;
-    wire  [402:0]  target_2_din;
     wire  [402:0]  target_2_dout;
     bmem_512x403 target_2_mem(
       .clk  (clk),
@@ -133,8 +163,6 @@ module CORE(
       .dout (target_2_dout)
     );
 
-    wire           target_3_we;
-    wire  [402:0]  target_3_din;
     wire  [402:0]  target_3_dout;
     bmem_512x403 target_3_mem(
       .clk  (clk),
@@ -145,11 +173,11 @@ module CORE(
     );
     
     /*SRAM for Matched*/
-    wire  [8:0]  matched_addr1, matched_addr2;//shared
+    wire  [8:0]  matched_addr1;
+    reg   [8:0]  matched_addr2;//shared
     wire  [3:0]   matched_we;//write din to addr1
     
     wire  [48:0]  matched_0_din;
-    wire  [48:0]  matched_0_dout;
     bmem_512x49 matched_0_mem(
       .clk  (clk),
       .we   (matched_we[0]),
@@ -161,7 +189,6 @@ module CORE(
     );
 
     wire  [48:0]  matched_1_din;
-    wire  [48:0]  matched_1_dout;
     bmem_512x49 matched_1_mem(
       .clk  (clk),
       .we   (matched_we[1]),
@@ -173,7 +200,6 @@ module CORE(
     );
     
     wire  [48:0]  matched_2_din;
-    wire  [48:0]  matched_2_dout;
     bmem_512x49 matched_2_mem(
       .clk  (clk),
       .we   (matched_we[2]),
@@ -185,7 +211,6 @@ module CORE(
     );
     
     wire  [48:0]  matched_3_din;
-    wire  [48:0]  matched_3_dout;
     bmem_512x49 matched_3_mem(
       .clk  (clk),
       .we   (matched_we[3]),
@@ -363,7 +388,8 @@ module CORE(
 
 
     reg[8:0]  tar_descpt_group_num;
-    
+    wire[8:0] match_target_addr;
+    wire[8:0] match_matched_addr2;
     match u_match(
         .clk                  (clk),
         .rst_n                (rst_n),
@@ -376,7 +402,7 @@ module CORE(
         .image_R_C_D_1        (row_col_descpt2),
         .image_R_C_D_2        (row_col_descpt3),
         .image_R_C_D_3        (row_col_descpt4),
-        .tar_addr             (target_addr),//讀target mem的addr(4個共用)
+        .tar_addr             (match_target_addr),//讀target mem的addr(4個共用)
         .tar_R_C_D_0          (target_0_dout),
         .tar_R_C_D_1          (target_1_dout),
         .tar_R_C_D_2          (target_2_dout),
@@ -387,7 +413,7 @@ module CORE(
         .matched_din_1        (matched_1_din),
         .matched_din_2        (matched_2_din),
         .matched_din_3        (matched_3_din),
-        .matched_addr_2       (matched_addr2),//4個共用
+        .matched_addr_2       (match_matched_addr2),//4個共用
         .matched_dout2_0      (matched_0_dout),
         .matched_dout2_1      (matched_1_dout),
         .matched_dout2_2      (matched_2_dout),
@@ -397,6 +423,19 @@ module CORE(
 
     always @(*) begin
       case(current_state)
+        ST_IDLE: begin
+          blur_addr[0] = 0;
+          blur_addr[1] = 0;  
+          blur_addr[2] = 0;  
+          blur_addr[3] = 0;  
+          buffer_we = 0;
+          img_addr  = img_addr_in;
+          fill_zero = 0;
+          keypoint_addr = 0;
+          buffer_in = 0;
+          target_addr = target_addr_in;
+          matched_addr2 = matched_addr2_in;
+        end
         ST_GAUSSIAN: begin
           blur_addr[0] = gaussian_blur_addr[0];    
           blur_addr[1] = gaussian_blur_addr[1];    
@@ -407,6 +446,8 @@ module CORE(
           fill_zero = |gaussian_fill_zero;
           keypoint_addr = 0;
           buffer_in = img_dout;
+          target_addr = 0;
+          matched_addr2 = 0;
         end
       ST_DETECT_FILTER: begin
         blur_addr[0] = detect_filter_blur_addr[0];  
@@ -418,6 +459,8 @@ module CORE(
         fill_zero = 0;
         keypoint_addr = detect_filter_keypoint_addr;
         buffer_in = img_dout;
+        target_addr = 0;
+        matched_addr2 = 0;
       end
       ST_COMPUTE_MATCH: begin
         blur_addr[0] = blurred_addr;  
@@ -429,6 +472,8 @@ module CORE(
         fill_zero = 0;
         keypoint_addr = kpt_addr;
         buffer_in = (readFrom) ? blur_dout[1] : blur_dout[0];
+        target_addr = match_target_addr;
+        matched_addr2 = match_matched_addr2;
       end
       default: begin
         blur_addr[0] = 0;
@@ -440,6 +485,8 @@ module CORE(
         fill_zero = 0;
         keypoint_addr = 0;
         buffer_in = 0;
+        target_addr = 0;
+        matched_addr2 = 0;
       end
     endcase
   end
