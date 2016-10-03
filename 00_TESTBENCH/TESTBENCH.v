@@ -71,7 +71,7 @@ reg[8:0]        target_addr_0,
                 target_addr_1,
                 target_addr_2,
                 target_addr_3;
-reg[48:0]       matched_mem_0[0:511],
+reg[29:0]       matched_mem_0[0:511],
                 matched_mem_1[0:511],
                 matched_mem_2[0:511],
                 matched_mem_3[0:511];
@@ -723,20 +723,20 @@ initial begin
    for(i = 0; i < targetKptNum; i = i + 1) begin
      temp = i & 2'b11;
      if(temp[1:0] == 2'b00) begin
-        matched_mem_0[i / 4] = matched_0_dout;
+        matched_mem_0[i / 4] = matched_0_dout[29:0];
         $fwrite(matched_pairs, "0 %d %d\n", matched_mem_0[i / 4][29:15], matched_mem_0[i / 4][14:0]);
      end
      else if(temp[1:0] == 2'b01) begin
-        matched_mem_1[i / 4] = matched_1_dout;
+        matched_mem_1[i / 4] = matched_1_dout[29:0];
         $fwrite(matched_pairs, "1 %d %d\n", matched_mem_1[i / 4][29:15], matched_mem_1[i / 4][14:0]);
 
      end
      else if(temp[1:0] == 2'b10) begin
-        matched_mem_2[i / 4] = matched_2_dout;
+        matched_mem_2[i / 4] = matched_2_dout[29:0];
         $fwrite(matched_pairs, "2 %d %d\n", matched_mem_2[i / 4][29:15], matched_mem_2[i / 4][14:0]);
      end
      else begin
-        matched_mem_3[i / 4] = matched_3_dout;
+        matched_mem_3[i / 4] = matched_3_dout[29:0];
         $fwrite(matched_pairs, "3 %d %d\n", matched_mem_3[i / 4][29:15], matched_mem_3[i / 4][14:0]);
         matched_addr2_in = matched_addr2_in + 1;
         @(negedge clk);
