@@ -718,16 +718,16 @@ initial begin
    for(i = 0; i < targetKptNum; i = i + 1) begin
      temp = i & 2'b11;
      if(temp[1:0] == 2'b00) begin
-        matched_0_mem[i / 4] = matched_0_dout;
+        matched_mem_0[i / 4] = matched_0_dout;
      end
      else if(temp[1:0] == 2'b01) begin
-        matched_1_mem[i / 4] = matched_1_dout;
+        matched_mem_1[i / 4] = matched_1_dout;
      end
      else if(temp[1:0] == 2'b10) begin
-        matched_2_mem[i / 4] = matched_2_dout;
+        matched_mem_2[i / 4] = matched_2_dout;
      end
      else begin
-        matched_3_mem[i / 4] = matched_3_dout;
+        matched_mem_3[i / 4] = matched_3_dout;
         matched_addr2_in = matched_addr2_in + 1;
         @(negedge clk);
      end
