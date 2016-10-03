@@ -47,13 +47,13 @@ reg             img_we;
 reg[8:0]        img_addr_in;
 
 reg             target_0_we,
-reg             target_1_we,
-reg             target_2_we,
-reg             target_3_we;
+                target_1_we,
+                target_2_we,
+                target_3_we;
 reg[402:0]      target_0_din,
-reg             target_1_din,
-reg             target_2_din,
-reg             target_3_din;
+                target_1_din,
+                target_2_din,
+                target_3_din;
 reg[8:0]        target_addr_in;
 reg[8:0]        matched_addr2_in;
 reg[48:0]       matched_0_dout,
