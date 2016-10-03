@@ -62,6 +62,7 @@ wire[48:0]      matched_0_dout,
                 matched_3_dout;
 
 /* Only for TB use */
+reg[5119:0]     ori_img_mem[0:479];
 reg[402:0]      target_mem_0[0:511],
                 target_mem_1[0:511],
                 target_mem_2[0:511],
@@ -154,10 +155,11 @@ initial begin
   img_we = 1;
   for(i=0;i<`ROWS;i=i+1) begin
     for(j=1;j<=`COLS;j=j+1) begin
-      rc=$fscanf(imageFile,"%d",img_din);
-      @(negedge clk);
-      img_addr_in = img_addr_in + 1;
+      rc=$fscanf(imageFile,"%d",ori_img_mem[i][j*8-1-:8]);
     end
+    img_din = ori_img_mem[i];
+    @(negedge clk);
+    img_addr_in = img_addr_in + 1;
   end 
   img_we = 0;
   $fclose(imageFile);
