@@ -723,20 +723,20 @@ initial begin
      temp = i & 2'b11;
      if(temp[1:0] == 2'b00) begin
         matched_mem_0[i / 4] = matched_0_dout;
-        $fwrite(matched_pairs, "0 %d %d\n", matched_mem_0[29:15], matched_mem_0[14:0]);
+        $fwrite(matched_pairs, "0 %d %d\n", matched_mem_0[i / 4][29:15], matched_mem_0[i / 4][14:0]);
      end
      else if(temp[1:0] == 2'b01) begin
         matched_mem_1[i / 4] = matched_1_dout;
-        $fwrite(matched_pairs, "0 %d %d\n", matched_mem_0[29:15], matched_mem_0[14:0]);
+        $fwrite(matched_pairs, "1 %d %d\n", matched_mem_1[i / 4][29:15], matched_mem_1[i / 4][14:0]);
 
      end
      else if(temp[1:0] == 2'b10) begin
         matched_mem_2[i / 4] = matched_2_dout;
-        $fwrite(matched_pairs, "0 %d %d\n", matched_mem_0[29:15], matched_mem_0[14:0]);
+        $fwrite(matched_pairs, "2 %d %d\n", matched_mem_2[i / 4][29:15], matched_mem_2[i / 4][14:0]);
      end
      else begin
         matched_mem_3[i / 4] = matched_3_dout;
-        $fwrite(matched_pairs, "0 %d %d\n", matched_mem_0[29:15], matched_mem_0[14:0]);
+        $fwrite(matched_pairs, "3 %d %d\n", matched_mem_3[i / 4][29:15], matched_mem_3[i / 4][14:0]);
         matched_addr2_in = matched_addr2_in + 1;
         @(negedge clk);
      end
