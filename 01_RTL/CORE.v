@@ -487,7 +487,7 @@ module CORE(
         keypoint_addr = 0;
         buffer_in = 0;
         target_addr = 0;
-        matched_addr2 = 0;
+        matched_addr2 = matched_addr2_in;
       end
     endcase
   end
