@@ -56,7 +56,7 @@ reg[402:0]      target_0_din,
                 target_3_din;
 reg[8:0]        target_addr_in;
 reg[8:0]        matched_addr2_in;
-reg[48:0]       matched_0_dout,
+wire[48:0]      matched_0_dout,
                 matched_1_dout,
                 matched_2_dout,
                 matched_3_dout;

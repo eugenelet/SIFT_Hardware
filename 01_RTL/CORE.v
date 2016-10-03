@@ -49,6 +49,10 @@ module CORE(
                     matched_1_dout,
                     matched_2_dout,
                     matched_3_dout;
+    output[402:0]   target_0_dout,
+                    target_1_dout,
+                    target_2_dout,
+                    target_3_dout;
 
     /*FSM*/
     reg         [2:0] current_state,
