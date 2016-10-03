@@ -137,6 +137,7 @@ module CORE(
     
     /*SRAM for Target*/
     reg[8:0]    target_addr;//shared
+    wire[402:0] target_0_dout;
     bmem_512x403 target_0_mem(
       .clk  (clk),
       .we   (target_0_we),
