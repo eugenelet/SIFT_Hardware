@@ -58,7 +58,7 @@ reg[8:0]        target_addr_in;
 reg[8:0]        matched_addr1_in,
                 matched_addr2_in;
 reg             matched_we_in;
-reg             matched_din;
+reg[48:0]       matched_din;
 wire[48:0]      matched_0_dout,
                 matched_1_dout,
                 matched_2_dout,
