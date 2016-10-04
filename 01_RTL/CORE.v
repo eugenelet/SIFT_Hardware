@@ -16,7 +16,13 @@ module CORE(
     target_2_din,
     target_3_din,
     target_addr_in,
+    matched_addr1_in,
     matched_addr2_in,
+    matched_we_in,
+    in_matched_0_din,
+    in_matched_1_din,
+    in_matched_2_din,
+    in_matched_3_din,
     matched_0_dout,
     matched_1_dout,
     matched_2_dout,
@@ -43,12 +49,17 @@ module CORE(
                     target_3_din;
     input[8:0]      target_addr_in;
 
-    input[8:0]      matched_addr2_in;
-
+    input[8:0]      matched_addr1_in,
+                    matched_addr2_in;
+    input           matched_we_in;
     output[48:0]    matched_0_dout,
                     matched_1_dout,
                     matched_2_dout,
                     matched_3_dout;
+    input[48:0]     in_matched_0_din,
+                    in_matched_1_din,
+                    in_matched_2_din,
+                    in_matched_3_din;
 
     input           adaptiveToogle;
     input[1:0]      adaptiveMode;
@@ -392,7 +403,13 @@ module CORE(
 
     reg[8:0]  tar_descpt_group_num;
     wire[8:0] match_target_addr;
-    wire[8:0] match_matched_addr2;
+    wire[8:0] match_matched_addr1,
+              match_matched_addr2;
+    wire[48:0]match_matched_0_din,
+              match_matched_1_din,
+              match_matched_2_din,
+              match_matched_3_din;
+    wire[3:0] match_matched_we;
     match u_match(
         .clk                  (clk),
         .rst_n                (rst_n),
@@ -410,12 +427,12 @@ module CORE(
         .tar_R_C_D_1          (target_1_dout),
         .tar_R_C_D_2          (target_2_dout),
         .tar_R_C_D_3          (target_3_dout),
-        .matched_addr_1       (matched_addr1),//4個共用
-        .matched_WE           (matched_we),//4 bit
-        .matched_din_0        (matched_0_din),//接給matched的din
-        .matched_din_1        (matched_1_din),
-        .matched_din_2        (matched_2_din),
-        .matched_din_3        (matched_3_din),
+        .matched_addr_1       (match_matched_addr1),//4個共用
+        .matched_WE           (match_matched_we),//4 bit
+        .matched_din_0        (match_matched_0_din),//接給matched的din
+        .matched_din_1        (match_matched_1_din),
+        .matched_din_2        (match_matched_2_din),
+        .matched_din_3        (match_matched_3_din),
         .matched_addr_2       (match_matched_addr2),//4個共用
         .matched_dout2_0      (matched_0_dout),
         .matched_dout2_1      (matched_1_dout),
@@ -437,7 +454,13 @@ module CORE(
           keypoint_addr = 0;
           buffer_in = 0;
           target_addr = target_addr_in;
+          matched_addr1 = matched_addr1_in;
           matched_addr2 = matched_addr2_in;
+          matched_we = {matched_we_in, matched_we_in, matched_we_in, matched_we_in};
+          matched_din_0 = in_matched_0_din;
+          matched_din_1 = in_matched_1_din;
+          matched_din_2 = in_matched_2_din;
+          matched_din_3 = in_matched_3_din;
         end
         ST_GAUSSIAN: begin
           blur_addr[0] = gaussian_blur_addr[0];    
@@ -450,7 +473,13 @@ module CORE(
           keypoint_addr = 0;
           buffer_in = img_dout;
           target_addr = 0;
+          matched_addr1 = 0;
           matched_addr2 = 0;
+          matched_we = 0;
+          matched_din_0 = 0;
+          matched_din_1 = 0;
+          matched_din_2 = 0;
+          matched_din_3 = 0;
         end
       ST_DETECT_FILTER: begin
         blur_addr[0] = detect_filter_blur_addr[0];  
@@ -463,7 +492,13 @@ module CORE(
         keypoint_addr = detect_filter_keypoint_addr;
         buffer_in = img_dout;
         target_addr = 0;
+        matched_addr1 = 0;
         matched_addr2 = 0;
+        matched_we = 0;
+        matched_din_0 = 0;
+        matched_din_1 = 0;
+        matched_din_2 = 0;
+        matched_din_3 = 0;
       end
       ST_COMPUTE_MATCH: begin
         blur_addr[0] = blurred_addr;  
@@ -476,7 +511,13 @@ module CORE(
         keypoint_addr = kpt_addr;
         buffer_in = (readFrom) ? blur_dout[1] : blur_dout[0];
         target_addr = match_target_addr;
+        matched_addr1 = match_matched_addr1;
         matched_addr2 = match_matched_addr2;
+        matched_we = match_matched_we;
+        matched_din_0 = match_matched_0_din;
+        matched_din_1 = match_matched_1_din;
+        matched_din_2 = match_matched_2_din;
+        matched_din_3 = match_matched_3_din;
       end
       default: begin
         blur_addr[0] = 0;
@@ -489,7 +530,13 @@ module CORE(
         keypoint_addr = 0;
         buffer_in = 0;
         target_addr = 0;
+        matched_addr1 = 0;
         matched_addr2 = matched_addr2_in;
+        matched_we = 0;
+        matched_din_0 = 0;
+        matched_din_1 = 0;
+        matched_din_2 = 0;
+        matched_din_3 = 0;
       end
     endcase
   end

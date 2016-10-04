@@ -55,7 +55,10 @@ reg[402:0]      target_0_din,
                 target_2_din,
                 target_3_din;
 reg[8:0]        target_addr_in;
-reg[8:0]        matched_addr2_in;
+reg[8:0]        matched_addr1_in,
+                matched_addr2_in;
+reg             matched_we_in;
+reg             matched_din;
 wire[48:0]      matched_0_dout,
                 matched_1_dout,
                 matched_2_dout,
@@ -99,7 +102,13 @@ CORE u_core(
     .target_2_din     (target_2_din),
     .target_3_din     (target_3_din),
     .target_addr_in   (target_addr_in),
+    .matched_addr1_in (matched_addr1_in),
     .matched_addr2_in (matched_addr2_in),
+    .matched_we_in    (matched_we_in),
+    .in_matched_0_din (matched_din),
+    .in_matched_1_din (matched_din),
+    .in_matched_2_din (matched_din),
+    .in_matched_3_din (matched_din),
     .matched_0_dout   (matched_0_dout),
     .matched_1_dout   (matched_1_dout),
     .matched_2_dout   (matched_2_dout),
@@ -159,6 +168,16 @@ initial begin
   $fclose(imageFile);
 
 
+  /* Initialize Matched Mem SRAM */
+  matched_we_in = 1;
+  matched_addr1_in = 0;
+  matched_din = 49'h1_FFFF_FFFF_FFFF;
+  for(i = 0; i < 512; i=i+1) begin
+    @(negedge clk);
+    matched_addr1_in = matched_addr1_in + 1;
+  end
+  matched_we_in = 0;
+  
   /* Write Target SRAM */
   targetFile = $fopen("targetRowColDespt.txt", "r");
   rc = $fscanf(targetFile, "%d", targetKptNum);
@@ -479,14 +498,6 @@ initial begin
   $fclose(kpt_total_ans);
   $fclose(kp_errorFile);
 
-  for(i = 0; i < 512; i=i+1) begin
-    for(j = 46; j >=0; j=j-1) begin
-      u_core.matched_0_mem.mem[i][j] = 1;
-      u_core.matched_1_mem.mem[i][j] = 1;
-      u_core.matched_2_mem.mem[i][j] = 1;
-      u_core.matched_3_mem.mem[i][j] = 1;
-    end
-  end
 
 
   cycleCount = 0;
