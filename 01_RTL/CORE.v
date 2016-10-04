@@ -230,7 +230,7 @@ module CORE(
     adaptiveThreshold u_adapt(
       .clk              (clk),
       .rst_n            (rst_n),
-      .adptiveToogle    (0),
+      .adaptiveToogle   (adaptiveToogle),
       .adaptiveMode     (adaptiveMode),
       .filter_threshold (filter_threshold),
       .keypoint_num     (keypoint_num)
