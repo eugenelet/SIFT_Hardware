@@ -63,7 +63,7 @@ wire[48:0]      matched_0_dout,
                 matched_1_dout,
                 matched_2_dout,
                 matched_3_dout;
-reg             adaptiveToogle;
+reg             adaptiveToggle;
 reg[1:0]        adaptiveMode;
 
 /* Only for TB */
@@ -113,7 +113,7 @@ CORE u_core(
     .matched_1_dout   (matched_1_dout),
     .matched_2_dout   (matched_2_dout),
     .matched_3_dout   (matched_3_dout),
-    .adaptiveToogle   (adaptiveToogle),
+    .adaptiveToggle   (adaptiveToggle),
     .adaptiveMode     (adaptiveMode)
 );
 
@@ -136,14 +136,14 @@ integer targetKptNum;
 integer temp;
 integer cycleCount, detectCount, filterCount, kp_count;
 integer match;
-integer matched_pairs;
+integer matched_pairs, match_result;
 initial begin
   rst_n             = 1;
   start             = 0;
   imageFile         = $fopen("originalImage.txt","r");
   filter_on         = 1; /*Turns filter on*/
   adaptiveMode      = 0; /*HIGH_THROUGHPUT*/
-  adaptiveToogle    = 0; /*Adaptive Mode OFF*/
+  adaptiveToggle    = 0; /*Adaptive Mode OFF*/
 
   /* Write Image SRAM*/
   img_addr_in = 0;
@@ -494,7 +494,7 @@ initial begin
 
   cycleCount = 0;
   while(!u_core.compute_match_done) begin
-      $display("kpt_addr : %d", u_core.kpt_addr);
+      // $display("kpt_addr : %d", u_core.kpt_addr);
       @(negedge clk);
       cycleCount = cycleCount + 1;
   end
@@ -531,29 +531,31 @@ initial begin
 
   $fclose(matched_pairs);
 
+  match_result = $fopen("match_result.txt", "w");
   for(i = 0; i < targetKptNum; i = i + 1) begin
       temp = i & 2'b11;
       if(temp[1:0] == 2'b00) begin
            if(matched_mem_0[i / 4][29:15] < matched_mem_0[i / 4][14:0] * 0.72) begin//dist < dist2
-              $display("%d %d %d %d", target_mem_0[i / 4][402:394], target_mem_0[i / 4][393:384], matched_mem_0[i / 4][46:38], matched_mem_0[i / 4][37:28]);
+              $fwrite(match_result, "%d %d %d %d\n", target_mem_0[i / 4][402:394], target_mem_0[i / 4][393:384], matched_mem_0[i / 4][46:38], matched_mem_0[i / 4][37:28]);
           end
       end
       else if(temp[1:0] == 2'b01) begin
           if(matched_mem_1[i / 4][29:15] < matched_mem_1[i / 4][14:0] * 0.72) begin//dist < dist2
-              $display("%d %d %d %d", target_mem_1[i / 4][402:394], target_mem_1[i / 4][393:384], matched_mem_1[i / 4][46:38], matched_mem_1[i / 4][37:28]);
+              $fwrite(match_result, "%d %d %d %d\n", target_mem_1[i / 4][402:394], target_mem_1[i / 4][393:384], matched_mem_1[i / 4][46:38], matched_mem_1[i / 4][37:28]);
           end
       end
       else if(temp[1:0] == 2'b10) begin
           if(matched_mem_2[i / 4][29:15] < matched_mem_2[i / 4][14:0] * 0.72) begin//dist < dist2
-              $display("%d %d %d %d", target_mem_2[i / 4][402:394], target_mem_2[i / 4][393:384], matched_mem_2[i / 4][46:38], matched_mem_2[i / 4][37:28]);
+              $fwrite(match_result, "%d %d %d %d\n", target_mem_2[i / 4][402:394], target_mem_2[i / 4][393:384], matched_mem_2[i / 4][46:38], matched_mem_2[i / 4][37:28]);
           end
       end
       else begin
           if(matched_mem_3[i / 4][29:15] < matched_mem_3[i / 4][14:0] * 0.72) begin//dist < dist2
-              $display("%d %d %d %d", target_mem_3[i / 4][402:394], target_mem_3[i / 4][393:384], matched_mem_3[i / 4][46:38], matched_mem_3[i / 4][37:28]);
+              $fwrite(match_result, "%d %d %d %d\n", target_mem_3[i / 4][402:394], target_mem_3[i / 4][393:384], matched_mem_3[i / 4][46:38], matched_mem_3[i / 4][37:28]);
           end
       end    
   end
+  $fclose(match_result);
   $finish;
 end
 

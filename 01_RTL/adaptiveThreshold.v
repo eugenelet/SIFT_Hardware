@@ -1,7 +1,7 @@
 module adaptiveThreshold(
   clk,
   rst_n,
-  adaptiveToogle,
+  adaptiveToggle,
   adaptiveMode,
   filter_threshold,
   keypoint_num
@@ -13,7 +13,7 @@ parameter   HIGH_THROUGHPUT = 0,
 input     clk,
           rst_n;
 
-input                   adaptiveToogle;
+input                   adaptiveToggle;
 input[1:0]              adaptiveMode;
 output reg signed[9:0]  filter_threshold;
 input[10:0]             keypoint_num;
@@ -21,7 +21,7 @@ input[10:0]             keypoint_num;
 always @(posedge clk) begin
   if (!rst_n)
     filter_threshold <= 'd2;
-  else if (!adaptiveToogle)
+  else if (!adaptiveToggle)
     filter_threshold <= 'd2;
   else if ((adaptiveMode==HIGH_THROUGHPUT && keypoint_num<500) || (adaptiveMode==HIGH_ACCURACY && keypoint_num<1500))
     filter_threshold <= filter_threshold - 1; 

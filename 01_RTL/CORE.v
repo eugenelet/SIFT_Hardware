@@ -27,7 +27,7 @@ module CORE(
     matched_1_dout,
     matched_2_dout,
     matched_3_dout,
-    adaptiveToogle,
+    adaptiveToggle,
     adaptiveMode
 );
     input           clk;
@@ -61,7 +61,7 @@ module CORE(
                     in_matched_2_din,
                     in_matched_3_din;
 
-    input           adaptiveToogle;
+    input           adaptiveToggle;
     input[1:0]      adaptiveMode;
 
     /*FSM*/
@@ -230,7 +230,7 @@ module CORE(
     adaptiveThreshold u_adapt(
       .clk              (clk),
       .rst_n            (rst_n),
-      .adaptiveToogle   (adaptiveToogle),
+      .adaptiveToggle   (adaptiveToggle),
       .adaptiveMode     (adaptiveMode),
       .filter_threshold (filter_threshold),
       .keypoint_num     (keypoint_num)
