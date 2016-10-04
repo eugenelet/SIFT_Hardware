@@ -13,10 +13,10 @@ parameter   HIGH_THROUGHPUT = 0,
 input     clk,
           rst_n;
 
-input               adaptiveToogle;
-input[1:0]          adaptiveMode;
-output signed[9:0]  filter_threshold;
-input[10:0]         keypoint_num;
+input                   adaptiveToogle;
+input[1:0]              adaptiveMode;
+output reg signed[9:0]  filter_threshold;
+input[10:0]             keypoint_num;
 
 always @(posedge clk) begin
   if (!rst_n)

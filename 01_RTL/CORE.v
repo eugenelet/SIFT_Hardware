@@ -176,8 +176,8 @@ module CORE(
     );
     
     /*SRAM for Matched*/
-    wire  [8:0]  matched_addr1;
-    reg   [8:0]  matched_addr2;//shared
+    reg   [8:0]  matched_addr1; /*WIRE*/
+    reg   [8:0]  matched_addr2;//shared WIRE
     reg  [3:0]   matched_we;//write din to addr1 WIRE
     
     reg  [48:0]  matched_0_din; /*wire*/
