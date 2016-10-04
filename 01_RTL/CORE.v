@@ -514,10 +514,10 @@ module CORE(
         matched_addr1 = match_matched_addr1;
         matched_addr2 = match_matched_addr2;
         matched_we = match_matched_we;
-        matched_din_0 = match_matched_0_din;
-        matched_din_1 = match_matched_1_din;
-        matched_din_2 = match_matched_2_din;
-        matched_din_3 = match_matched_3_din;
+        matched_0_din = match_matched_0_din;
+        matched_1_din = match_matched_1_din;
+        matched_2_din = match_matched_2_din;
+        matched_3_din = match_matched_3_din;
       end
       default: begin
         blur_addr[0] = 0;
