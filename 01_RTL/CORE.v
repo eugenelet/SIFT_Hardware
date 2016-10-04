@@ -178,9 +178,9 @@ module CORE(
     /*SRAM for Matched*/
     wire  [8:0]  matched_addr1;
     reg   [8:0]  matched_addr2;//shared
-    wire  [3:0]   matched_we;//write din to addr1
+    reg  [3:0]   matched_we;//write din to addr1 WIRE
     
-    wire  [48:0]  matched_0_din;
+    reg  [48:0]  matched_0_din; /*wire*/
     bmem_512x49 matched_0_mem(
       .clk  (clk),
       .we   (matched_we[0]),
@@ -191,7 +191,7 @@ module CORE(
       .dout2(matched_0_dout)
     );
 
-    wire  [48:0]  matched_1_din;
+    reg  [48:0]  matched_1_din; /*wire*/
     bmem_512x49 matched_1_mem(
       .clk  (clk),
       .we   (matched_we[1]),
@@ -202,7 +202,7 @@ module CORE(
       .dout2(matched_1_dout)
     );
     
-    wire  [48:0]  matched_2_din;
+    reg  [48:0]  matched_2_din; /*wire*/
     bmem_512x49 matched_2_mem(
       .clk  (clk),
       .we   (matched_we[2]),
@@ -213,7 +213,7 @@ module CORE(
       .dout2(matched_2_dout)
     );
     
-    wire  [48:0]  matched_3_din;
+    reg  [48:0]  matched_3_din; /*wire*/
     bmem_512x49 matched_3_mem(
       .clk  (clk),
       .we   (matched_we[3]),
