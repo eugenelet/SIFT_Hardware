@@ -28,3 +28,5 @@ always @(posedge clk) begin
   else if ((adaptiveMode==HIGH_THROUGHPUT && keypoint_num>1000) || (adaptiveMode==HIGH_ACCURACY && keypoint_num>2000))
     filter_threshold <= filter_threshold + 1;
 end
+
+endmodule

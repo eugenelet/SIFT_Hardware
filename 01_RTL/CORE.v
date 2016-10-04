@@ -457,10 +457,10 @@ module CORE(
           matched_addr1 = matched_addr1_in;
           matched_addr2 = matched_addr2_in;
           matched_we = {matched_we_in, matched_we_in, matched_we_in, matched_we_in};
-          matched_din_0 = in_matched_0_din;
-          matched_din_1 = in_matched_1_din;
-          matched_din_2 = in_matched_2_din;
-          matched_din_3 = in_matched_3_din;
+          matched_0_din = in_matched_0_din;
+          matched_1_din = in_matched_1_din;
+          matched_2_din = in_matched_2_din;
+          matched_3_din = in_matched_3_din;
         end
         ST_GAUSSIAN: begin
           blur_addr[0] = gaussian_blur_addr[0];    
@@ -476,10 +476,10 @@ module CORE(
           matched_addr1 = 0;
           matched_addr2 = 0;
           matched_we = 0;
-          matched_din_0 = 0;
-          matched_din_1 = 0;
-          matched_din_2 = 0;
-          matched_din_3 = 0;
+          matched_0_din = 0;
+          matched_1_din = 0;
+          matched_2_din = 0;
+          matched_3_din = 0;
         end
       ST_DETECT_FILTER: begin
         blur_addr[0] = detect_filter_blur_addr[0];  
@@ -495,10 +495,10 @@ module CORE(
         matched_addr1 = 0;
         matched_addr2 = 0;
         matched_we = 0;
-        matched_din_0 = 0;
-        matched_din_1 = 0;
-        matched_din_2 = 0;
-        matched_din_3 = 0;
+        matched_0_din = 0;
+        matched_1_din = 0;
+        matched_2_din = 0;
+        matched_3_din = 0;
       end
       ST_COMPUTE_MATCH: begin
         blur_addr[0] = blurred_addr;  
@@ -533,10 +533,10 @@ module CORE(
         matched_addr1 = 0;
         matched_addr2 = matched_addr2_in;
         matched_we = 0;
-        matched_din_0 = 0;
-        matched_din_1 = 0;
-        matched_din_2 = 0;
-        matched_din_3 = 0;
+        matched_0_din = 0;
+        matched_1_din = 0;
+        matched_2_din = 0;
+        matched_3_din = 0;
       end
     endcase
   end
