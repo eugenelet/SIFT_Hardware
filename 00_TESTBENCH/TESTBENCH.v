@@ -462,7 +462,6 @@ initial begin
   $display("Detect and Filter:%d Cycles", cycleCount);
   $display("Detect Cycle : %d", detectCount);
   $display("Filter Cycle : %d", filterCount);
-  $display("Detect Key Point Count : %d", kp_count);
   
   /* Error Log for Detect and Filter*/
   error1 = 0;
