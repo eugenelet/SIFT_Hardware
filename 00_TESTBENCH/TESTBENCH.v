@@ -145,14 +145,6 @@ initial begin
   adaptiveMode      = 0; /*HIGH_THROUGHPUT*/
   adaptiveToogle    = 0; /*Adaptive Mode OFF*/
 
-
-  // read test pattern from file
-  /*for(i=0;i<`ROWS;i=i+1) begin
-    for(j=1;j<=`COLS;j=j+1) begin
-      rc=$fscanf(imageFile,"%d",u_core.ori_img.mem[i][j*8-1-:8]);
-    end
-  end */
-
   /* Write Image SRAM*/
   img_addr_in = 0;
   img_we = 1;
@@ -176,14 +168,6 @@ initial begin
     @(negedge clk);
     matched_addr1_in = matched_addr1_in + 1;
   end
-  /*for(i = 0; i < 512; i=i+1) begin
-    for(j = 46; j >=0; j=j-1) begin
-      u_core.matched_0_mem.mem[i][j] = 1;
-      u_core.matched_1_mem.mem[i][j] = 1;
-      u_core.matched_2_mem.mem[i][j] = 1;
-      u_core.matched_3_mem.mem[i][j] = 1;
-    end
-  end*/
   matched_we_in = 0;
 
   /* Write Target SRAM */
@@ -510,7 +494,6 @@ initial begin
 
   cycleCount = 0;
   while(!u_core.compute_match_done) begin
-      // $display("img_group_counter : %d", u_core.u_match.img_group_counter);
       $display("kpt_addr : %d", u_core.kpt_addr);
       @(negedge clk);
       cycleCount = cycleCount + 1;
@@ -518,93 +501,59 @@ initial begin
   $display("========= Compute and Match DONE =========");
   $display("Compute and Match:%d Cycles", cycleCount);
   $display("%d", targetKptNum);
-   
-   @(negedge clk);
-   matched_pairs = $fopen("matched_pairs.txt", "w");
-   matched_addr2_in = 0;
-   @(negedge clk);
-   // matched_addr2_in = 1;
-   // @(negedge clk);
 
-   for(i = 0; i < targetKptNum; i = i + 1) begin
-     temp = i & 2'b11;
-     if(temp[1:0] == 2'b00) begin
-        matched_mem_0[i / 4] = matched_0_dout;
-        $fwrite(matched_pairs, "0 %d %d\n", matched_mem_0[i / 4][29:15], matched_mem_0[i / 4][14:0]);
-     end
-     else if(temp[1:0] == 2'b01) begin
-        matched_mem_1[i / 4] = matched_1_dout;
-        $fwrite(matched_pairs, "1 %d %d\n", matched_mem_1[i / 4][29:15], matched_mem_1[i / 4][14:0]);
+  /*Dump Output and check answer*/   
+  @(negedge clk);
+  matched_pairs = $fopen("matched_pairs.txt", "w");
+  matched_addr2_in = 0;
+  @(negedge clk);
+  for(i = 0; i < targetKptNum; i = i + 1) begin
+    temp = i & 2'b11;
+    if(temp[1:0] == 2'b00) begin
+       matched_mem_0[i / 4] = matched_0_dout;
+       $fwrite(matched_pairs, "0 %d %d\n", matched_mem_0[i / 4][29:15], matched_mem_0[i / 4][14:0]);
+    end
+    else if(temp[1:0] == 2'b01) begin
+       matched_mem_1[i / 4] = matched_1_dout;
+       $fwrite(matched_pairs, "1 %d %d\n", matched_mem_1[i / 4][29:15], matched_mem_1[i / 4][14:0]);
+    end
+    else if(temp[1:0] == 2'b10) begin
+       matched_mem_2[i / 4] = matched_2_dout;
+       $fwrite(matched_pairs, "2 %d %d\n", matched_mem_2[i / 4][29:15], matched_mem_2[i / 4][14:0]);
+    end
+    else begin
+       matched_mem_3[i / 4] = matched_3_dout;
+       $fwrite(matched_pairs, "3 %d %d\n", matched_mem_3[i / 4][29:15], matched_mem_3[i / 4][14:0]);
+       matched_addr2_in = matched_addr2_in + 1;
+       @(negedge clk);
+    end
+  end
 
-     end
-     else if(temp[1:0] == 2'b10) begin
-        matched_mem_2[i / 4] = matched_2_dout;
-        $fwrite(matched_pairs, "2 %d %d\n", matched_mem_2[i / 4][29:15], matched_mem_2[i / 4][14:0]);
-     end
-     else begin
-        matched_mem_3[i / 4] = matched_3_dout;
-        $fwrite(matched_pairs, "3 %d %d\n", matched_mem_3[i / 4][29:15], matched_mem_3[i / 4][14:0]);
-        matched_addr2_in = matched_addr2_in + 1;
-        @(negedge clk);
-     end
-   end
+  $fclose(matched_pairs);
 
-   $fclose(matched_pairs);
-
-   for(i = 0; i < targetKptNum; i = i + 1) begin
-       temp = i & 2'b11;
-       if(temp[1:0] == 2'b00) begin
-            if(matched_mem_0[i / 4][29:15] < matched_mem_0[i / 4][14:0] * 0.72) begin//dist < dist2
-               $display("%d %d %d %d", target_mem_0[i / 4][402:394], target_mem_0[i / 4][393:384], matched_mem_0[i / 4][46:38], matched_mem_0[i / 4][37:28]);
-           end
-       end
-       else if(temp[1:0] == 2'b01) begin
-           if(matched_mem_1[i / 4][29:15] < matched_mem_1[i / 4][14:0] * 0.72) begin//dist < dist2
-               $display("%d %d %d %d", target_mem_1[i / 4][402:394], target_mem_1[i / 4][393:384], matched_mem_1[i / 4][46:38], matched_mem_1[i / 4][37:28]);
-           end
-       end
-       else if(temp[1:0] == 2'b10) begin
-           if(matched_mem_2[i / 4][29:15] < matched_mem_2[i / 4][14:0] * 0.72) begin//dist < dist2
-               $display("%d %d %d %d", target_mem_2[i / 4][402:394], target_mem_2[i / 4][393:384], matched_mem_2[i / 4][46:38], matched_mem_2[i / 4][37:28]);
-           end
-       end
-       else begin
-           if(matched_mem_3[i / 4][29:15] < matched_mem_3[i / 4][14:0] * 0.72) begin//dist < dist2
-               $display("%d %d %d %d", target_mem_3[i / 4][402:394], target_mem_3[i / 4][393:384], matched_mem_3[i / 4][46:38], matched_mem_3[i / 4][37:28]);
-           end
-       end    
-   end
-   /*for(i = 0; i < targetKptNum; i = i + 1) begin
-       temp = i & 2'b11;
-       if(temp[1:0] == 2'b00) begin
-            if(u_core.matched_0_mem.mem[i / 4][29:15] < u_core.matched_0_mem.mem[i / 4][14:0] * 0.72) begin//dist < dist2
-               // programOutput[match_succeed_num] = {target_0.mem[i / 4][402:394], target_0.mem[i / 4][393:384], matched_0.mem[i / 4][46:38], matched_0.mem[i / 4][37:28]};
-               $display("%d %d %d %d", u_core.target_0_mem.mem[i / 4][402:394], u_core.target_0_mem.mem[i / 4][393:384], u_core.matched_0_mem.mem[i / 4][46:38], u_core.matched_0_mem.mem[i / 4][37:28]);
-               // match_succeed_num = match_succeed_num + 1;
-           end
-       end
-       else if(temp[1:0] == 2'b01) begin
-           if(u_core.matched_1_mem.mem[i / 4][29:15] < u_core.matched_1_mem.mem[i / 4][14:0] * 0.72) begin//dist < dist2
-               // programOutput[match_succeed_num] = {target_1.mem[i / 4][402:394], target_1.mem[i / 4][393:384], matched_1.mem[i / 4][46:38], matched_1.mem[i / 4][37:28]};
-               $display("%d %d %d %d", u_core.target_1_mem.mem[i / 4][402:394], u_core.target_1_mem.mem[i / 4][393:384], u_core.matched_1_mem.mem[i / 4][46:38], u_core.matched_1_mem.mem[i / 4][37:28]);
-               // match_succeed_num = match_succeed_num + 1;
-           end
-       end
-       else if(temp[1:0] == 2'b10) begin
-           if(u_core.matched_2_mem.mem[i / 4][29:15] < u_core.matched_2_mem.mem[i / 4][14:0] * 0.72) begin//dist < dist2
-               // programOutput[match_succeed_num] = {target_2.mem[i / 4][402:394], target_2.mem[i / 4][393:384], matched_2.mem[i / 4][46:38], matched_2.mem[i / 4][37:28]};
-               $display("%d %d %d %d", u_core.target_2_mem.mem[i / 4][402:394], u_core.target_2_mem.mem[i / 4][393:384], u_core.matched_2_mem.mem[i / 4][46:38], u_core.matched_2_mem.mem[i / 4][37:28]);
-               // match_succeed_num = match_succeed_num + 1;
-           end
-       end
-       else begin
-           if(u_core.matched_3_mem.mem[i / 4][29:15] < u_core.matched_3_mem.mem[i / 4][14:0] * 0.72) begin//dist < dist2
-               // programOutput[match_succeed_num] = {target_3.mem[i / 4][402:394], target_3.mem[i / 4][393:384], matched_3.mem[i / 4][46:38], matched_3.mem[i / 4][37:28]};
-               $display("%d %d %d %d", u_core.target_3_mem.mem[i / 4][402:394], u_core.target_3_mem.mem[i / 4][393:384], u_core.matched_3_mem.mem[i / 4][46:38], u_core.matched_3_mem.mem[i / 4][37:28]);
-               // match_succeed_num = match_succeed_num + 1;
-           end
-       end    
-   end*/
+  for(i = 0; i < targetKptNum; i = i + 1) begin
+      temp = i & 2'b11;
+      if(temp[1:0] == 2'b00) begin
+           if(matched_mem_0[i / 4][29:15] < matched_mem_0[i / 4][14:0] * 0.72) begin//dist < dist2
+              $display("%d %d %d %d", target_mem_0[i / 4][402:394], target_mem_0[i / 4][393:384], matched_mem_0[i / 4][46:38], matched_mem_0[i / 4][37:28]);
+          end
+      end
+      else if(temp[1:0] == 2'b01) begin
+          if(matched_mem_1[i / 4][29:15] < matched_mem_1[i / 4][14:0] * 0.72) begin//dist < dist2
+              $display("%d %d %d %d", target_mem_1[i / 4][402:394], target_mem_1[i / 4][393:384], matched_mem_1[i / 4][46:38], matched_mem_1[i / 4][37:28]);
+          end
+      end
+      else if(temp[1:0] == 2'b10) begin
+          if(matched_mem_2[i / 4][29:15] < matched_mem_2[i / 4][14:0] * 0.72) begin//dist < dist2
+              $display("%d %d %d %d", target_mem_2[i / 4][402:394], target_mem_2[i / 4][393:384], matched_mem_2[i / 4][46:38], matched_mem_2[i / 4][37:28]);
+          end
+      end
+      else begin
+          if(matched_mem_3[i / 4][29:15] < matched_mem_3[i / 4][14:0] * 0.72) begin//dist < dist2
+              $display("%d %d %d %d", target_mem_3[i / 4][402:394], target_mem_3[i / 4][393:384], matched_mem_3[i / 4][46:38], matched_mem_3[i / 4][37:28]);
+          end
+      end    
+  end
   $finish;
 end
 
