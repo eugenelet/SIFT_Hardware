@@ -169,21 +169,21 @@ initial begin
 
 
   /* Initialize Matched Mem SRAM */
-  /*matched_we_in = 1;
+  matched_we_in = 1;
   matched_addr1_in = 0;
   matched_din = 49'h1_FFFF_FFFF_FFFF;
   for(i = 0; i < 512; i=i+1) begin
     @(negedge clk);
     matched_addr1_in = matched_addr1_in + 1;
-  end*/
-  for(i = 0; i < 512; i=i+1) begin
+  end
+  /*for(i = 0; i < 512; i=i+1) begin
     for(j = 46; j >=0; j=j-1) begin
       u_core.matched_0_mem.mem[i][j] = 1;
       u_core.matched_1_mem.mem[i][j] = 1;
       u_core.matched_2_mem.mem[i][j] = 1;
       u_core.matched_3_mem.mem[i][j] = 1;
     end
-  end
+  end*/
   matched_we_in = 0;
 
   /* Write Target SRAM */

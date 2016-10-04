@@ -455,7 +455,7 @@ module CORE(
           buffer_in = 0;
           target_addr = target_addr_in;
           matched_addr1 = matched_addr1_in;
-          matched_addr2 = matched_addr2_in;
+          matched_addr2 = 0;
           matched_we = {matched_we_in, matched_we_in, matched_we_in, matched_we_in};
           matched_0_din = in_matched_0_din;
           matched_1_din = in_matched_1_din;
