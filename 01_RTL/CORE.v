@@ -31,18 +31,30 @@ module CORE(
     adaptiveToggle,
     adaptiveMode
 );
+    /*Basic I/O*/
     input           clk,
                     rst_n;
-
     input           start;
     output          done;
-    
+
+    /*  Turns filter ON/OFF
+     *  1:ON 
+     *  0:OFF
+     */
     input           filter_on;
 
+
+    /*  Input Image SRAM 480x5120 (640x480)
+     *  addr: 0~479
+     */
     input[5119:0]   img_din;
     input           img_we;
     input[8:0]      img_addr_in;
 
+
+    /*  Target SRAM x4 512x403
+     *  addr: 0~511
+     */
     input           target_0_we,
                     target_1_we,
                     target_2_we,
@@ -53,6 +65,9 @@ module CORE(
                     target_3_din;
     input[8:0]      target_addr_in;
 
+    /*  Matched Pairs SRAM x4 512x49
+     *  addr: 0~511
+     */
     input[8:0]      matched_addr1_in,
                     matched_addr2_in;
     input           matched_we_in;
@@ -65,6 +80,16 @@ module CORE(
                     in_matched_2_din,
                     in_matched_3_din;
 
+    /*  Adaptive Threshold Controller
+     *  adaptiveToggle
+     *  --------------
+     *    1:ON 
+     *    0:OFF
+     *  adaptiveMode
+     *  ------------
+     *    0: High Throughput
+     *    1: High Accuracy
+     */
     input           adaptiveToggle;
     input[1:0]      adaptiveMode;
 

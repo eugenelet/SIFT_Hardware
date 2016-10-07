@@ -143,7 +143,7 @@ initial begin
   rst_n             = 1;
   start             = 0;
   imageFile         = $fopen("originalImage.txt","r");
-  filter_on         = 0; /*Turns filter on*/
+  filter_on         = 1; /*Turns filter on*/
   adaptiveMode      = 0; /*HIGH_THROUGHPUT*/
   adaptiveToggle    = 0; /*Adaptive Mode OFF*/
 
