@@ -40,6 +40,7 @@ end
 reg             clk;
 reg             rst_n;
 reg             start;
+wire            done;
 reg             filter_on;
 reg signed[9:0] filter_threshold;
 reg[5119:0]     img_din;
@@ -89,6 +90,7 @@ CORE u_core(
     .clk              (clk),
     .rst_n            (rst_n),
     .start            (start),
+    .done             (done),
     .filter_on        (filter_on),
     .img_din          (img_din),
     .img_addr_in      (img_addr_in),
@@ -141,7 +143,7 @@ initial begin
   rst_n             = 1;
   start             = 0;
   imageFile         = $fopen("originalImage.txt","r");
-  filter_on         = 1; /*Turns filter on*/
+  filter_on         = 0; /*Turns filter on*/
   adaptiveMode      = 0; /*HIGH_THROUGHPUT*/
   adaptiveToggle    = 0; /*Adaptive Mode OFF*/
 

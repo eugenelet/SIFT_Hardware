@@ -3,6 +3,7 @@ module CORE(
     clk,
     rst_n,
     start,
+    done,
     filter_on,
     img_din,
     img_addr_in,
@@ -30,9 +31,12 @@ module CORE(
     adaptiveToggle,
     adaptiveMode
 );
-    input           clk;
-    input           rst_n;
+    input           clk,
+                    rst_n;
+
     input           start;
+    output          done;
+    
     input           filter_on;
 
     input[5119:0]   img_din;
@@ -481,66 +485,67 @@ module CORE(
           matched_2_din = 0;
           matched_3_din = 0;
         end
-      ST_DETECT_FILTER: begin
-        blur_addr[0] = detect_filter_blur_addr[0];  
-        blur_addr[1] = detect_filter_blur_addr[1];  
-        blur_addr[2] = detect_filter_blur_addr[2];  
-        blur_addr[3] = detect_filter_blur_addr[3];  
-        buffer_we = detect_filter_buffer_we;
-        img_addr  = detect_filter_img_addr;
-        fill_zero = 0;
-        keypoint_addr = detect_filter_keypoint_addr;
-        buffer_in = img_dout;
-        target_addr = 0;
-        matched_addr1 = 0;
-        matched_addr2 = 0;
-        matched_we = 0;
-        matched_0_din = 0;
-        matched_1_din = 0;
-        matched_2_din = 0;
-        matched_3_din = 0;
-      end
-      ST_COMPUTE_MATCH: begin
-        blur_addr[0] = blurred_addr;  
-        blur_addr[1] = blurred_addr;  
-        blur_addr[2] = 0;  
-        blur_addr[3] = 0;  
-        buffer_we = compute_match_buffer_we;
-        img_addr  = 0;
-        fill_zero = 0;
-        keypoint_addr = kpt_addr;
-        buffer_in = (readFrom) ? blur_dout[1] : blur_dout[0];
-        target_addr = match_target_addr;
-        matched_addr1 = match_matched_addr1;
-        matched_addr2 = match_matched_addr2;
-        matched_we = match_matched_we;
-        matched_0_din = match_matched_0_din;
-        matched_1_din = match_matched_1_din;
-        matched_2_din = match_matched_2_din;
-        matched_3_din = match_matched_3_din;
-      end
-      default: begin
-        blur_addr[0] = 0;
-        blur_addr[1] = 0;  
-        blur_addr[2] = 0;  
-        blur_addr[3] = 0;  
-        buffer_we = 0;
-        img_addr  = 0;
-        fill_zero = 0;
-        keypoint_addr = 0;
-        buffer_in = 0;
-        target_addr = 0;
-        matched_addr1 = 0;
-        matched_addr2 = matched_addr2_in;
-        matched_we = 0;
-        matched_0_din = 0;
-        matched_1_din = 0;
-        matched_2_din = 0;
-        matched_3_din = 0;
-      end
-    endcase
-  end
+        ST_DETECT_FILTER: begin
+          blur_addr[0] = detect_filter_blur_addr[0];  
+          blur_addr[1] = detect_filter_blur_addr[1];  
+          blur_addr[2] = detect_filter_blur_addr[2];  
+          blur_addr[3] = detect_filter_blur_addr[3];  
+          buffer_we = detect_filter_buffer_we;
+          img_addr  = detect_filter_img_addr;
+          fill_zero = 0;
+          keypoint_addr = detect_filter_keypoint_addr;
+          buffer_in = img_dout;
+          target_addr = 0;
+          matched_addr1 = 0;
+          matched_addr2 = 0;
+          matched_we = 0;
+          matched_0_din = 0;
+          matched_1_din = 0;
+          matched_2_din = 0;
+          matched_3_din = 0;
+        end
+        ST_COMPUTE_MATCH: begin
+          blur_addr[0] = blurred_addr;  
+          blur_addr[1] = blurred_addr;  
+          blur_addr[2] = 0;  
+          blur_addr[3] = 0;  
+          buffer_we = compute_match_buffer_we;
+          img_addr  = 0;
+          fill_zero = 0;
+          keypoint_addr = kpt_addr;
+          buffer_in = (readFrom) ? blur_dout[1] : blur_dout[0];
+          target_addr = match_target_addr;
+          matched_addr1 = match_matched_addr1;
+          matched_addr2 = match_matched_addr2;
+          matched_we = match_matched_we;
+          matched_0_din = match_matched_0_din;
+          matched_1_din = match_matched_1_din;
+          matched_2_din = match_matched_2_din;
+          matched_3_din = match_matched_3_din;
+        end
+        default: begin
+          blur_addr[0] = 0;
+          blur_addr[1] = 0;  
+          blur_addr[2] = 0;  
+          blur_addr[3] = 0;  
+          buffer_we = 0;
+          img_addr  = 0;
+          fill_zero = 0;
+          keypoint_addr = 0;
+          buffer_in = 0;
+          target_addr = 0;
+          matched_addr1 = 0;
+          matched_addr2 = matched_addr2_in;
+          matched_we = 0;
+          matched_0_din = 0;
+          matched_1_din = 0;
+          matched_2_din = 0;
+          matched_3_din = 0;
+        end
+      endcase
+    end
 
+    assign done = compute_match_done;
 
     /*
      *  FSM
