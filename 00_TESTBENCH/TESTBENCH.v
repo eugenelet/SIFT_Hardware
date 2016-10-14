@@ -537,22 +537,22 @@ initial begin
       temp = i & 2'b11;
       if(temp[1:0] == 2'b00) begin
            if(matched_mem_0[i / 4][29:15] < matched_mem_0[i / 4][14:0] * 0.72) begin//dist < dist2
-              $fwrite(match_result, "%d %d %d %d\n", target_mem_0[i / 4][402:394], target_mem_0[i / 4][393:384], matched_mem_0[i / 4][46:38], matched_mem_0[i / 4][37:28]);
+              $fwrite(match_result, "%d %d %d %d\n", target_mem_0[i / 4][402:394], target_mem_0[i / 4][393:384], matched_mem_0[i / 4][48:40], matched_mem_0[i / 4][39:30]);
           end
       end
       else if(temp[1:0] == 2'b01) begin
           if(matched_mem_1[i / 4][29:15] < matched_mem_1[i / 4][14:0] * 0.72) begin//dist < dist2
-              $fwrite(match_result, "%d %d %d %d\n", target_mem_1[i / 4][402:394], target_mem_1[i / 4][393:384], matched_mem_1[i / 4][46:38], matched_mem_1[i / 4][37:28]);
+              $fwrite(match_result, "%d %d %d %d\n", target_mem_1[i / 4][402:394], target_mem_1[i / 4][393:384], matched_mem_1[i / 4][48:40], matched_mem_1[i / 4][39:30]);
           end
       end
       else if(temp[1:0] == 2'b10) begin
           if(matched_mem_2[i / 4][29:15] < matched_mem_2[i / 4][14:0] * 0.72) begin//dist < dist2
-              $fwrite(match_result, "%d %d %d %d\n", target_mem_2[i / 4][402:394], target_mem_2[i / 4][393:384], matched_mem_2[i / 4][46:38], matched_mem_2[i / 4][37:28]);
+              $fwrite(match_result, "%d %d %d %d\n", target_mem_2[i / 4][402:394], target_mem_2[i / 4][393:384], matched_mem_2[i / 4][48:40], matched_mem_2[i / 4][39:30]);
           end
       end
       else begin
           if(matched_mem_3[i / 4][29:15] < matched_mem_3[i / 4][14:0] * 0.72) begin//dist < dist2
-              $fwrite(match_result, "%d %d %d %d\n", target_mem_3[i / 4][402:394], target_mem_3[i / 4][393:384], matched_mem_3[i / 4][46:38], matched_mem_3[i / 4][37:28]);
+              $fwrite(match_result, "%d %d %d %d\n", target_mem_3[i / 4][402:394], target_mem_3[i / 4][393:384], matched_mem_3[i / 4][48:40], matched_mem_3[i / 4][39:30]);
           end
       end    
   end

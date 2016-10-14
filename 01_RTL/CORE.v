@@ -377,9 +377,6 @@ module CORE(
       .keypoint_we    (keypoint_we),
       .keypoint_addr  (detect_filter_keypoint_addr),
       .keypoint_din   (keypoint_din),
-      // .keypoint_2_we    (keypoint_2_we),
-      // .keypoint_2_addr  (detect_filter_keypoint_2_addr),
-      // .keypoint_2_din   (keypoint_2_din),
       .filter_on        (filter_on),
       .filter_threshold (filter_threshold)
     );
