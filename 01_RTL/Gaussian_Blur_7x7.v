@@ -20,37 +20,35 @@ input       [175:0]   buffer_data_5;
 input       [175:0]   buffer_data_6;
 output reg  [127:0]   blur_out; // wire
 
-reg       [223:0] G_Kernel_7x7  [0:3];
-always @(*) begin
-    G_Kernel_7x7[0][31:0]    = 32'h03C6EBCB; //18'b000000111100011011;//'d014754;
-    G_Kernel_7x7[0][63:32]   = 32'h046AA8A8; //18'b000001000110101010;//'d017252;
-    G_Kernel_7x7[0][95:64]   = 32'h04D9ED31; //18'b000001001101100111;//'d018950;
-    G_Kernel_7x7[0][127:96]  = 32'h050165DE; //18'b000001010000000101;//'d019552;
-    G_Kernel_7x7[0][159:128] = 32'h04D9ED31; //18'b000001001101100111;//'d018950;
-    G_Kernel_7x7[0][191:160] = 32'h046AA8A8; //18'b000001000110101010;//'d017252;
-    G_Kernel_7x7[0][223:192] = 32'h03C6EBCB; //18'b000000111100011011;//'d014754;
-    G_Kernel_7x7[1][31:0]    = 32'h046AA8A8; //18'b000001000110101010;//'d017252;
-    G_Kernel_7x7[1][63:32]   = 32'h052A1FB1; //18'b000001010010101000;//'d020174;
-    G_Kernel_7x7[1][95:64]   = 32'h05AC3BC7; //18'b000001011010110000;//'d022159;
-    G_Kernel_7x7[1][127:96]  = 32'h05DA6392; //18'b000001011101101001;//'d022863;
-    G_Kernel_7x7[1][159:128] = 32'h05AC3BC7; //18'b000001011010110000;//'d022159;
-    G_Kernel_7x7[1][191:160] = 32'h052A1FB1; //18'b000001010010101000;//'d020174;
-    G_Kernel_7x7[1][223:192] = 32'h046AA8A8; //18'b000001000110101010;//'d017252;
-    G_Kernel_7x7[2][31:0]    = 32'h04D9ED31; //18'b000001001101100111;//'d018950;
-    G_Kernel_7x7[2][63:32]   = 32'h05AC3BC7; //18'b000001011010110000;//'d022159;
-    G_Kernel_7x7[2][95:64]   = 32'h063B25B2; //18'b000001100011101100;//'d024340;
-    G_Kernel_7x7[2][127:96]  = 32'h066DD847; //18'b000001100110110111;//'d025113;
-    G_Kernel_7x7[2][159:128] = 32'h063B25B2; //18'b000001100011101100;//'d024340;
-    G_Kernel_7x7[2][191:160] = 32'h05AC3BC7; //18'b000001011010110000;//'d022159;
-    G_Kernel_7x7[2][223:192] = 32'h04D9ED31; //18'b000001001101100111;//'d018950;
-    G_Kernel_7x7[3][31:0]    = 32'h050165DE; //18'b000001010000000101;//'d019552;
-    G_Kernel_7x7[3][63:32]   = 32'h05DA6392; //18'b000001011101101001;//'d022863;
-    G_Kernel_7x7[3][95:64]   = 32'h066DD847; //18'b000001100110110111;//'d025113;
-    G_Kernel_7x7[3][127:96]  = 32'h06A2275A; //18'b000001101010001000;//'d025911;
-    G_Kernel_7x7[3][159:128] = 32'h066DD847; //18'b000001100110110111;//'d025113;
-    G_Kernel_7x7[3][191:160] = 32'h05DA6392; //18'b000001011101101001;//'d022863;
-    G_Kernel_7x7[3][223:192] = 32'h050165DE; //18'b000001010000000101;//'d019552;
-end
+parameter[223:0] G_Kernel_7x7  [0:3] = 
+  '{32'h03C6EBCB, //18'b000000111100011011;//'d014754;
+    32'h046AA8A8, //18'b000001000110101010;//'d017252;
+    32'h04D9ED31, //18'b000001001101100111;//'d018950;
+    32'h050165DE, //18'b000001010000000101;//'d019552;
+    32'h04D9ED31, //18'b000001001101100111;//'d018950;
+    32'h046AA8A8, //18'b000001000110101010;//'d017252;
+    32'h03C6EBCB, //18'b000000111100011011;//'d014754;
+    32'h046AA8A8, //18'b000001000110101010;//'d017252;
+    32'h052A1FB1, //18'b000001010010101000;//'d020174;
+    32'h05AC3BC7, //18'b000001011010110000;//'d022159;
+    32'h05DA6392, //18'b000001011101101001;//'d022863;
+    32'h05AC3BC7, //18'b000001011010110000;//'d022159;
+    32'h052A1FB1, //18'b000001010010101000;//'d020174;
+    32'h046AA8A8, //18'b000001000110101010;//'d017252;
+    32'h04D9ED31, //18'b000001001101100111;//'d018950;
+    32'h05AC3BC7, //18'b000001011010110000;//'d022159;
+    32'h063B25B2, //18'b000001100011101100;//'d024340;
+    32'h066DD847, //18'b000001100110110111;//'d025113;
+    32'h063B25B2, //18'b000001100011101100;//'d024340;
+    32'h05AC3BC7, //18'b000001011010110000;//'d022159;
+    32'h04D9ED31, //18'b000001001101100111;//'d018950;
+    32'h050165DE, //18'b000001010000000101;//'d019552;
+    32'h05DA6392, //18'b000001011101101001;//'d022863;
+    32'h066DD847, //18'b000001100110110111;//'d025113;
+    32'h06A2275A, //18'b000001101010001000;//'d025911;
+    32'h066DD847, //18'b000001100110110111;//'d025113;
+    32'h05DA6392, //18'b000001011101101001;//'d022863;
+    32'h050165DE}; //18'b000001010000000101;//'d019552;
 
 reg    [55:0]    layer0[0:15]; //wire
 reg    [55:0]    layer1[0:15]; //wire
@@ -846,7 +844,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd1: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -1632,7 +1629,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd2: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -2418,7 +2414,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd3: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -3204,7 +3199,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd4: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -3990,7 +3984,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd5: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -4776,7 +4769,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd6: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -5562,7 +5554,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd7: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -6348,7 +6339,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd8: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -7134,7 +7124,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd9: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -7920,7 +7909,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd10: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -8706,7 +8694,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd11: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -9492,7 +9479,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd12: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -10278,7 +10264,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd13: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -11064,7 +11049,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd14: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -11850,7 +11834,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd15: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -12636,7 +12619,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd16: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -13422,7 +13404,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd17: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -14208,7 +14189,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd18: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -14994,7 +14974,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd19: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -15780,7 +15759,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd20: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -16566,7 +16544,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd21: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -17352,7 +17329,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd22: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -18138,7 +18114,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd23: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -18924,7 +18899,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd24: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -19710,7 +19684,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd25: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -20496,7 +20469,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd26: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -21282,7 +21254,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd27: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -22068,7 +22039,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd28: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -22854,7 +22824,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd29: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -23640,7 +23609,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd30: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -24426,7 +24394,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd31: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -25212,7 +25179,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd32: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -25998,7 +25964,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd33: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -26784,7 +26749,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd34: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -27570,7 +27534,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd35: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -28356,7 +28319,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd36: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -29142,7 +29104,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd37: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -29928,7 +29889,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd38: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -30714,7 +30674,6 @@ always @(*) begin
         layer6[15][39:32] = buffer_data_0[159:152];
         layer6[15][47:40] = buffer_data_0[167:160];
         layer6[15][55:48] = buffer_data_0[175:168];
-    end
     'd39: begin
         layer0[0][7:0] = buffer_data_6[7:0];
         layer0[0][15:8] = buffer_data_6[15:8];
@@ -31500,6 +31459,791 @@ always @(*) begin
         layer6[15][39:32] = 0;
         layer6[15][47:40] = 0;
         layer6[15][55:48] = 0;
+    default: begin
+        layer0[0][7:0] = 'd0;
+        layer0[0][15:8] = 'd0;
+        layer0[0][23:16] = 'd0;
+        layer0[0][31:24] = 'd0;
+        layer0[0][39:32] = 'd0;
+        layer0[0][47:40] = 'd0;
+        layer0[0][55:48] = 'd0;
+        layer1[0][7:0] = 'd0;
+        layer1[0][15:8] = 'd0;
+        layer1[0][23:16] = 'd0;
+        layer1[0][31:24] = 'd0;
+        layer1[0][39:32] = 'd0;
+        layer1[0][47:40] = 'd0;
+        layer1[0][55:48] = 'd0;
+        layer2[0][7:0] = 'd0;
+        layer2[0][15:8] = 'd0;
+        layer2[0][23:16] = 'd0;
+        layer2[0][31:24] = 'd0;
+        layer2[0][39:32] = 'd0;
+        layer2[0][47:40] = 'd0;
+        layer2[0][55:48] = 'd0;
+        layer3[0][7:0] = 'd0;
+        layer3[0][15:8] = 'd0;
+        layer3[0][23:16] = 'd0;
+        layer3[0][31:24] = 'd0;
+        layer3[0][39:32] = 'd0;
+        layer3[0][47:40] = 'd0;
+        layer3[0][55:48] = 'd0;
+        layer4[0][7:0] = 'd0;
+        layer4[0][15:8] = 'd0;
+        layer4[0][23:16] = 'd0;
+        layer4[0][31:24] = 'd0;
+        layer4[0][39:32] = 'd0;
+        layer4[0][47:40] = 'd0;
+        layer4[0][55:48] = 'd0;
+        layer5[0][7:0] = 'd0;
+        layer5[0][15:8] = 'd0;
+        layer5[0][23:16] = 'd0;
+        layer5[0][31:24] = 'd0;
+        layer5[0][39:32] = 'd0;
+        layer5[0][47:40] = 'd0;
+        layer5[0][55:48] = 'd0;
+        layer6[0][7:0] = 'd0;
+        layer6[0][15:8] = 'd0;
+        layer6[0][23:16] = 'd0;
+        layer6[0][31:24] = 'd0;
+        layer6[0][39:32] = 'd0;
+        layer6[0][47:40] = 'd0;
+        layer6[0][55:48] = 'd0;
+        layer0[1][7:0] = 'd0;
+        layer0[1][15:8] = 'd0;
+        layer0[1][23:16] = 'd0;
+        layer0[1][31:24] = 'd0;
+        layer0[1][39:32] = 'd0;
+        layer0[1][47:40] = 'd0;
+        layer0[1][55:48] = 'd0;
+        layer1[1][7:0] = 'd0;
+        layer1[1][15:8] = 'd0;
+        layer1[1][23:16] = 'd0;
+        layer1[1][31:24] = 'd0;
+        layer1[1][39:32] = 'd0;
+        layer1[1][47:40] = 'd0;
+        layer1[1][55:48] = 'd0;
+        layer2[1][7:0] = 'd0;
+        layer2[1][15:8] = 'd0;
+        layer2[1][23:16] = 'd0;
+        layer2[1][31:24] = 'd0;
+        layer2[1][39:32] = 'd0;
+        layer2[1][47:40] = 'd0;
+        layer2[1][55:48] = 'd0;
+        layer3[1][7:0] = 'd0;
+        layer3[1][15:8] = 'd0;
+        layer3[1][23:16] = 'd0;
+        layer3[1][31:24] = 'd0;
+        layer3[1][39:32] = 'd0;
+        layer3[1][47:40] = 'd0;
+        layer3[1][55:48] = 'd0;
+        layer4[1][7:0] = 'd0;
+        layer4[1][15:8] = 'd0;
+        layer4[1][23:16] = 'd0;
+        layer4[1][31:24] = 'd0;
+        layer4[1][39:32] = 'd0;
+        layer4[1][47:40] = 'd0;
+        layer4[1][55:48] = 'd0;
+        layer5[1][7:0] = 'd0;
+        layer5[1][15:8] = 'd0;
+        layer5[1][23:16] = 'd0;
+        layer5[1][31:24] = 'd0;
+        layer5[1][39:32] = 'd0;
+        layer5[1][47:40] = 'd0;
+        layer5[1][55:48] = 'd0;
+        layer6[1][7:0] = 'd0;
+        layer6[1][15:8] = 'd0;
+        layer6[1][23:16] = 'd0;
+        layer6[1][31:24] = 'd0;
+        layer6[1][39:32] = 'd0;
+        layer6[1][47:40] = 'd0;
+        layer6[1][55:48] = 'd0;
+        layer0[2][7:0] = 'd0;
+        layer0[2][15:8] = 'd0;
+        layer0[2][23:16] = 'd0;
+        layer0[2][31:24] = 'd0;
+        layer0[2][39:32] = 'd0;
+        layer0[2][47:40] = 'd0;
+        layer0[2][55:48] = 'd0;
+        layer1[2][7:0] = 'd0;
+        layer1[2][15:8] = 'd0;
+        layer1[2][23:16] = 'd0;
+        layer1[2][31:24] = 'd0;
+        layer1[2][39:32] = 'd0;
+        layer1[2][47:40] = 'd0;
+        layer1[2][55:48] = 'd0;
+        layer2[2][7:0] = 'd0;
+        layer2[2][15:8] = 'd0;
+        layer2[2][23:16] = 'd0;
+        layer2[2][31:24] = 'd0;
+        layer2[2][39:32] = 'd0;
+        layer2[2][47:40] = 'd0;
+        layer2[2][55:48] = 'd0;
+        layer3[2][7:0] = 'd0;
+        layer3[2][15:8] = 'd0;
+        layer3[2][23:16] = 'd0;
+        layer3[2][31:24] = 'd0;
+        layer3[2][39:32] = 'd0;
+        layer3[2][47:40] = 'd0;
+        layer3[2][55:48] = 'd0;
+        layer4[2][7:0] = 'd0;
+        layer4[2][15:8] = 'd0;
+        layer4[2][23:16] = 'd0;
+        layer4[2][31:24] = 'd0;
+        layer4[2][39:32] = 'd0;
+        layer4[2][47:40] = 'd0;
+        layer4[2][55:48] = 'd0;
+        layer5[2][7:0] = 'd0;
+        layer5[2][15:8] = 'd0;
+        layer5[2][23:16] = 'd0;
+        layer5[2][31:24] = 'd0;
+        layer5[2][39:32] = 'd0;
+        layer5[2][47:40] = 'd0;
+        layer5[2][55:48] = 'd0;
+        layer6[2][7:0] = 'd0;
+        layer6[2][15:8] = 'd0;
+        layer6[2][23:16] = 'd0;
+        layer6[2][31:24] = 'd0;
+        layer6[2][39:32] = 'd0;
+        layer6[2][47:40] = 'd0;
+        layer6[2][55:48] = 'd0;
+        layer0[3][7:0] = 'd0;
+        layer0[3][15:8] = 'd0;
+        layer0[3][23:16] = 'd0;
+        layer0[3][31:24] = 'd0;
+        layer0[3][39:32] = 'd0;
+        layer0[3][47:40] = 'd0;
+        layer0[3][55:48] = 'd0;
+        layer1[3][7:0] = 'd0;
+        layer1[3][15:8] = 'd0;
+        layer1[3][23:16] = 'd0;
+        layer1[3][31:24] = 'd0;
+        layer1[3][39:32] = 'd0;
+        layer1[3][47:40] = 'd0;
+        layer1[3][55:48] = 'd0;
+        layer2[3][7:0] = 'd0;
+        layer2[3][15:8] = 'd0;
+        layer2[3][23:16] = 'd0;
+        layer2[3][31:24] = 'd0;
+        layer2[3][39:32] = 'd0;
+        layer2[3][47:40] = 'd0;
+        layer2[3][55:48] = 'd0;
+        layer3[3][7:0] = 'd0;
+        layer3[3][15:8] = 'd0;
+        layer3[3][23:16] = 'd0;
+        layer3[3][31:24] = 'd0;
+        layer3[3][39:32] = 'd0;
+        layer3[3][47:40] = 'd0;
+        layer3[3][55:48] = 'd0;
+        layer4[3][7:0] = 'd0;
+        layer4[3][15:8] = 'd0;
+        layer4[3][23:16] = 'd0;
+        layer4[3][31:24] = 'd0;
+        layer4[3][39:32] = 'd0;
+        layer4[3][47:40] = 'd0;
+        layer4[3][55:48] = 'd0;
+        layer5[3][7:0] = 'd0;
+        layer5[3][15:8] = 'd0;
+        layer5[3][23:16] = 'd0;
+        layer5[3][31:24] = 'd0;
+        layer5[3][39:32] = 'd0;
+        layer5[3][47:40] = 'd0;
+        layer5[3][55:48] = 'd0;
+        layer6[3][7:0] = 'd0;
+        layer6[3][15:8] = 'd0;
+        layer6[3][23:16] = 'd0;
+        layer6[3][31:24] = 'd0;
+        layer6[3][39:32] = 'd0;
+        layer6[3][47:40] = 'd0;
+        layer6[3][55:48] = 'd0;
+        layer0[4][7:0] = 'd0;
+        layer0[4][15:8] = 'd0;
+        layer0[4][23:16] = 'd0;
+        layer0[4][31:24] = 'd0;
+        layer0[4][39:32] = 'd0;
+        layer0[4][47:40] = 'd0;
+        layer0[4][55:48] = 'd0;
+        layer1[4][7:0] = 'd0;
+        layer1[4][15:8] = 'd0;
+        layer1[4][23:16] = 'd0;
+        layer1[4][31:24] = 'd0;
+        layer1[4][39:32] = 'd0;
+        layer1[4][47:40] = 'd0;
+        layer1[4][55:48] = 'd0;
+        layer2[4][7:0] = 'd0;
+        layer2[4][15:8] = 'd0;
+        layer2[4][23:16] = 'd0;
+        layer2[4][31:24] = 'd0;
+        layer2[4][39:32] = 'd0;
+        layer2[4][47:40] = 'd0;
+        layer2[4][55:48] = 'd0;
+        layer3[4][7:0] = 'd0;
+        layer3[4][15:8] = 'd0;
+        layer3[4][23:16] = 'd0;
+        layer3[4][31:24] = 'd0;
+        layer3[4][39:32] = 'd0;
+        layer3[4][47:40] = 'd0;
+        layer3[4][55:48] = 'd0;
+        layer4[4][7:0] = 'd0;
+        layer4[4][15:8] = 'd0;
+        layer4[4][23:16] = 'd0;
+        layer4[4][31:24] = 'd0;
+        layer4[4][39:32] = 'd0;
+        layer4[4][47:40] = 'd0;
+        layer4[4][55:48] = 'd0;
+        layer5[4][7:0] = 'd0;
+        layer5[4][15:8] = 'd0;
+        layer5[4][23:16] = 'd0;
+        layer5[4][31:24] = 'd0;
+        layer5[4][39:32] = 'd0;
+        layer5[4][47:40] = 'd0;
+        layer5[4][55:48] = 'd0;
+        layer6[4][7:0] = 'd0;
+        layer6[4][15:8] = 'd0;
+        layer6[4][23:16] = 'd0;
+        layer6[4][31:24] = 'd0;
+        layer6[4][39:32] = 'd0;
+        layer6[4][47:40] = 'd0;
+        layer6[4][55:48] = 'd0;
+        layer0[5][7:0] = 'd0;
+        layer0[5][15:8] = 'd0;
+        layer0[5][23:16] = 'd0;
+        layer0[5][31:24] = 'd0;
+        layer0[5][39:32] = 'd0;
+        layer0[5][47:40] = 'd0;
+        layer0[5][55:48] = 'd0;
+        layer1[5][7:0] = 'd0;
+        layer1[5][15:8] = 'd0;
+        layer1[5][23:16] = 'd0;
+        layer1[5][31:24] = 'd0;
+        layer1[5][39:32] = 'd0;
+        layer1[5][47:40] = 'd0;
+        layer1[5][55:48] = 'd0;
+        layer2[5][7:0] = 'd0;
+        layer2[5][15:8] = 'd0;
+        layer2[5][23:16] = 'd0;
+        layer2[5][31:24] = 'd0;
+        layer2[5][39:32] = 'd0;
+        layer2[5][47:40] = 'd0;
+        layer2[5][55:48] = 'd0;
+        layer3[5][7:0] = 'd0;
+        layer3[5][15:8] = 'd0;
+        layer3[5][23:16] = 'd0;
+        layer3[5][31:24] = 'd0;
+        layer3[5][39:32] = 'd0;
+        layer3[5][47:40] = 'd0;
+        layer3[5][55:48] = 'd0;
+        layer4[5][7:0] = 'd0;
+        layer4[5][15:8] = 'd0;
+        layer4[5][23:16] = 'd0;
+        layer4[5][31:24] = 'd0;
+        layer4[5][39:32] = 'd0;
+        layer4[5][47:40] = 'd0;
+        layer4[5][55:48] = 'd0;
+        layer5[5][7:0] = 'd0;
+        layer5[5][15:8] = 'd0;
+        layer5[5][23:16] = 'd0;
+        layer5[5][31:24] = 'd0;
+        layer5[5][39:32] = 'd0;
+        layer5[5][47:40] = 'd0;
+        layer5[5][55:48] = 'd0;
+        layer6[5][7:0] = 'd0;
+        layer6[5][15:8] = 'd0;
+        layer6[5][23:16] = 'd0;
+        layer6[5][31:24] = 'd0;
+        layer6[5][39:32] = 'd0;
+        layer6[5][47:40] = 'd0;
+        layer6[5][55:48] = 'd0;
+        layer0[6][7:0] = 'd0;
+        layer0[6][15:8] = 'd0;
+        layer0[6][23:16] = 'd0;
+        layer0[6][31:24] = 'd0;
+        layer0[6][39:32] = 'd0;
+        layer0[6][47:40] = 'd0;
+        layer0[6][55:48] = 'd0;
+        layer1[6][7:0] = 'd0;
+        layer1[6][15:8] = 'd0;
+        layer1[6][23:16] = 'd0;
+        layer1[6][31:24] = 'd0;
+        layer1[6][39:32] = 'd0;
+        layer1[6][47:40] = 'd0;
+        layer1[6][55:48] = 'd0;
+        layer2[6][7:0] = 'd0;
+        layer2[6][15:8] = 'd0;
+        layer2[6][23:16] = 'd0;
+        layer2[6][31:24] = 'd0;
+        layer2[6][39:32] = 'd0;
+        layer2[6][47:40] = 'd0;
+        layer2[6][55:48] = 'd0;
+        layer3[6][7:0] = 'd0;
+        layer3[6][15:8] = 'd0;
+        layer3[6][23:16] = 'd0;
+        layer3[6][31:24] = 'd0;
+        layer3[6][39:32] = 'd0;
+        layer3[6][47:40] = 'd0;
+        layer3[6][55:48] = 'd0;
+        layer4[6][7:0] = 'd0;
+        layer4[6][15:8] = 'd0;
+        layer4[6][23:16] = 'd0;
+        layer4[6][31:24] = 'd0;
+        layer4[6][39:32] = 'd0;
+        layer4[6][47:40] = 'd0;
+        layer4[6][55:48] = 'd0;
+        layer5[6][7:0] = 'd0;
+        layer5[6][15:8] = 'd0;
+        layer5[6][23:16] = 'd0;
+        layer5[6][31:24] = 'd0;
+        layer5[6][39:32] = 'd0;
+        layer5[6][47:40] = 'd0;
+        layer5[6][55:48] = 'd0;
+        layer6[6][7:0] = 'd0;
+        layer6[6][15:8] = 'd0;
+        layer6[6][23:16] = 'd0;
+        layer6[6][31:24] = 'd0;
+        layer6[6][39:32] = 'd0;
+        layer6[6][47:40] = 'd0;
+        layer6[6][55:48] = 'd0;
+        layer0[7][7:0] = 'd0;
+        layer0[7][15:8] = 'd0;
+        layer0[7][23:16] = 'd0;
+        layer0[7][31:24] = 'd0;
+        layer0[7][39:32] = 'd0;
+        layer0[7][47:40] = 'd0;
+        layer0[7][55:48] = 'd0;
+        layer1[7][7:0] = 'd0;
+        layer1[7][15:8] = 'd0;
+        layer1[7][23:16] = 'd0;
+        layer1[7][31:24] = 'd0;
+        layer1[7][39:32] = 'd0;
+        layer1[7][47:40] = 'd0;
+        layer1[7][55:48] = 'd0;
+        layer2[7][7:0] = 'd0;
+        layer2[7][15:8] = 'd0;
+        layer2[7][23:16] = 'd0;
+        layer2[7][31:24] = 'd0;
+        layer2[7][39:32] = 'd0;
+        layer2[7][47:40] = 'd0;
+        layer2[7][55:48] = 'd0;
+        layer3[7][7:0] = 'd0;
+        layer3[7][15:8] = 'd0;
+        layer3[7][23:16] = 'd0;
+        layer3[7][31:24] = 'd0;
+        layer3[7][39:32] = 'd0;
+        layer3[7][47:40] = 'd0;
+        layer3[7][55:48] = 'd0;
+        layer4[7][7:0] = 'd0;
+        layer4[7][15:8] = 'd0;
+        layer4[7][23:16] = 'd0;
+        layer4[7][31:24] = 'd0;
+        layer4[7][39:32] = 'd0;
+        layer4[7][47:40] = 'd0;
+        layer4[7][55:48] = 'd0;
+        layer5[7][7:0] = 'd0;
+        layer5[7][15:8] = 'd0;
+        layer5[7][23:16] = 'd0;
+        layer5[7][31:24] = 'd0;
+        layer5[7][39:32] = 'd0;
+        layer5[7][47:40] = 'd0;
+        layer5[7][55:48] = 'd0;
+        layer6[7][7:0] = 'd0;
+        layer6[7][15:8] = 'd0;
+        layer6[7][23:16] = 'd0;
+        layer6[7][31:24] = 'd0;
+        layer6[7][39:32] = 'd0;
+        layer6[7][47:40] = 'd0;
+        layer6[7][55:48] = 'd0;
+        layer0[8][7:0] = 'd0;
+        layer0[8][15:8] = 'd0;
+        layer0[8][23:16] = 'd0;
+        layer0[8][31:24] = 'd0;
+        layer0[8][39:32] = 'd0;
+        layer0[8][47:40] = 'd0;
+        layer0[8][55:48] = 'd0;
+        layer1[8][7:0] = 'd0;
+        layer1[8][15:8] = 'd0;
+        layer1[8][23:16] = 'd0;
+        layer1[8][31:24] = 'd0;
+        layer1[8][39:32] = 'd0;
+        layer1[8][47:40] = 'd0;
+        layer1[8][55:48] = 'd0;
+        layer2[8][7:0] = 'd0;
+        layer2[8][15:8] = 'd0;
+        layer2[8][23:16] = 'd0;
+        layer2[8][31:24] = 'd0;
+        layer2[8][39:32] = 'd0;
+        layer2[8][47:40] = 'd0;
+        layer2[8][55:48] = 'd0;
+        layer3[8][7:0] = 'd0;
+        layer3[8][15:8] = 'd0;
+        layer3[8][23:16] = 'd0;
+        layer3[8][31:24] = 'd0;
+        layer3[8][39:32] = 'd0;
+        layer3[8][47:40] = 'd0;
+        layer3[8][55:48] = 'd0;
+        layer4[8][7:0] = 'd0;
+        layer4[8][15:8] = 'd0;
+        layer4[8][23:16] = 'd0;
+        layer4[8][31:24] = 'd0;
+        layer4[8][39:32] = 'd0;
+        layer4[8][47:40] = 'd0;
+        layer4[8][55:48] = 'd0;
+        layer5[8][7:0] = 'd0;
+        layer5[8][15:8] = 'd0;
+        layer5[8][23:16] = 'd0;
+        layer5[8][31:24] = 'd0;
+        layer5[8][39:32] = 'd0;
+        layer5[8][47:40] = 'd0;
+        layer5[8][55:48] = 'd0;
+        layer6[8][7:0] = 'd0;
+        layer6[8][15:8] = 'd0;
+        layer6[8][23:16] = 'd0;
+        layer6[8][31:24] = 'd0;
+        layer6[8][39:32] = 'd0;
+        layer6[8][47:40] = 'd0;
+        layer6[8][55:48] = 'd0;
+        layer0[9][7:0] = 'd0;
+        layer0[9][15:8] = 'd0;
+        layer0[9][23:16] = 'd0;
+        layer0[9][31:24] = 'd0;
+        layer0[9][39:32] = 'd0;
+        layer0[9][47:40] = 'd0;
+        layer0[9][55:48] = 'd0;
+        layer1[9][7:0] = 'd0;
+        layer1[9][15:8] = 'd0;
+        layer1[9][23:16] = 'd0;
+        layer1[9][31:24] = 'd0;
+        layer1[9][39:32] = 'd0;
+        layer1[9][47:40] = 'd0;
+        layer1[9][55:48] = 'd0;
+        layer2[9][7:0] = 'd0;
+        layer2[9][15:8] = 'd0;
+        layer2[9][23:16] = 'd0;
+        layer2[9][31:24] = 'd0;
+        layer2[9][39:32] = 'd0;
+        layer2[9][47:40] = 'd0;
+        layer2[9][55:48] = 'd0;
+        layer3[9][7:0] = 'd0;
+        layer3[9][15:8] = 'd0;
+        layer3[9][23:16] = 'd0;
+        layer3[9][31:24] = 'd0;
+        layer3[9][39:32] = 'd0;
+        layer3[9][47:40] = 'd0;
+        layer3[9][55:48] = 'd0;
+        layer4[9][7:0] = 'd0;
+        layer4[9][15:8] = 'd0;
+        layer4[9][23:16] = 'd0;
+        layer4[9][31:24] = 'd0;
+        layer4[9][39:32] = 'd0;
+        layer4[9][47:40] = 'd0;
+        layer4[9][55:48] = 'd0;
+        layer5[9][7:0] = 'd0;
+        layer5[9][15:8] = 'd0;
+        layer5[9][23:16] = 'd0;
+        layer5[9][31:24] = 'd0;
+        layer5[9][39:32] = 'd0;
+        layer5[9][47:40] = 'd0;
+        layer5[9][55:48] = 'd0;
+        layer6[9][7:0] = 'd0;
+        layer6[9][15:8] = 'd0;
+        layer6[9][23:16] = 'd0;
+        layer6[9][31:24] = 'd0;
+        layer6[9][39:32] = 'd0;
+        layer6[9][47:40] = 'd0;
+        layer6[9][55:48] = 'd0;
+        layer0[10][7:0] = 'd0;
+        layer0[10][15:8] = 'd0;
+        layer0[10][23:16] = 'd0;
+        layer0[10][31:24] = 'd0;
+        layer0[10][39:32] = 'd0;
+        layer0[10][47:40] = 'd0;
+        layer0[10][55:48] = 'd0;
+        layer1[10][7:0] = 'd0;
+        layer1[10][15:8] = 'd0;
+        layer1[10][23:16] = 'd0;
+        layer1[10][31:24] = 'd0;
+        layer1[10][39:32] = 'd0;
+        layer1[10][47:40] = 'd0;
+        layer1[10][55:48] = 'd0;
+        layer2[10][7:0] = 'd0;
+        layer2[10][15:8] = 'd0;
+        layer2[10][23:16] = 'd0;
+        layer2[10][31:24] = 'd0;
+        layer2[10][39:32] = 'd0;
+        layer2[10][47:40] = 'd0;
+        layer2[10][55:48] = 'd0;
+        layer3[10][7:0] = 'd0;
+        layer3[10][15:8] = 'd0;
+        layer3[10][23:16] = 'd0;
+        layer3[10][31:24] = 'd0;
+        layer3[10][39:32] = 'd0;
+        layer3[10][47:40] = 'd0;
+        layer3[10][55:48] = 'd0;
+        layer4[10][7:0] = 'd0;
+        layer4[10][15:8] = 'd0;
+        layer4[10][23:16] = 'd0;
+        layer4[10][31:24] = 'd0;
+        layer4[10][39:32] = 'd0;
+        layer4[10][47:40] = 'd0;
+        layer4[10][55:48] = 'd0;
+        layer5[10][7:0] = 'd0;
+        layer5[10][15:8] = 'd0;
+        layer5[10][23:16] = 'd0;
+        layer5[10][31:24] = 'd0;
+        layer5[10][39:32] = 'd0;
+        layer5[10][47:40] = 'd0;
+        layer5[10][55:48] = 'd0;
+        layer6[10][7:0] = 'd0;
+        layer6[10][15:8] = 'd0;
+        layer6[10][23:16] = 'd0;
+        layer6[10][31:24] = 'd0;
+        layer6[10][39:32] = 'd0;
+        layer6[10][47:40] = 'd0;
+        layer6[10][55:48] = 'd0;
+        layer0[11][7:0] = 'd0;
+        layer0[11][15:8] = 'd0;
+        layer0[11][23:16] = 'd0;
+        layer0[11][31:24] = 'd0;
+        layer0[11][39:32] = 'd0;
+        layer0[11][47:40] = 'd0;
+        layer0[11][55:48] = 'd0;
+        layer1[11][7:0] = 'd0;
+        layer1[11][15:8] = 'd0;
+        layer1[11][23:16] = 'd0;
+        layer1[11][31:24] = 'd0;
+        layer1[11][39:32] = 'd0;
+        layer1[11][47:40] = 'd0;
+        layer1[11][55:48] = 'd0;
+        layer2[11][7:0] = 'd0;
+        layer2[11][15:8] = 'd0;
+        layer2[11][23:16] = 'd0;
+        layer2[11][31:24] = 'd0;
+        layer2[11][39:32] = 'd0;
+        layer2[11][47:40] = 'd0;
+        layer2[11][55:48] = 'd0;
+        layer3[11][7:0] = 'd0;
+        layer3[11][15:8] = 'd0;
+        layer3[11][23:16] = 'd0;
+        layer3[11][31:24] = 'd0;
+        layer3[11][39:32] = 'd0;
+        layer3[11][47:40] = 'd0;
+        layer3[11][55:48] = 'd0;
+        layer4[11][7:0] = 'd0;
+        layer4[11][15:8] = 'd0;
+        layer4[11][23:16] = 'd0;
+        layer4[11][31:24] = 'd0;
+        layer4[11][39:32] = 'd0;
+        layer4[11][47:40] = 'd0;
+        layer4[11][55:48] = 'd0;
+        layer5[11][7:0] = 'd0;
+        layer5[11][15:8] = 'd0;
+        layer5[11][23:16] = 'd0;
+        layer5[11][31:24] = 'd0;
+        layer5[11][39:32] = 'd0;
+        layer5[11][47:40] = 'd0;
+        layer5[11][55:48] = 'd0;
+        layer6[11][7:0] = 'd0;
+        layer6[11][15:8] = 'd0;
+        layer6[11][23:16] = 'd0;
+        layer6[11][31:24] = 'd0;
+        layer6[11][39:32] = 'd0;
+        layer6[11][47:40] = 'd0;
+        layer6[11][55:48] = 'd0;
+        layer0[12][7:0] = 'd0;
+        layer0[12][15:8] = 'd0;
+        layer0[12][23:16] = 'd0;
+        layer0[12][31:24] = 'd0;
+        layer0[12][39:32] = 'd0;
+        layer0[12][47:40] = 'd0;
+        layer0[12][55:48] = 'd0;
+        layer1[12][7:0] = 'd0;
+        layer1[12][15:8] = 'd0;
+        layer1[12][23:16] = 'd0;
+        layer1[12][31:24] = 'd0;
+        layer1[12][39:32] = 'd0;
+        layer1[12][47:40] = 'd0;
+        layer1[12][55:48] = 'd0;
+        layer2[12][7:0] = 'd0;
+        layer2[12][15:8] = 'd0;
+        layer2[12][23:16] = 'd0;
+        layer2[12][31:24] = 'd0;
+        layer2[12][39:32] = 'd0;
+        layer2[12][47:40] = 'd0;
+        layer2[12][55:48] = 'd0;
+        layer3[12][7:0] = 'd0;
+        layer3[12][15:8] = 'd0;
+        layer3[12][23:16] = 'd0;
+        layer3[12][31:24] = 'd0;
+        layer3[12][39:32] = 'd0;
+        layer3[12][47:40] = 'd0;
+        layer3[12][55:48] = 'd0;
+        layer4[12][7:0] = 'd0;
+        layer4[12][15:8] = 'd0;
+        layer4[12][23:16] = 'd0;
+        layer4[12][31:24] = 'd0;
+        layer4[12][39:32] = 'd0;
+        layer4[12][47:40] = 'd0;
+        layer4[12][55:48] = 'd0;
+        layer5[12][7:0] = 'd0;
+        layer5[12][15:8] = 'd0;
+        layer5[12][23:16] = 'd0;
+        layer5[12][31:24] = 'd0;
+        layer5[12][39:32] = 'd0;
+        layer5[12][47:40] = 'd0;
+        layer5[12][55:48] = 'd0;
+        layer6[12][7:0] = 'd0;
+        layer6[12][15:8] = 'd0;
+        layer6[12][23:16] = 'd0;
+        layer6[12][31:24] = 'd0;
+        layer6[12][39:32] = 'd0;
+        layer6[12][47:40] = 'd0;
+        layer6[12][55:48] = 'd0;
+        layer0[13][7:0] = 'd0;
+        layer0[13][15:8] = 'd0;
+        layer0[13][23:16] = 'd0;
+        layer0[13][31:24] = 'd0;
+        layer0[13][39:32] = 'd0;
+        layer0[13][47:40] = 'd0;
+        layer0[13][55:48] = 'd0;
+        layer1[13][7:0] = 'd0;
+        layer1[13][15:8] = 'd0;
+        layer1[13][23:16] = 'd0;
+        layer1[13][31:24] = 'd0;
+        layer1[13][39:32] = 'd0;
+        layer1[13][47:40] = 'd0;
+        layer1[13][55:48] = 'd0;
+        layer2[13][7:0] = 'd0;
+        layer2[13][15:8] = 'd0;
+        layer2[13][23:16] = 'd0;
+        layer2[13][31:24] = 'd0;
+        layer2[13][39:32] = 'd0;
+        layer2[13][47:40] = 'd0;
+        layer2[13][55:48] = 'd0;
+        layer3[13][7:0] = 'd0;
+        layer3[13][15:8] = 'd0;
+        layer3[13][23:16] = 'd0;
+        layer3[13][31:24] = 'd0;
+        layer3[13][39:32] = 'd0;
+        layer3[13][47:40] = 'd0;
+        layer3[13][55:48] = 'd0;
+        layer4[13][7:0] = 'd0;
+        layer4[13][15:8] = 'd0;
+        layer4[13][23:16] = 'd0;
+        layer4[13][31:24] = 'd0;
+        layer4[13][39:32] = 'd0;
+        layer4[13][47:40] = 'd0;
+        layer4[13][55:48] = 'd0;
+        layer5[13][7:0] = 'd0;
+        layer5[13][15:8] = 'd0;
+        layer5[13][23:16] = 'd0;
+        layer5[13][31:24] = 'd0;
+        layer5[13][39:32] = 'd0;
+        layer5[13][47:40] = 'd0;
+        layer5[13][55:48] = 'd0;
+        layer6[13][7:0] = 'd0;
+        layer6[13][15:8] = 'd0;
+        layer6[13][23:16] = 'd0;
+        layer6[13][31:24] = 'd0;
+        layer6[13][39:32] = 'd0;
+        layer6[13][47:40] = 'd0;
+        layer6[13][55:48] = 'd0;
+        layer0[14][7:0] = 'd0;
+        layer0[14][15:8] = 'd0;
+        layer0[14][23:16] = 'd0;
+        layer0[14][31:24] = 'd0;
+        layer0[14][39:32] = 'd0;
+        layer0[14][47:40] = 'd0;
+        layer0[14][55:48] = 'd0;
+        layer1[14][7:0] = 'd0;
+        layer1[14][15:8] = 'd0;
+        layer1[14][23:16] = 'd0;
+        layer1[14][31:24] = 'd0;
+        layer1[14][39:32] = 'd0;
+        layer1[14][47:40] = 'd0;
+        layer1[14][55:48] = 'd0;
+        layer2[14][7:0] = 'd0;
+        layer2[14][15:8] = 'd0;
+        layer2[14][23:16] = 'd0;
+        layer2[14][31:24] = 'd0;
+        layer2[14][39:32] = 'd0;
+        layer2[14][47:40] = 'd0;
+        layer2[14][55:48] = 'd0;
+        layer3[14][7:0] = 'd0;
+        layer3[14][15:8] = 'd0;
+        layer3[14][23:16] = 'd0;
+        layer3[14][31:24] = 'd0;
+        layer3[14][39:32] = 'd0;
+        layer3[14][47:40] = 'd0;
+        layer3[14][55:48] = 'd0;
+        layer4[14][7:0] = 'd0;
+        layer4[14][15:8] = 'd0;
+        layer4[14][23:16] = 'd0;
+        layer4[14][31:24] = 'd0;
+        layer4[14][39:32] = 'd0;
+        layer4[14][47:40] = 'd0;
+        layer4[14][55:48] = 'd0;
+        layer5[14][7:0] = 'd0;
+        layer5[14][15:8] = 'd0;
+        layer5[14][23:16] = 'd0;
+        layer5[14][31:24] = 'd0;
+        layer5[14][39:32] = 'd0;
+        layer5[14][47:40] = 'd0;
+        layer5[14][55:48] = 'd0;
+        layer6[14][7:0] = 'd0;
+        layer6[14][15:8] = 'd0;
+        layer6[14][23:16] = 'd0;
+        layer6[14][31:24] = 'd0;
+        layer6[14][39:32] = 'd0;
+        layer6[14][47:40] = 'd0;
+        layer6[14][55:48] = 'd0;
+        layer0[15][7:0] = 'd0;
+        layer0[15][15:8] = 'd0;
+        layer0[15][23:16] = 'd0;
+        layer0[15][31:24] = 'd0;
+        layer0[15][39:32] = 'd0;
+        layer0[15][47:40] = 'd0;
+        layer0[15][55:48] = 'd0;
+        layer1[15][7:0] = 'd0;
+        layer1[15][15:8] = 'd0;
+        layer1[15][23:16] = 'd0;
+        layer1[15][31:24] = 'd0;
+        layer1[15][39:32] = 'd0;
+        layer1[15][47:40] = 'd0;
+        layer1[15][55:48] = 'd0;
+        layer2[15][7:0] = 'd0;
+        layer2[15][15:8] = 'd0;
+        layer2[15][23:16] = 'd0;
+        layer2[15][31:24] = 'd0;
+        layer2[15][39:32] = 'd0;
+        layer2[15][47:40] = 'd0;
+        layer2[15][55:48] = 'd0;
+        layer3[15][7:0] = 'd0;
+        layer3[15][15:8] = 'd0;
+        layer3[15][23:16] = 'd0;
+        layer3[15][31:24] = 'd0;
+        layer3[15][39:32] = 'd0;
+        layer3[15][47:40] = 'd0;
+        layer3[15][55:48] = 'd0;
+        layer4[15][7:0] = 'd0;
+        layer4[15][15:8] = 'd0;
+        layer4[15][23:16] = 'd0;
+        layer4[15][31:24] = 'd0;
+        layer4[15][39:32] = 'd0;
+        layer4[15][47:40] = 'd0;
+        layer4[15][55:48] = 'd0;
+        layer5[15][7:0] = 'd0;
+        layer5[15][15:8] = 'd0;
+        layer5[15][23:16] = 'd0;
+        layer5[15][31:24] = 'd0;
+        layer5[15][39:32] = 'd0;
+        layer5[15][47:40] = 'd0;
+        layer5[15][55:48] = 'd0;
+        layer6[15][7:0] = 'd0;
+        layer6[15][15:8] = 'd0;
+        layer6[15][23:16] = 'd0;
+        layer6[15][31:24] = 'd0;
+        layer6[15][39:32] = 'd0;
+        layer6[15][47:40] = 'd0;
+        layer6[15][55:48] = 'd0;
     end
   endcase
 end

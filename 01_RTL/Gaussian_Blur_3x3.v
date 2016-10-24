@@ -12,15 +12,13 @@ input       [175:0]   buffer_data_1;
 input       [175:0]   buffer_data_2;
 output reg  [127:0]   blur_out; // wire
 
-reg       [95:0]  G_Kernel_3x3  [0:1];
-always @(*) begin
-    G_Kernel_3x3[0][31:0]  =  32'h17BC5428; //18'b00_0101_1110_1111_0001;//'d092717;
-    G_Kernel_3x3[0][63:32] =  32'h1E7ABFF3; //18'b00_0111_1001_1110_1010;//'d119061;
-    G_Kernel_3x3[0][95:64] =  32'h17BC5428; //18'b00_0101_1110_1111_0001;//'d092717;
-    G_Kernel_3x3[1][31:0]  =  32'h1E7ABFF3; //18'b00_0111_1001_1110_1010;//'d119061;
-    G_Kernel_3x3[1][63:32] =  32'h2723AF8E; //18'b00_1001_1100_1000_1110;//'d152888;
-    G_Kernel_3x3[1][95:64] =  32'h1E7ABFF3; //18'b00_0111_1001_1110_1011;//'d119061;
-end
+parameter[95:0]  G_Kernel_3x3  [0:1] = 
+  '{32'h17BC5428, //18'b00_0101_1110_1111_0001;//'d092717;
+    32'h1E7ABFF3, //18'b00_0111_1001_1110_1010;//'d119061;
+    32'h17BC5428, //18'b00_0101_1110_1111_0001;//'d092717;
+    32'h1E7ABFF3, //18'b00_0111_1001_1110_1010;//'d119061;
+    32'h2723AF8E, //18'b00_1001_1100_1000_1110;//'d152888;
+    32'h1E7ABFF3}; //18'b00_0111_1001_1110_1011;//'d119061;
 
 reg    [23:0]    layer0[0:15]; //wire
 reg    [23:0]    layer1[0:15]; //wire
@@ -172,7 +170,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd1: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -318,7 +315,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd2: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -464,7 +460,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd3: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -610,7 +605,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd4: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -756,7 +750,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd5: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -902,7 +895,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd6: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -1048,7 +1040,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd7: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -1194,7 +1185,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd8: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -1340,7 +1330,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd9: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -1486,7 +1475,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd10: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -1632,7 +1620,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd11: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -1778,7 +1765,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd12: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -1924,7 +1910,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd13: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -2070,7 +2055,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd14: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -2216,7 +2200,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd15: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -2362,7 +2345,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd16: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -2508,7 +2490,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd17: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -2654,7 +2635,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd18: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -2800,7 +2780,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd19: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -2946,7 +2925,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd20: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -3092,7 +3070,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd21: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -3238,7 +3215,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd22: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -3384,7 +3360,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd23: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -3530,7 +3505,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd24: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -3676,7 +3650,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd25: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -3822,7 +3795,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd26: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -3968,7 +3940,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd27: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -4114,7 +4085,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd28: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -4260,7 +4230,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd29: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -4406,7 +4375,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd30: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -4552,7 +4520,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd31: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -4698,7 +4665,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd32: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -4844,7 +4810,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd33: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -4990,7 +4955,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd34: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -5136,7 +5100,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd35: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -5282,7 +5245,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd36: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -5428,7 +5390,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd37: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -5574,7 +5535,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd38: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -5720,7 +5680,6 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = buffer_data_0[159:152];
-    end
     'd39: begin
         layer0[0][7:0] = buffer_data_2[23:16];
         layer0[0][15:8] = buffer_data_2[31:24];
@@ -5866,6 +5825,151 @@ always @(*) begin
         layer2[15][7:0] = buffer_data_0[143:136];
         layer2[15][15:8] = buffer_data_0[151:144];
         layer2[15][23:16] = 0;
+    default: begin
+        layer0[0][7:0] = 'd0;
+        layer0[0][15:8] = 'd0;
+        layer0[0][23:16] = 'd0;
+        layer1[0][7:0] = 'd0;
+        layer1[0][15:8] = 'd0;
+        layer1[0][23:16] = 'd0;
+        layer2[0][7:0] = 'd0;
+        layer2[0][15:8] = 'd0;
+        layer2[0][23:16] = 'd0;
+        layer0[1][7:0] = 'd0;
+        layer0[1][15:8] = 'd0;
+        layer0[1][23:16] = 'd0;
+        layer1[1][7:0] = 'd0;
+        layer1[1][15:8] = 'd0;
+        layer1[1][23:16] = 'd0;
+        layer2[1][7:0] = 'd0;
+        layer2[1][15:8] = 'd0;
+        layer2[1][23:16] = 'd0;
+        layer0[2][7:0] = 'd0;
+        layer0[2][15:8] = 'd0;
+        layer0[2][23:16] = 'd0;
+        layer1[2][7:0] = 'd0;
+        layer1[2][15:8] = 'd0;
+        layer1[2][23:16] = 'd0;
+        layer2[2][7:0] = 'd0;
+        layer2[2][15:8] = 'd0;
+        layer2[2][23:16] = 'd0;
+        layer0[3][7:0] = 'd0;
+        layer0[3][15:8] = 'd0;
+        layer0[3][23:16] = 'd0;
+        layer1[3][7:0] = 'd0;
+        layer1[3][15:8] = 'd0;
+        layer1[3][23:16] = 'd0;
+        layer2[3][7:0] = 'd0;
+        layer2[3][15:8] = 'd0;
+        layer2[3][23:16] = 'd0;
+        layer0[4][7:0] = 'd0;
+        layer0[4][15:8] = 'd0;
+        layer0[4][23:16] = 'd0;
+        layer1[4][7:0] = 'd0;
+        layer1[4][15:8] = 'd0;
+        layer1[4][23:16] = 'd0;
+        layer2[4][7:0] = 'd0;
+        layer2[4][15:8] = 'd0;
+        layer2[4][23:16] = 'd0;
+        layer0[5][7:0] = 'd0;
+        layer0[5][15:8] = 'd0;
+        layer0[5][23:16] = 'd0;
+        layer1[5][7:0] = 'd0;
+        layer1[5][15:8] = 'd0;
+        layer1[5][23:16] = 'd0;
+        layer2[5][7:0] = 'd0;
+        layer2[5][15:8] = 'd0;
+        layer2[5][23:16] = 'd0;
+        layer0[6][7:0] = 'd0;
+        layer0[6][15:8] = 'd0;
+        layer0[6][23:16] = 'd0;
+        layer1[6][7:0] = 'd0;
+        layer1[6][15:8] = 'd0;
+        layer1[6][23:16] = 'd0;
+        layer2[6][7:0] = 'd0;
+        layer2[6][15:8] = 'd0;
+        layer2[6][23:16] = 'd0;
+        layer0[7][7:0] = 'd0;
+        layer0[7][15:8] = 'd0;
+        layer0[7][23:16] = 'd0;
+        layer1[7][7:0] = 'd0;
+        layer1[7][15:8] = 'd0;
+        layer1[7][23:16] = 'd0;
+        layer2[7][7:0] = 'd0;
+        layer2[7][15:8] = 'd0;
+        layer2[7][23:16] = 'd0;
+        layer0[8][7:0] = 'd0;
+        layer0[8][15:8] = 'd0;
+        layer0[8][23:16] = 'd0;
+        layer1[8][7:0] = 'd0;
+        layer1[8][15:8] = 'd0;
+        layer1[8][23:16] = 'd0;
+        layer2[8][7:0] = 'd0;
+        layer2[8][15:8] = 'd0;
+        layer2[8][23:16] = 'd0;
+        layer0[9][7:0] = 'd0;
+        layer0[9][15:8] = 'd0;
+        layer0[9][23:16] = 'd0;
+        layer1[9][7:0] = 'd0;
+        layer1[9][15:8] = 'd0;
+        layer1[9][23:16] = 'd0;
+        layer2[9][7:0] = 'd0;
+        layer2[9][15:8] = 'd0;
+        layer2[9][23:16] = 'd0;
+        layer0[10][7:0] = 'd0;
+        layer0[10][15:8] = 'd0;
+        layer0[10][23:16] = 'd0;
+        layer1[10][7:0] = 'd0;
+        layer1[10][15:8] = 'd0;
+        layer1[10][23:16] = 'd0;
+        layer2[10][7:0] = 'd0;
+        layer2[10][15:8] = 'd0;
+        layer2[10][23:16] = 'd0;
+        layer0[11][7:0] = 'd0;
+        layer0[11][15:8] = 'd0;
+        layer0[11][23:16] = 'd0;
+        layer1[11][7:0] = 'd0;
+        layer1[11][15:8] = 'd0;
+        layer1[11][23:16] = 'd0;
+        layer2[11][7:0] = 'd0;
+        layer2[11][15:8] = 'd0;
+        layer2[11][23:16] = 'd0;
+        layer0[12][7:0] = 'd0;
+        layer0[12][15:8] = 'd0;
+        layer0[12][23:16] = 'd0;
+        layer1[12][7:0] = 'd0;
+        layer1[12][15:8] = 'd0;
+        layer1[12][23:16] = 'd0;
+        layer2[12][7:0] = 'd0;
+        layer2[12][15:8] = 'd0;
+        layer2[12][23:16] = 'd0;
+        layer0[13][7:0] = 'd0;
+        layer0[13][15:8] = 'd0;
+        layer0[13][23:16] = 'd0;
+        layer1[13][7:0] = 'd0;
+        layer1[13][15:8] = 'd0;
+        layer1[13][23:16] = 'd0;
+        layer2[13][7:0] = 'd0;
+        layer2[13][15:8] = 'd0;
+        layer2[13][23:16] = 'd0;
+        layer0[14][7:0] = 'd0;
+        layer0[14][15:8] = 'd0;
+        layer0[14][23:16] = 'd0;
+        layer1[14][7:0] = 'd0;
+        layer1[14][15:8] = 'd0;
+        layer1[14][23:16] = 'd0;
+        layer2[14][7:0] = 'd0;
+        layer2[14][15:8] = 'd0;
+        layer2[14][23:16] = 'd0;
+        layer0[15][7:0] = 'd0;
+        layer0[15][15:8] = 'd0;
+        layer0[15][23:16] = 'd0;
+        layer1[15][7:0] = 'd0;
+        layer1[15][15:8] = 'd0;
+        layer1[15][23:16] = 'd0;
+        layer2[15][7:0] = 'd0;
+        layer2[15][15:8] = 'd0;
+        layer2[15][23:16] = 'd0;
     end
   endcase
 end
