@@ -464,7 +464,7 @@ Gaussian_Blur_7x7 u_g_blur3(
 );
 
 /*Concats current blur SRAM storage with currently computed blur_result to be written back to memory*/
-wire[5119:0]  blur_concat_0,
+reg[5119:0]   blur_concat_0, // wire
               blur_concat_1,
               blur_concat_2,
               blur_concat_3;
