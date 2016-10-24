@@ -41,7 +41,7 @@ reg    [39:0]    layer2[0:15]; //wire
 reg    [39:0]    layer3[0:15]; //wire
 reg    [39:0]    layer4[0:15]; //wire
 always @(*) begin
-  case(current_state)
+  case(current_col)
     'd0: begin
         layer0[0][7:0] = 0;
         layer0[0][15:8] = 0;
