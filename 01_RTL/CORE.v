@@ -121,7 +121,7 @@ module CORE(
 
     wire  [3:0]    blur_mem_we;
     reg   [8:0]    blur_addr1 [0:3]; /*wire*/
-    reg   [8:0]    blur_addr2 [0:3]; /*wire*/
+    wire  [8:0]    blur_addr2 [0:3]; /*wire*/
     wire  [5119:0] blur_din   [0:3];
     wire  [5119:0] blur_dout1 [0:3];
     wire  [5119:0] blur_dout2 [0:3];
