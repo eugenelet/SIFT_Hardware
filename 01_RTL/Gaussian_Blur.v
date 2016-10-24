@@ -134,7 +134,7 @@ always @(posedge clk) begin
     current_col <= 'd0;    
   else if (current_state==ST_IDLE || current_state==ST_FIRST_COL)
     current_col <= 'd0;
-  else if (current_state==ST_NEXT_COL && col_relay>0) 
+  else if (current_state==ST_NEXT_COL && col_relay==2) 
     current_col <= current_col + 1;
 end
 
@@ -168,7 +168,7 @@ always @(posedge clk) begin
   // img_addr will be > 0 right after NEXT_COL
   else if (current_state==ST_NEXT_COL || current_state==ST_FIRST_COL || (current_state==ST_NEXT_ROW && img_addr<'d480 && img_addr>0) )
     img_addr <= img_addr + 'd1;                                                                         
-  else if (current_state==ST_NEXT_ROW && img_addr=='d480)
+  else if (current_state==ST_NEXT_ROW && blur_addr_w_3=='d480)
     img_addr <= 'd0;
   else if (done || current_state==ST_IDLE)
     img_addr <= 'd0;
