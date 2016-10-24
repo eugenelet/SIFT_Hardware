@@ -129,38 +129,38 @@ module CORE(
     bmem_dp_480x5120 blur_img_0(
       .clk  (clk),
       .we   (blur_mem_we[0]),
-      .addr (blur_addr1[0]),
-      .addr (blur_addr2[0]),
+      .addr1(blur_addr1[0]),
+      .addr2(blur_addr2[0]),
       .din  (blur_din[0]),
-      .dout (blur_dout1[0]),
-      .dout (blur_dout2[0])
+      .dout1(blur_dout1[0]),
+      .dout2(blur_dout2[0])
     );
     bmem_dp_480x5120 blur_img_1(
       .clk  (clk),
       .we   (blur_mem_we[1]),
-      .addr (blur_addr1[1]),
-      .addr (blur_addr2[1]),
+      .addr1(blur_addr1[1]),
+      .addr2(blur_addr2[1]),
       .din  (blur_din[1]),
-      .dout (blur_dout1[1]),
-      .dout (blur_dout2[1])
+      .dout1(blur_dout1[1]),
+      .dout2(blur_dout2[1])
     );
     bmem_dp_480x5120 blur_img_2(
       .clk  (clk),
       .we   (blur_mem_we[2]),
-      .addr (blur_addr1[2]),
-      .addr (blur_addr2[2]),
+      .addr1(blur_addr1[2]),
+      .addr2(blur_addr2[2]),
       .din  (blur_din[2]),
-      .dout (blur_dout1[2]),
-      .dout (blur_dout2[2])
+      .dout1(blur_dout1[2]),
+      .dout2(blur_dout2[2])
     );
     bmem_dp_480x5120 blur_img_3(
       .clk  (clk),
       .we   (blur_mem_we[3]),
-      .addr (blur_addr1[3]),
-      .addr (blur_addr2[3]),
+      .addr1(blur_addr1[3]),
+      .addr2(blur_addr2[3]),
       .din  (blur_din[3]),
-      .dout (blur_dout1[3]),
-      .dout (blur_dout2[3])
+      .dout1(blur_dout1[3]),
+      .dout2(blur_dout2[3])
     );
 
     /*SRAM for KeyPoints*/
