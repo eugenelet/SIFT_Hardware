@@ -189,7 +189,7 @@ end
  * Cycle 2: SRAM internal Delay
  * Cycle 3: concat blur SRAM dout with Gaussian Result
  */
-reg[8:0] blur_addr_relay_0[0:2];
+reg[8:0] blur_addr_relay_0[0:3];
 always @(posedge clk) begin
   if (!rst_n)
     blur_addr_relay_0[0] <= 'd0;    
@@ -215,7 +215,7 @@ always @(posedge clk) begin
     blur_addr_relay_0[3] <= blur_addr_relay_0[2];
 end
 
-reg[8:0] blur_addr_relay_1[0:2];
+reg[8:0] blur_addr_relay_1[0:3];
 always @(posedge clk) begin
   if (!rst_n)
     blur_addr_relay_1[0] <= 'd0;    
@@ -241,7 +241,7 @@ always @(posedge clk) begin
     blur_addr_relay_1[3] <= blur_addr_relay_1[2];
 end
 
-reg[8:0] blur_addr_relay_2[0:2];
+reg[8:0] blur_addr_relay_2[0:3];
 always @(posedge clk) begin
   if (!rst_n)
     blur_addr_relay_2[0] <= 'd0;    
@@ -267,7 +267,7 @@ always @(posedge clk) begin
     blur_addr_relay_2[3] <= blur_addr_relay_2[2];
 end
 
-reg[8:0] blur_addr_relay_3[0:2];
+reg[8:0] blur_addr_relay_3[0:3];
 always @(posedge clk) begin
   if (!rst_n)
     blur_addr_relay_3[0] <= 'd0;    
