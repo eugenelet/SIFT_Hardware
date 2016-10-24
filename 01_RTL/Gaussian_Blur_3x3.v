@@ -1,4 +1,6 @@
 module Gaussian_Blur_3x3(
+  clk,
+  rst_n,
   buffer_data_0,
   buffer_data_1,
   buffer_data_2,
@@ -6,6 +8,8 @@ module Gaussian_Blur_3x3(
   blur_out
 );
 
+input                 clk;
+input                 rst_n;
 input         [5:0]   current_col;
 input       [175:0]   buffer_data_0;
 input       [175:0]   buffer_data_1;
@@ -13,12 +17,16 @@ input       [175:0]   buffer_data_2;
 output reg  [127:0]   blur_out; // wire
 
 parameter[95:0]  G_Kernel_3x3  [0:1] = 
-  '{32'h17BC5428, //18'b00_0101_1110_1111_0001;//'d092717;
-    32'h1E7ABFF3, //18'b00_0111_1001_1110_1010;//'d119061;
-    32'h17BC5428, //18'b00_0101_1110_1111_0001;//'d092717;
-    32'h1E7ABFF3, //18'b00_0111_1001_1110_1010;//'d119061;
-    32'h2723AF8E, //18'b00_1001_1100_1000_1110;//'d152888;
-    32'h1E7ABFF3}; //18'b00_0111_1001_1110_1011;//'d119061;
+always @(posedge clk) begin
+  if (!rst_n) begin
+    G_Kernel_3x3[0][31:0]  = 32'h17BC5428; //18'b00_0101_1110_1111_0001;//'d092717;
+    G_Kernel_3x3[0][63:32] = 32'h1E7ABFF3; //18'b00_0111_1001_1110_1010;//'d119061;
+    G_Kernel_3x3[0][95:64] = 32'h17BC5428; //18'b00_0101_1110_1111_0001;//'d092717;
+    G_Kernel_3x3[1][31:0]  = 32'h1E7ABFF3; //18'b00_0111_1001_1110_1010;//'d119061;
+    G_Kernel_3x3[1][63:32] = 32'h2723AF8E; //18'b00_1001_1100_1000_1110;//'d152888;
+    G_Kernel_3x3[1][95:64] = 32'h1E7ABFF3; //18'b00_0111_1001_1110_1011;//'d119061;
+  end
+end
 
 reg    [23:0]    layer0[0:15]; //wire
 reg    [23:0]    layer1[0:15]; //wire

@@ -422,6 +422,8 @@ end
 /*Blurs 16 pixel in 1 Iteration*/
 wire  [127:0]  blur_result_0; // 16 * 8
 Gaussian_Blur_3x3 u_g_blur0(
+  .clk            (clk),
+  .rst_n          (rst_n),
   .buffer_data_0  (buffer_data_0),
   .buffer_data_1  (buffer_data_1),
   .buffer_data_2  (buffer_data_2),
@@ -431,6 +433,8 @@ Gaussian_Blur_3x3 u_g_blur0(
 
 wire  [127:0]  blur_result_1; // 16 * 8
 Gaussian_Blur_5x5_0 u_g_blur1(
+  .clk            (clk),
+  .rst_n          (rst_n),
   .buffer_data_0  (buffer_data_0),
   .buffer_data_1  (buffer_data_1),
   .buffer_data_2  (buffer_data_2),
@@ -442,6 +446,8 @@ Gaussian_Blur_5x5_0 u_g_blur1(
 
 wire  [127:0]  blur_result_2; // 16 * 8
 Gaussian_Blur_5x5_1 u_g_blur2(
+  .clk            (clk),
+  .rst_n          (rst_n),
   .buffer_data_0  (buffer_data_0),
   .buffer_data_1  (buffer_data_1),
   .buffer_data_2  (buffer_data_2),
@@ -453,6 +459,8 @@ Gaussian_Blur_5x5_1 u_g_blur2(
 
 wire  [127:0]  blur_result_3; // 16 * 8
 Gaussian_Blur_7x7 u_g_blur3(
+  .clk            (clk),
+  .rst_n          (rst_n),
   .buffer_data_0  (buffer_data_0),
   .buffer_data_1  (buffer_data_1),
   .buffer_data_2  (buffer_data_2),
