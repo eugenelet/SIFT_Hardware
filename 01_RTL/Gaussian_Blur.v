@@ -119,12 +119,12 @@ reg     [3:0] current_state,
               next_state;
 
 /*Switches column after every row of current column is processed*/
-reg     col_relay;
+reg[1:0]     col_relay;
 always @(posedge clk) begin
   if (!rst_n) 
     col_relay <= 1'b0;
-  else if (current_state==ST_NEXT_COL || current_state==ST_FIRST_COL)
-    col_relay <= 1'b1; 
+  else if ((current_state==ST_NEXT_COL || current_state==ST_FIRST_COL) && col_relay < 2)
+    col_relay <= col_relay + 1; 
   else if (current_state==ST_IDLE || current_state==ST_NEXT_ROW)
     col_relay <= 1'b0;
 end
@@ -134,7 +134,7 @@ always @(posedge clk) begin
     current_col <= 'd0;    
   else if (current_state==ST_IDLE || current_state==ST_FIRST_COL)
     current_col <= 'd0;
-  else if (current_state==ST_NEXT_COL && col_relay) 
+  else if (current_state==ST_NEXT_COL && col_relay>0) 
     current_col <= current_col + 1;
 end
 
@@ -157,7 +157,8 @@ always @(posedge clk) begin
 end
 
 /*Update buffer with data from SRAM (Consumes 2 cycle [addr0 and addr1])*/
-assign buffer_we = (current_state==ST_NEXT_COL || current_state==ST_FIRST_COL || (current_state==ST_NEXT_ROW && img_addr<'d480) ) ? 1:0;
+assign buffer_we = (((current_state==ST_NEXT_COL || current_state==ST_FIRST_COL) && col_relay>0) 
+  || (current_state==ST_NEXT_ROW && img_addr<'d480) ) ? 1:0;
 
 /*Update Image SRAM addr*/
 always @(posedge clk) begin
@@ -777,13 +778,13 @@ always @(*) begin
         next_state = ST_IDLE;
     end
     ST_FIRST_COL: begin
-      if(col_relay)
+      if(col_relay == 2)
         next_state = ST_NEXT_ROW;
       else 
         next_state = ST_FIRST_COL;
     end
     ST_NEXT_COL: begin
-      if(col_relay)
+      if(col_relay == 2)
         next_state = ST_NEXT_ROW;
       else 
         next_state = ST_NEXT_COL;
