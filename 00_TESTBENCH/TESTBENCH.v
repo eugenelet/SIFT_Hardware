@@ -175,7 +175,7 @@ initial begin
   /* Write Target SRAM */
   targetFile = $fopen("targetRowColDespt.txt", "r");
   rc = $fscanf(targetFile, "%d", targetKptNum);
-  u_core.tar_descpt_group_num = targetKptNum/4;
+  // u_core.tar_descpt_group_num = targetKptNum/4;
   target_0_we = 0;
   target_1_we = 0;
   target_2_we = 0;
@@ -445,7 +445,7 @@ initial begin
   /* DETECT AND FILTER 
    * - Compute Cycle Count
    */
-  cycleCount = 0;
+  /*cycleCount = 0;
   filterCount = 0;
   detectCount = 0;
   kp_count = 0;
@@ -463,10 +463,10 @@ initial begin
   $display("========= Detect & Filter DONE =========");
   $display("Detect and Filter:%d Cycles", cycleCount);
   $display("Detect Cycle : %d", detectCount);
-  $display("Filter Cycle : %d", filterCount);
+  $display("Filter Cycle : %d", filterCount);*/
   
   /* Error Log for Detect and Filter*/
-  error1 = 0;
+  /*error1 = 0;
   error2 = 0;
   kp_errorFile = $fopen("kp_error.txt", "w");
   kpt_total_ans = $fopen("keypoint.txt", "r");
@@ -501,10 +501,10 @@ initial begin
   end
   $display("========= Compute and Match DONE =========");
   $display("Compute and Match:%d Cycles", cycleCount);
-  $display("%d", targetKptNum);
+  $display("%d", targetKptNum);*/
 
   /*Dump Output and check answer*/   
-  @(negedge clk);
+  /*@(negedge clk);
   matched_pairs = $fopen("matched_pairs.txt", "w");
   matched_addr2_in = 0;
   @(negedge clk);
@@ -556,7 +556,7 @@ initial begin
           end
       end    
   end
-  $fclose(match_result);
+  $fclose(match_result);*/
   $finish;
 end
 
