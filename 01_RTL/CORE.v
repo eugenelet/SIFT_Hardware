@@ -120,37 +120,47 @@ module CORE(
 
 
     wire  [3:0]    blur_mem_we;
-    reg   [8:0]    blur_addr  [0:3]; /*wire*/
+    reg   [8:0]    blur_addr1 [0:3]; /*wire*/
+    reg   [8:0]    blur_addr2 [0:3]; /*wire*/
     wire  [5119:0] blur_din   [0:3];
-    wire  [5119:0] blur_dout  [0:3];
-    /*SRAM for Blurred Images(4)*/
+    wire  [5119:0] blur_dout1 [0:3];
+    wire  [5119:0] blur_dout2 [0:3];
+    /*Dual Port SRAM for Blurred Images(4)*/
     bmem_480x5120 blur_img_0(
       .clk  (clk),
       .we   (blur_mem_we[0]),
-      .addr (blur_addr[0]),
+      .addr (blur_addr1[0]),
+      .addr (blur_addr2[0]),
       .din  (blur_din[0]),
-      .dout (blur_dout[0])
+      .dout (blur_dout1[0]),
+      .dout (blur_dout2[0])
     );
     bmem_480x5120 blur_img_1(
       .clk  (clk),
       .we   (blur_mem_we[1]),
-      .addr (blur_addr[1]),
+      .addr (blur_addr1[1]),
+      .addr (blur_addr2[1]),
       .din  (blur_din[1]),
-      .dout (blur_dout[1])
+      .dout (blur_dout1[1]),
+      .dout (blur_dout2[1])
     );
     bmem_480x5120 blur_img_2(
       .clk  (clk),
       .we   (blur_mem_we[2]),
-      .addr (blur_addr[2]),
+      .addr (blur_addr1[2]),
+      .addr (blur_addr2[2]),
       .din  (blur_din[2]),
-      .dout (blur_dout[2])
+      .dout (blur_dout1[2]),
+      .dout (blur_dout2[2])
     );
     bmem_480x5120 blur_img_3(
       .clk  (clk),
       .we   (blur_mem_we[3]),
-      .addr (blur_addr[3]),
+      .addr (blur_addr1[3]),
+      .addr (blur_addr2[3]),
       .din  (blur_din[3]),
-      .dout (blur_dout[3])
+      .dout (blur_dout1[3]),
+      .dout (blur_dout2[3])
     );
 
     /*SRAM for KeyPoints*/
@@ -266,20 +276,21 @@ module CORE(
     );
 
     /*Line Buffer*/    
-    wire    [5119:0]  buffer_data_0;
-    wire    [5119:0]  buffer_data_1;
-    wire    [5119:0]  buffer_data_2;
-    wire    [5119:0]  buffer_data_3;
-    wire    [5119:0]  buffer_data_4;
-    wire    [5119:0]  buffer_data_5;
-    wire    [5119:0]  buffer_data_6;
-    wire    [5119:0]  buffer_data_7;
-    wire    [5119:0]  buffer_data_8;
-    wire    [5119:0]  buffer_data_9;
+    wire    [175:0]   buffer_data_0;
+    wire    [175:0]   buffer_data_1;
+    wire    [175:0]   buffer_data_2;
+    wire    [175:0]   buffer_data_3;
+    wire    [175:0]   buffer_data_4;
+    wire    [175:0]   buffer_data_5;
+    wire    [175:0]   buffer_data_6;
+    wire    [175:0]   buffer_data_7;
+    wire    [175:0]   buffer_data_8;
+    wire    [175:0]   buffer_data_9;
     reg               buffer_we; /*wire*/
     reg               fill_zero;  /*wire*/
     reg     [5119:0]  buffer_in;
     wire              buffer_mode = (current_state==ST_DETECT_FILTER) ? 1 : 0;
+    wire    [5:0]     buffer_col;
     // wire              buffer_mode = (gaussian_done)?L_IDLE:L_GAUSSIAN;
     /*System Line Buffer*/
     Line_Buffer_10 l_buf_10(
@@ -302,7 +313,8 @@ module CORE(
       .buffer_data_6  (buffer_data_6),
       .buffer_data_7  (buffer_data_7),
       .buffer_data_8  (buffer_data_8),
-      .buffer_data_9  (buffer_data_9)
+      .buffer_data_9  (buffer_data_9),
+      .buffer_col     (buffer_col)
     );
 
     wire           gaussian_start = (current_state==ST_GAUSSIAN)?1:0;
@@ -321,27 +333,37 @@ module CORE(
       .buffer_data_3  (buffer_data_3),
       .buffer_data_4  (buffer_data_4),
       .buffer_data_5  (buffer_data_5),
+      .buffer_data_6  (buffer_data_6),
       .start          (gaussian_start),
       .done           (gaussian_done[0]),
       .blur_mem_we_0  (blur_mem_we[0]),
       .blur_mem_we_1  (blur_mem_we[1]),
       .blur_mem_we_2  (blur_mem_we[2]),
       .blur_mem_we_3  (blur_mem_we[3]),
-      .blur_addr_0    (gaussian_blur_addr[0]),
-      .blur_addr_1    (gaussian_blur_addr[1]),
-      .blur_addr_2    (gaussian_blur_addr[2]),
-      .blur_addr_3    (gaussian_blur_addr[3]),
+      .blur_addr_w_0  (gaussian_blur_addr[0]),
+      .blur_addr_w_1  (gaussian_blur_addr[1]),
+      .blur_addr_w_2  (gaussian_blur_addr[2]),
+      .blur_addr_w_3  (gaussian_blur_addr[3]),
+      .blur_addr_r_0  (blur_addr2[0]),
+      .blur_addr_r_1  (blur_addr2[1]),
+      .blur_addr_r_2  (blur_addr2[2]),
+      .blur_addr_r_3  (blur_addr2[3]),
       .blur_din_0     (blur_din[0]),
       .blur_din_1     (blur_din[1]),
       .blur_din_2     (blur_din[2]),
       .blur_din_3     (blur_din[3]),
+      .blur_dout_0    (blur_dout[0]),
+      .blur_dout_1    (blur_dout[1]),
+      .blur_dout_2    (blur_dout[2]),
+      .blur_dout_3    (blur_dout[3]),
       .img_addr       (gaussian_img_addr),
       .buffer_we      (gaussian_buffer_we),
-      .fill_zero      (gaussian_fill_zero[0])
+      .fill_zero      (gaussian_fill_zero[0]),
+      .current_col    (buffer_col)
     );
 
 
-    wire           detect_filter_start = (current_state==ST_DETECT_FILTER) ? 1:0;
+    /*wire           detect_filter_start = (current_state==ST_DETECT_FILTER) ? 1:0;
     wire           detect_filter_done;
     wire  [8:0]    detect_filter_blur_addr  [0:3];
     wire  [8:0]    detect_filter_img_addr;
@@ -465,53 +487,53 @@ module CORE(
         .matched_dout2_2      (matched_2_dout),
         .matched_dout2_3      (matched_3_dout),
         .kpt_num              (keypoint_num)
-    );
+    );*/
 
     always @(*) begin
       case(current_state)
         ST_IDLE: begin
-          blur_addr[0] = 0;
-          blur_addr[1] = 0;  
-          blur_addr[2] = 0;  
-          blur_addr[3] = 0;  
+          blur_addr1[0] = 0;
+          blur_addr1[1] = 0;  
+          blur_addr1[2] = 0;  
+          blur_addr1[3] = 0;  
           buffer_we = 0;
           img_addr  = img_addr_in;
           fill_zero = 0;
           keypoint_addr = 0;
           buffer_in = 0;
-          target_addr = target_addr_in;
+          /*target_addr = target_addr_in;
           matched_addr1 = matched_addr1_in;
           matched_addr2 = 0;
           matched_we = {matched_we_in, matched_we_in, matched_we_in, matched_we_in};
           matched_0_din = in_matched_0_din;
           matched_1_din = in_matched_1_din;
           matched_2_din = in_matched_2_din;
-          matched_3_din = in_matched_3_din;
+          matched_3_din = in_matched_3_din;*/
         end
         ST_GAUSSIAN: begin
-          blur_addr[0] = gaussian_blur_addr[0];    
-          blur_addr[1] = gaussian_blur_addr[1];    
-          blur_addr[2] = gaussian_blur_addr[2];    
-          blur_addr[3] = gaussian_blur_addr[3];    
+          blur_addr1[0] = gaussian_blur_addr[0];    
+          blur_addr1[1] = gaussian_blur_addr[1];    
+          blur_addr1[2] = gaussian_blur_addr[2];    
+          blur_addr1[3] = gaussian_blur_addr[3];    
           buffer_we = gaussian_buffer_we;
           img_addr  = gaussian_img_addr;
           fill_zero = |gaussian_fill_zero;
           keypoint_addr = 0;
           buffer_in = img_dout;
-          target_addr = 0;
+          /*target_addr = 0;
           matched_addr1 = 0;
           matched_addr2 = 0;
           matched_we = 0;
           matched_0_din = 0;
           matched_1_din = 0;
           matched_2_din = 0;
-          matched_3_din = 0;
+          matched_3_din = 0;*/
         end
-        ST_DETECT_FILTER: begin
-          blur_addr[0] = detect_filter_blur_addr[0];  
-          blur_addr[1] = detect_filter_blur_addr[1];  
-          blur_addr[2] = detect_filter_blur_addr[2];  
-          blur_addr[3] = detect_filter_blur_addr[3];  
+        /*ST_DETECT_FILTER: begin
+          blur_addr1[0] = detect_filter_blur_addr[0];  
+          blur_addr1[1] = detect_filter_blur_addr[1];  
+          blur_addr1[2] = detect_filter_blur_addr[2];  
+          blur_addr1[3] = detect_filter_blur_addr[3];  
           buffer_we = detect_filter_buffer_we;
           img_addr  = detect_filter_img_addr;
           fill_zero = 0;
@@ -527,10 +549,10 @@ module CORE(
           matched_3_din = 0;
         end
         ST_COMPUTE_MATCH: begin
-          blur_addr[0] = blurred_addr;  
-          blur_addr[1] = blurred_addr;  
-          blur_addr[2] = 0;  
-          blur_addr[3] = 0;  
+          blur_addr1[0] = blurred_addr;  
+          blur_addr1[1] = blurred_addr;  
+          blur_addr1[2] = 0;  
+          blur_addr1[3] = 0;  
           buffer_we = compute_match_buffer_we;
           img_addr  = 0;
           fill_zero = 0;
@@ -544,25 +566,25 @@ module CORE(
           matched_1_din = match_matched_1_din;
           matched_2_din = match_matched_2_din;
           matched_3_din = match_matched_3_din;
-        end
+        end*/
         default: begin
-          blur_addr[0] = 0;
-          blur_addr[1] = 0;  
-          blur_addr[2] = 0;  
-          blur_addr[3] = 0;  
+          blur_addr1[0] = 0;
+          blur_addr1[1] = 0;  
+          blur_addr1[2] = 0;  
+          blur_addr1[3] = 0;  
           buffer_we = 0;
           img_addr  = 0;
           fill_zero = 0;
           keypoint_addr = 0;
           buffer_in = 0;
-          target_addr = 0;
+          /*target_addr = 0;
           matched_addr1 = 0;
           matched_addr2 = matched_addr2_in;
           matched_we = 0;
           matched_0_din = 0;
           matched_1_din = 0;
           matched_2_din = 0;
-          matched_3_din = 0;
+          matched_3_din = 0;*/
         end
       endcase
     end
@@ -593,7 +615,7 @@ module CORE(
         end
         ST_GAUSSIAN: begin
           if(gaussian_done[0])
-            next_state = ST_DETECT_FILTER;
+            next_state = ST_END; //ST_DETECT_FILTER;
           else
             next_state = ST_GAUSSIAN;
         end
