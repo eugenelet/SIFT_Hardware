@@ -589,7 +589,7 @@ module CORE(
       endcase
     end
 
-    assign done = compute_match_done;
+    // assign done = compute_match_done;
 
     /*
      *  FSM
@@ -619,7 +619,7 @@ module CORE(
           else
             next_state = ST_GAUSSIAN;
         end
-        ST_DETECT_FILTER: begin
+        /*ST_DETECT_FILTER: begin
           if(detect_filter_done)
             next_state = ST_COMPUTE_MATCH;
           else
@@ -630,7 +630,7 @@ module CORE(
             next_state = ST_END;
           else 
             next_state = ST_COMPUTE_MATCH;
-        end
+        end*/
         ST_END: begin /*DEBUG STATE*/
             next_state = ST_END;
         end
