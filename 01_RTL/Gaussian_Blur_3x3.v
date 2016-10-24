@@ -16,6 +16,7 @@ input       [175:0]   buffer_data_1;
 input       [175:0]   buffer_data_2;
 output reg  [127:0]   blur_out; // wire
 
+reg       [95:0]  G_Kernel_3x3[0:2];
 always @(posedge clk) begin
   if (!rst_n) begin
     G_Kernel_3x3[0][31:0]  <= 32'h17BC5428; //18'b00_0101_1110_1111_0001;//'d092717;
