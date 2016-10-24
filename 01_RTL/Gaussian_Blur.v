@@ -157,7 +157,7 @@ always @(posedge clk) begin
 end
 
 /*Update buffer with data from SRAM (Consumes 2 cycle [addr0 and addr1])*/
-assign buffer_we = (current_state==ST_NEXT_COL || current_state==ST_FIRST_COL) ? 1:0;
+assign buffer_we = (current_state==ST_NEXT_COL || current_state==ST_FIRST_COL || (current_state==ST_NEXT_ROW && img_addr<'d480) ) ? 1:0;
 
 /*Update Image SRAM addr*/
 always @(posedge clk) begin
