@@ -20,7 +20,7 @@ module Line_Buffer_10(
   buffer_data_7,
   buffer_data_8,
   buffer_data_9,
-  buffer_col;
+  buffer_col
 );
 /*SYSTEM*/
 input                 clk,

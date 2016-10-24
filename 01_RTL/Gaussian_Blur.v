@@ -119,16 +119,6 @@ reg     [3:0] current_state,
               next_state;
 
 /*Switches column after every row of current column is processed*/
-always @(posedge clk) begin
-  if (!rst_n)
-    current_col <= 'd0;    
-  else if (current_state==ST_IDLE || current_state==ST_FIRST_COL)
-    current_col <= 'd0;
-  else if (current_state==ST_NEXT_COL && col_relay) 
-    current_col <= current_col + 1;
-end
-
-
 reg     col_relay;
 always @(posedge clk) begin
   if (!rst_n) 
@@ -137,6 +127,15 @@ always @(posedge clk) begin
     col_relay <= 1'b1; 
   else if (current_state==ST_IDLE || current_state==ST_NEXT_ROW)
     col_relay <= 1'b0;
+end
+
+always @(posedge clk) begin
+  if (!rst_n)
+    current_col <= 'd0;    
+  else if (current_state==ST_IDLE || current_state==ST_FIRST_COL)
+    current_col <= 'd0;
+  else if (current_state==ST_NEXT_COL && col_relay) 
+    current_col <= current_col + 1;
 end
 
 /*Fill zeros at the end of row
