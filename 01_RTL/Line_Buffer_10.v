@@ -53,7 +53,7 @@ output reg  [175:0]   buffer_data_0, // (16 + 6)*8
                       buffer_data_8,
                       buffer_data_9;
 
-wire[175:0] mux_data0,
+reg[175:0]  mux_data0,
             mux_data1,
             mux_data2,
             mux_data3,
