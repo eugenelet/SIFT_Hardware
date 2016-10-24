@@ -299,7 +299,7 @@ always @(posedge clk) begin
     blur_addr_w_0 <= 'd0;
   else if (blur_mem_we_0 && blur_addr_w_0<'d480)
     blur_addr_w_0 <= blur_addr_relay_0[3];
-  else if (current_state==ST_IDLE)
+  else if (current_state==ST_IDLE || current_state==ST_NEXT_COL)
     blur_addr_w_0 <= 'd0;
 end
 
@@ -308,7 +308,7 @@ always @(posedge clk) begin
     blur_addr_w_1 <= 'd0;
   else if (blur_mem_we_1 && blur_addr_w_1<'d480)
     blur_addr_w_1 <= blur_addr_relay_1[3];
-  else if (current_state==ST_IDLE)
+  else if (current_state==ST_IDLE || current_state==ST_NEXT_COL)
     blur_addr_w_1 <= 'd0;
 end
 
@@ -317,7 +317,7 @@ always @(posedge clk) begin
     blur_addr_w_2 <= 'd0;
   else if (blur_mem_we_2 && blur_addr_w_2<'d480)
     blur_addr_w_2 <= blur_addr_relay_2[3];
-  else if (current_state==ST_IDLE)
+  else if (current_state==ST_IDLE || current_state==ST_NEXT_COL)
     blur_addr_w_2 <= 'd0;
 end
 
@@ -326,7 +326,7 @@ always @(posedge clk) begin
     blur_addr_w_3 <= 'd0;
   else if (blur_mem_we_3 && blur_addr_w_3<'d480)
     blur_addr_w_3 <= blur_addr_relay_3[3];
-  else if (current_state==ST_IDLE)
+  else if (current_state==ST_IDLE || current_state==ST_NEXT_COL)
     blur_addr_w_3 <= 'd0;
 end
 
