@@ -384,7 +384,7 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     blur_addr_r_0 <= 'd0;
-  else if (((current_state==ST_FIRST_COL || current_state==ST_NEXT_COL) && col_relay==1) && blur_addr_r_0<'d480)
+  else if (((current_state==ST_FIRST_COL || current_state==ST_NEXT_COL) && col_relay==2) || current_state==ST_NEXT_ROW && blur_addr_r_0<'d480)
     blur_addr_r_0 <= blur_addr_r_0 + 'd1;
   else if (current_state==ST_IDLE || current_state==ST_NEXT_COL)
     blur_addr_r_0 <= 'd0;
@@ -393,7 +393,7 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     blur_addr_r_1 <= 'd0;
-  else if (((current_state==ST_FIRST_COL || current_state==ST_NEXT_COL) && col_relay==2) && blur_addr_r_1<'d480 /*&& blur_mem_we_ctr>='d1*/)
+  else if (current_state==ST_NEXT_ROW && blur_addr_r_1<'d480 /*&& blur_mem_we_ctr>='d1*/)
     blur_addr_r_1 <= blur_addr_r_1 + 'd1;
   else if (current_state==ST_IDLE || current_state==ST_NEXT_COL)
     blur_addr_r_1 <= 'd0;
@@ -402,7 +402,7 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     blur_addr_r_2 <= 'd0;
-  else if (((current_state==ST_FIRST_COL || current_state==ST_NEXT_COL) && col_relay==2) && blur_addr_r_2<'d480 /*&& blur_mem_we_ctr>='d1*/)
+  else if (current_state==ST_NEXT_ROW && blur_addr_r_2<'d480 /*&& blur_mem_we_ctr>='d1*/)
     blur_addr_r_2 <= blur_addr_r_2 + 'd1;
   else if (current_state==ST_IDLE || current_state==ST_NEXT_COL)
     blur_addr_r_2 <= 'd0;
@@ -411,7 +411,7 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     blur_addr_r_3 <= 'd0;
-  else if (current_state==ST_NEXT_ROW && blur_addr_r_3<'d480/* && blur_mem_we_ctr>='d1*/)
+  else if (current_state==ST_NEXT_ROW && blur_addr_r_3<'d480 && blur_mem_we_ctr>='d1)
     blur_addr_r_3 <= blur_addr_r_3 + 'd1;
   else if (current_state==ST_IDLE || current_state==ST_NEXT_COL)
     blur_addr_r_3 <= 'd0;
