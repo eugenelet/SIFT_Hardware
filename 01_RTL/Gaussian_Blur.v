@@ -134,7 +134,7 @@ always @(posedge clk) begin
     current_col <= 'd0;    
   else if (current_state==ST_IDLE || current_state==ST_FIRST_COL)
     current_col <= 'd0;
-  else if (current_state==ST_NEXT_COL && col_relay==2) 
+  else if (blur_addr_w_3=='d480/*current_state==ST_NEXT_COL && col_relay==2*/) 
     current_col <= current_col + 1;
 end
 
