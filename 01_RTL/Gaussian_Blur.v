@@ -150,15 +150,15 @@ end
 always @(posedge clk) begin
   if (!rst_n) 
     fill_zero <= 1'b0;    
-  else if (img_addr=='d480)
+  else if (current_state==ST_NEXT_ROW && img_addr=='d480)
     fill_zero <= 1'b1;
-  else
+  else if (current_state==ST_NEXT_ROW && blur_addr_w_3=='d480)
     fill_zero <= 1'b0;
 end
 
 /*Update buffer with data from SRAM (Consumes 2 cycle [addr0 and addr1])*/
 assign buffer_we = (((current_state==ST_NEXT_COL || current_state==ST_FIRST_COL) && col_relay>0) 
-  || (current_state==ST_NEXT_ROW && img_addr<'d480) ) ? 1:0;
+  || (current_state==ST_NEXT_ROW && blur_addr_w_3=='d480) ) ? 1:0;
 
 /*Update Image SRAM addr*/
 always @(posedge clk) begin
