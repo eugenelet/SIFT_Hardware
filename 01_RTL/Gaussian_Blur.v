@@ -158,7 +158,7 @@ end
 
 /*Update buffer with data from SRAM (Consumes 2 cycle [addr0 and addr1])*/
 assign buffer_we = (((current_state==ST_NEXT_COL || current_state==ST_FIRST_COL) && col_relay>0) 
-  || (current_state==ST_NEXT_ROW && blur_addr_w_3=='d480) ) ? 1:0;
+  || (current_state==ST_NEXT_ROW && blur_addr_w_3<'d480) ) ? 1:0;
 
 /*Update Image SRAM addr*/
 always @(posedge clk) begin
