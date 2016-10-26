@@ -98,6 +98,14 @@ parameter ST_IDLE       = 0,
 
 assign done = (current_state==ST_BUFFER && img_addr=='d472 && buffer_col=='d39) ? 1 : 0;
 
+
+
+reg[15:0] is_keypoint_reg_0;
+reg[15:0] is_keypoint_reg_1;
+
+wire  keypoint_layer_1_empty = !(|is_keypoint_reg_0) ? 1:0;
+wire  keypoint_layer_2_empty = !(|is_keypoint_reg_1) ? 1:0;
+
 reg[1:0]  next_col_count;
 always @(posedge clk ) begin
   if (!rst_n) 
@@ -732,12 +740,6 @@ detect_keypoint u_detect_keypoint_1_15(
 );
 
 
-
-reg[15:0] is_keypoint_reg_0;
-reg[15:0] is_keypoint_reg_1;
-
-wire  keypoint_layer_1_empty = !(|is_keypoint_reg_0) ? 1:0;
-wire  keypoint_layer_2_empty = !(|is_keypoint_reg_1) ? 1:0;
 
 /*Picks layer to dump into filter*/
 wire  filter_layer = (!keypoint_layer_1_empty) ? 0:1;
