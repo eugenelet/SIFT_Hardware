@@ -220,7 +220,7 @@ bus_partition u_bus_partition(
   .img0       (img_dout),
   .img1       (blur3x3_dout),
   .img2       (blur5x5_1_dout),
-  .img3       (blur5x5_1_dout),
+  .img3       (blur5x5_2_dout),
   .img4       (blur7x7_dout),
   .img_out0   (img_dout_buffer),
   .img_out1   (blur3x3_dout_buffer),
