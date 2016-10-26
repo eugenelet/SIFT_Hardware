@@ -17,11 +17,11 @@ input[5119:0]   img0,
                 img2,
                 img3,
                 img4;
-output[175:0]   img_out0,
-                img_out1,
-                img_out2,
-                img_out3,
-                img_out4;
+output reg[175:0]   img_out0, /*wire*/
+                    img_out1,
+                    img_out2,
+                    img_out3,
+                    img_out4;
 input[5:0]      buffer_col;
 
 always @(*) begin
