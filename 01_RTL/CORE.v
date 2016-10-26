@@ -621,13 +621,13 @@ module CORE(
         end
         ST_GAUSSIAN: begin
           if(gaussian_done[0])
-            next_state = ST_END; //ST_DETECT_FILTER;
+            next_state = ST_DETECT_FILTER;
           else
             next_state = ST_GAUSSIAN;
         end
-        /*ST_DETECT_FILTER: begin
+        ST_DETECT_FILTER: begin
           if(detect_filter_done)
-            next_state = ST_COMPUTE_MATCH;
+            next_state = ST_END; //ST_COMPUTE_MATCH;
           else
             next_state = ST_DETECT_FILTER;
         end
