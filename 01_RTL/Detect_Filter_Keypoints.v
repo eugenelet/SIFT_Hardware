@@ -801,11 +801,11 @@ always @(posedge clk) begin
   else if (current_state == ST_DETECT) 
     is_keypoint_reg_1 <= is_keypoint_1;
   else if (current_state==ST_DETECT && buffer_col==0) // Mask unwanted bits out
-    is_keypoint_reg_1 <= is_keypoint_1 & 16'b1111_1111_1000_0000; 
+    is_keypoint_reg_1 <= is_keypoint_1 & 16'b1111_1111_0000_0000; 
   else if (current_state==ST_DETECT && buffer_col=='d39)
-    is_keypoint_reg_1 <= is_keypoint_1 & 16'b0000_0001_1111_1111; 
+    is_keypoint_reg_1 <= is_keypoint_1 & 16'b0000_0000_1111_1111; 
   else if (current_state==ST_DETECT)
-    is_keypoint_reg_0 <= is_keypoint_0;
+    is_keypoint_reg_1 <= is_keypoint_1;
   else if ( (current_state==ST_FILTER || current_state==ST_NO_FILTER) && filter_layer && is_keypoint_reg_1[0] ) 
     is_keypoint_reg_1 <= is_keypoint_reg_1 & 16'hfffe;
   else if ( (current_state==ST_FILTER || current_state==ST_NO_FILTER) && filter_layer && (!is_keypoint_reg_1[0] && is_keypoint_reg_1[1]) )

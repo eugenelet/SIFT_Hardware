@@ -799,7 +799,9 @@ always @(*) begin
         next_state = ST_NEXT_COL;
     end
     ST_NEXT_ROW: begin
-      if(blur_addr_w_3=='d480)
+      if (blur_addr_w_3=='d480 && current_col=='d39)
+        next_state = ST_IDLE;
+      else if (blur_addr_w_3=='d480)
         next_state = ST_NEXT_COL;
       else 
         next_state = ST_NEXT_ROW;
