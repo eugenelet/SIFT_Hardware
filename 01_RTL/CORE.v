@@ -631,7 +631,7 @@ module CORE(
           else
             next_state = ST_DETECT_FILTER;
         end
-        ST_COMPUTE_MATCH: begin
+        /*ST_COMPUTE_MATCH: begin
           if(compute_match_done)
             next_state = ST_END;
           else 
