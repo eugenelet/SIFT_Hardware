@@ -190,7 +190,7 @@ reg[5:0]  buffer_col;
 always @(posedge clk) begin
   if (!rst_n) 
     buffer_col <= 'd0;    
-  else if (current_state==ST_NEXT_COL && buffer_col<'d40)
+  else if (current_state==ST_BUFFER && img_addr=='d472 && buffer_col<'d40)
     buffer_col <= buffer_col + 1;
   else if (done)
     buffer_col <= 'd0;
