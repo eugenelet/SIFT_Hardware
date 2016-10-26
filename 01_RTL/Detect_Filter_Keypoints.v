@@ -810,33 +810,33 @@ always @(posedge clk) begin
     is_keypoint_reg_1 <= is_keypoint_reg_1 & 16'hfffe;
   else if ( (current_state==ST_FILTER || current_state==ST_NO_FILTER) && filter_layer && (!is_keypoint_reg_1[0] && is_keypoint_reg_1[1]) )
     is_keypoint_reg_1 <= is_keypoint_reg_1 & 16'hfffd;
-  else if ( (current_state==ST_FILTER || current_state==ST_NO_FILTER) && !filter_layer && (!(|is_keypoint_reg_1[1:0]) && is_keypoint_reg_1[2]) )
+    else if ( (current_state==ST_FILTER || current_state==ST_NO_FILTER) && filter_layer && (!(|is_keypoint_reg_1[1:0]) && is_keypoint_reg_1[2]) )
     is_keypoint_reg_1 <= is_keypoint_reg_1 & 16'hfffb;
-  else if ( (current_state==ST_FILTER || current_state==ST_NO_FILTER) && !filter_layer && (!(|is_keypoint_reg_1[2:0]) && is_keypoint_reg_1[3]) )
+  else if ( (current_state==ST_FILTER || current_state==ST_NO_FILTER) && filter_layer && (!(|is_keypoint_reg_1[2:0]) && is_keypoint_reg_1[3]) )
     is_keypoint_reg_1 <= is_keypoint_reg_1 & 16'hfff7;
-  else if ( (current_state==ST_FILTER || current_state==ST_NO_FILTER) && !filter_layer && (!(|is_keypoint_reg_1[3:0]) && is_keypoint_reg_1[4]) )
+  else if ( (current_state==ST_FILTER || current_state==ST_NO_FILTER) && filter_layer && (!(|is_keypoint_reg_1[3:0]) && is_keypoint_reg_1[4]) )
     is_keypoint_reg_1 <= is_keypoint_reg_1 & 16'hffef;
-  else if ( (current_state==ST_FILTER || current_state==ST_NO_FILTER) && !filter_layer && (!(|is_keypoint_reg_1[4:0]) && is_keypoint_reg_1[5]) )
+  else if ( (current_state==ST_FILTER || current_state==ST_NO_FILTER) && filter_layer && (!(|is_keypoint_reg_1[4:0]) && is_keypoint_reg_1[5]) )
     is_keypoint_reg_1 <= is_keypoint_reg_1 & 16'hffdf;
-  else if ( (current_state==ST_FILTER || current_state==ST_NO_FILTER) && !filter_layer && (!(|is_keypoint_reg_1[5:0]) && is_keypoint_reg_1[6]) )
+  else if ( (current_state==ST_FILTER || current_state==ST_NO_FILTER) && filter_layer && (!(|is_keypoint_reg_1[5:0]) && is_keypoint_reg_1[6]) )
     is_keypoint_reg_1 <= is_keypoint_reg_1 & 16'hffbf;
-  else if ( (current_state==ST_FILTER || current_state==ST_NO_FILTER) && !filter_layer && (!(|is_keypoint_reg_1[6:0]) && is_keypoint_reg_1[7]) )
+  else if ( (current_state==ST_FILTER || current_state==ST_NO_FILTER) && filter_layer && (!(|is_keypoint_reg_1[6:0]) && is_keypoint_reg_1[7]) )
     is_keypoint_reg_1 <= is_keypoint_reg_1 & 16'hff7f;
-  else if ( (current_state==ST_FILTER || current_state==ST_NO_FILTER) && !filter_layer && (!(|is_keypoint_reg_1[7:0]) && is_keypoint_reg_1[8]) )
+  else if ( (current_state==ST_FILTER || current_state==ST_NO_FILTER) && filter_layer && (!(|is_keypoint_reg_1[7:0]) && is_keypoint_reg_1[8]) )
     is_keypoint_reg_1 <= is_keypoint_reg_1 & 16'hfeff;
-  else if ( (current_state==ST_FILTER || current_state==ST_NO_FILTER) && !filter_layer && (!(|is_keypoint_reg_1[8:0]) && is_keypoint_reg_1[9]) )
+  else if ( (current_state==ST_FILTER || current_state==ST_NO_FILTER) && filter_layer && (!(|is_keypoint_reg_1[8:0]) && is_keypoint_reg_1[9]) )
     is_keypoint_reg_1 <= is_keypoint_reg_1 & 16'hfdff;
-  else if ( (current_state==ST_FILTER || current_state==ST_NO_FILTER) && !filter_layer && (!(|is_keypoint_reg_1[9:0]) && is_keypoint_reg_1[10]) )
+  else if ( (current_state==ST_FILTER || current_state==ST_NO_FILTER) && filter_layer && (!(|is_keypoint_reg_1[9:0]) && is_keypoint_reg_1[10]) )
     is_keypoint_reg_1 <= is_keypoint_reg_1 & 16'hfbff;
-  else if ( (current_state==ST_FILTER || current_state==ST_NO_FILTER) && !filter_layer && (!(|is_keypoint_reg_1[10:0]) && is_keypoint_reg_1[11]) )
+  else if ( (current_state==ST_FILTER || current_state==ST_NO_FILTER) && filter_layer && (!(|is_keypoint_reg_1[10:0]) && is_keypoint_reg_1[11]) )
     is_keypoint_reg_1 <= is_keypoint_reg_1 & 16'hf7ff;
-  else if ( (current_state==ST_FILTER || current_state==ST_NO_FILTER) && !filter_layer && (!(|is_keypoint_reg_1[11:0]) && is_keypoint_reg_1[12]) )
+  else if ( (current_state==ST_FILTER || current_state==ST_NO_FILTER) && filter_layer && (!(|is_keypoint_reg_1[11:0]) && is_keypoint_reg_1[12]) )
     is_keypoint_reg_1 <= is_keypoint_reg_1 & 16'hefff;
-  else if ( (current_state==ST_FILTER || current_state==ST_NO_FILTER) && !filter_layer && (!(|is_keypoint_reg_1[12:0]) && is_keypoint_reg_1[13]) )
+  else if ( (current_state==ST_FILTER || current_state==ST_NO_FILTER) && filter_layer && (!(|is_keypoint_reg_1[12:0]) && is_keypoint_reg_1[13]) )
     is_keypoint_reg_1 <= is_keypoint_reg_1 & 16'hdfff;
-  else if ( (current_state==ST_FILTER || current_state==ST_NO_FILTER) && !filter_layer && (!(|is_keypoint_reg_1[13:0]) && is_keypoint_reg_1[14]) )
+  else if ( (current_state==ST_FILTER || current_state==ST_NO_FILTER) && filter_layer && (!(|is_keypoint_reg_1[13:0]) && is_keypoint_reg_1[14]) )
     is_keypoint_reg_1 <= is_keypoint_reg_1 & 16'hbfff;
-  else if ( (current_state==ST_FILTER || current_state==ST_NO_FILTER) && !filter_layer && (!(|is_keypoint_reg_1[14:0]) && is_keypoint_reg_1[15]) )
+  else if ( (current_state==ST_FILTER || current_state==ST_NO_FILTER) && filter_layer && (!(|is_keypoint_reg_1[14:0]) && is_keypoint_reg_1[15]) )
     is_keypoint_reg_1 <= is_keypoint_reg_1 & 16'h7fff;
   else if (current_state == ST_IDLE)
     is_keypoint_reg_1 <= 'd0;
