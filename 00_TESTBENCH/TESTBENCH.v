@@ -445,7 +445,7 @@ initial begin
   /* DETECT AND FILTER 
    * - Compute Cycle Count
    */
-  /*cycleCount = 0;
+  cycleCount = 0;
   filterCount = 0;
   detectCount = 0;
   kp_count = 0;
@@ -463,10 +463,10 @@ initial begin
   $display("========= Detect & Filter DONE =========");
   $display("Detect and Filter:%d Cycles", cycleCount);
   $display("Detect Cycle : %d", detectCount);
-  $display("Filter Cycle : %d", filterCount);*/
+  $display("Filter Cycle : %d", filterCount);
   
   /* Error Log for Detect and Filter*/
-  /*error1 = 0;
+  error1 = 0;
   error2 = 0;
   kp_errorFile = $fopen("kp_error.txt", "w");
   kpt_total_ans = $fopen("keypoint.txt", "r");
@@ -493,7 +493,7 @@ initial begin
 
 
 
-  cycleCount = 0;
+  /*cycleCount = 0;
   while(!u_core.compute_match_done) begin
       // $display("kpt_addr : %d", u_core.kpt_addr);
       @(negedge clk);
