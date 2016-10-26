@@ -99,10 +99,15 @@ parameter ST_IDLE       = 0,
 assign done = (current_state==ST_BUFFER && img_addr=='d472 && buffer_col=='d39) ? 1 : 0;
 
 
-
+/*Use for filter keypoint on turning off bits one-by-one*/
 reg[15:0] is_keypoint_reg_0;
 reg[15:0] is_keypoint_reg_1;
 
+/*From Detect keypoint modules*/
+wire   [15:0] is_keypoint_0;
+wire   [15:0] is_keypoint_1;
+
+/*Check whether keypoint is empty*/
 wire  keypoint_layer_1_empty = !(|is_keypoint_reg_0) ? 1:0;
 wire  keypoint_layer_2_empty = !(|is_keypoint_reg_1) ? 1:0;
 
@@ -225,6 +230,7 @@ bus_partition u_bus_partition(
   .buffer_col (buffer_col)
 );
 
+/*Detect Keypoints Modules*/
 detect_keypoint u_detect_keypoint_0_0(
   .layer_0_0        (buffer_data_1),
   .layer_0_1        (buffer_data_0),
