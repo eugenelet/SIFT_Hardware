@@ -9,7 +9,7 @@ module bus_partition(
     img_out2,
     img_out3,
     img_out4,
-    buffer_col;
+    buffer_col
 );
 
 input[5119:0]   img0,
