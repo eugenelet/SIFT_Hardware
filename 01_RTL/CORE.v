@@ -290,7 +290,7 @@ module CORE(
     reg               fill_zero;  /*wire*/
     reg     [5119:0]  buffer_in;
     wire              buffer_mode = (current_state==ST_DETECT_FILTER) ? 1 : 0;
-    wire    [5:0]     buffer_col;
+    reg     [5:0]     buffer_col; /*wire*/
     // wire              buffer_mode = (gaussian_done)?L_IDLE:L_GAUSSIAN;
     /*System Line Buffer*/
     Line_Buffer_10 l_buf_10(
@@ -323,6 +323,7 @@ module CORE(
     wire  [3:0]    gaussian_done;
     wire           gaussian_buffer_we;
     wire  [3:0]    gaussian_fill_zero;
+    wire  [5:0]    gaussian_buffer_col;
     Gaussian_Blur g_blur(
       .clk            (clk),
       .rst_n          (rst_n),
@@ -359,16 +360,17 @@ module CORE(
       .img_addr       (gaussian_img_addr),
       .buffer_we      (gaussian_buffer_we),
       .fill_zero      (gaussian_fill_zero[0]),
-      .current_col    (buffer_col)
+      .current_col    (gaussian_buffer_col)
     );
 
 
-    /*wire           detect_filter_start = (current_state==ST_DETECT_FILTER) ? 1:0;
+    wire           detect_filter_start = (current_state==ST_DETECT_FILTER) ? 1:0;
     wire           detect_filter_done;
     wire  [8:0]    detect_filter_blur_addr  [0:3];
     wire  [8:0]    detect_filter_img_addr;
     wire           detect_filter_buffer_we;
     wire  [10:0]   detect_filter_keypoint_addr;
+    wire  [5:0]   detect_filter_keypoint_buffer_col;
                    // detect_filter_keypoint_2_addr;
     Detect_Filter_Keypoints u_detect_filter_keypoints(
       .clk              (clk),
@@ -396,13 +398,14 @@ module CORE(
       .buffer_data_7    (buffer_data_7),
       .buffer_data_8    (buffer_data_8),
       .buffer_data_9    (buffer_data_9),
-      .keypoint_we    (keypoint_we),
-      .keypoint_addr  (detect_filter_keypoint_addr),
-      .keypoint_din   (keypoint_din),
+      .keypoint_we      (keypoint_we),
+      .keypoint_addr    (detect_filter_keypoint_addr),
+      .keypoint_din     (keypoint_din),
       .filter_on        (filter_on),
-      .filter_threshold (filter_threshold)
+      .filter_threshold (filter_threshold),
+      .buffer_col       (detect_filter_keypoint_buffer_col)
     );
-
+/*
     always @(posedge clk ) begin
       if (!rst_n) 
         keypoint_num <= 0;    
@@ -501,6 +504,7 @@ module CORE(
           fill_zero = 0;
           keypoint_addr = 0;
           buffer_in = 0;
+          buffer_col = 0;
           /*target_addr = target_addr_in;
           matched_addr1 = matched_addr1_in;
           matched_addr2 = 0;
@@ -520,6 +524,7 @@ module CORE(
           fill_zero = |gaussian_fill_zero;
           keypoint_addr = 0;
           buffer_in = img_dout;
+          buffer_col = gaussian_buffer_col;
           /*target_addr = 0;
           matched_addr1 = 0;
           matched_addr2 = 0;
@@ -529,7 +534,7 @@ module CORE(
           matched_2_din = 0;
           matched_3_din = 0;*/
         end
-        /*ST_DETECT_FILTER: begin
+        ST_DETECT_FILTER: begin
           blur_addr1[0] = detect_filter_blur_addr[0];  
           blur_addr1[1] = detect_filter_blur_addr[1];  
           blur_addr1[2] = detect_filter_blur_addr[2];  
@@ -539,16 +544,17 @@ module CORE(
           fill_zero = 0;
           keypoint_addr = detect_filter_keypoint_addr;
           buffer_in = img_dout;
-          target_addr = 0;
+          buffer_col = detect_filter_keypoint_buffer_col;
+          /*target_addr = 0;
           matched_addr1 = 0;
           matched_addr2 = 0;
           matched_we = 0;
           matched_0_din = 0;
           matched_1_din = 0;
           matched_2_din = 0;
-          matched_3_din = 0;
+          matched_3_din = 0;*/
         end
-        ST_COMPUTE_MATCH: begin
+        /*ST_COMPUTE_MATCH: begin
           blur_addr1[0] = blurred_addr;  
           blur_addr1[1] = blurred_addr;  
           blur_addr1[2] = 0;  
