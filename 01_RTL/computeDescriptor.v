@@ -86,8 +86,8 @@ module computeDescriptor(
     reg [95:0]  accu_8_dim_1,//8 int x 12 = 96
                 accu_8_dim_2;
                 
-    reg [135:0] buffer_0;
-                buffer_1;
+    reg [135:0] buffer_0,
+                buffer_1,
                 buffer_2;
                 
     //////////////////////////////
