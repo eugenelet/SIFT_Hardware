@@ -405,7 +405,7 @@ module CORE(
       .filter_threshold (filter_threshold),
       .buffer_col       (detect_filter_keypoint_buffer_col)
     );
-/*
+
     always @(posedge clk ) begin
       if (!rst_n) 
         keypoint_num <= 0;    
@@ -434,9 +434,9 @@ module CORE(
         .rst_n              (rst_n),
         .start              (compute_match_start),//同時也送進match
         .kptRowCol          (keypoint_dout),
-        .line_buffer_0      (buffer_data_0),
-        .line_buffer_1      (buffer_data_1),
-        .line_buffer_2      (buffer_data_2),
+        // .line_buffer_0      (buffer_data_0),
+        // .line_buffer_1      (buffer_data_1),
+        // .line_buffer_2      (buffer_data_2),
         .kpt_num            (keypoint_num),//wire接進來，值不能改
         .kpt_addr           (kpt_addr),
         .blurred_addr       (blurred_addr),
@@ -447,7 +447,8 @@ module CORE(
         .descriptor_request (descriptor_request),//match在要了
         .descriptor_valid   (descriptor_valid),//告訴match，4個擺好了
         .readFrom           (readFrom),
-        .LB_WE              (compute_match_buffer_we)
+        // .LB_WE              (compute_match_buffer_we)
+        .blurred_dout       (blur_dout1)
     );
 
 
@@ -490,7 +491,7 @@ module CORE(
         .matched_dout2_2      (matched_2_dout),
         .matched_dout2_3      (matched_3_dout),
         .kpt_num              (keypoint_num)
-    );*/
+    );
 
     always @(*) begin
       case(current_state)
@@ -505,14 +506,14 @@ module CORE(
           keypoint_addr = 0;
           buffer_in = 0;
           buffer_col = 0;
-          /*target_addr = target_addr_in;
+          target_addr = target_addr_in;
           matched_addr1 = matched_addr1_in;
           matched_addr2 = 0;
           matched_we = {matched_we_in, matched_we_in, matched_we_in, matched_we_in};
           matched_0_din = in_matched_0_din;
           matched_1_din = in_matched_1_din;
           matched_2_din = in_matched_2_din;
-          matched_3_din = in_matched_3_din;*/
+          matched_3_din = in_matched_3_din;
         end
         ST_GAUSSIAN: begin
           blur_addr1[0] = gaussian_blur_addr[0];    
@@ -525,14 +526,14 @@ module CORE(
           keypoint_addr = 0;
           buffer_in = img_dout;
           buffer_col = gaussian_buffer_col;
-          /*target_addr = 0;
+          target_addr = 0;
           matched_addr1 = 0;
           matched_addr2 = 0;
           matched_we = 0;
           matched_0_din = 0;
           matched_1_din = 0;
           matched_2_din = 0;
-          matched_3_din = 0;*/
+          matched_3_din = 0;
         end
         ST_DETECT_FILTER: begin
           blur_addr1[0] = detect_filter_blur_addr[0];  
@@ -545,25 +546,26 @@ module CORE(
           keypoint_addr = detect_filter_keypoint_addr;
           buffer_in = img_dout;
           buffer_col = detect_filter_keypoint_buffer_col;
-          /*target_addr = 0;
+          target_addr = 0;
           matched_addr1 = 0;
           matched_addr2 = 0;
           matched_we = 0;
           matched_0_din = 0;
           matched_1_din = 0;
           matched_2_din = 0;
-          matched_3_din = 0;*/
+          matched_3_din = 0;
         end
-        /*ST_COMPUTE_MATCH: begin
+        ST_COMPUTE_MATCH: begin
           blur_addr1[0] = blurred_addr;  
           blur_addr1[1] = blurred_addr;  
           blur_addr1[2] = 0;  
           blur_addr1[3] = 0;  
-          buffer_we = compute_match_buffer_we;
+          buffer_we = 0;//compute_match_buffer_we;
           img_addr  = 0;
           fill_zero = 0;
           keypoint_addr = kpt_addr;
-          buffer_in = (readFrom) ? blur_dout[1] : blur_dout[0];
+          buffer_in = 0; //(readFrom) ? blur_dout[1] : blur_dout[0];
+          buffer_col = 0;//detect_filter_keypoint_buffer_col;
           target_addr = match_target_addr;
           matched_addr1 = match_matched_addr1;
           matched_addr2 = match_matched_addr2;
@@ -572,7 +574,7 @@ module CORE(
           matched_1_din = match_matched_1_din;
           matched_2_din = match_matched_2_din;
           matched_3_din = match_matched_3_din;
-        end*/
+        end
         default: begin
           blur_addr1[0] = 0;
           blur_addr1[1] = 0;  
@@ -583,14 +585,15 @@ module CORE(
           fill_zero = 0;
           keypoint_addr = 0;
           buffer_in = 0;
-          /*target_addr = 0;
+          buffer_col = 0;
+          target_addr = 0;
           matched_addr1 = 0;
           matched_addr2 = matched_addr2_in;
           matched_we = 0;
           matched_0_din = 0;
           matched_1_din = 0;
           matched_2_din = 0;
-          matched_3_din = 0;*/
+          matched_3_din = 0;
         end
       endcase
     end

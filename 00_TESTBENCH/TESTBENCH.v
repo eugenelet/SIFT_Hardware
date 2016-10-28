@@ -175,7 +175,7 @@ initial begin
   /* Write Target SRAM */
   targetFile = $fopen("targetRowColDespt.txt", "r");
   rc = $fscanf(targetFile, "%d", targetKptNum);
-  // u_core.tar_descpt_group_num = targetKptNum/4;
+  u_core.tar_descpt_group_num = targetKptNum/4;
   target_0_we = 0;
   target_1_we = 0;
   target_2_we = 0;
@@ -493,7 +493,7 @@ initial begin
 
 
 
-  /*cycleCount = 0;
+  cycleCount = 0;
   while(!u_core.compute_match_done) begin
       // $display("kpt_addr : %d", u_core.kpt_addr);
       @(negedge clk);
@@ -501,10 +501,10 @@ initial begin
   end
   $display("========= Compute and Match DONE =========");
   $display("Compute and Match:%d Cycles", cycleCount);
-  $display("%d", targetKptNum);*/
+  $display("%d", targetKptNum);
 
   /*Dump Output and check answer*/   
-  /*@(negedge clk);
+  @(negedge clk);
   matched_pairs = $fopen("matched_pairs.txt", "w");
   matched_addr2_in = 0;
   @(negedge clk);
@@ -556,7 +556,7 @@ initial begin
           end
       end    
   end
-  $fclose(match_result);*/
+  $fclose(match_result);
   $finish;
 end
 

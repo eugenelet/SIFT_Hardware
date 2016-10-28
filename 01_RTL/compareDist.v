@@ -33,10 +33,10 @@ module compareDist(//combinational
                         comp_result_min,
                         comp_result_min2;
                                             
-    wire        [14:0]  min_01,//01裡小的
-                        max_01,//01裡大的
-                        min_23,//23裡小的
-                        max_23;//23裡大的
+    wire        [14:0]  min_01,//smaller of 01
+                        max_01,//greater of 01
+                        min_23,//smaller of 23
+                        max_23;//greater of 23
     
     wire        [14:0]  min,
                         min2,
@@ -51,8 +51,8 @@ module compareDist(//combinational
     
     //////////////////////////////
     
-    assign mem_min                  = matched_MEM[29:15];//現在MEM裡的min
-    assign mem_min2                 = matched_MEM[14:0];//現在MEM裡的min2
+    assign mem_min                  = matched_MEM[29:15];//min of MEM now
+    assign mem_min2                 = matched_MEM[14:0];//min2 of MEM now
             
     assign comp_result_01           = dist0 < dist1;
     assign min_01                   = (comp_result_01)? dist0 : dist1;
@@ -106,7 +106,7 @@ module compareDist(//combinational
     always @(*) begin //matched_MEM_din
     
         case(whoIsMin)
-            2'b00://0最小
+            2'b00://0 is smallest
                 matched_MEM_din = { ((minHasChanged)? img0[402:384] : matched_MEM[48:30]), new_min, new_min2 };//min, min2, mem_min, mem_min2 => new_min, new_min2
             2'b01:                                                                                         
                 matched_MEM_din = { ((minHasChanged)? img1[402:384] : matched_MEM[48:30]), new_min, new_min2 };

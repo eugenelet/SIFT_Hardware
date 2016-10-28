@@ -12,20 +12,20 @@ module match(
     image_R_C_D_2,
     image_R_C_D_3,
     //
-    tar_addr,//讀target mem的addr(4個共用)
+    tar_addr,//address for target mem(shared for 4)
     tar_R_C_D_0,
     tar_R_C_D_1,
     tar_R_C_D_2,
     tar_R_C_D_3,
     //
-    matched_addr_1,//4個共用
+    matched_addr_1,//shared for 4
     matched_WE,//4 bit
-    matched_din_0,//接給matched的din
+    matched_din_0,//din for matched
     matched_din_1,
     matched_din_2,
     matched_din_3,
     //
-    matched_addr_2,//4個共用
+    matched_addr_2,//shared for 4
     matched_dout2_0,
     matched_dout2_1,
     matched_dout2_2,
@@ -58,9 +58,9 @@ module match(
     output              done;
     output              descriptor_request;
     output      [8:0]   tar_addr;
-    output      [8:0]   matched_addr_1;//這
+    output      [8:0]   matched_addr_1;
     output      [8:0]   matched_addr_2;
-    output      [3:0]   matched_WE;
+    output  reg [3:0]   matched_WE;
     output      [48:0]  matched_din_0,
                         matched_din_1,
                         matched_din_2,
@@ -104,7 +104,7 @@ module match(
     assign descriptor_request   = (cs == ST_SEND_REQUEST)? 1'b1 : 1'b0;
     assign tar_addr             = tar_group_counter;
     assign matched_addr_2       = tar_group_counter;
-    assign matched_WE           = (cs == ST_READ_COMPUTE)? matched_WE_fake : 4'b0000;
+    //assign matched_WE           = (cs == ST_READ_COMPUTE)? matched_WE_fake : 4'b0000;
     assign matched_addr_1       = tar_group_counter - 2'b10;
     assign debug                = (cs == ST_READ_COMPUTE)? 1'b1 : 1'b0;
     assign img_descpt_group_num = kpt_num / 4;
@@ -156,6 +156,17 @@ module match(
     );
     
     //////////////////////////////
+    
+    always @(*) begin
+    
+        if(img_group_counter == 'd1)
+            matched_WE = 4'b1111;
+        else if(cs == ST_READ_COMPUTE)
+            matched_WE = matched_WE_fake;
+        else
+            matched_WE = 4'b0000;
+    
+    end
     
     always @(posedge clk) begin //matched_dout2_FF_0, matched_dout2_FF_1, matched_dout2_FF_2, matched_dout2_FF_3
         //catch from matched_MEM
@@ -222,7 +233,7 @@ module match(
             img_group_counter <= 'd0;
         else if(cs==ST_IDLE && start)
             img_group_counter <= 'd1;
-        else if(cs==ST_READ_COMPUTE && ns==ST_SEND_REQUEST)//scan all T
+        else if(cs==ST_READ_COMPUTE && ns==ST_SEND_REQUEST)//scanned all T
             img_group_counter <= img_group_counter + 1'b1;
         else
             img_group_counter <= img_group_counter;
@@ -276,9 +287,9 @@ module match(
             ST_READING_ONLY:
                 ns = ST_READ_COMPUTE;
             ST_READ_COMPUTE:
-                if((tar_group_counter-1'b1 == tar_group_num) && (img_group_counter!=img_group_num))//全部target掃過且image還有
+                if((tar_group_counter-1'b1 == tar_group_num) && (img_group_counter!=img_group_num))//scan all T but still has image
                     ns = ST_SEND_REQUEST;
-                else if((tar_group_counter-1'b1 == tar_group_num) && (img_group_counter==img_group_num))//全部target掃過且image沒了
+                else if((tar_group_counter-1'b1 == tar_group_num) && (img_group_counter==img_group_num))//scan all T and no image
                     ns = ST_DONE;
                 else//hasn't yet scan all T
                     ns = ST_READ_COMPUTE;
