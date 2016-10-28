@@ -40,15 +40,6 @@ reg signed [8:0]  btm_0[0:2]; // wire
 reg signed [8:0]  btm_1[0:2]; // wire
 reg signed [8:0]  btm_2[0:2]; // wire
 
-wire signed[8:0] debug_mid_0_0 = mid_0[0];
-wire signed[8:0] debug_mid_0_1 = mid_0[1];
-wire signed[8:0] debug_mid_0_2 = mid_0[2];
-wire signed[8:0] debug_mid_1_0 = mid_1[0];
-wire signed[8:0] debug_mid_1_1 = mid_1[1];
-wire signed[8:0] debug_mid_1_2 = mid_1[2];
-wire signed[8:0] debug_mid_2_0 = mid_2[0];
-wire signed[8:0] debug_mid_2_1 = mid_2[1];
-wire signed[8:0] debug_mid_2_2 = mid_2[2];
 always@(*) begin
   case(current_col)
     'd8: begin
