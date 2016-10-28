@@ -428,7 +428,7 @@ module CORE(
                    row_col_descpt4;   
     wire           descriptor_request,
                    descriptor_valid;
-                   
+    wire[5119:0]   blur_dout = (readFrom) ? blur_dout1[1] : blur_dout1[0];
     computeDescriptor u_computeDescriptor(
         .clk                (clk),
         .rst_n              (rst_n),
@@ -448,7 +448,7 @@ module CORE(
         .descriptor_valid   (descriptor_valid),//告訴match，4個擺好了
         .readFrom           (readFrom),
         // .LB_WE              (compute_match_buffer_we)
-        .blurred_dout       (blur_dout1)
+        .blurred_dout       (blur_dout)
     );
 
 
