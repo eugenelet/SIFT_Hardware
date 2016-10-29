@@ -46,6 +46,31 @@ reg    [39:0]    layer1[0:15]; //wire
 reg    [39:0]    layer2[0:15]; //wire
 reg    [39:0]    layer3[0:15]; //wire
 reg    [39:0]    layer4[0:15]; //wire
+wire layer_debug0[7:0] = layer0[0][7:0];
+wire layer_debug1[7:0] = layer0[0][15:8];
+wire layer_debug2[7:0] = layer0[0][23:16];
+wire layer_debug3[7:0] = layer0[0][31:24];
+wire layer_debug4[7:0] = layer0[0][39:32];
+wire layer_debug5[7:0] = layer1[0][7:0];
+wire layer_debug6[7:0] = layer1[0][15:8];
+wire layer_debug7[7:0] = layer1[0][23:16];
+wire layer_debug8[7:0] = layer1[0][31:24];
+wire layer_debug9[7:0] = layer1[0][39:32];
+wire layer_debug10[7:0] = layer2[0][7:0];
+wire layer_debug11[7:0] = layer2[0][15:8];
+wire layer_debug12[7:0] = layer2[0][23:16];
+wire layer_debug13[7:0] = layer2[0][31:24];
+wire layer_debug14[7:0] = layer2[0][39:32];
+wire layer_debug15[7:0] = layer3[0][7:0];
+wire layer_debug16[7:0] = layer3[0][15:8];
+wire layer_debug17[7:0] = layer3[0][23:16];
+wire layer_debug18[7:0] = layer3[0][31:24];
+wire layer_debug19[7:0] = layer3[0][39:32];
+wire layer_debug20[7:0] = layer4[0][7:0];
+wire layer_debug21[7:0] = layer4[0][15:8];
+wire layer_debug22[7:0] = layer4[0][23:16];
+wire layer_debug23[7:0] = layer4[0][31:24];
+wire layer_debug24[7:0] = layer4[0][39:32];
 always @(*) begin
   case(current_col)
     'd0: begin
