@@ -26,17 +26,17 @@ always @(*) begin
     G_Kernel_5x5[0][7:0]   <= 8'h05; //F2F79A;  // 18'b000001011111001011;//'d023238;
     G_Kernel_5x5[0][15:8]  <= 8'h08; //A86809;  // 18'b000010001010100001;//d033819;
     G_Kernel_5x5[0][23:16] <= 8'h09; //CFB50A;  // 18'b000010011100111110;//d038325;
-    G_Kernel_5x5[0][31:23] <= 8'h08; //A86809;  // 18'b000010001010100001;//d033819;
+    G_Kernel_5x5[0][31:24] <= 8'h08; //A86809;  // 18'b000010001010100001;//d033819;
     G_Kernel_5x5[0][39:32] <= 8'h05; //F2F79A;  // 18'b000001011111001011;//'d023238;
     G_Kernel_5x5[1][7:0]   <= 8'h08; //A86809;  // 18'b000010001010100001;//d033819;
     G_Kernel_5x5[1][15:8]  <= 8'h0C; //999546;  // 18'b000011001001100110;//d049218;
     G_Kernel_5x5[1][23:16] <= 8'h0E; //475732;  // 18'b000011100100011101;//d055776;
-    G_Kernel_5x5[1][31:23] <= 8'h0C; //999546;  // 18'b000011001001100110;//d049218;
+    G_Kernel_5x5[1][31:24] <= 8'h0C; //999546;  // 18'b000011001001100110;//d049218;
     G_Kernel_5x5[1][39:32] <= 8'h08; //A86809;  // 18'b000010001010100001;//d033819;
     G_Kernel_5x5[2][7:0]   <= 8'h09; //CFB50A;  // 18'b000010011100111110;//d038325;
     G_Kernel_5x5[2][15:8]  <= 8'h0E; //475732;  // 18'b000011100100011101;//d055776;
     G_Kernel_5x5[2][23:16] <= 8'h10; //2E5B3F;  // 18'b000100000010111001;//d063207;
-    G_Kernel_5x5[2][31:23] <= 8'h0E; //475732;  // 18'b000011100100011101;//d055776;
+    G_Kernel_5x5[2][31:24] <= 8'h0E; //475732;  // 18'b000011100100011101;//d055776;
     G_Kernel_5x5[2][39:32] <= 8'h09; //CFB50A;  // 18'b000010011100111110;//d038325;
   end
 end
@@ -46,31 +46,6 @@ reg    [39:0]    layer1[0:15]; //wire
 reg    [39:0]    layer2[0:15]; //wire
 reg    [39:0]    layer3[0:15]; //wire
 reg    [39:0]    layer4[0:15]; //wire
-wire[7:0] layer_debug0 = layer0[0][7:0];
-wire[7:0] layer_debug1 = layer0[0][15:8];
-wire[7:0] layer_debug2 = layer0[0][23:16];
-wire[7:0] layer_debug3 = layer0[0][31:24];
-wire[7:0] layer_debug4 = layer0[0][39:32];
-wire[7:0] layer_debug5 = layer1[0][7:0];
-wire[7:0] layer_debug6 = layer1[0][15:8];
-wire[7:0] layer_debug7 = layer1[0][23:16];
-wire[7:0] layer_debug8 = layer1[0][31:24];
-wire[7:0] layer_debug9 = layer1[0][39:32];
-wire[7:0] layer_debug10 = layer2[0][7:0];
-wire[7:0] layer_debug11 = layer2[0][15:8];
-wire[7:0] layer_debug12 = layer2[0][23:16];
-wire[7:0] layer_debug13 = layer2[0][31:24];
-wire[7:0] layer_debug14 = layer2[0][39:32];
-wire[7:0] layer_debug15 = layer3[0][7:0];
-wire[7:0] layer_debug16 = layer3[0][15:8];
-wire[7:0] layer_debug17 = layer3[0][23:16];
-wire[7:0] layer_debug18 = layer3[0][31:24];
-wire[7:0] layer_debug19 = layer3[0][39:32];
-wire[7:0] layer_debug20 = layer4[0][7:0];
-wire[7:0] layer_debug21 = layer4[0][15:8];
-wire[7:0] layer_debug22 = layer4[0][23:16];
-wire[7:0] layer_debug23 = layer4[0][31:24];
-wire[7:0] layer_debug24 = layer4[0][39:32];
 always @(*) begin
   case(current_col)
     'd0: begin
@@ -16559,31 +16534,6 @@ always @(*) begin
 end
 
 wire  [15:0]  kernel_img_mul_0[0:24];
-wire[15:0] kernel_img_mul_0_debug0 = kernel_img_mul_0[0];
-wire[15:0] kernel_img_mul_0_debug1 = kernel_img_mul_0[1];
-wire[15:0] kernel_img_mul_0_debug2 = kernel_img_mul_0[2];
-wire[15:0] kernel_img_mul_0_debug3 = kernel_img_mul_0[3];
-wire[15:0] kernel_img_mul_0_debug4 = kernel_img_mul_0[4];
-wire[15:0] kernel_img_mul_0_debug5 = kernel_img_mul_0[5];
-wire[15:0] kernel_img_mul_0_debug6 = kernel_img_mul_0[6];
-wire[15:0] kernel_img_mul_0_debug7 = kernel_img_mul_0[7];
-wire[15:0] kernel_img_mul_0_debug8 = kernel_img_mul_0[8];
-wire[15:0] kernel_img_mul_0_debug9 = kernel_img_mul_0[9];
-wire[15:0] kernel_img_mul_0_debug10 = kernel_img_mul_0[10];
-wire[15:0] kernel_img_mul_0_debug11 = kernel_img_mul_0[11];
-wire[15:0] kernel_img_mul_0_debug12 = kernel_img_mul_0[12];
-wire[15:0] kernel_img_mul_0_debug13 = kernel_img_mul_0[13];
-wire[15:0] kernel_img_mul_0_debug14 = kernel_img_mul_0[14];
-wire[15:0] kernel_img_mul_0_debug15 = kernel_img_mul_0[15];
-wire[15:0] kernel_img_mul_0_debug16 = kernel_img_mul_0[16];
-wire[15:0] kernel_img_mul_0_debug17 = kernel_img_mul_0[17];
-wire[15:0] kernel_img_mul_0_debug18 = kernel_img_mul_0[18];
-wire[15:0] kernel_img_mul_0_debug19 = kernel_img_mul_0[19];
-wire[15:0] kernel_img_mul_0_debug20 = kernel_img_mul_0[20];
-wire[15:0] kernel_img_mul_0_debug21 = kernel_img_mul_0[21];
-wire[15:0] kernel_img_mul_0_debug22 = kernel_img_mul_0[22];
-wire[15:0] kernel_img_mul_0_debug23 = kernel_img_mul_0[23];
-wire[15:0] kernel_img_mul_0_debug24 = kernel_img_mul_0[24];
 assign kernel_img_mul_0[0] = { {8{1'b0}},layer0[0][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[0][7:0]};
 assign kernel_img_mul_0[1] = { {8{1'b0}},layer0[0][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[0][15:8]};
 assign kernel_img_mul_0[2] = { {8{1'b0}},layer0[0][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[0][23:16]};
