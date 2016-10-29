@@ -20,24 +20,24 @@ input       [175:0]   buffer_data_3;
 input       [175:0]   buffer_data_4;
 output reg  [127:0]   blur_out; // wire
 
-reg       [159:0]  G_Kernel_5x5[0:2];
+reg       [39:0]  G_Kernel_5x5[0:2];
 always @(*) begin
   if (!rst_n) begin
-    G_Kernel_5x5[0][31:0]    <= 32'h07E31AF6; //18'b000001111110001100;//'d030809;
-    G_Kernel_5x5[0][63:32]   <= 32'h0983EB80; //18'b000010011000001111;//'d037169;
-    G_Kernel_5x5[0][95:64]   <= 32'h0A212B91; //18'b000010100010000100;//'d039568;
-    G_Kernel_5x5[0][127:96]  <= 32'h0983EB80; //18'b000010011000001111;//'d037169;
-    G_Kernel_5x5[0][159:128] <= 32'h07E31AF6; //18'b000001111110001100;//'d030809;
-    G_Kernel_5x5[1][31:0]    <= 32'h0983EB80; //18'b000010011000001111;//'d037169;
-    G_Kernel_5x5[1][63:32]   <= 32'h0B7AC7A0; //18'b000010110111101011;//'d044842;
-    G_Kernel_5x5[1][95:64]   <= 32'h0C387DF7; //18'b000011000011100001;//'d047737;
-    G_Kernel_5x5[1][127:96]  <= 32'h0B7AC7A0; //18'b000010110111101011;//'d044842;
-    G_Kernel_5x5[1][159:128] <= 32'h0983EB80; //18'b000010011000001111;//'d037169;
-    G_Kernel_5x5[2][31:0]    <= 32'h0A212B91; //18'b000010100010000100;//'d039568;
-    G_Kernel_5x5[2][63:32]   <= 32'h0C387DF7; //18'b000011000011100001;//'d047737;
-    G_Kernel_5x5[2][95:64]   <= 32'h0D02737E; //18'b000011010000001001;//'d050818;
-    G_Kernel_5x5[2][127:96]  <= 32'h0C387DF7; //18'b000011000011100001;//'d047737;
-    G_Kernel_5x5[2][159:128] <= 32'h0A212B91; //18'b000010100010000100;//'d039568;
+    G_Kernel_5x5[0][7:0]   <= 8'h07; //E31AF6; //18'b000001111110001100;//'d030809;
+    G_Kernel_5x5[0][15:8]  <= 8'h09; //83EB80; //18'b000010011000001111;//'d037169;
+    G_Kernel_5x5[0][23:16] <= 8'h0A; //212B91; //18'b000010100010000100;//'d039568;
+    G_Kernel_5x5[0][31:23] <= 8'h09; //83EB80; //18'b000010011000001111;//'d037169;
+    G_Kernel_5x5[0][39:32] <= 8'h07; //E31AF6; //18'b000001111110001100;//'d030809;
+    G_Kernel_5x5[1][7:0]   <= 8'h09; //83EB80; //18'b000010011000001111;//'d037169;
+    G_Kernel_5x5[1][15:8]  <= 8'h0B; //7AC7A0; //18'b000010110111101011;//'d044842;
+    G_Kernel_5x5[1][23:16] <= 8'h0C; //387DF7; //18'b000011000011100001;//'d047737;
+    G_Kernel_5x5[1][31:23] <= 8'h0B; //7AC7A0; //18'b000010110111101011;//'d044842;
+    G_Kernel_5x5[1][39:32] <= 8'h09; //83EB80; //18'b000010011000001111;//'d037169;
+    G_Kernel_5x5[2][7:0]   <= 8'h0A; //212B91; //18'b000010100010000100;//'d039568;
+    G_Kernel_5x5[2][15:8]  <= 8'h0C; //387DF7; //18'b000011000011100001;//'d047737;
+    G_Kernel_5x5[2][23:16] <= 8'h0D; //02737E; //18'b000011010000001001;//'d050818;
+    G_Kernel_5x5[2][31:23] <= 8'h0C; //387DF7; //18'b000011000011100001;//'d047737;
+    G_Kernel_5x5[2][39:32] <= 8'h0A; //212B91; //18'b000010100010000100;//'d039568;
   end
 end
 
@@ -16533,33 +16533,33 @@ always @(*) begin
   endcase
 end
 
-wire  [39:0]  kernel_img_mul_0[0:24];
-assign kernel_img_mul_0[0] = layer0[0][7:0] *  G_Kernel_5x5[0][31:0];
-assign kernel_img_mul_0[1] = layer0[0][15:8] *  G_Kernel_5x5[0][63:32];
-assign kernel_img_mul_0[2] = layer0[0][23:16] *  G_Kernel_5x5[0][95:64];
-assign kernel_img_mul_0[3] = layer0[0][31:24] *  G_Kernel_5x5[0][127:96];
-assign kernel_img_mul_0[4] = layer0[0][39:32] *  G_Kernel_5x5[0][159:128];
-assign kernel_img_mul_0[5] = layer1[0][7:0] *  G_Kernel_5x5[1][31:0];
-assign kernel_img_mul_0[6] = layer1[0][15:8] *  G_Kernel_5x5[1][63:32];
-assign kernel_img_mul_0[7] = layer1[0][23:16] *  G_Kernel_5x5[1][95:64];
-assign kernel_img_mul_0[8] = layer1[0][31:24] *  G_Kernel_5x5[1][127:96];
-assign kernel_img_mul_0[9] = layer1[0][39:32] *  G_Kernel_5x5[1][159:128];
-assign kernel_img_mul_0[10] = layer2[0][7:0] *  G_Kernel_5x5[2][31:0];
-assign kernel_img_mul_0[11] = layer2[0][15:8] *  G_Kernel_5x5[2][63:32];
-assign kernel_img_mul_0[12] = layer2[0][23:16] *  G_Kernel_5x5[2][95:64];
-assign kernel_img_mul_0[13] = layer2[0][31:24] *  G_Kernel_5x5[2][127:96];
-assign kernel_img_mul_0[14] = layer2[0][39:32] *  G_Kernel_5x5[2][159:128];
-assign kernel_img_mul_0[15] = layer3[0][7:0] *  G_Kernel_5x5[1][31:0];
-assign kernel_img_mul_0[16] = layer3[0][15:8] *  G_Kernel_5x5[1][63:32];
-assign kernel_img_mul_0[17] = layer3[0][23:16] *  G_Kernel_5x5[1][95:64];
-assign kernel_img_mul_0[18] = layer3[0][31:24] *  G_Kernel_5x5[1][127:96];
-assign kernel_img_mul_0[19] = layer3[0][39:32] *  G_Kernel_5x5[1][159:128];
-assign kernel_img_mul_0[20] = layer4[0][7:0] *  G_Kernel_5x5[0][31:0];
-assign kernel_img_mul_0[21] = layer4[0][15:8] *  G_Kernel_5x5[0][63:32];
-assign kernel_img_mul_0[22] = layer4[0][23:16] *  G_Kernel_5x5[0][95:64];
-assign kernel_img_mul_0[23] = layer4[0][31:24] *  G_Kernel_5x5[0][127:96];
-assign kernel_img_mul_0[24] = layer4[0][39:32] *  G_Kernel_5x5[0][159:128];
-wire  [39:0]  kernel_img_sum_0 = kernel_img_mul_0[0] + kernel_img_mul_0[1] + kernel_img_mul_0[2] + 
+wire  [15:0]  kernel_img_mul_0[0:24];
+assign kernel_img_mul_0[0] = { {8{1'b0}},layer0[0][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[0][7:0]};
+assign kernel_img_mul_0[1] = { {8{1'b0}},layer0[0][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[0][15:8]};
+assign kernel_img_mul_0[2] = { {8{1'b0}},layer0[0][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[0][23:16]};
+assign kernel_img_mul_0[3] = { {8{1'b0}},layer0[0][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[0][31:24]};
+assign kernel_img_mul_0[4] = { {8{1'b0}},layer0[0][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[0][39:32]};
+assign kernel_img_mul_0[5] = { {8{1'b0}},layer1[0][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[1][7:0]};
+assign kernel_img_mul_0[6] = { {8{1'b0}},layer1[0][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[1][15:8]};
+assign kernel_img_mul_0[7] = { {8{1'b0}},layer1[0][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[1][23:16]};
+assign kernel_img_mul_0[8] = { {8{1'b0}},layer1[0][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[1][31:24]};
+assign kernel_img_mul_0[9] = { {8{1'b0}},layer1[0][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[1][39:32]};
+assign kernel_img_mul_0[10] = { {8{1'b0}},layer2[0][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[2][7:0]};
+assign kernel_img_mul_0[11] = { {8{1'b0}},layer2[0][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[2][15:8]};
+assign kernel_img_mul_0[12] = { {8{1'b0}},layer2[0][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[2][23:16]};
+assign kernel_img_mul_0[13] = { {8{1'b0}},layer2[0][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[2][31:24]};
+assign kernel_img_mul_0[14] = { {8{1'b0}},layer2[0][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[2][39:32]};
+assign kernel_img_mul_0[15] = { {8{1'b0}},layer3[0][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[1][7:0]};
+assign kernel_img_mul_0[16] = { {8{1'b0}},layer3[0][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[1][15:8]};
+assign kernel_img_mul_0[17] = { {8{1'b0}},layer3[0][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[1][23:16]};
+assign kernel_img_mul_0[18] = { {8{1'b0}},layer3[0][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[1][31:24]};
+assign kernel_img_mul_0[19] = { {8{1'b0}},layer3[0][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[1][39:32]};
+assign kernel_img_mul_0[20] = { {8{1'b0}},layer4[0][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[0][7:0]};
+assign kernel_img_mul_0[21] = { {8{1'b0}},layer4[0][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[0][15:8]};
+assign kernel_img_mul_0[22] = { {8{1'b0}},layer4[0][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[0][23:16]};
+assign kernel_img_mul_0[23] = { {8{1'b0}},layer4[0][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[0][31:24]};
+assign kernel_img_mul_0[24] = { {8{1'b0}},layer4[0][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[0][39:32]};
+wire  [15:0]  kernel_img_sum_0 = kernel_img_mul_0[0] + kernel_img_mul_0[1] + kernel_img_mul_0[2] + 
                 kernel_img_mul_0[3] + kernel_img_mul_0[4] + kernel_img_mul_0[5] + 
                 kernel_img_mul_0[6] + kernel_img_mul_0[7] + kernel_img_mul_0[8] + 
                 kernel_img_mul_0[9] + kernel_img_mul_0[10] + kernel_img_mul_0[11] + 
@@ -16568,33 +16568,33 @@ wire  [39:0]  kernel_img_sum_0 = kernel_img_mul_0[0] + kernel_img_mul_0[1] + ker
                 kernel_img_mul_0[18] + kernel_img_mul_0[19] + kernel_img_mul_0[20] + 
                 kernel_img_mul_0[21] + kernel_img_mul_0[22] + kernel_img_mul_0[23] + 
                 kernel_img_mul_0[24];
-wire  [39:0]  kernel_img_mul_1[0:24];
-assign kernel_img_mul_1[0] = layer0[1][7:0] *  G_Kernel_5x5[0][31:0];
-assign kernel_img_mul_1[1] = layer0[1][15:8] *  G_Kernel_5x5[0][63:32];
-assign kernel_img_mul_1[2] = layer0[1][23:16] *  G_Kernel_5x5[0][95:64];
-assign kernel_img_mul_1[3] = layer0[1][31:24] *  G_Kernel_5x5[0][127:96];
-assign kernel_img_mul_1[4] = layer0[1][39:32] *  G_Kernel_5x5[0][159:128];
-assign kernel_img_mul_1[5] = layer1[1][7:0] *  G_Kernel_5x5[1][31:0];
-assign kernel_img_mul_1[6] = layer1[1][15:8] *  G_Kernel_5x5[1][63:32];
-assign kernel_img_mul_1[7] = layer1[1][23:16] *  G_Kernel_5x5[1][95:64];
-assign kernel_img_mul_1[8] = layer1[1][31:24] *  G_Kernel_5x5[1][127:96];
-assign kernel_img_mul_1[9] = layer1[1][39:32] *  G_Kernel_5x5[1][159:128];
-assign kernel_img_mul_1[10] = layer2[1][7:0] *  G_Kernel_5x5[2][31:0];
-assign kernel_img_mul_1[11] = layer2[1][15:8] *  G_Kernel_5x5[2][63:32];
-assign kernel_img_mul_1[12] = layer2[1][23:16] *  G_Kernel_5x5[2][95:64];
-assign kernel_img_mul_1[13] = layer2[1][31:24] *  G_Kernel_5x5[2][127:96];
-assign kernel_img_mul_1[14] = layer2[1][39:32] *  G_Kernel_5x5[2][159:128];
-assign kernel_img_mul_1[15] = layer3[1][7:0] *  G_Kernel_5x5[1][31:0];
-assign kernel_img_mul_1[16] = layer3[1][15:8] *  G_Kernel_5x5[1][63:32];
-assign kernel_img_mul_1[17] = layer3[1][23:16] *  G_Kernel_5x5[1][95:64];
-assign kernel_img_mul_1[18] = layer3[1][31:24] *  G_Kernel_5x5[1][127:96];
-assign kernel_img_mul_1[19] = layer3[1][39:32] *  G_Kernel_5x5[1][159:128];
-assign kernel_img_mul_1[20] = layer4[1][7:0] *  G_Kernel_5x5[0][31:0];
-assign kernel_img_mul_1[21] = layer4[1][15:8] *  G_Kernel_5x5[0][63:32];
-assign kernel_img_mul_1[22] = layer4[1][23:16] *  G_Kernel_5x5[0][95:64];
-assign kernel_img_mul_1[23] = layer4[1][31:24] *  G_Kernel_5x5[0][127:96];
-assign kernel_img_mul_1[24] = layer4[1][39:32] *  G_Kernel_5x5[0][159:128];
-wire  [39:0]  kernel_img_sum_1 = kernel_img_mul_1[0] + kernel_img_mul_1[1] + kernel_img_mul_1[2] + 
+wire  [15:0]  kernel_img_mul_1[0:24];
+assign kernel_img_mul_1[0] = { {8{1'b0}},layer0[1][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[0][7:0]};
+assign kernel_img_mul_1[1] = { {8{1'b0}},layer0[1][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[0][15:8]};
+assign kernel_img_mul_1[2] = { {8{1'b0}},layer0[1][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[0][23:16]};
+assign kernel_img_mul_1[3] = { {8{1'b0}},layer0[1][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[0][31:24]};
+assign kernel_img_mul_1[4] = { {8{1'b0}},layer0[1][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[0][39:32]};
+assign kernel_img_mul_1[5] = { {8{1'b0}},layer1[1][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[1][7:0]};
+assign kernel_img_mul_1[6] = { {8{1'b0}},layer1[1][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[1][15:8]};
+assign kernel_img_mul_1[7] = { {8{1'b0}},layer1[1][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[1][23:16]};
+assign kernel_img_mul_1[8] = { {8{1'b0}},layer1[1][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[1][31:24]};
+assign kernel_img_mul_1[9] = { {8{1'b0}},layer1[1][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[1][39:32]};
+assign kernel_img_mul_1[10] = { {8{1'b0}},layer2[1][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[2][7:0]};
+assign kernel_img_mul_1[11] = { {8{1'b0}},layer2[1][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[2][15:8]};
+assign kernel_img_mul_1[12] = { {8{1'b0}},layer2[1][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[2][23:16]};
+assign kernel_img_mul_1[13] = { {8{1'b0}},layer2[1][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[2][31:24]};
+assign kernel_img_mul_1[14] = { {8{1'b0}},layer2[1][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[2][39:32]};
+assign kernel_img_mul_1[15] = { {8{1'b0}},layer3[1][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[1][7:0]};
+assign kernel_img_mul_1[16] = { {8{1'b0}},layer3[1][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[1][15:8]};
+assign kernel_img_mul_1[17] = { {8{1'b0}},layer3[1][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[1][23:16]};
+assign kernel_img_mul_1[18] = { {8{1'b0}},layer3[1][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[1][31:24]};
+assign kernel_img_mul_1[19] = { {8{1'b0}},layer3[1][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[1][39:32]};
+assign kernel_img_mul_1[20] = { {8{1'b0}},layer4[1][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[0][7:0]};
+assign kernel_img_mul_1[21] = { {8{1'b0}},layer4[1][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[0][15:8]};
+assign kernel_img_mul_1[22] = { {8{1'b0}},layer4[1][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[0][23:16]};
+assign kernel_img_mul_1[23] = { {8{1'b0}},layer4[1][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[0][31:24]};
+assign kernel_img_mul_1[24] = { {8{1'b0}},layer4[1][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[0][39:32]};
+wire  [15:0]  kernel_img_sum_1 = kernel_img_mul_1[0] + kernel_img_mul_1[1] + kernel_img_mul_1[2] + 
                 kernel_img_mul_1[3] + kernel_img_mul_1[4] + kernel_img_mul_1[5] + 
                 kernel_img_mul_1[6] + kernel_img_mul_1[7] + kernel_img_mul_1[8] + 
                 kernel_img_mul_1[9] + kernel_img_mul_1[10] + kernel_img_mul_1[11] + 
@@ -16603,33 +16603,33 @@ wire  [39:0]  kernel_img_sum_1 = kernel_img_mul_1[0] + kernel_img_mul_1[1] + ker
                 kernel_img_mul_1[18] + kernel_img_mul_1[19] + kernel_img_mul_1[20] + 
                 kernel_img_mul_1[21] + kernel_img_mul_1[22] + kernel_img_mul_1[23] + 
                 kernel_img_mul_1[24];
-wire  [39:0]  kernel_img_mul_2[0:24];
-assign kernel_img_mul_2[0] = layer0[2][7:0] *  G_Kernel_5x5[0][31:0];
-assign kernel_img_mul_2[1] = layer0[2][15:8] *  G_Kernel_5x5[0][63:32];
-assign kernel_img_mul_2[2] = layer0[2][23:16] *  G_Kernel_5x5[0][95:64];
-assign kernel_img_mul_2[3] = layer0[2][31:24] *  G_Kernel_5x5[0][127:96];
-assign kernel_img_mul_2[4] = layer0[2][39:32] *  G_Kernel_5x5[0][159:128];
-assign kernel_img_mul_2[5] = layer1[2][7:0] *  G_Kernel_5x5[1][31:0];
-assign kernel_img_mul_2[6] = layer1[2][15:8] *  G_Kernel_5x5[1][63:32];
-assign kernel_img_mul_2[7] = layer1[2][23:16] *  G_Kernel_5x5[1][95:64];
-assign kernel_img_mul_2[8] = layer1[2][31:24] *  G_Kernel_5x5[1][127:96];
-assign kernel_img_mul_2[9] = layer1[2][39:32] *  G_Kernel_5x5[1][159:128];
-assign kernel_img_mul_2[10] = layer2[2][7:0] *  G_Kernel_5x5[2][31:0];
-assign kernel_img_mul_2[11] = layer2[2][15:8] *  G_Kernel_5x5[2][63:32];
-assign kernel_img_mul_2[12] = layer2[2][23:16] *  G_Kernel_5x5[2][95:64];
-assign kernel_img_mul_2[13] = layer2[2][31:24] *  G_Kernel_5x5[2][127:96];
-assign kernel_img_mul_2[14] = layer2[2][39:32] *  G_Kernel_5x5[2][159:128];
-assign kernel_img_mul_2[15] = layer3[2][7:0] *  G_Kernel_5x5[1][31:0];
-assign kernel_img_mul_2[16] = layer3[2][15:8] *  G_Kernel_5x5[1][63:32];
-assign kernel_img_mul_2[17] = layer3[2][23:16] *  G_Kernel_5x5[1][95:64];
-assign kernel_img_mul_2[18] = layer3[2][31:24] *  G_Kernel_5x5[1][127:96];
-assign kernel_img_mul_2[19] = layer3[2][39:32] *  G_Kernel_5x5[1][159:128];
-assign kernel_img_mul_2[20] = layer4[2][7:0] *  G_Kernel_5x5[0][31:0];
-assign kernel_img_mul_2[21] = layer4[2][15:8] *  G_Kernel_5x5[0][63:32];
-assign kernel_img_mul_2[22] = layer4[2][23:16] *  G_Kernel_5x5[0][95:64];
-assign kernel_img_mul_2[23] = layer4[2][31:24] *  G_Kernel_5x5[0][127:96];
-assign kernel_img_mul_2[24] = layer4[2][39:32] *  G_Kernel_5x5[0][159:128];
-wire  [39:0]  kernel_img_sum_2 = kernel_img_mul_2[0] + kernel_img_mul_2[1] + kernel_img_mul_2[2] + 
+wire  [15:0]  kernel_img_mul_2[0:24];
+assign kernel_img_mul_2[0] = { {8{1'b0}},layer0[2][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[0][7:0]};
+assign kernel_img_mul_2[1] = { {8{1'b0}},layer0[2][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[0][15:8]};
+assign kernel_img_mul_2[2] = { {8{1'b0}},layer0[2][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[0][23:16]};
+assign kernel_img_mul_2[3] = { {8{1'b0}},layer0[2][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[0][31:24]};
+assign kernel_img_mul_2[4] = { {8{1'b0}},layer0[2][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[0][39:32]};
+assign kernel_img_mul_2[5] = { {8{1'b0}},layer1[2][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[1][7:0]};
+assign kernel_img_mul_2[6] = { {8{1'b0}},layer1[2][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[1][15:8]};
+assign kernel_img_mul_2[7] = { {8{1'b0}},layer1[2][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[1][23:16]};
+assign kernel_img_mul_2[8] = { {8{1'b0}},layer1[2][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[1][31:24]};
+assign kernel_img_mul_2[9] = { {8{1'b0}},layer1[2][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[1][39:32]};
+assign kernel_img_mul_2[10] = { {8{1'b0}},layer2[2][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[2][7:0]};
+assign kernel_img_mul_2[11] = { {8{1'b0}},layer2[2][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[2][15:8]};
+assign kernel_img_mul_2[12] = { {8{1'b0}},layer2[2][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[2][23:16]};
+assign kernel_img_mul_2[13] = { {8{1'b0}},layer2[2][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[2][31:24]};
+assign kernel_img_mul_2[14] = { {8{1'b0}},layer2[2][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[2][39:32]};
+assign kernel_img_mul_2[15] = { {8{1'b0}},layer3[2][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[1][7:0]};
+assign kernel_img_mul_2[16] = { {8{1'b0}},layer3[2][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[1][15:8]};
+assign kernel_img_mul_2[17] = { {8{1'b0}},layer3[2][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[1][23:16]};
+assign kernel_img_mul_2[18] = { {8{1'b0}},layer3[2][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[1][31:24]};
+assign kernel_img_mul_2[19] = { {8{1'b0}},layer3[2][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[1][39:32]};
+assign kernel_img_mul_2[20] = { {8{1'b0}},layer4[2][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[0][7:0]};
+assign kernel_img_mul_2[21] = { {8{1'b0}},layer4[2][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[0][15:8]};
+assign kernel_img_mul_2[22] = { {8{1'b0}},layer4[2][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[0][23:16]};
+assign kernel_img_mul_2[23] = { {8{1'b0}},layer4[2][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[0][31:24]};
+assign kernel_img_mul_2[24] = { {8{1'b0}},layer4[2][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[0][39:32]};
+wire  [15:0]  kernel_img_sum_2 = kernel_img_mul_2[0] + kernel_img_mul_2[1] + kernel_img_mul_2[2] + 
                 kernel_img_mul_2[3] + kernel_img_mul_2[4] + kernel_img_mul_2[5] + 
                 kernel_img_mul_2[6] + kernel_img_mul_2[7] + kernel_img_mul_2[8] + 
                 kernel_img_mul_2[9] + kernel_img_mul_2[10] + kernel_img_mul_2[11] + 
@@ -16638,33 +16638,33 @@ wire  [39:0]  kernel_img_sum_2 = kernel_img_mul_2[0] + kernel_img_mul_2[1] + ker
                 kernel_img_mul_2[18] + kernel_img_mul_2[19] + kernel_img_mul_2[20] + 
                 kernel_img_mul_2[21] + kernel_img_mul_2[22] + kernel_img_mul_2[23] + 
                 kernel_img_mul_2[24];
-wire  [39:0]  kernel_img_mul_3[0:24];
-assign kernel_img_mul_3[0] = layer0[3][7:0] *  G_Kernel_5x5[0][31:0];
-assign kernel_img_mul_3[1] = layer0[3][15:8] *  G_Kernel_5x5[0][63:32];
-assign kernel_img_mul_3[2] = layer0[3][23:16] *  G_Kernel_5x5[0][95:64];
-assign kernel_img_mul_3[3] = layer0[3][31:24] *  G_Kernel_5x5[0][127:96];
-assign kernel_img_mul_3[4] = layer0[3][39:32] *  G_Kernel_5x5[0][159:128];
-assign kernel_img_mul_3[5] = layer1[3][7:0] *  G_Kernel_5x5[1][31:0];
-assign kernel_img_mul_3[6] = layer1[3][15:8] *  G_Kernel_5x5[1][63:32];
-assign kernel_img_mul_3[7] = layer1[3][23:16] *  G_Kernel_5x5[1][95:64];
-assign kernel_img_mul_3[8] = layer1[3][31:24] *  G_Kernel_5x5[1][127:96];
-assign kernel_img_mul_3[9] = layer1[3][39:32] *  G_Kernel_5x5[1][159:128];
-assign kernel_img_mul_3[10] = layer2[3][7:0] *  G_Kernel_5x5[2][31:0];
-assign kernel_img_mul_3[11] = layer2[3][15:8] *  G_Kernel_5x5[2][63:32];
-assign kernel_img_mul_3[12] = layer2[3][23:16] *  G_Kernel_5x5[2][95:64];
-assign kernel_img_mul_3[13] = layer2[3][31:24] *  G_Kernel_5x5[2][127:96];
-assign kernel_img_mul_3[14] = layer2[3][39:32] *  G_Kernel_5x5[2][159:128];
-assign kernel_img_mul_3[15] = layer3[3][7:0] *  G_Kernel_5x5[1][31:0];
-assign kernel_img_mul_3[16] = layer3[3][15:8] *  G_Kernel_5x5[1][63:32];
-assign kernel_img_mul_3[17] = layer3[3][23:16] *  G_Kernel_5x5[1][95:64];
-assign kernel_img_mul_3[18] = layer3[3][31:24] *  G_Kernel_5x5[1][127:96];
-assign kernel_img_mul_3[19] = layer3[3][39:32] *  G_Kernel_5x5[1][159:128];
-assign kernel_img_mul_3[20] = layer4[3][7:0] *  G_Kernel_5x5[0][31:0];
-assign kernel_img_mul_3[21] = layer4[3][15:8] *  G_Kernel_5x5[0][63:32];
-assign kernel_img_mul_3[22] = layer4[3][23:16] *  G_Kernel_5x5[0][95:64];
-assign kernel_img_mul_3[23] = layer4[3][31:24] *  G_Kernel_5x5[0][127:96];
-assign kernel_img_mul_3[24] = layer4[3][39:32] *  G_Kernel_5x5[0][159:128];
-wire  [39:0]  kernel_img_sum_3 = kernel_img_mul_3[0] + kernel_img_mul_3[1] + kernel_img_mul_3[2] + 
+wire  [15:0]  kernel_img_mul_3[0:24];
+assign kernel_img_mul_3[0] = { {8{1'b0}},layer0[3][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[0][7:0]};
+assign kernel_img_mul_3[1] = { {8{1'b0}},layer0[3][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[0][15:8]};
+assign kernel_img_mul_3[2] = { {8{1'b0}},layer0[3][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[0][23:16]};
+assign kernel_img_mul_3[3] = { {8{1'b0}},layer0[3][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[0][31:24]};
+assign kernel_img_mul_3[4] = { {8{1'b0}},layer0[3][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[0][39:32]};
+assign kernel_img_mul_3[5] = { {8{1'b0}},layer1[3][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[1][7:0]};
+assign kernel_img_mul_3[6] = { {8{1'b0}},layer1[3][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[1][15:8]};
+assign kernel_img_mul_3[7] = { {8{1'b0}},layer1[3][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[1][23:16]};
+assign kernel_img_mul_3[8] = { {8{1'b0}},layer1[3][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[1][31:24]};
+assign kernel_img_mul_3[9] = { {8{1'b0}},layer1[3][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[1][39:32]};
+assign kernel_img_mul_3[10] = { {8{1'b0}},layer2[3][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[2][7:0]};
+assign kernel_img_mul_3[11] = { {8{1'b0}},layer2[3][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[2][15:8]};
+assign kernel_img_mul_3[12] = { {8{1'b0}},layer2[3][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[2][23:16]};
+assign kernel_img_mul_3[13] = { {8{1'b0}},layer2[3][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[2][31:24]};
+assign kernel_img_mul_3[14] = { {8{1'b0}},layer2[3][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[2][39:32]};
+assign kernel_img_mul_3[15] = { {8{1'b0}},layer3[3][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[1][7:0]};
+assign kernel_img_mul_3[16] = { {8{1'b0}},layer3[3][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[1][15:8]};
+assign kernel_img_mul_3[17] = { {8{1'b0}},layer3[3][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[1][23:16]};
+assign kernel_img_mul_3[18] = { {8{1'b0}},layer3[3][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[1][31:24]};
+assign kernel_img_mul_3[19] = { {8{1'b0}},layer3[3][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[1][39:32]};
+assign kernel_img_mul_3[20] = { {8{1'b0}},layer4[3][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[0][7:0]};
+assign kernel_img_mul_3[21] = { {8{1'b0}},layer4[3][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[0][15:8]};
+assign kernel_img_mul_3[22] = { {8{1'b0}},layer4[3][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[0][23:16]};
+assign kernel_img_mul_3[23] = { {8{1'b0}},layer4[3][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[0][31:24]};
+assign kernel_img_mul_3[24] = { {8{1'b0}},layer4[3][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[0][39:32]};
+wire  [15:0]  kernel_img_sum_3 = kernel_img_mul_3[0] + kernel_img_mul_3[1] + kernel_img_mul_3[2] + 
                 kernel_img_mul_3[3] + kernel_img_mul_3[4] + kernel_img_mul_3[5] + 
                 kernel_img_mul_3[6] + kernel_img_mul_3[7] + kernel_img_mul_3[8] + 
                 kernel_img_mul_3[9] + kernel_img_mul_3[10] + kernel_img_mul_3[11] + 
@@ -16673,33 +16673,33 @@ wire  [39:0]  kernel_img_sum_3 = kernel_img_mul_3[0] + kernel_img_mul_3[1] + ker
                 kernel_img_mul_3[18] + kernel_img_mul_3[19] + kernel_img_mul_3[20] + 
                 kernel_img_mul_3[21] + kernel_img_mul_3[22] + kernel_img_mul_3[23] + 
                 kernel_img_mul_3[24];
-wire  [39:0]  kernel_img_mul_4[0:24];
-assign kernel_img_mul_4[0] = layer0[4][7:0] *  G_Kernel_5x5[0][31:0];
-assign kernel_img_mul_4[1] = layer0[4][15:8] *  G_Kernel_5x5[0][63:32];
-assign kernel_img_mul_4[2] = layer0[4][23:16] *  G_Kernel_5x5[0][95:64];
-assign kernel_img_mul_4[3] = layer0[4][31:24] *  G_Kernel_5x5[0][127:96];
-assign kernel_img_mul_4[4] = layer0[4][39:32] *  G_Kernel_5x5[0][159:128];
-assign kernel_img_mul_4[5] = layer1[4][7:0] *  G_Kernel_5x5[1][31:0];
-assign kernel_img_mul_4[6] = layer1[4][15:8] *  G_Kernel_5x5[1][63:32];
-assign kernel_img_mul_4[7] = layer1[4][23:16] *  G_Kernel_5x5[1][95:64];
-assign kernel_img_mul_4[8] = layer1[4][31:24] *  G_Kernel_5x5[1][127:96];
-assign kernel_img_mul_4[9] = layer1[4][39:32] *  G_Kernel_5x5[1][159:128];
-assign kernel_img_mul_4[10] = layer2[4][7:0] *  G_Kernel_5x5[2][31:0];
-assign kernel_img_mul_4[11] = layer2[4][15:8] *  G_Kernel_5x5[2][63:32];
-assign kernel_img_mul_4[12] = layer2[4][23:16] *  G_Kernel_5x5[2][95:64];
-assign kernel_img_mul_4[13] = layer2[4][31:24] *  G_Kernel_5x5[2][127:96];
-assign kernel_img_mul_4[14] = layer2[4][39:32] *  G_Kernel_5x5[2][159:128];
-assign kernel_img_mul_4[15] = layer3[4][7:0] *  G_Kernel_5x5[1][31:0];
-assign kernel_img_mul_4[16] = layer3[4][15:8] *  G_Kernel_5x5[1][63:32];
-assign kernel_img_mul_4[17] = layer3[4][23:16] *  G_Kernel_5x5[1][95:64];
-assign kernel_img_mul_4[18] = layer3[4][31:24] *  G_Kernel_5x5[1][127:96];
-assign kernel_img_mul_4[19] = layer3[4][39:32] *  G_Kernel_5x5[1][159:128];
-assign kernel_img_mul_4[20] = layer4[4][7:0] *  G_Kernel_5x5[0][31:0];
-assign kernel_img_mul_4[21] = layer4[4][15:8] *  G_Kernel_5x5[0][63:32];
-assign kernel_img_mul_4[22] = layer4[4][23:16] *  G_Kernel_5x5[0][95:64];
-assign kernel_img_mul_4[23] = layer4[4][31:24] *  G_Kernel_5x5[0][127:96];
-assign kernel_img_mul_4[24] = layer4[4][39:32] *  G_Kernel_5x5[0][159:128];
-wire  [39:0]  kernel_img_sum_4 = kernel_img_mul_4[0] + kernel_img_mul_4[1] + kernel_img_mul_4[2] + 
+wire  [15:0]  kernel_img_mul_4[0:24];
+assign kernel_img_mul_4[0] = { {8{1'b0}},layer0[4][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[0][7:0]};
+assign kernel_img_mul_4[1] = { {8{1'b0}},layer0[4][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[0][15:8]};
+assign kernel_img_mul_4[2] = { {8{1'b0}},layer0[4][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[0][23:16]};
+assign kernel_img_mul_4[3] = { {8{1'b0}},layer0[4][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[0][31:24]};
+assign kernel_img_mul_4[4] = { {8{1'b0}},layer0[4][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[0][39:32]};
+assign kernel_img_mul_4[5] = { {8{1'b0}},layer1[4][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[1][7:0]};
+assign kernel_img_mul_4[6] = { {8{1'b0}},layer1[4][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[1][15:8]};
+assign kernel_img_mul_4[7] = { {8{1'b0}},layer1[4][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[1][23:16]};
+assign kernel_img_mul_4[8] = { {8{1'b0}},layer1[4][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[1][31:24]};
+assign kernel_img_mul_4[9] = { {8{1'b0}},layer1[4][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[1][39:32]};
+assign kernel_img_mul_4[10] = { {8{1'b0}},layer2[4][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[2][7:0]};
+assign kernel_img_mul_4[11] = { {8{1'b0}},layer2[4][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[2][15:8]};
+assign kernel_img_mul_4[12] = { {8{1'b0}},layer2[4][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[2][23:16]};
+assign kernel_img_mul_4[13] = { {8{1'b0}},layer2[4][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[2][31:24]};
+assign kernel_img_mul_4[14] = { {8{1'b0}},layer2[4][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[2][39:32]};
+assign kernel_img_mul_4[15] = { {8{1'b0}},layer3[4][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[1][7:0]};
+assign kernel_img_mul_4[16] = { {8{1'b0}},layer3[4][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[1][15:8]};
+assign kernel_img_mul_4[17] = { {8{1'b0}},layer3[4][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[1][23:16]};
+assign kernel_img_mul_4[18] = { {8{1'b0}},layer3[4][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[1][31:24]};
+assign kernel_img_mul_4[19] = { {8{1'b0}},layer3[4][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[1][39:32]};
+assign kernel_img_mul_4[20] = { {8{1'b0}},layer4[4][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[0][7:0]};
+assign kernel_img_mul_4[21] = { {8{1'b0}},layer4[4][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[0][15:8]};
+assign kernel_img_mul_4[22] = { {8{1'b0}},layer4[4][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[0][23:16]};
+assign kernel_img_mul_4[23] = { {8{1'b0}},layer4[4][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[0][31:24]};
+assign kernel_img_mul_4[24] = { {8{1'b0}},layer4[4][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[0][39:32]};
+wire  [15:0]  kernel_img_sum_4 = kernel_img_mul_4[0] + kernel_img_mul_4[1] + kernel_img_mul_4[2] + 
                 kernel_img_mul_4[3] + kernel_img_mul_4[4] + kernel_img_mul_4[5] + 
                 kernel_img_mul_4[6] + kernel_img_mul_4[7] + kernel_img_mul_4[8] + 
                 kernel_img_mul_4[9] + kernel_img_mul_4[10] + kernel_img_mul_4[11] + 
@@ -16708,33 +16708,33 @@ wire  [39:0]  kernel_img_sum_4 = kernel_img_mul_4[0] + kernel_img_mul_4[1] + ker
                 kernel_img_mul_4[18] + kernel_img_mul_4[19] + kernel_img_mul_4[20] + 
                 kernel_img_mul_4[21] + kernel_img_mul_4[22] + kernel_img_mul_4[23] + 
                 kernel_img_mul_4[24];
-wire  [39:0]  kernel_img_mul_5[0:24];
-assign kernel_img_mul_5[0] = layer0[5][7:0] *  G_Kernel_5x5[0][31:0];
-assign kernel_img_mul_5[1] = layer0[5][15:8] *  G_Kernel_5x5[0][63:32];
-assign kernel_img_mul_5[2] = layer0[5][23:16] *  G_Kernel_5x5[0][95:64];
-assign kernel_img_mul_5[3] = layer0[5][31:24] *  G_Kernel_5x5[0][127:96];
-assign kernel_img_mul_5[4] = layer0[5][39:32] *  G_Kernel_5x5[0][159:128];
-assign kernel_img_mul_5[5] = layer1[5][7:0] *  G_Kernel_5x5[1][31:0];
-assign kernel_img_mul_5[6] = layer1[5][15:8] *  G_Kernel_5x5[1][63:32];
-assign kernel_img_mul_5[7] = layer1[5][23:16] *  G_Kernel_5x5[1][95:64];
-assign kernel_img_mul_5[8] = layer1[5][31:24] *  G_Kernel_5x5[1][127:96];
-assign kernel_img_mul_5[9] = layer1[5][39:32] *  G_Kernel_5x5[1][159:128];
-assign kernel_img_mul_5[10] = layer2[5][7:0] *  G_Kernel_5x5[2][31:0];
-assign kernel_img_mul_5[11] = layer2[5][15:8] *  G_Kernel_5x5[2][63:32];
-assign kernel_img_mul_5[12] = layer2[5][23:16] *  G_Kernel_5x5[2][95:64];
-assign kernel_img_mul_5[13] = layer2[5][31:24] *  G_Kernel_5x5[2][127:96];
-assign kernel_img_mul_5[14] = layer2[5][39:32] *  G_Kernel_5x5[2][159:128];
-assign kernel_img_mul_5[15] = layer3[5][7:0] *  G_Kernel_5x5[1][31:0];
-assign kernel_img_mul_5[16] = layer3[5][15:8] *  G_Kernel_5x5[1][63:32];
-assign kernel_img_mul_5[17] = layer3[5][23:16] *  G_Kernel_5x5[1][95:64];
-assign kernel_img_mul_5[18] = layer3[5][31:24] *  G_Kernel_5x5[1][127:96];
-assign kernel_img_mul_5[19] = layer3[5][39:32] *  G_Kernel_5x5[1][159:128];
-assign kernel_img_mul_5[20] = layer4[5][7:0] *  G_Kernel_5x5[0][31:0];
-assign kernel_img_mul_5[21] = layer4[5][15:8] *  G_Kernel_5x5[0][63:32];
-assign kernel_img_mul_5[22] = layer4[5][23:16] *  G_Kernel_5x5[0][95:64];
-assign kernel_img_mul_5[23] = layer4[5][31:24] *  G_Kernel_5x5[0][127:96];
-assign kernel_img_mul_5[24] = layer4[5][39:32] *  G_Kernel_5x5[0][159:128];
-wire  [39:0]  kernel_img_sum_5 = kernel_img_mul_5[0] + kernel_img_mul_5[1] + kernel_img_mul_5[2] + 
+wire  [15:0]  kernel_img_mul_5[0:24];
+assign kernel_img_mul_5[0] = { {8{1'b0}},layer0[5][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[0][7:0]};
+assign kernel_img_mul_5[1] = { {8{1'b0}},layer0[5][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[0][15:8]};
+assign kernel_img_mul_5[2] = { {8{1'b0}},layer0[5][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[0][23:16]};
+assign kernel_img_mul_5[3] = { {8{1'b0}},layer0[5][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[0][31:24]};
+assign kernel_img_mul_5[4] = { {8{1'b0}},layer0[5][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[0][39:32]};
+assign kernel_img_mul_5[5] = { {8{1'b0}},layer1[5][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[1][7:0]};
+assign kernel_img_mul_5[6] = { {8{1'b0}},layer1[5][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[1][15:8]};
+assign kernel_img_mul_5[7] = { {8{1'b0}},layer1[5][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[1][23:16]};
+assign kernel_img_mul_5[8] = { {8{1'b0}},layer1[5][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[1][31:24]};
+assign kernel_img_mul_5[9] = { {8{1'b0}},layer1[5][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[1][39:32]};
+assign kernel_img_mul_5[10] = { {8{1'b0}},layer2[5][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[2][7:0]};
+assign kernel_img_mul_5[11] = { {8{1'b0}},layer2[5][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[2][15:8]};
+assign kernel_img_mul_5[12] = { {8{1'b0}},layer2[5][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[2][23:16]};
+assign kernel_img_mul_5[13] = { {8{1'b0}},layer2[5][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[2][31:24]};
+assign kernel_img_mul_5[14] = { {8{1'b0}},layer2[5][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[2][39:32]};
+assign kernel_img_mul_5[15] = { {8{1'b0}},layer3[5][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[1][7:0]};
+assign kernel_img_mul_5[16] = { {8{1'b0}},layer3[5][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[1][15:8]};
+assign kernel_img_mul_5[17] = { {8{1'b0}},layer3[5][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[1][23:16]};
+assign kernel_img_mul_5[18] = { {8{1'b0}},layer3[5][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[1][31:24]};
+assign kernel_img_mul_5[19] = { {8{1'b0}},layer3[5][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[1][39:32]};
+assign kernel_img_mul_5[20] = { {8{1'b0}},layer4[5][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[0][7:0]};
+assign kernel_img_mul_5[21] = { {8{1'b0}},layer4[5][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[0][15:8]};
+assign kernel_img_mul_5[22] = { {8{1'b0}},layer4[5][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[0][23:16]};
+assign kernel_img_mul_5[23] = { {8{1'b0}},layer4[5][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[0][31:24]};
+assign kernel_img_mul_5[24] = { {8{1'b0}},layer4[5][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[0][39:32]};
+wire  [15:0]  kernel_img_sum_5 = kernel_img_mul_5[0] + kernel_img_mul_5[1] + kernel_img_mul_5[2] + 
                 kernel_img_mul_5[3] + kernel_img_mul_5[4] + kernel_img_mul_5[5] + 
                 kernel_img_mul_5[6] + kernel_img_mul_5[7] + kernel_img_mul_5[8] + 
                 kernel_img_mul_5[9] + kernel_img_mul_5[10] + kernel_img_mul_5[11] + 
@@ -16743,33 +16743,33 @@ wire  [39:0]  kernel_img_sum_5 = kernel_img_mul_5[0] + kernel_img_mul_5[1] + ker
                 kernel_img_mul_5[18] + kernel_img_mul_5[19] + kernel_img_mul_5[20] + 
                 kernel_img_mul_5[21] + kernel_img_mul_5[22] + kernel_img_mul_5[23] + 
                 kernel_img_mul_5[24];
-wire  [39:0]  kernel_img_mul_6[0:24];
-assign kernel_img_mul_6[0] = layer0[6][7:0] *  G_Kernel_5x5[0][31:0];
-assign kernel_img_mul_6[1] = layer0[6][15:8] *  G_Kernel_5x5[0][63:32];
-assign kernel_img_mul_6[2] = layer0[6][23:16] *  G_Kernel_5x5[0][95:64];
-assign kernel_img_mul_6[3] = layer0[6][31:24] *  G_Kernel_5x5[0][127:96];
-assign kernel_img_mul_6[4] = layer0[6][39:32] *  G_Kernel_5x5[0][159:128];
-assign kernel_img_mul_6[5] = layer1[6][7:0] *  G_Kernel_5x5[1][31:0];
-assign kernel_img_mul_6[6] = layer1[6][15:8] *  G_Kernel_5x5[1][63:32];
-assign kernel_img_mul_6[7] = layer1[6][23:16] *  G_Kernel_5x5[1][95:64];
-assign kernel_img_mul_6[8] = layer1[6][31:24] *  G_Kernel_5x5[1][127:96];
-assign kernel_img_mul_6[9] = layer1[6][39:32] *  G_Kernel_5x5[1][159:128];
-assign kernel_img_mul_6[10] = layer2[6][7:0] *  G_Kernel_5x5[2][31:0];
-assign kernel_img_mul_6[11] = layer2[6][15:8] *  G_Kernel_5x5[2][63:32];
-assign kernel_img_mul_6[12] = layer2[6][23:16] *  G_Kernel_5x5[2][95:64];
-assign kernel_img_mul_6[13] = layer2[6][31:24] *  G_Kernel_5x5[2][127:96];
-assign kernel_img_mul_6[14] = layer2[6][39:32] *  G_Kernel_5x5[2][159:128];
-assign kernel_img_mul_6[15] = layer3[6][7:0] *  G_Kernel_5x5[1][31:0];
-assign kernel_img_mul_6[16] = layer3[6][15:8] *  G_Kernel_5x5[1][63:32];
-assign kernel_img_mul_6[17] = layer3[6][23:16] *  G_Kernel_5x5[1][95:64];
-assign kernel_img_mul_6[18] = layer3[6][31:24] *  G_Kernel_5x5[1][127:96];
-assign kernel_img_mul_6[19] = layer3[6][39:32] *  G_Kernel_5x5[1][159:128];
-assign kernel_img_mul_6[20] = layer4[6][7:0] *  G_Kernel_5x5[0][31:0];
-assign kernel_img_mul_6[21] = layer4[6][15:8] *  G_Kernel_5x5[0][63:32];
-assign kernel_img_mul_6[22] = layer4[6][23:16] *  G_Kernel_5x5[0][95:64];
-assign kernel_img_mul_6[23] = layer4[6][31:24] *  G_Kernel_5x5[0][127:96];
-assign kernel_img_mul_6[24] = layer4[6][39:32] *  G_Kernel_5x5[0][159:128];
-wire  [39:0]  kernel_img_sum_6 = kernel_img_mul_6[0] + kernel_img_mul_6[1] + kernel_img_mul_6[2] + 
+wire  [15:0]  kernel_img_mul_6[0:24];
+assign kernel_img_mul_6[0] = { {8{1'b0}},layer0[6][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[0][7:0]};
+assign kernel_img_mul_6[1] = { {8{1'b0}},layer0[6][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[0][15:8]};
+assign kernel_img_mul_6[2] = { {8{1'b0}},layer0[6][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[0][23:16]};
+assign kernel_img_mul_6[3] = { {8{1'b0}},layer0[6][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[0][31:24]};
+assign kernel_img_mul_6[4] = { {8{1'b0}},layer0[6][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[0][39:32]};
+assign kernel_img_mul_6[5] = { {8{1'b0}},layer1[6][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[1][7:0]};
+assign kernel_img_mul_6[6] = { {8{1'b0}},layer1[6][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[1][15:8]};
+assign kernel_img_mul_6[7] = { {8{1'b0}},layer1[6][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[1][23:16]};
+assign kernel_img_mul_6[8] = { {8{1'b0}},layer1[6][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[1][31:24]};
+assign kernel_img_mul_6[9] = { {8{1'b0}},layer1[6][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[1][39:32]};
+assign kernel_img_mul_6[10] = { {8{1'b0}},layer2[6][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[2][7:0]};
+assign kernel_img_mul_6[11] = { {8{1'b0}},layer2[6][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[2][15:8]};
+assign kernel_img_mul_6[12] = { {8{1'b0}},layer2[6][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[2][23:16]};
+assign kernel_img_mul_6[13] = { {8{1'b0}},layer2[6][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[2][31:24]};
+assign kernel_img_mul_6[14] = { {8{1'b0}},layer2[6][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[2][39:32]};
+assign kernel_img_mul_6[15] = { {8{1'b0}},layer3[6][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[1][7:0]};
+assign kernel_img_mul_6[16] = { {8{1'b0}},layer3[6][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[1][15:8]};
+assign kernel_img_mul_6[17] = { {8{1'b0}},layer3[6][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[1][23:16]};
+assign kernel_img_mul_6[18] = { {8{1'b0}},layer3[6][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[1][31:24]};
+assign kernel_img_mul_6[19] = { {8{1'b0}},layer3[6][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[1][39:32]};
+assign kernel_img_mul_6[20] = { {8{1'b0}},layer4[6][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[0][7:0]};
+assign kernel_img_mul_6[21] = { {8{1'b0}},layer4[6][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[0][15:8]};
+assign kernel_img_mul_6[22] = { {8{1'b0}},layer4[6][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[0][23:16]};
+assign kernel_img_mul_6[23] = { {8{1'b0}},layer4[6][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[0][31:24]};
+assign kernel_img_mul_6[24] = { {8{1'b0}},layer4[6][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[0][39:32]};
+wire  [15:0]  kernel_img_sum_6 = kernel_img_mul_6[0] + kernel_img_mul_6[1] + kernel_img_mul_6[2] + 
                 kernel_img_mul_6[3] + kernel_img_mul_6[4] + kernel_img_mul_6[5] + 
                 kernel_img_mul_6[6] + kernel_img_mul_6[7] + kernel_img_mul_6[8] + 
                 kernel_img_mul_6[9] + kernel_img_mul_6[10] + kernel_img_mul_6[11] + 
@@ -16778,33 +16778,33 @@ wire  [39:0]  kernel_img_sum_6 = kernel_img_mul_6[0] + kernel_img_mul_6[1] + ker
                 kernel_img_mul_6[18] + kernel_img_mul_6[19] + kernel_img_mul_6[20] + 
                 kernel_img_mul_6[21] + kernel_img_mul_6[22] + kernel_img_mul_6[23] + 
                 kernel_img_mul_6[24];
-wire  [39:0]  kernel_img_mul_7[0:24];
-assign kernel_img_mul_7[0] = layer0[7][7:0] *  G_Kernel_5x5[0][31:0];
-assign kernel_img_mul_7[1] = layer0[7][15:8] *  G_Kernel_5x5[0][63:32];
-assign kernel_img_mul_7[2] = layer0[7][23:16] *  G_Kernel_5x5[0][95:64];
-assign kernel_img_mul_7[3] = layer0[7][31:24] *  G_Kernel_5x5[0][127:96];
-assign kernel_img_mul_7[4] = layer0[7][39:32] *  G_Kernel_5x5[0][159:128];
-assign kernel_img_mul_7[5] = layer1[7][7:0] *  G_Kernel_5x5[1][31:0];
-assign kernel_img_mul_7[6] = layer1[7][15:8] *  G_Kernel_5x5[1][63:32];
-assign kernel_img_mul_7[7] = layer1[7][23:16] *  G_Kernel_5x5[1][95:64];
-assign kernel_img_mul_7[8] = layer1[7][31:24] *  G_Kernel_5x5[1][127:96];
-assign kernel_img_mul_7[9] = layer1[7][39:32] *  G_Kernel_5x5[1][159:128];
-assign kernel_img_mul_7[10] = layer2[7][7:0] *  G_Kernel_5x5[2][31:0];
-assign kernel_img_mul_7[11] = layer2[7][15:8] *  G_Kernel_5x5[2][63:32];
-assign kernel_img_mul_7[12] = layer2[7][23:16] *  G_Kernel_5x5[2][95:64];
-assign kernel_img_mul_7[13] = layer2[7][31:24] *  G_Kernel_5x5[2][127:96];
-assign kernel_img_mul_7[14] = layer2[7][39:32] *  G_Kernel_5x5[2][159:128];
-assign kernel_img_mul_7[15] = layer3[7][7:0] *  G_Kernel_5x5[1][31:0];
-assign kernel_img_mul_7[16] = layer3[7][15:8] *  G_Kernel_5x5[1][63:32];
-assign kernel_img_mul_7[17] = layer3[7][23:16] *  G_Kernel_5x5[1][95:64];
-assign kernel_img_mul_7[18] = layer3[7][31:24] *  G_Kernel_5x5[1][127:96];
-assign kernel_img_mul_7[19] = layer3[7][39:32] *  G_Kernel_5x5[1][159:128];
-assign kernel_img_mul_7[20] = layer4[7][7:0] *  G_Kernel_5x5[0][31:0];
-assign kernel_img_mul_7[21] = layer4[7][15:8] *  G_Kernel_5x5[0][63:32];
-assign kernel_img_mul_7[22] = layer4[7][23:16] *  G_Kernel_5x5[0][95:64];
-assign kernel_img_mul_7[23] = layer4[7][31:24] *  G_Kernel_5x5[0][127:96];
-assign kernel_img_mul_7[24] = layer4[7][39:32] *  G_Kernel_5x5[0][159:128];
-wire  [39:0]  kernel_img_sum_7 = kernel_img_mul_7[0] + kernel_img_mul_7[1] + kernel_img_mul_7[2] + 
+wire  [15:0]  kernel_img_mul_7[0:24];
+assign kernel_img_mul_7[0] = { {8{1'b0}},layer0[7][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[0][7:0]};
+assign kernel_img_mul_7[1] = { {8{1'b0}},layer0[7][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[0][15:8]};
+assign kernel_img_mul_7[2] = { {8{1'b0}},layer0[7][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[0][23:16]};
+assign kernel_img_mul_7[3] = { {8{1'b0}},layer0[7][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[0][31:24]};
+assign kernel_img_mul_7[4] = { {8{1'b0}},layer0[7][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[0][39:32]};
+assign kernel_img_mul_7[5] = { {8{1'b0}},layer1[7][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[1][7:0]};
+assign kernel_img_mul_7[6] = { {8{1'b0}},layer1[7][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[1][15:8]};
+assign kernel_img_mul_7[7] = { {8{1'b0}},layer1[7][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[1][23:16]};
+assign kernel_img_mul_7[8] = { {8{1'b0}},layer1[7][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[1][31:24]};
+assign kernel_img_mul_7[9] = { {8{1'b0}},layer1[7][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[1][39:32]};
+assign kernel_img_mul_7[10] = { {8{1'b0}},layer2[7][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[2][7:0]};
+assign kernel_img_mul_7[11] = { {8{1'b0}},layer2[7][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[2][15:8]};
+assign kernel_img_mul_7[12] = { {8{1'b0}},layer2[7][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[2][23:16]};
+assign kernel_img_mul_7[13] = { {8{1'b0}},layer2[7][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[2][31:24]};
+assign kernel_img_mul_7[14] = { {8{1'b0}},layer2[7][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[2][39:32]};
+assign kernel_img_mul_7[15] = { {8{1'b0}},layer3[7][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[1][7:0]};
+assign kernel_img_mul_7[16] = { {8{1'b0}},layer3[7][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[1][15:8]};
+assign kernel_img_mul_7[17] = { {8{1'b0}},layer3[7][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[1][23:16]};
+assign kernel_img_mul_7[18] = { {8{1'b0}},layer3[7][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[1][31:24]};
+assign kernel_img_mul_7[19] = { {8{1'b0}},layer3[7][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[1][39:32]};
+assign kernel_img_mul_7[20] = { {8{1'b0}},layer4[7][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[0][7:0]};
+assign kernel_img_mul_7[21] = { {8{1'b0}},layer4[7][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[0][15:8]};
+assign kernel_img_mul_7[22] = { {8{1'b0}},layer4[7][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[0][23:16]};
+assign kernel_img_mul_7[23] = { {8{1'b0}},layer4[7][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[0][31:24]};
+assign kernel_img_mul_7[24] = { {8{1'b0}},layer4[7][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[0][39:32]};
+wire  [15:0]  kernel_img_sum_7 = kernel_img_mul_7[0] + kernel_img_mul_7[1] + kernel_img_mul_7[2] + 
                 kernel_img_mul_7[3] + kernel_img_mul_7[4] + kernel_img_mul_7[5] + 
                 kernel_img_mul_7[6] + kernel_img_mul_7[7] + kernel_img_mul_7[8] + 
                 kernel_img_mul_7[9] + kernel_img_mul_7[10] + kernel_img_mul_7[11] + 
@@ -16813,33 +16813,33 @@ wire  [39:0]  kernel_img_sum_7 = kernel_img_mul_7[0] + kernel_img_mul_7[1] + ker
                 kernel_img_mul_7[18] + kernel_img_mul_7[19] + kernel_img_mul_7[20] + 
                 kernel_img_mul_7[21] + kernel_img_mul_7[22] + kernel_img_mul_7[23] + 
                 kernel_img_mul_7[24];
-wire  [39:0]  kernel_img_mul_8[0:24];
-assign kernel_img_mul_8[0] = layer0[8][7:0] *  G_Kernel_5x5[0][31:0];
-assign kernel_img_mul_8[1] = layer0[8][15:8] *  G_Kernel_5x5[0][63:32];
-assign kernel_img_mul_8[2] = layer0[8][23:16] *  G_Kernel_5x5[0][95:64];
-assign kernel_img_mul_8[3] = layer0[8][31:24] *  G_Kernel_5x5[0][127:96];
-assign kernel_img_mul_8[4] = layer0[8][39:32] *  G_Kernel_5x5[0][159:128];
-assign kernel_img_mul_8[5] = layer1[8][7:0] *  G_Kernel_5x5[1][31:0];
-assign kernel_img_mul_8[6] = layer1[8][15:8] *  G_Kernel_5x5[1][63:32];
-assign kernel_img_mul_8[7] = layer1[8][23:16] *  G_Kernel_5x5[1][95:64];
-assign kernel_img_mul_8[8] = layer1[8][31:24] *  G_Kernel_5x5[1][127:96];
-assign kernel_img_mul_8[9] = layer1[8][39:32] *  G_Kernel_5x5[1][159:128];
-assign kernel_img_mul_8[10] = layer2[8][7:0] *  G_Kernel_5x5[2][31:0];
-assign kernel_img_mul_8[11] = layer2[8][15:8] *  G_Kernel_5x5[2][63:32];
-assign kernel_img_mul_8[12] = layer2[8][23:16] *  G_Kernel_5x5[2][95:64];
-assign kernel_img_mul_8[13] = layer2[8][31:24] *  G_Kernel_5x5[2][127:96];
-assign kernel_img_mul_8[14] = layer2[8][39:32] *  G_Kernel_5x5[2][159:128];
-assign kernel_img_mul_8[15] = layer3[8][7:0] *  G_Kernel_5x5[1][31:0];
-assign kernel_img_mul_8[16] = layer3[8][15:8] *  G_Kernel_5x5[1][63:32];
-assign kernel_img_mul_8[17] = layer3[8][23:16] *  G_Kernel_5x5[1][95:64];
-assign kernel_img_mul_8[18] = layer3[8][31:24] *  G_Kernel_5x5[1][127:96];
-assign kernel_img_mul_8[19] = layer3[8][39:32] *  G_Kernel_5x5[1][159:128];
-assign kernel_img_mul_8[20] = layer4[8][7:0] *  G_Kernel_5x5[0][31:0];
-assign kernel_img_mul_8[21] = layer4[8][15:8] *  G_Kernel_5x5[0][63:32];
-assign kernel_img_mul_8[22] = layer4[8][23:16] *  G_Kernel_5x5[0][95:64];
-assign kernel_img_mul_8[23] = layer4[8][31:24] *  G_Kernel_5x5[0][127:96];
-assign kernel_img_mul_8[24] = layer4[8][39:32] *  G_Kernel_5x5[0][159:128];
-wire  [39:0]  kernel_img_sum_8 = kernel_img_mul_8[0] + kernel_img_mul_8[1] + kernel_img_mul_8[2] + 
+wire  [15:0]  kernel_img_mul_8[0:24];
+assign kernel_img_mul_8[0] = { {8{1'b0}},layer0[8][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[0][7:0]};
+assign kernel_img_mul_8[1] = { {8{1'b0}},layer0[8][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[0][15:8]};
+assign kernel_img_mul_8[2] = { {8{1'b0}},layer0[8][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[0][23:16]};
+assign kernel_img_mul_8[3] = { {8{1'b0}},layer0[8][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[0][31:24]};
+assign kernel_img_mul_8[4] = { {8{1'b0}},layer0[8][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[0][39:32]};
+assign kernel_img_mul_8[5] = { {8{1'b0}},layer1[8][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[1][7:0]};
+assign kernel_img_mul_8[6] = { {8{1'b0}},layer1[8][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[1][15:8]};
+assign kernel_img_mul_8[7] = { {8{1'b0}},layer1[8][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[1][23:16]};
+assign kernel_img_mul_8[8] = { {8{1'b0}},layer1[8][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[1][31:24]};
+assign kernel_img_mul_8[9] = { {8{1'b0}},layer1[8][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[1][39:32]};
+assign kernel_img_mul_8[10] = { {8{1'b0}},layer2[8][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[2][7:0]};
+assign kernel_img_mul_8[11] = { {8{1'b0}},layer2[8][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[2][15:8]};
+assign kernel_img_mul_8[12] = { {8{1'b0}},layer2[8][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[2][23:16]};
+assign kernel_img_mul_8[13] = { {8{1'b0}},layer2[8][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[2][31:24]};
+assign kernel_img_mul_8[14] = { {8{1'b0}},layer2[8][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[2][39:32]};
+assign kernel_img_mul_8[15] = { {8{1'b0}},layer3[8][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[1][7:0]};
+assign kernel_img_mul_8[16] = { {8{1'b0}},layer3[8][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[1][15:8]};
+assign kernel_img_mul_8[17] = { {8{1'b0}},layer3[8][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[1][23:16]};
+assign kernel_img_mul_8[18] = { {8{1'b0}},layer3[8][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[1][31:24]};
+assign kernel_img_mul_8[19] = { {8{1'b0}},layer3[8][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[1][39:32]};
+assign kernel_img_mul_8[20] = { {8{1'b0}},layer4[8][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[0][7:0]};
+assign kernel_img_mul_8[21] = { {8{1'b0}},layer4[8][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[0][15:8]};
+assign kernel_img_mul_8[22] = { {8{1'b0}},layer4[8][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[0][23:16]};
+assign kernel_img_mul_8[23] = { {8{1'b0}},layer4[8][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[0][31:24]};
+assign kernel_img_mul_8[24] = { {8{1'b0}},layer4[8][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[0][39:32]};
+wire  [15:0]  kernel_img_sum_8 = kernel_img_mul_8[0] + kernel_img_mul_8[1] + kernel_img_mul_8[2] + 
                 kernel_img_mul_8[3] + kernel_img_mul_8[4] + kernel_img_mul_8[5] + 
                 kernel_img_mul_8[6] + kernel_img_mul_8[7] + kernel_img_mul_8[8] + 
                 kernel_img_mul_8[9] + kernel_img_mul_8[10] + kernel_img_mul_8[11] + 
@@ -16848,33 +16848,33 @@ wire  [39:0]  kernel_img_sum_8 = kernel_img_mul_8[0] + kernel_img_mul_8[1] + ker
                 kernel_img_mul_8[18] + kernel_img_mul_8[19] + kernel_img_mul_8[20] + 
                 kernel_img_mul_8[21] + kernel_img_mul_8[22] + kernel_img_mul_8[23] + 
                 kernel_img_mul_8[24];
-wire  [39:0]  kernel_img_mul_9[0:24];
-assign kernel_img_mul_9[0] = layer0[9][7:0] *  G_Kernel_5x5[0][31:0];
-assign kernel_img_mul_9[1] = layer0[9][15:8] *  G_Kernel_5x5[0][63:32];
-assign kernel_img_mul_9[2] = layer0[9][23:16] *  G_Kernel_5x5[0][95:64];
-assign kernel_img_mul_9[3] = layer0[9][31:24] *  G_Kernel_5x5[0][127:96];
-assign kernel_img_mul_9[4] = layer0[9][39:32] *  G_Kernel_5x5[0][159:128];
-assign kernel_img_mul_9[5] = layer1[9][7:0] *  G_Kernel_5x5[1][31:0];
-assign kernel_img_mul_9[6] = layer1[9][15:8] *  G_Kernel_5x5[1][63:32];
-assign kernel_img_mul_9[7] = layer1[9][23:16] *  G_Kernel_5x5[1][95:64];
-assign kernel_img_mul_9[8] = layer1[9][31:24] *  G_Kernel_5x5[1][127:96];
-assign kernel_img_mul_9[9] = layer1[9][39:32] *  G_Kernel_5x5[1][159:128];
-assign kernel_img_mul_9[10] = layer2[9][7:0] *  G_Kernel_5x5[2][31:0];
-assign kernel_img_mul_9[11] = layer2[9][15:8] *  G_Kernel_5x5[2][63:32];
-assign kernel_img_mul_9[12] = layer2[9][23:16] *  G_Kernel_5x5[2][95:64];
-assign kernel_img_mul_9[13] = layer2[9][31:24] *  G_Kernel_5x5[2][127:96];
-assign kernel_img_mul_9[14] = layer2[9][39:32] *  G_Kernel_5x5[2][159:128];
-assign kernel_img_mul_9[15] = layer3[9][7:0] *  G_Kernel_5x5[1][31:0];
-assign kernel_img_mul_9[16] = layer3[9][15:8] *  G_Kernel_5x5[1][63:32];
-assign kernel_img_mul_9[17] = layer3[9][23:16] *  G_Kernel_5x5[1][95:64];
-assign kernel_img_mul_9[18] = layer3[9][31:24] *  G_Kernel_5x5[1][127:96];
-assign kernel_img_mul_9[19] = layer3[9][39:32] *  G_Kernel_5x5[1][159:128];
-assign kernel_img_mul_9[20] = layer4[9][7:0] *  G_Kernel_5x5[0][31:0];
-assign kernel_img_mul_9[21] = layer4[9][15:8] *  G_Kernel_5x5[0][63:32];
-assign kernel_img_mul_9[22] = layer4[9][23:16] *  G_Kernel_5x5[0][95:64];
-assign kernel_img_mul_9[23] = layer4[9][31:24] *  G_Kernel_5x5[0][127:96];
-assign kernel_img_mul_9[24] = layer4[9][39:32] *  G_Kernel_5x5[0][159:128];
-wire  [39:0]  kernel_img_sum_9 = kernel_img_mul_9[0] + kernel_img_mul_9[1] + kernel_img_mul_9[2] + 
+wire  [15:0]  kernel_img_mul_9[0:24];
+assign kernel_img_mul_9[0] = { {8{1'b0}},layer0[9][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[0][7:0]};
+assign kernel_img_mul_9[1] = { {8{1'b0}},layer0[9][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[0][15:8]};
+assign kernel_img_mul_9[2] = { {8{1'b0}},layer0[9][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[0][23:16]};
+assign kernel_img_mul_9[3] = { {8{1'b0}},layer0[9][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[0][31:24]};
+assign kernel_img_mul_9[4] = { {8{1'b0}},layer0[9][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[0][39:32]};
+assign kernel_img_mul_9[5] = { {8{1'b0}},layer1[9][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[1][7:0]};
+assign kernel_img_mul_9[6] = { {8{1'b0}},layer1[9][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[1][15:8]};
+assign kernel_img_mul_9[7] = { {8{1'b0}},layer1[9][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[1][23:16]};
+assign kernel_img_mul_9[8] = { {8{1'b0}},layer1[9][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[1][31:24]};
+assign kernel_img_mul_9[9] = { {8{1'b0}},layer1[9][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[1][39:32]};
+assign kernel_img_mul_9[10] = { {8{1'b0}},layer2[9][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[2][7:0]};
+assign kernel_img_mul_9[11] = { {8{1'b0}},layer2[9][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[2][15:8]};
+assign kernel_img_mul_9[12] = { {8{1'b0}},layer2[9][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[2][23:16]};
+assign kernel_img_mul_9[13] = { {8{1'b0}},layer2[9][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[2][31:24]};
+assign kernel_img_mul_9[14] = { {8{1'b0}},layer2[9][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[2][39:32]};
+assign kernel_img_mul_9[15] = { {8{1'b0}},layer3[9][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[1][7:0]};
+assign kernel_img_mul_9[16] = { {8{1'b0}},layer3[9][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[1][15:8]};
+assign kernel_img_mul_9[17] = { {8{1'b0}},layer3[9][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[1][23:16]};
+assign kernel_img_mul_9[18] = { {8{1'b0}},layer3[9][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[1][31:24]};
+assign kernel_img_mul_9[19] = { {8{1'b0}},layer3[9][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[1][39:32]};
+assign kernel_img_mul_9[20] = { {8{1'b0}},layer4[9][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[0][7:0]};
+assign kernel_img_mul_9[21] = { {8{1'b0}},layer4[9][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[0][15:8]};
+assign kernel_img_mul_9[22] = { {8{1'b0}},layer4[9][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[0][23:16]};
+assign kernel_img_mul_9[23] = { {8{1'b0}},layer4[9][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[0][31:24]};
+assign kernel_img_mul_9[24] = { {8{1'b0}},layer4[9][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[0][39:32]};
+wire  [15:0]  kernel_img_sum_9 = kernel_img_mul_9[0] + kernel_img_mul_9[1] + kernel_img_mul_9[2] + 
                 kernel_img_mul_9[3] + kernel_img_mul_9[4] + kernel_img_mul_9[5] + 
                 kernel_img_mul_9[6] + kernel_img_mul_9[7] + kernel_img_mul_9[8] + 
                 kernel_img_mul_9[9] + kernel_img_mul_9[10] + kernel_img_mul_9[11] + 
@@ -16883,33 +16883,33 @@ wire  [39:0]  kernel_img_sum_9 = kernel_img_mul_9[0] + kernel_img_mul_9[1] + ker
                 kernel_img_mul_9[18] + kernel_img_mul_9[19] + kernel_img_mul_9[20] + 
                 kernel_img_mul_9[21] + kernel_img_mul_9[22] + kernel_img_mul_9[23] + 
                 kernel_img_mul_9[24];
-wire  [39:0]  kernel_img_mul_10[0:24];
-assign kernel_img_mul_10[0] = layer0[10][7:0] *  G_Kernel_5x5[0][31:0];
-assign kernel_img_mul_10[1] = layer0[10][15:8] *  G_Kernel_5x5[0][63:32];
-assign kernel_img_mul_10[2] = layer0[10][23:16] *  G_Kernel_5x5[0][95:64];
-assign kernel_img_mul_10[3] = layer0[10][31:24] *  G_Kernel_5x5[0][127:96];
-assign kernel_img_mul_10[4] = layer0[10][39:32] *  G_Kernel_5x5[0][159:128];
-assign kernel_img_mul_10[5] = layer1[10][7:0] *  G_Kernel_5x5[1][31:0];
-assign kernel_img_mul_10[6] = layer1[10][15:8] *  G_Kernel_5x5[1][63:32];
-assign kernel_img_mul_10[7] = layer1[10][23:16] *  G_Kernel_5x5[1][95:64];
-assign kernel_img_mul_10[8] = layer1[10][31:24] *  G_Kernel_5x5[1][127:96];
-assign kernel_img_mul_10[9] = layer1[10][39:32] *  G_Kernel_5x5[1][159:128];
-assign kernel_img_mul_10[10] = layer2[10][7:0] *  G_Kernel_5x5[2][31:0];
-assign kernel_img_mul_10[11] = layer2[10][15:8] *  G_Kernel_5x5[2][63:32];
-assign kernel_img_mul_10[12] = layer2[10][23:16] *  G_Kernel_5x5[2][95:64];
-assign kernel_img_mul_10[13] = layer2[10][31:24] *  G_Kernel_5x5[2][127:96];
-assign kernel_img_mul_10[14] = layer2[10][39:32] *  G_Kernel_5x5[2][159:128];
-assign kernel_img_mul_10[15] = layer3[10][7:0] *  G_Kernel_5x5[1][31:0];
-assign kernel_img_mul_10[16] = layer3[10][15:8] *  G_Kernel_5x5[1][63:32];
-assign kernel_img_mul_10[17] = layer3[10][23:16] *  G_Kernel_5x5[1][95:64];
-assign kernel_img_mul_10[18] = layer3[10][31:24] *  G_Kernel_5x5[1][127:96];
-assign kernel_img_mul_10[19] = layer3[10][39:32] *  G_Kernel_5x5[1][159:128];
-assign kernel_img_mul_10[20] = layer4[10][7:0] *  G_Kernel_5x5[0][31:0];
-assign kernel_img_mul_10[21] = layer4[10][15:8] *  G_Kernel_5x5[0][63:32];
-assign kernel_img_mul_10[22] = layer4[10][23:16] *  G_Kernel_5x5[0][95:64];
-assign kernel_img_mul_10[23] = layer4[10][31:24] *  G_Kernel_5x5[0][127:96];
-assign kernel_img_mul_10[24] = layer4[10][39:32] *  G_Kernel_5x5[0][159:128];
-wire  [39:0]  kernel_img_sum_10 = kernel_img_mul_10[0] + kernel_img_mul_10[1] + kernel_img_mul_10[2] + 
+wire  [15:0]  kernel_img_mul_10[0:24];
+assign kernel_img_mul_10[0] = { {8{1'b0}},layer0[10][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[0][7:0]};
+assign kernel_img_mul_10[1] = { {8{1'b0}},layer0[10][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[0][15:8]};
+assign kernel_img_mul_10[2] = { {8{1'b0}},layer0[10][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[0][23:16]};
+assign kernel_img_mul_10[3] = { {8{1'b0}},layer0[10][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[0][31:24]};
+assign kernel_img_mul_10[4] = { {8{1'b0}},layer0[10][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[0][39:32]};
+assign kernel_img_mul_10[5] = { {8{1'b0}},layer1[10][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[1][7:0]};
+assign kernel_img_mul_10[6] = { {8{1'b0}},layer1[10][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[1][15:8]};
+assign kernel_img_mul_10[7] = { {8{1'b0}},layer1[10][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[1][23:16]};
+assign kernel_img_mul_10[8] = { {8{1'b0}},layer1[10][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[1][31:24]};
+assign kernel_img_mul_10[9] = { {8{1'b0}},layer1[10][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[1][39:32]};
+assign kernel_img_mul_10[10] = { {8{1'b0}},layer2[10][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[2][7:0]};
+assign kernel_img_mul_10[11] = { {8{1'b0}},layer2[10][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[2][15:8]};
+assign kernel_img_mul_10[12] = { {8{1'b0}},layer2[10][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[2][23:16]};
+assign kernel_img_mul_10[13] = { {8{1'b0}},layer2[10][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[2][31:24]};
+assign kernel_img_mul_10[14] = { {8{1'b0}},layer2[10][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[2][39:32]};
+assign kernel_img_mul_10[15] = { {8{1'b0}},layer3[10][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[1][7:0]};
+assign kernel_img_mul_10[16] = { {8{1'b0}},layer3[10][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[1][15:8]};
+assign kernel_img_mul_10[17] = { {8{1'b0}},layer3[10][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[1][23:16]};
+assign kernel_img_mul_10[18] = { {8{1'b0}},layer3[10][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[1][31:24]};
+assign kernel_img_mul_10[19] = { {8{1'b0}},layer3[10][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[1][39:32]};
+assign kernel_img_mul_10[20] = { {8{1'b0}},layer4[10][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[0][7:0]};
+assign kernel_img_mul_10[21] = { {8{1'b0}},layer4[10][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[0][15:8]};
+assign kernel_img_mul_10[22] = { {8{1'b0}},layer4[10][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[0][23:16]};
+assign kernel_img_mul_10[23] = { {8{1'b0}},layer4[10][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[0][31:24]};
+assign kernel_img_mul_10[24] = { {8{1'b0}},layer4[10][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[0][39:32]};
+wire  [15:0]  kernel_img_sum_10 = kernel_img_mul_10[0] + kernel_img_mul_10[1] + kernel_img_mul_10[2] + 
                 kernel_img_mul_10[3] + kernel_img_mul_10[4] + kernel_img_mul_10[5] + 
                 kernel_img_mul_10[6] + kernel_img_mul_10[7] + kernel_img_mul_10[8] + 
                 kernel_img_mul_10[9] + kernel_img_mul_10[10] + kernel_img_mul_10[11] + 
@@ -16918,33 +16918,33 @@ wire  [39:0]  kernel_img_sum_10 = kernel_img_mul_10[0] + kernel_img_mul_10[1] + 
                 kernel_img_mul_10[18] + kernel_img_mul_10[19] + kernel_img_mul_10[20] + 
                 kernel_img_mul_10[21] + kernel_img_mul_10[22] + kernel_img_mul_10[23] + 
                 kernel_img_mul_10[24];
-wire  [39:0]  kernel_img_mul_11[0:24];
-assign kernel_img_mul_11[0] = layer0[11][7:0] *  G_Kernel_5x5[0][31:0];
-assign kernel_img_mul_11[1] = layer0[11][15:8] *  G_Kernel_5x5[0][63:32];
-assign kernel_img_mul_11[2] = layer0[11][23:16] *  G_Kernel_5x5[0][95:64];
-assign kernel_img_mul_11[3] = layer0[11][31:24] *  G_Kernel_5x5[0][127:96];
-assign kernel_img_mul_11[4] = layer0[11][39:32] *  G_Kernel_5x5[0][159:128];
-assign kernel_img_mul_11[5] = layer1[11][7:0] *  G_Kernel_5x5[1][31:0];
-assign kernel_img_mul_11[6] = layer1[11][15:8] *  G_Kernel_5x5[1][63:32];
-assign kernel_img_mul_11[7] = layer1[11][23:16] *  G_Kernel_5x5[1][95:64];
-assign kernel_img_mul_11[8] = layer1[11][31:24] *  G_Kernel_5x5[1][127:96];
-assign kernel_img_mul_11[9] = layer1[11][39:32] *  G_Kernel_5x5[1][159:128];
-assign kernel_img_mul_11[10] = layer2[11][7:0] *  G_Kernel_5x5[2][31:0];
-assign kernel_img_mul_11[11] = layer2[11][15:8] *  G_Kernel_5x5[2][63:32];
-assign kernel_img_mul_11[12] = layer2[11][23:16] *  G_Kernel_5x5[2][95:64];
-assign kernel_img_mul_11[13] = layer2[11][31:24] *  G_Kernel_5x5[2][127:96];
-assign kernel_img_mul_11[14] = layer2[11][39:32] *  G_Kernel_5x5[2][159:128];
-assign kernel_img_mul_11[15] = layer3[11][7:0] *  G_Kernel_5x5[1][31:0];
-assign kernel_img_mul_11[16] = layer3[11][15:8] *  G_Kernel_5x5[1][63:32];
-assign kernel_img_mul_11[17] = layer3[11][23:16] *  G_Kernel_5x5[1][95:64];
-assign kernel_img_mul_11[18] = layer3[11][31:24] *  G_Kernel_5x5[1][127:96];
-assign kernel_img_mul_11[19] = layer3[11][39:32] *  G_Kernel_5x5[1][159:128];
-assign kernel_img_mul_11[20] = layer4[11][7:0] *  G_Kernel_5x5[0][31:0];
-assign kernel_img_mul_11[21] = layer4[11][15:8] *  G_Kernel_5x5[0][63:32];
-assign kernel_img_mul_11[22] = layer4[11][23:16] *  G_Kernel_5x5[0][95:64];
-assign kernel_img_mul_11[23] = layer4[11][31:24] *  G_Kernel_5x5[0][127:96];
-assign kernel_img_mul_11[24] = layer4[11][39:32] *  G_Kernel_5x5[0][159:128];
-wire  [39:0]  kernel_img_sum_11 = kernel_img_mul_11[0] + kernel_img_mul_11[1] + kernel_img_mul_11[2] + 
+wire  [15:0]  kernel_img_mul_11[0:24];
+assign kernel_img_mul_11[0] = { {8{1'b0}},layer0[11][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[0][7:0]};
+assign kernel_img_mul_11[1] = { {8{1'b0}},layer0[11][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[0][15:8]};
+assign kernel_img_mul_11[2] = { {8{1'b0}},layer0[11][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[0][23:16]};
+assign kernel_img_mul_11[3] = { {8{1'b0}},layer0[11][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[0][31:24]};
+assign kernel_img_mul_11[4] = { {8{1'b0}},layer0[11][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[0][39:32]};
+assign kernel_img_mul_11[5] = { {8{1'b0}},layer1[11][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[1][7:0]};
+assign kernel_img_mul_11[6] = { {8{1'b0}},layer1[11][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[1][15:8]};
+assign kernel_img_mul_11[7] = { {8{1'b0}},layer1[11][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[1][23:16]};
+assign kernel_img_mul_11[8] = { {8{1'b0}},layer1[11][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[1][31:24]};
+assign kernel_img_mul_11[9] = { {8{1'b0}},layer1[11][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[1][39:32]};
+assign kernel_img_mul_11[10] = { {8{1'b0}},layer2[11][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[2][7:0]};
+assign kernel_img_mul_11[11] = { {8{1'b0}},layer2[11][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[2][15:8]};
+assign kernel_img_mul_11[12] = { {8{1'b0}},layer2[11][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[2][23:16]};
+assign kernel_img_mul_11[13] = { {8{1'b0}},layer2[11][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[2][31:24]};
+assign kernel_img_mul_11[14] = { {8{1'b0}},layer2[11][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[2][39:32]};
+assign kernel_img_mul_11[15] = { {8{1'b0}},layer3[11][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[1][7:0]};
+assign kernel_img_mul_11[16] = { {8{1'b0}},layer3[11][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[1][15:8]};
+assign kernel_img_mul_11[17] = { {8{1'b0}},layer3[11][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[1][23:16]};
+assign kernel_img_mul_11[18] = { {8{1'b0}},layer3[11][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[1][31:24]};
+assign kernel_img_mul_11[19] = { {8{1'b0}},layer3[11][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[1][39:32]};
+assign kernel_img_mul_11[20] = { {8{1'b0}},layer4[11][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[0][7:0]};
+assign kernel_img_mul_11[21] = { {8{1'b0}},layer4[11][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[0][15:8]};
+assign kernel_img_mul_11[22] = { {8{1'b0}},layer4[11][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[0][23:16]};
+assign kernel_img_mul_11[23] = { {8{1'b0}},layer4[11][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[0][31:24]};
+assign kernel_img_mul_11[24] = { {8{1'b0}},layer4[11][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[0][39:32]};
+wire  [15:0]  kernel_img_sum_11 = kernel_img_mul_11[0] + kernel_img_mul_11[1] + kernel_img_mul_11[2] + 
                 kernel_img_mul_11[3] + kernel_img_mul_11[4] + kernel_img_mul_11[5] + 
                 kernel_img_mul_11[6] + kernel_img_mul_11[7] + kernel_img_mul_11[8] + 
                 kernel_img_mul_11[9] + kernel_img_mul_11[10] + kernel_img_mul_11[11] + 
@@ -16953,33 +16953,33 @@ wire  [39:0]  kernel_img_sum_11 = kernel_img_mul_11[0] + kernel_img_mul_11[1] + 
                 kernel_img_mul_11[18] + kernel_img_mul_11[19] + kernel_img_mul_11[20] + 
                 kernel_img_mul_11[21] + kernel_img_mul_11[22] + kernel_img_mul_11[23] + 
                 kernel_img_mul_11[24];
-wire  [39:0]  kernel_img_mul_12[0:24];
-assign kernel_img_mul_12[0] = layer0[12][7:0] *  G_Kernel_5x5[0][31:0];
-assign kernel_img_mul_12[1] = layer0[12][15:8] *  G_Kernel_5x5[0][63:32];
-assign kernel_img_mul_12[2] = layer0[12][23:16] *  G_Kernel_5x5[0][95:64];
-assign kernel_img_mul_12[3] = layer0[12][31:24] *  G_Kernel_5x5[0][127:96];
-assign kernel_img_mul_12[4] = layer0[12][39:32] *  G_Kernel_5x5[0][159:128];
-assign kernel_img_mul_12[5] = layer1[12][7:0] *  G_Kernel_5x5[1][31:0];
-assign kernel_img_mul_12[6] = layer1[12][15:8] *  G_Kernel_5x5[1][63:32];
-assign kernel_img_mul_12[7] = layer1[12][23:16] *  G_Kernel_5x5[1][95:64];
-assign kernel_img_mul_12[8] = layer1[12][31:24] *  G_Kernel_5x5[1][127:96];
-assign kernel_img_mul_12[9] = layer1[12][39:32] *  G_Kernel_5x5[1][159:128];
-assign kernel_img_mul_12[10] = layer2[12][7:0] *  G_Kernel_5x5[2][31:0];
-assign kernel_img_mul_12[11] = layer2[12][15:8] *  G_Kernel_5x5[2][63:32];
-assign kernel_img_mul_12[12] = layer2[12][23:16] *  G_Kernel_5x5[2][95:64];
-assign kernel_img_mul_12[13] = layer2[12][31:24] *  G_Kernel_5x5[2][127:96];
-assign kernel_img_mul_12[14] = layer2[12][39:32] *  G_Kernel_5x5[2][159:128];
-assign kernel_img_mul_12[15] = layer3[12][7:0] *  G_Kernel_5x5[1][31:0];
-assign kernel_img_mul_12[16] = layer3[12][15:8] *  G_Kernel_5x5[1][63:32];
-assign kernel_img_mul_12[17] = layer3[12][23:16] *  G_Kernel_5x5[1][95:64];
-assign kernel_img_mul_12[18] = layer3[12][31:24] *  G_Kernel_5x5[1][127:96];
-assign kernel_img_mul_12[19] = layer3[12][39:32] *  G_Kernel_5x5[1][159:128];
-assign kernel_img_mul_12[20] = layer4[12][7:0] *  G_Kernel_5x5[0][31:0];
-assign kernel_img_mul_12[21] = layer4[12][15:8] *  G_Kernel_5x5[0][63:32];
-assign kernel_img_mul_12[22] = layer4[12][23:16] *  G_Kernel_5x5[0][95:64];
-assign kernel_img_mul_12[23] = layer4[12][31:24] *  G_Kernel_5x5[0][127:96];
-assign kernel_img_mul_12[24] = layer4[12][39:32] *  G_Kernel_5x5[0][159:128];
-wire  [39:0]  kernel_img_sum_12 = kernel_img_mul_12[0] + kernel_img_mul_12[1] + kernel_img_mul_12[2] + 
+wire  [15:0]  kernel_img_mul_12[0:24];
+assign kernel_img_mul_12[0] = { {8{1'b0}},layer0[12][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[0][7:0]};
+assign kernel_img_mul_12[1] = { {8{1'b0}},layer0[12][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[0][15:8]};
+assign kernel_img_mul_12[2] = { {8{1'b0}},layer0[12][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[0][23:16]};
+assign kernel_img_mul_12[3] = { {8{1'b0}},layer0[12][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[0][31:24]};
+assign kernel_img_mul_12[4] = { {8{1'b0}},layer0[12][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[0][39:32]};
+assign kernel_img_mul_12[5] = { {8{1'b0}},layer1[12][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[1][7:0]};
+assign kernel_img_mul_12[6] = { {8{1'b0}},layer1[12][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[1][15:8]};
+assign kernel_img_mul_12[7] = { {8{1'b0}},layer1[12][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[1][23:16]};
+assign kernel_img_mul_12[8] = { {8{1'b0}},layer1[12][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[1][31:24]};
+assign kernel_img_mul_12[9] = { {8{1'b0}},layer1[12][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[1][39:32]};
+assign kernel_img_mul_12[10] = { {8{1'b0}},layer2[12][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[2][7:0]};
+assign kernel_img_mul_12[11] = { {8{1'b0}},layer2[12][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[2][15:8]};
+assign kernel_img_mul_12[12] = { {8{1'b0}},layer2[12][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[2][23:16]};
+assign kernel_img_mul_12[13] = { {8{1'b0}},layer2[12][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[2][31:24]};
+assign kernel_img_mul_12[14] = { {8{1'b0}},layer2[12][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[2][39:32]};
+assign kernel_img_mul_12[15] = { {8{1'b0}},layer3[12][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[1][7:0]};
+assign kernel_img_mul_12[16] = { {8{1'b0}},layer3[12][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[1][15:8]};
+assign kernel_img_mul_12[17] = { {8{1'b0}},layer3[12][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[1][23:16]};
+assign kernel_img_mul_12[18] = { {8{1'b0}},layer3[12][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[1][31:24]};
+assign kernel_img_mul_12[19] = { {8{1'b0}},layer3[12][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[1][39:32]};
+assign kernel_img_mul_12[20] = { {8{1'b0}},layer4[12][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[0][7:0]};
+assign kernel_img_mul_12[21] = { {8{1'b0}},layer4[12][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[0][15:8]};
+assign kernel_img_mul_12[22] = { {8{1'b0}},layer4[12][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[0][23:16]};
+assign kernel_img_mul_12[23] = { {8{1'b0}},layer4[12][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[0][31:24]};
+assign kernel_img_mul_12[24] = { {8{1'b0}},layer4[12][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[0][39:32]};
+wire  [15:0]  kernel_img_sum_12 = kernel_img_mul_12[0] + kernel_img_mul_12[1] + kernel_img_mul_12[2] + 
                 kernel_img_mul_12[3] + kernel_img_mul_12[4] + kernel_img_mul_12[5] + 
                 kernel_img_mul_12[6] + kernel_img_mul_12[7] + kernel_img_mul_12[8] + 
                 kernel_img_mul_12[9] + kernel_img_mul_12[10] + kernel_img_mul_12[11] + 
@@ -16988,33 +16988,33 @@ wire  [39:0]  kernel_img_sum_12 = kernel_img_mul_12[0] + kernel_img_mul_12[1] + 
                 kernel_img_mul_12[18] + kernel_img_mul_12[19] + kernel_img_mul_12[20] + 
                 kernel_img_mul_12[21] + kernel_img_mul_12[22] + kernel_img_mul_12[23] + 
                 kernel_img_mul_12[24];
-wire  [39:0]  kernel_img_mul_13[0:24];
-assign kernel_img_mul_13[0] = layer0[13][7:0] *  G_Kernel_5x5[0][31:0];
-assign kernel_img_mul_13[1] = layer0[13][15:8] *  G_Kernel_5x5[0][63:32];
-assign kernel_img_mul_13[2] = layer0[13][23:16] *  G_Kernel_5x5[0][95:64];
-assign kernel_img_mul_13[3] = layer0[13][31:24] *  G_Kernel_5x5[0][127:96];
-assign kernel_img_mul_13[4] = layer0[13][39:32] *  G_Kernel_5x5[0][159:128];
-assign kernel_img_mul_13[5] = layer1[13][7:0] *  G_Kernel_5x5[1][31:0];
-assign kernel_img_mul_13[6] = layer1[13][15:8] *  G_Kernel_5x5[1][63:32];
-assign kernel_img_mul_13[7] = layer1[13][23:16] *  G_Kernel_5x5[1][95:64];
-assign kernel_img_mul_13[8] = layer1[13][31:24] *  G_Kernel_5x5[1][127:96];
-assign kernel_img_mul_13[9] = layer1[13][39:32] *  G_Kernel_5x5[1][159:128];
-assign kernel_img_mul_13[10] = layer2[13][7:0] *  G_Kernel_5x5[2][31:0];
-assign kernel_img_mul_13[11] = layer2[13][15:8] *  G_Kernel_5x5[2][63:32];
-assign kernel_img_mul_13[12] = layer2[13][23:16] *  G_Kernel_5x5[2][95:64];
-assign kernel_img_mul_13[13] = layer2[13][31:24] *  G_Kernel_5x5[2][127:96];
-assign kernel_img_mul_13[14] = layer2[13][39:32] *  G_Kernel_5x5[2][159:128];
-assign kernel_img_mul_13[15] = layer3[13][7:0] *  G_Kernel_5x5[1][31:0];
-assign kernel_img_mul_13[16] = layer3[13][15:8] *  G_Kernel_5x5[1][63:32];
-assign kernel_img_mul_13[17] = layer3[13][23:16] *  G_Kernel_5x5[1][95:64];
-assign kernel_img_mul_13[18] = layer3[13][31:24] *  G_Kernel_5x5[1][127:96];
-assign kernel_img_mul_13[19] = layer3[13][39:32] *  G_Kernel_5x5[1][159:128];
-assign kernel_img_mul_13[20] = layer4[13][7:0] *  G_Kernel_5x5[0][31:0];
-assign kernel_img_mul_13[21] = layer4[13][15:8] *  G_Kernel_5x5[0][63:32];
-assign kernel_img_mul_13[22] = layer4[13][23:16] *  G_Kernel_5x5[0][95:64];
-assign kernel_img_mul_13[23] = layer4[13][31:24] *  G_Kernel_5x5[0][127:96];
-assign kernel_img_mul_13[24] = layer4[13][39:32] *  G_Kernel_5x5[0][159:128];
-wire  [39:0]  kernel_img_sum_13 = kernel_img_mul_13[0] + kernel_img_mul_13[1] + kernel_img_mul_13[2] + 
+wire  [15:0]  kernel_img_mul_13[0:24];
+assign kernel_img_mul_13[0] = { {8{1'b0}},layer0[13][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[0][7:0]};
+assign kernel_img_mul_13[1] = { {8{1'b0}},layer0[13][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[0][15:8]};
+assign kernel_img_mul_13[2] = { {8{1'b0}},layer0[13][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[0][23:16]};
+assign kernel_img_mul_13[3] = { {8{1'b0}},layer0[13][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[0][31:24]};
+assign kernel_img_mul_13[4] = { {8{1'b0}},layer0[13][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[0][39:32]};
+assign kernel_img_mul_13[5] = { {8{1'b0}},layer1[13][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[1][7:0]};
+assign kernel_img_mul_13[6] = { {8{1'b0}},layer1[13][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[1][15:8]};
+assign kernel_img_mul_13[7] = { {8{1'b0}},layer1[13][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[1][23:16]};
+assign kernel_img_mul_13[8] = { {8{1'b0}},layer1[13][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[1][31:24]};
+assign kernel_img_mul_13[9] = { {8{1'b0}},layer1[13][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[1][39:32]};
+assign kernel_img_mul_13[10] = { {8{1'b0}},layer2[13][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[2][7:0]};
+assign kernel_img_mul_13[11] = { {8{1'b0}},layer2[13][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[2][15:8]};
+assign kernel_img_mul_13[12] = { {8{1'b0}},layer2[13][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[2][23:16]};
+assign kernel_img_mul_13[13] = { {8{1'b0}},layer2[13][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[2][31:24]};
+assign kernel_img_mul_13[14] = { {8{1'b0}},layer2[13][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[2][39:32]};
+assign kernel_img_mul_13[15] = { {8{1'b0}},layer3[13][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[1][7:0]};
+assign kernel_img_mul_13[16] = { {8{1'b0}},layer3[13][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[1][15:8]};
+assign kernel_img_mul_13[17] = { {8{1'b0}},layer3[13][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[1][23:16]};
+assign kernel_img_mul_13[18] = { {8{1'b0}},layer3[13][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[1][31:24]};
+assign kernel_img_mul_13[19] = { {8{1'b0}},layer3[13][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[1][39:32]};
+assign kernel_img_mul_13[20] = { {8{1'b0}},layer4[13][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[0][7:0]};
+assign kernel_img_mul_13[21] = { {8{1'b0}},layer4[13][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[0][15:8]};
+assign kernel_img_mul_13[22] = { {8{1'b0}},layer4[13][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[0][23:16]};
+assign kernel_img_mul_13[23] = { {8{1'b0}},layer4[13][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[0][31:24]};
+assign kernel_img_mul_13[24] = { {8{1'b0}},layer4[13][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[0][39:32]};
+wire  [15:0]  kernel_img_sum_13 = kernel_img_mul_13[0] + kernel_img_mul_13[1] + kernel_img_mul_13[2] + 
                 kernel_img_mul_13[3] + kernel_img_mul_13[4] + kernel_img_mul_13[5] + 
                 kernel_img_mul_13[6] + kernel_img_mul_13[7] + kernel_img_mul_13[8] + 
                 kernel_img_mul_13[9] + kernel_img_mul_13[10] + kernel_img_mul_13[11] + 
@@ -17023,33 +17023,33 @@ wire  [39:0]  kernel_img_sum_13 = kernel_img_mul_13[0] + kernel_img_mul_13[1] + 
                 kernel_img_mul_13[18] + kernel_img_mul_13[19] + kernel_img_mul_13[20] + 
                 kernel_img_mul_13[21] + kernel_img_mul_13[22] + kernel_img_mul_13[23] + 
                 kernel_img_mul_13[24];
-wire  [39:0]  kernel_img_mul_14[0:24];
-assign kernel_img_mul_14[0] = layer0[14][7:0] *  G_Kernel_5x5[0][31:0];
-assign kernel_img_mul_14[1] = layer0[14][15:8] *  G_Kernel_5x5[0][63:32];
-assign kernel_img_mul_14[2] = layer0[14][23:16] *  G_Kernel_5x5[0][95:64];
-assign kernel_img_mul_14[3] = layer0[14][31:24] *  G_Kernel_5x5[0][127:96];
-assign kernel_img_mul_14[4] = layer0[14][39:32] *  G_Kernel_5x5[0][159:128];
-assign kernel_img_mul_14[5] = layer1[14][7:0] *  G_Kernel_5x5[1][31:0];
-assign kernel_img_mul_14[6] = layer1[14][15:8] *  G_Kernel_5x5[1][63:32];
-assign kernel_img_mul_14[7] = layer1[14][23:16] *  G_Kernel_5x5[1][95:64];
-assign kernel_img_mul_14[8] = layer1[14][31:24] *  G_Kernel_5x5[1][127:96];
-assign kernel_img_mul_14[9] = layer1[14][39:32] *  G_Kernel_5x5[1][159:128];
-assign kernel_img_mul_14[10] = layer2[14][7:0] *  G_Kernel_5x5[2][31:0];
-assign kernel_img_mul_14[11] = layer2[14][15:8] *  G_Kernel_5x5[2][63:32];
-assign kernel_img_mul_14[12] = layer2[14][23:16] *  G_Kernel_5x5[2][95:64];
-assign kernel_img_mul_14[13] = layer2[14][31:24] *  G_Kernel_5x5[2][127:96];
-assign kernel_img_mul_14[14] = layer2[14][39:32] *  G_Kernel_5x5[2][159:128];
-assign kernel_img_mul_14[15] = layer3[14][7:0] *  G_Kernel_5x5[1][31:0];
-assign kernel_img_mul_14[16] = layer3[14][15:8] *  G_Kernel_5x5[1][63:32];
-assign kernel_img_mul_14[17] = layer3[14][23:16] *  G_Kernel_5x5[1][95:64];
-assign kernel_img_mul_14[18] = layer3[14][31:24] *  G_Kernel_5x5[1][127:96];
-assign kernel_img_mul_14[19] = layer3[14][39:32] *  G_Kernel_5x5[1][159:128];
-assign kernel_img_mul_14[20] = layer4[14][7:0] *  G_Kernel_5x5[0][31:0];
-assign kernel_img_mul_14[21] = layer4[14][15:8] *  G_Kernel_5x5[0][63:32];
-assign kernel_img_mul_14[22] = layer4[14][23:16] *  G_Kernel_5x5[0][95:64];
-assign kernel_img_mul_14[23] = layer4[14][31:24] *  G_Kernel_5x5[0][127:96];
-assign kernel_img_mul_14[24] = layer4[14][39:32] *  G_Kernel_5x5[0][159:128];
-wire  [39:0]  kernel_img_sum_14 = kernel_img_mul_14[0] + kernel_img_mul_14[1] + kernel_img_mul_14[2] + 
+wire  [15:0]  kernel_img_mul_14[0:24];
+assign kernel_img_mul_14[0] = { {8{1'b0}},layer0[14][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[0][7:0]};
+assign kernel_img_mul_14[1] = { {8{1'b0}},layer0[14][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[0][15:8]};
+assign kernel_img_mul_14[2] = { {8{1'b0}},layer0[14][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[0][23:16]};
+assign kernel_img_mul_14[3] = { {8{1'b0}},layer0[14][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[0][31:24]};
+assign kernel_img_mul_14[4] = { {8{1'b0}},layer0[14][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[0][39:32]};
+assign kernel_img_mul_14[5] = { {8{1'b0}},layer1[14][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[1][7:0]};
+assign kernel_img_mul_14[6] = { {8{1'b0}},layer1[14][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[1][15:8]};
+assign kernel_img_mul_14[7] = { {8{1'b0}},layer1[14][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[1][23:16]};
+assign kernel_img_mul_14[8] = { {8{1'b0}},layer1[14][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[1][31:24]};
+assign kernel_img_mul_14[9] = { {8{1'b0}},layer1[14][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[1][39:32]};
+assign kernel_img_mul_14[10] = { {8{1'b0}},layer2[14][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[2][7:0]};
+assign kernel_img_mul_14[11] = { {8{1'b0}},layer2[14][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[2][15:8]};
+assign kernel_img_mul_14[12] = { {8{1'b0}},layer2[14][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[2][23:16]};
+assign kernel_img_mul_14[13] = { {8{1'b0}},layer2[14][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[2][31:24]};
+assign kernel_img_mul_14[14] = { {8{1'b0}},layer2[14][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[2][39:32]};
+assign kernel_img_mul_14[15] = { {8{1'b0}},layer3[14][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[1][7:0]};
+assign kernel_img_mul_14[16] = { {8{1'b0}},layer3[14][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[1][15:8]};
+assign kernel_img_mul_14[17] = { {8{1'b0}},layer3[14][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[1][23:16]};
+assign kernel_img_mul_14[18] = { {8{1'b0}},layer3[14][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[1][31:24]};
+assign kernel_img_mul_14[19] = { {8{1'b0}},layer3[14][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[1][39:32]};
+assign kernel_img_mul_14[20] = { {8{1'b0}},layer4[14][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[0][7:0]};
+assign kernel_img_mul_14[21] = { {8{1'b0}},layer4[14][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[0][15:8]};
+assign kernel_img_mul_14[22] = { {8{1'b0}},layer4[14][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[0][23:16]};
+assign kernel_img_mul_14[23] = { {8{1'b0}},layer4[14][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[0][31:24]};
+assign kernel_img_mul_14[24] = { {8{1'b0}},layer4[14][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[0][39:32]};
+wire  [15:0]  kernel_img_sum_14 = kernel_img_mul_14[0] + kernel_img_mul_14[1] + kernel_img_mul_14[2] + 
                 kernel_img_mul_14[3] + kernel_img_mul_14[4] + kernel_img_mul_14[5] + 
                 kernel_img_mul_14[6] + kernel_img_mul_14[7] + kernel_img_mul_14[8] + 
                 kernel_img_mul_14[9] + kernel_img_mul_14[10] + kernel_img_mul_14[11] + 
@@ -17058,33 +17058,33 @@ wire  [39:0]  kernel_img_sum_14 = kernel_img_mul_14[0] + kernel_img_mul_14[1] + 
                 kernel_img_mul_14[18] + kernel_img_mul_14[19] + kernel_img_mul_14[20] + 
                 kernel_img_mul_14[21] + kernel_img_mul_14[22] + kernel_img_mul_14[23] + 
                 kernel_img_mul_14[24];
-wire  [39:0]  kernel_img_mul_15[0:24];
-assign kernel_img_mul_15[0] = layer0[15][7:0] *  G_Kernel_5x5[0][31:0];
-assign kernel_img_mul_15[1] = layer0[15][15:8] *  G_Kernel_5x5[0][63:32];
-assign kernel_img_mul_15[2] = layer0[15][23:16] *  G_Kernel_5x5[0][95:64];
-assign kernel_img_mul_15[3] = layer0[15][31:24] *  G_Kernel_5x5[0][127:96];
-assign kernel_img_mul_15[4] = layer0[15][39:32] *  G_Kernel_5x5[0][159:128];
-assign kernel_img_mul_15[5] = layer1[15][7:0] *  G_Kernel_5x5[1][31:0];
-assign kernel_img_mul_15[6] = layer1[15][15:8] *  G_Kernel_5x5[1][63:32];
-assign kernel_img_mul_15[7] = layer1[15][23:16] *  G_Kernel_5x5[1][95:64];
-assign kernel_img_mul_15[8] = layer1[15][31:24] *  G_Kernel_5x5[1][127:96];
-assign kernel_img_mul_15[9] = layer1[15][39:32] *  G_Kernel_5x5[1][159:128];
-assign kernel_img_mul_15[10] = layer2[15][7:0] *  G_Kernel_5x5[2][31:0];
-assign kernel_img_mul_15[11] = layer2[15][15:8] *  G_Kernel_5x5[2][63:32];
-assign kernel_img_mul_15[12] = layer2[15][23:16] *  G_Kernel_5x5[2][95:64];
-assign kernel_img_mul_15[13] = layer2[15][31:24] *  G_Kernel_5x5[2][127:96];
-assign kernel_img_mul_15[14] = layer2[15][39:32] *  G_Kernel_5x5[2][159:128];
-assign kernel_img_mul_15[15] = layer3[15][7:0] *  G_Kernel_5x5[1][31:0];
-assign kernel_img_mul_15[16] = layer3[15][15:8] *  G_Kernel_5x5[1][63:32];
-assign kernel_img_mul_15[17] = layer3[15][23:16] *  G_Kernel_5x5[1][95:64];
-assign kernel_img_mul_15[18] = layer3[15][31:24] *  G_Kernel_5x5[1][127:96];
-assign kernel_img_mul_15[19] = layer3[15][39:32] *  G_Kernel_5x5[1][159:128];
-assign kernel_img_mul_15[20] = layer4[15][7:0] *  G_Kernel_5x5[0][31:0];
-assign kernel_img_mul_15[21] = layer4[15][15:8] *  G_Kernel_5x5[0][63:32];
-assign kernel_img_mul_15[22] = layer4[15][23:16] *  G_Kernel_5x5[0][95:64];
-assign kernel_img_mul_15[23] = layer4[15][31:24] *  G_Kernel_5x5[0][127:96];
-assign kernel_img_mul_15[24] = layer4[15][39:32] *  G_Kernel_5x5[0][159:128];
-wire  [39:0]  kernel_img_sum_15 = kernel_img_mul_15[0] + kernel_img_mul_15[1] + kernel_img_mul_15[2] + 
+wire  [15:0]  kernel_img_mul_15[0:24];
+assign kernel_img_mul_15[0] = { {8{1'b0}},layer0[15][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[0][7:0]};
+assign kernel_img_mul_15[1] = { {8{1'b0}},layer0[15][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[0][15:8]};
+assign kernel_img_mul_15[2] = { {8{1'b0}},layer0[15][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[0][23:16]};
+assign kernel_img_mul_15[3] = { {8{1'b0}},layer0[15][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[0][31:24]};
+assign kernel_img_mul_15[4] = { {8{1'b0}},layer0[15][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[0][39:32]};
+assign kernel_img_mul_15[5] = { {8{1'b0}},layer1[15][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[1][7:0]};
+assign kernel_img_mul_15[6] = { {8{1'b0}},layer1[15][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[1][15:8]};
+assign kernel_img_mul_15[7] = { {8{1'b0}},layer1[15][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[1][23:16]};
+assign kernel_img_mul_15[8] = { {8{1'b0}},layer1[15][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[1][31:24]};
+assign kernel_img_mul_15[9] = { {8{1'b0}},layer1[15][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[1][39:32]};
+assign kernel_img_mul_15[10] = { {8{1'b0}},layer2[15][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[2][7:0]};
+assign kernel_img_mul_15[11] = { {8{1'b0}},layer2[15][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[2][15:8]};
+assign kernel_img_mul_15[12] = { {8{1'b0}},layer2[15][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[2][23:16]};
+assign kernel_img_mul_15[13] = { {8{1'b0}},layer2[15][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[2][31:24]};
+assign kernel_img_mul_15[14] = { {8{1'b0}},layer2[15][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[2][39:32]};
+assign kernel_img_mul_15[15] = { {8{1'b0}},layer3[15][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[1][7:0]};
+assign kernel_img_mul_15[16] = { {8{1'b0}},layer3[15][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[1][15:8]};
+assign kernel_img_mul_15[17] = { {8{1'b0}},layer3[15][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[1][23:16]};
+assign kernel_img_mul_15[18] = { {8{1'b0}},layer3[15][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[1][31:24]};
+assign kernel_img_mul_15[19] = { {8{1'b0}},layer3[15][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[1][39:32]};
+assign kernel_img_mul_15[20] = { {8{1'b0}},layer4[15][7:0]} *  { {8{1'b0}}, G_Kernel_5x5[0][7:0]};
+assign kernel_img_mul_15[21] = { {8{1'b0}},layer4[15][15:8]} *  { {8{1'b0}}, G_Kernel_5x5[0][15:8]};
+assign kernel_img_mul_15[22] = { {8{1'b0}},layer4[15][23:16]} *  { {8{1'b0}}, G_Kernel_5x5[0][23:16]};
+assign kernel_img_mul_15[23] = { {8{1'b0}},layer4[15][31:24]} *  { {8{1'b0}}, G_Kernel_5x5[0][31:24]};
+assign kernel_img_mul_15[24] = { {8{1'b0}},layer4[15][39:32]} *  { {8{1'b0}}, G_Kernel_5x5[0][39:32]};
+wire  [15:0]  kernel_img_sum_15 = kernel_img_mul_15[0] + kernel_img_mul_15[1] + kernel_img_mul_15[2] + 
                 kernel_img_mul_15[3] + kernel_img_mul_15[4] + kernel_img_mul_15[5] + 
                 kernel_img_mul_15[6] + kernel_img_mul_15[7] + kernel_img_mul_15[8] + 
                 kernel_img_mul_15[9] + kernel_img_mul_15[10] + kernel_img_mul_15[11] + 
@@ -17094,22 +17094,22 @@ wire  [39:0]  kernel_img_sum_15 = kernel_img_mul_15[0] + kernel_img_mul_15[1] + 
                 kernel_img_mul_15[21] + kernel_img_mul_15[22] + kernel_img_mul_15[23] + 
                 kernel_img_mul_15[24];
 always @(*) begin
-    blur_out[7:0] = kernel_img_sum_0[39:32];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[15:8] = kernel_img_sum_1[39:32];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[23:16] = kernel_img_sum_2[39:32];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[31:24] = kernel_img_sum_3[39:32];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[39:32] = kernel_img_sum_4[39:32];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[47:40] = kernel_img_sum_5[39:32];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[55:48] = kernel_img_sum_6[39:32];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[63:56] = kernel_img_sum_7[39:32];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[71:64] = kernel_img_sum_8[39:32];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[79:72] = kernel_img_sum_9[39:32];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[87:80] = kernel_img_sum_10[39:32];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[95:88] = kernel_img_sum_11[39:32];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[103:96] = kernel_img_sum_12[39:32];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[111:104] = kernel_img_sum_13[39:32];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[119:112] = kernel_img_sum_14[39:32];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[127:120] = kernel_img_sum_15[39:32];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[7:0] = kernel_img_sum_0[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[15:8] = kernel_img_sum_1[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[23:16] = kernel_img_sum_2[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[31:24] = kernel_img_sum_3[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[39:32] = kernel_img_sum_4[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[47:40] = kernel_img_sum_5[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[55:48] = kernel_img_sum_6[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[63:56] = kernel_img_sum_7[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[71:64] = kernel_img_sum_8[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[79:72] = kernel_img_sum_9[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[87:80] = kernel_img_sum_10[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[95:88] = kernel_img_sum_11[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[103:96] = kernel_img_sum_12[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[111:104] = kernel_img_sum_13[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[119:112] = kernel_img_sum_14[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[127:120] = kernel_img_sum_15[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
 end
 
 
