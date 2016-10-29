@@ -20,7 +20,7 @@ input       [175:0]   buffer_data_3;
 input       [175:0]   buffer_data_4;
 output reg  [127:0]   blur_out; // wire
 
-reg       [159:0]  G_Kernel_5x5[0:2];
+reg       [39:0]  G_Kernel_5x5[0:2];
 always @(*) begin
   if (!rst_n) begin
     G_Kernel_5x5[0][7:0]   <= 8'h07; //E31AF6; //18'b000001111110001100;//'d030809;
