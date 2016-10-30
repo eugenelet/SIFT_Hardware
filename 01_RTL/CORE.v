@@ -17,13 +17,13 @@ module CORE(
     target_2_din,
     target_3_din,
     target_addr_in,
-    matched_addr1_in,
+    // matched_addr1_in,
     matched_addr2_in,
-    matched_we_in,
-    in_matched_0_din,
-    in_matched_1_din,
-    in_matched_2_din,
-    in_matched_3_din,
+    // matched_we_in,
+    // in_matched_0_din,
+    // in_matched_1_din,
+    // in_matched_2_din,
+    // in_matched_3_din,
     matched_0_dout,
     matched_1_dout,
     matched_2_dout,
@@ -68,17 +68,16 @@ module CORE(
     /*  Matched Pairs SRAM x4 512x49
      *  addr: 0~511
      */
-    input[8:0]      matched_addr1_in,
-                    matched_addr2_in;
-    input           matched_we_in;
+    input[8:0]      matched_addr2_in;
+    // input           matched_we_in;
     output[48:0]    matched_0_dout,
                     matched_1_dout,
                     matched_2_dout,
                     matched_3_dout;
-    input[48:0]     in_matched_0_din,
+    /*input[48:0]     in_matched_0_din,
                     in_matched_1_din,
                     in_matched_2_din,
-                    in_matched_3_din;
+                    in_matched_3_din;*/
 
     /*  Adaptive Threshold Controller
      *  adaptiveToggle
@@ -461,7 +460,7 @@ module CORE(
               match_matched_1_din,
               match_matched_2_din,
               match_matched_3_din;
-    wire[3:0] match_matched_we;
+    // wire[3:0] match_matched_we;
     match u_match(
         .clk                  (clk),
         .rst_n                (rst_n),
@@ -480,7 +479,7 @@ module CORE(
         .tar_R_C_D_2          (target_2_dout),
         .tar_R_C_D_3          (target_3_dout),
         .matched_addr_1       (match_matched_addr1),//4個共用
-        .matched_WE           (match_matched_we),//4 bit
+        .matched_WE           (matched_we),//4 bit
         .matched_din_0        (match_matched_0_din),//接給matched的din
         .matched_din_1        (match_matched_1_din),
         .matched_din_2        (match_matched_2_din),
@@ -507,13 +506,13 @@ module CORE(
           buffer_in = 0;
           buffer_col = 0;
           target_addr = target_addr_in;
-          matched_addr1 = matched_addr1_in;
+          matched_addr1 = 0; //matched_addr1_in;
           matched_addr2 = 0;
-          matched_we = {matched_we_in, matched_we_in, matched_we_in, matched_we_in};
-          matched_0_din = in_matched_0_din;
-          matched_1_din = in_matched_1_din;
-          matched_2_din = in_matched_2_din;
-          matched_3_din = in_matched_3_din;
+          //matched_we = 0;//{matched_we_in, matched_we_in, matched_we_in, matched_we_in};
+          matched_0_din = 0; //in_matched_0_din;
+          matched_1_din = 0; //in_matched_1_din;
+          matched_2_din = 0; //in_matched_2_din;
+          matched_3_din = 0; //in_matched_3_din;
         end
         ST_GAUSSIAN: begin
           blur_addr1[0] = gaussian_blur_addr[0];    
@@ -529,7 +528,6 @@ module CORE(
           target_addr = 0;
           matched_addr1 = 0;
           matched_addr2 = 0;
-          matched_we = 0;
           matched_0_din = 0;
           matched_1_din = 0;
           matched_2_din = 0;
@@ -549,7 +547,6 @@ module CORE(
           target_addr = 0;
           matched_addr1 = 0;
           matched_addr2 = 0;
-          matched_we = 0;
           matched_0_din = 0;
           matched_1_din = 0;
           matched_2_din = 0;
@@ -569,7 +566,6 @@ module CORE(
           target_addr = match_target_addr;
           matched_addr1 = match_matched_addr1;
           matched_addr2 = match_matched_addr2;
-          matched_we = match_matched_we;
           matched_0_din = match_matched_0_din;
           matched_1_din = match_matched_1_din;
           matched_2_din = match_matched_2_din;
@@ -589,7 +585,6 @@ module CORE(
           target_addr = 0;
           matched_addr1 = 0;
           matched_addr2 = matched_addr2_in;
-          matched_we = 0;
           matched_0_din = 0;
           matched_1_din = 0;
           matched_2_din = 0;

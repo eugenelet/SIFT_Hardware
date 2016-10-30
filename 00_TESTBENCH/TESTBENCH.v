@@ -104,13 +104,13 @@ CORE u_core(
     .target_2_din     (target_2_din),
     .target_3_din     (target_3_din),
     .target_addr_in   (target_addr_in),
-    .matched_addr1_in (matched_addr1_in),
+    // .matched_addr1_in (matched_addr1_in),
     .matched_addr2_in (matched_addr2_in),
-    .matched_we_in    (matched_we_in),
-    .in_matched_0_din (matched_din),
-    .in_matched_1_din (matched_din),
-    .in_matched_2_din (matched_din),
-    .in_matched_3_din (matched_din),
+    // .matched_we_in    (matched_we_in),
+    // .in_matched_0_din (matched_din),
+    // .in_matched_1_din (matched_din),
+    // .in_matched_2_din (matched_din),
+    // .in_matched_3_din (matched_din),
     .matched_0_dout   (matched_0_dout),
     .matched_1_dout   (matched_1_dout),
     .matched_2_dout   (matched_2_dout),
@@ -163,14 +163,14 @@ initial begin
 
 
   /* Initialize Matched Mem SRAM */
-  matched_we_in = 1;
+  /*matched_we_in = 1;
   matched_addr1_in = 0;
   matched_din = 49'h1_FFFF_FFFF_FFFF;
   for(i = 0; i < 512; i=i+1) begin
     @(negedge clk);
     matched_addr1_in = matched_addr1_in + 1;
   end
-  matched_we_in = 0;
+  matched_we_in = 0;*/
 
   /* Write Target SRAM */
   targetFile = $fopen("targetRowColDespt.txt", "r");
@@ -512,19 +512,19 @@ initial begin
     temp = i & 2'b11;
     if(temp[1:0] == 2'b00) begin
        matched_mem_0[i / 4] = matched_0_dout;
-       $fwrite(matched_pairs, "0 %d %d\n", matched_mem_0[i / 4][29:15], matched_mem_0[i / 4][14:0]);
+       $fwrite(matched_pairs, "0 %d %d\n", matched_mem_0[i / 4][48:40], matched_mem_0[i / 4][39:30]);
     end
     else if(temp[1:0] == 2'b01) begin
        matched_mem_1[i / 4] = matched_1_dout;
-       $fwrite(matched_pairs, "1 %d %d\n", matched_mem_1[i / 4][29:15], matched_mem_1[i / 4][14:0]);
+       $fwrite(matched_pairs, "1 %d %d\n", matched_mem_1[i / 4][48:40], matched_mem_1[i / 4][39:30]);
     end
     else if(temp[1:0] == 2'b10) begin
        matched_mem_2[i / 4] = matched_2_dout;
-       $fwrite(matched_pairs, "2 %d %d\n", matched_mem_2[i / 4][29:15], matched_mem_2[i / 4][14:0]);
+       $fwrite(matched_pairs, "2 %d %d\n", matched_mem_2[i / 4][48:40], matched_mem_2[i / 4][39:30]);
     end
     else begin
        matched_mem_3[i / 4] = matched_3_dout;
-       $fwrite(matched_pairs, "3 %d %d\n", matched_mem_3[i / 4][29:15], matched_mem_3[i / 4][14:0]);
+       $fwrite(matched_pairs, "3 %d %d\n", matched_mem_3[i / 4][48:40], matched_mem_3[i / 4][39:30]);
        matched_addr2_in = matched_addr2_in + 1;
        @(negedge clk);
     end
