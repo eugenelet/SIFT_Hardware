@@ -1,8 +1,3 @@
-`timescale 1ns/10ps
-`include  "Gaussian_Blur_3x3.v"
-`include  "Gaussian_Blur_5x5_0.v"
-`include  "Gaussian_Blur_5x5_1.v"
-`include  "Gaussian_Blur_7x7.v"
 module Gaussian_Blur(
   clk,
   rst_n,
