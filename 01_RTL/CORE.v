@@ -17,13 +17,7 @@ module CORE(
     target_2_din,
     target_3_din,
     target_addr_in,
-    // matched_addr1_in,
     matched_addr2_in,
-    // matched_we_in,
-    // in_matched_0_din,
-    // in_matched_1_din,
-    // in_matched_2_din,
-    // in_matched_3_din,
     matched_0_dout,
     matched_1_dout,
     matched_2_dout,
@@ -69,15 +63,10 @@ module CORE(
      *  addr: 0~511
      */
     input[8:0]      matched_addr2_in;
-    // input           matched_we_in;
     output[48:0]    matched_0_dout,
                     matched_1_dout,
                     matched_2_dout,
                     matched_3_dout;
-    /*input[48:0]     in_matched_0_din,
-                    in_matched_1_din,
-                    in_matched_2_din,
-                    in_matched_3_din;*/
 
     /*  Adaptive Threshold Controller
      *  adaptiveToggle
@@ -290,7 +279,6 @@ module CORE(
     reg     [5119:0]  buffer_in;
     wire              buffer_mode = (current_state==ST_DETECT_FILTER) ? 1 : 0;
     reg     [5:0]     buffer_col; /*wire*/
-    // wire              buffer_mode = (gaussian_done)?L_IDLE:L_GAUSSIAN;
     /*System Line Buffer*/
     Line_Buffer_10 l_buf_10(
       .clk            (clk),
@@ -508,7 +496,6 @@ module CORE(
           target_addr = target_addr_in;
           matched_addr1 = 0; //matched_addr1_in;
           matched_addr2 = 0;
-          //matched_we = 0;//{matched_we_in, matched_we_in, matched_we_in, matched_we_in};
           matched_0_din = 0; //in_matched_0_din;
           matched_1_din = 0; //in_matched_1_din;
           matched_2_din = 0; //in_matched_2_din;
