@@ -6,7 +6,8 @@ module compareDist(//combinational
     img3,
     matched_MEM,
     WE,
-    matched_MEM_din
+    matched_MEM_din,
+    firstImgGrp
 );
 
     input       [383:0] tar;
@@ -15,6 +16,7 @@ module compareDist(//combinational
                         img2,
                         img3;
     input       [48:0]  matched_MEM;
+    input               firstImgGrp;
     output              WE;
     output  reg [48:0]  matched_MEM_din;//min's row, min's col, min, min2
     
@@ -107,13 +109,13 @@ module compareDist(//combinational
     
         case(whoIsMin)
             2'b00://0 is smallest
-                matched_MEM_din = { ((minHasChanged)? img0[402:384] : matched_MEM[48:30]), new_min, new_min2 };//min, min2, mem_min, mem_min2 => new_min, new_min2
+                matched_MEM_din = (firstImgGrp)? { img0[402:384], min, min2 } : { ((minHasChanged)? img0[402:384] : matched_MEM[48:30]), new_min, new_min2 };//min, min2, mem_min, mem_min2 => new_min, new_min2
             2'b01:                                                                                         
-                matched_MEM_din = { ((minHasChanged)? img1[402:384] : matched_MEM[48:30]), new_min, new_min2 };
+                matched_MEM_din = (firstImgGrp)? { img1[402:384], min, min2 } : { ((minHasChanged)? img1[402:384] : matched_MEM[48:30]), new_min, new_min2 };
             2'b10:                                                                                         
-                matched_MEM_din = { ((minHasChanged)? img2[402:384] : matched_MEM[48:30]), new_min, new_min2 };
+                matched_MEM_din = (firstImgGrp)? { img2[402:384], min, min2 } : { ((minHasChanged)? img2[402:384] : matched_MEM[48:30]), new_min, new_min2 };
             2'b11:                                                                                  
-                matched_MEM_din = { ((minHasChanged)? img3[402:384] : matched_MEM[48:30]), new_min, new_min2 };
+                matched_MEM_din = (firstImgGrp)? { img3[402:384], min, min2 } : { ((minHasChanged)? img3[402:384] : matched_MEM[48:30]), new_min, new_min2 };
             default:
                 matched_MEM_din = 'd0;
         endcase
