@@ -115,7 +115,7 @@ parameter ST_IDLE        = 0,
 reg     [3:0] current_state,
               next_state;
 
-              
+
 /*Start and done of gaussian blur*/
 wire  g_blur_done;
 reg   g_blur_start;
@@ -643,7 +643,7 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     blur_din_0 <= 'd0;    
-  else if (current_state==ST_UPDATE)
+  else if (g_blur_done)
     blur_din_0 <= blur_concat_0;
   else if (current_state==ST_IDLE)
     blur_din_0 <= 'd0;
@@ -651,7 +651,7 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     blur_din_1 <= 'd0;    
-  else if (current_state==ST_UPDATE)
+  else if (g_blur_done)
     blur_din_1 <= blur_concat_1;
   else if (current_state==ST_IDLE)
     blur_din_1 <= 'd0;
@@ -659,7 +659,7 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     blur_din_2 <= 'd0;    
-  else if (current_state==ST_UPDATE)
+  else if (g_blur_done)
     blur_din_2 <= blur_concat_2;
   else if (current_state==ST_IDLE)
     blur_din_2 <= 'd0;
@@ -667,7 +667,7 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     blur_din_3 <= 'd0;    
-  else if (current_state==ST_UPDATE)
+  else if (g_blur_done)
     blur_din_3 <= blur_concat_3;
   else if (current_state==ST_IDLE)
     blur_din_3 <= 'd0;
