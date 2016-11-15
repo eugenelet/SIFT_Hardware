@@ -286,7 +286,7 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     blur_addr_r_0 <= 'd0;
-  else if (((current_state==ST_FIRST_COL || current_state==ST_NEXT_COL) && col_relay==2) || current_state==ST_UPDATE && blur_addr_r_0<'d480)
+  else if (/*((current_state==ST_FIRST_COL || current_state==ST_NEXT_COL) && col_relay==2) ||*/ current_state==ST_UPDATE && blur_addr_r_0<'d480)
     blur_addr_r_0 <= blur_addr_r_0 + 'd1;
   else if (current_state==ST_IDLE || current_state==ST_NEXT_COL)
     blur_addr_r_0 <= 'd0;
