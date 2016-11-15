@@ -6036,15 +6036,15 @@ end
 reg  [15:0]  kernel_img_mul_0[0:8];
 always@(posedge clk) begin
   if(!rst_n) begin
-    kernel_img_mul_0[0] <= 'd0
-    kernel_img_mul_0[1] <= 'd0
-    kernel_img_mul_0[2] <= 'd0
-    kernel_img_mul_0[3] <= 'd0
-    kernel_img_mul_0[4] <= 'd0
-    kernel_img_mul_0[5] <= 'd0
-    kernel_img_mul_0[6] <= 'd0
-    kernel_img_mul_0[7] <= 'd0
-    kernel_img_mul_0[8] <= 'd0
+    kernel_img_mul_0[0] <= 'd0;
+    kernel_img_mul_0[1] <= 'd0;
+    kernel_img_mul_0[2] <= 'd0;
+    kernel_img_mul_0[3] <= 'd0;
+    kernel_img_mul_0[4] <= 'd0;
+    kernel_img_mul_0[5] <= 'd0;
+    kernel_img_mul_0[6] <= 'd0;
+    kernel_img_mul_0[7] <= 'd0;
+    kernel_img_mul_0[8] <= 'd0;
   end
   else if(current_state==ST_MUL) begin
     kernel_img_mul_0[0] <= { {8{1'b0}},layer0[0][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
@@ -6072,15 +6072,15 @@ end
 reg  [15:0]  kernel_img_mul_1[0:8];
 always@(posedge clk) begin
   if(!rst_n) begin
-    kernel_img_mul_1[0] <= 'd0
-    kernel_img_mul_1[1] <= 'd0
-    kernel_img_mul_1[2] <= 'd0
-    kernel_img_mul_1[3] <= 'd0
-    kernel_img_mul_1[4] <= 'd0
-    kernel_img_mul_1[5] <= 'd0
-    kernel_img_mul_1[6] <= 'd0
-    kernel_img_mul_1[7] <= 'd0
-    kernel_img_mul_1[8] <= 'd0
+    kernel_img_mul_1[0] <= 'd0;
+    kernel_img_mul_1[1] <= 'd0;
+    kernel_img_mul_1[2] <= 'd0;
+    kernel_img_mul_1[3] <= 'd0;
+    kernel_img_mul_1[4] <= 'd0;
+    kernel_img_mul_1[5] <= 'd0;
+    kernel_img_mul_1[6] <= 'd0;
+    kernel_img_mul_1[7] <= 'd0;
+    kernel_img_mul_1[8] <= 'd0;
   end
   else if(current_state==ST_MUL) begin
     kernel_img_mul_1[0] <= { {8{1'b0}},layer0[1][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
@@ -6108,15 +6108,15 @@ end
 reg  [15:0]  kernel_img_mul_2[0:8];
 always@(posedge clk) begin
   if(!rst_n) begin
-    kernel_img_mul_2[0] <= 'd0
-    kernel_img_mul_2[1] <= 'd0
-    kernel_img_mul_2[2] <= 'd0
-    kernel_img_mul_2[3] <= 'd0
-    kernel_img_mul_2[4] <= 'd0
-    kernel_img_mul_2[5] <= 'd0
-    kernel_img_mul_2[6] <= 'd0
-    kernel_img_mul_2[7] <= 'd0
-    kernel_img_mul_2[8] <= 'd0
+    kernel_img_mul_2[0] <= 'd0;
+    kernel_img_mul_2[1] <= 'd0;
+    kernel_img_mul_2[2] <= 'd0;
+    kernel_img_mul_2[3] <= 'd0;
+    kernel_img_mul_2[4] <= 'd0;
+    kernel_img_mul_2[5] <= 'd0;
+    kernel_img_mul_2[6] <= 'd0;
+    kernel_img_mul_2[7] <= 'd0;
+    kernel_img_mul_2[8] <= 'd0;
   end
   else if(current_state==ST_MUL) begin
     kernel_img_mul_2[0] <= { {8{1'b0}},layer0[2][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
@@ -6144,15 +6144,15 @@ end
 reg  [15:0]  kernel_img_mul_3[0:8];
 always@(posedge clk) begin
   if(!rst_n) begin
-    kernel_img_mul_3[0] <= 'd0
-    kernel_img_mul_3[1] <= 'd0
-    kernel_img_mul_3[2] <= 'd0
-    kernel_img_mul_3[3] <= 'd0
-    kernel_img_mul_3[4] <= 'd0
-    kernel_img_mul_3[5] <= 'd0
-    kernel_img_mul_3[6] <= 'd0
-    kernel_img_mul_3[7] <= 'd0
-    kernel_img_mul_3[8] <= 'd0
+    kernel_img_mul_3[0] <= 'd0;
+    kernel_img_mul_3[1] <= 'd0;
+    kernel_img_mul_3[2] <= 'd0;
+    kernel_img_mul_3[3] <= 'd0;
+    kernel_img_mul_3[4] <= 'd0;
+    kernel_img_mul_3[5] <= 'd0;
+    kernel_img_mul_3[6] <= 'd0;
+    kernel_img_mul_3[7] <= 'd0;
+    kernel_img_mul_3[8] <= 'd0;
   end
   else if(current_state==ST_MUL) begin
     kernel_img_mul_3[0] <= { {8{1'b0}},layer0[3][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
@@ -6180,15 +6180,15 @@ end
 reg  [15:0]  kernel_img_mul_4[0:8];
 always@(posedge clk) begin
   if(!rst_n) begin
-    kernel_img_mul_4[0] <= 'd0
-    kernel_img_mul_4[1] <= 'd0
-    kernel_img_mul_4[2] <= 'd0
-    kernel_img_mul_4[3] <= 'd0
-    kernel_img_mul_4[4] <= 'd0
-    kernel_img_mul_4[5] <= 'd0
-    kernel_img_mul_4[6] <= 'd0
-    kernel_img_mul_4[7] <= 'd0
-    kernel_img_mul_4[8] <= 'd0
+    kernel_img_mul_4[0] <= 'd0;
+    kernel_img_mul_4[1] <= 'd0;
+    kernel_img_mul_4[2] <= 'd0;
+    kernel_img_mul_4[3] <= 'd0;
+    kernel_img_mul_4[4] <= 'd0;
+    kernel_img_mul_4[5] <= 'd0;
+    kernel_img_mul_4[6] <= 'd0;
+    kernel_img_mul_4[7] <= 'd0;
+    kernel_img_mul_4[8] <= 'd0;
   end
   else if(current_state==ST_MUL) begin
     kernel_img_mul_4[0] <= { {8{1'b0}},layer0[4][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
@@ -6216,15 +6216,15 @@ end
 reg  [15:0]  kernel_img_mul_5[0:8];
 always@(posedge clk) begin
   if(!rst_n) begin
-    kernel_img_mul_5[0] <= 'd0
-    kernel_img_mul_5[1] <= 'd0
-    kernel_img_mul_5[2] <= 'd0
-    kernel_img_mul_5[3] <= 'd0
-    kernel_img_mul_5[4] <= 'd0
-    kernel_img_mul_5[5] <= 'd0
-    kernel_img_mul_5[6] <= 'd0
-    kernel_img_mul_5[7] <= 'd0
-    kernel_img_mul_5[8] <= 'd0
+    kernel_img_mul_5[0] <= 'd0;
+    kernel_img_mul_5[1] <= 'd0;
+    kernel_img_mul_5[2] <= 'd0;
+    kernel_img_mul_5[3] <= 'd0;
+    kernel_img_mul_5[4] <= 'd0;
+    kernel_img_mul_5[5] <= 'd0;
+    kernel_img_mul_5[6] <= 'd0;
+    kernel_img_mul_5[7] <= 'd0;
+    kernel_img_mul_5[8] <= 'd0;
   end
   else if(current_state==ST_MUL) begin
     kernel_img_mul_5[0] <= { {8{1'b0}},layer0[5][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
@@ -6252,15 +6252,15 @@ end
 reg  [15:0]  kernel_img_mul_6[0:8];
 always@(posedge clk) begin
   if(!rst_n) begin
-    kernel_img_mul_6[0] <= 'd0
-    kernel_img_mul_6[1] <= 'd0
-    kernel_img_mul_6[2] <= 'd0
-    kernel_img_mul_6[3] <= 'd0
-    kernel_img_mul_6[4] <= 'd0
-    kernel_img_mul_6[5] <= 'd0
-    kernel_img_mul_6[6] <= 'd0
-    kernel_img_mul_6[7] <= 'd0
-    kernel_img_mul_6[8] <= 'd0
+    kernel_img_mul_6[0] <= 'd0;
+    kernel_img_mul_6[1] <= 'd0;
+    kernel_img_mul_6[2] <= 'd0;
+    kernel_img_mul_6[3] <= 'd0;
+    kernel_img_mul_6[4] <= 'd0;
+    kernel_img_mul_6[5] <= 'd0;
+    kernel_img_mul_6[6] <= 'd0;
+    kernel_img_mul_6[7] <= 'd0;
+    kernel_img_mul_6[8] <= 'd0;
   end
   else if(current_state==ST_MUL) begin
     kernel_img_mul_6[0] <= { {8{1'b0}},layer0[6][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
@@ -6288,15 +6288,15 @@ end
 reg  [15:0]  kernel_img_mul_7[0:8];
 always@(posedge clk) begin
   if(!rst_n) begin
-    kernel_img_mul_7[0] <= 'd0
-    kernel_img_mul_7[1] <= 'd0
-    kernel_img_mul_7[2] <= 'd0
-    kernel_img_mul_7[3] <= 'd0
-    kernel_img_mul_7[4] <= 'd0
-    kernel_img_mul_7[5] <= 'd0
-    kernel_img_mul_7[6] <= 'd0
-    kernel_img_mul_7[7] <= 'd0
-    kernel_img_mul_7[8] <= 'd0
+    kernel_img_mul_7[0] <= 'd0;
+    kernel_img_mul_7[1] <= 'd0;
+    kernel_img_mul_7[2] <= 'd0;
+    kernel_img_mul_7[3] <= 'd0;
+    kernel_img_mul_7[4] <= 'd0;
+    kernel_img_mul_7[5] <= 'd0;
+    kernel_img_mul_7[6] <= 'd0;
+    kernel_img_mul_7[7] <= 'd0;
+    kernel_img_mul_7[8] <= 'd0;
   end
   else if(current_state==ST_MUL) begin
     kernel_img_mul_7[0] <= { {8{1'b0}},layer0[7][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
@@ -6324,15 +6324,15 @@ end
 reg  [15:0]  kernel_img_mul_8[0:8];
 always@(posedge clk) begin
   if(!rst_n) begin
-    kernel_img_mul_8[0] <= 'd0
-    kernel_img_mul_8[1] <= 'd0
-    kernel_img_mul_8[2] <= 'd0
-    kernel_img_mul_8[3] <= 'd0
-    kernel_img_mul_8[4] <= 'd0
-    kernel_img_mul_8[5] <= 'd0
-    kernel_img_mul_8[6] <= 'd0
-    kernel_img_mul_8[7] <= 'd0
-    kernel_img_mul_8[8] <= 'd0
+    kernel_img_mul_8[0] <= 'd0;
+    kernel_img_mul_8[1] <= 'd0;
+    kernel_img_mul_8[2] <= 'd0;
+    kernel_img_mul_8[3] <= 'd0;
+    kernel_img_mul_8[4] <= 'd0;
+    kernel_img_mul_8[5] <= 'd0;
+    kernel_img_mul_8[6] <= 'd0;
+    kernel_img_mul_8[7] <= 'd0;
+    kernel_img_mul_8[8] <= 'd0;
   end
   else if(current_state==ST_MUL) begin
     kernel_img_mul_8[0] <= { {8{1'b0}},layer0[8][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
@@ -6360,15 +6360,15 @@ end
 reg  [15:0]  kernel_img_mul_9[0:8];
 always@(posedge clk) begin
   if(!rst_n) begin
-    kernel_img_mul_9[0] <= 'd0
-    kernel_img_mul_9[1] <= 'd0
-    kernel_img_mul_9[2] <= 'd0
-    kernel_img_mul_9[3] <= 'd0
-    kernel_img_mul_9[4] <= 'd0
-    kernel_img_mul_9[5] <= 'd0
-    kernel_img_mul_9[6] <= 'd0
-    kernel_img_mul_9[7] <= 'd0
-    kernel_img_mul_9[8] <= 'd0
+    kernel_img_mul_9[0] <= 'd0;
+    kernel_img_mul_9[1] <= 'd0;
+    kernel_img_mul_9[2] <= 'd0;
+    kernel_img_mul_9[3] <= 'd0;
+    kernel_img_mul_9[4] <= 'd0;
+    kernel_img_mul_9[5] <= 'd0;
+    kernel_img_mul_9[6] <= 'd0;
+    kernel_img_mul_9[7] <= 'd0;
+    kernel_img_mul_9[8] <= 'd0;
   end
   else if(current_state==ST_MUL) begin
     kernel_img_mul_9[0] <= { {8{1'b0}},layer0[9][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
@@ -6396,15 +6396,15 @@ end
 reg  [15:0]  kernel_img_mul_10[0:8];
 always@(posedge clk) begin
   if(!rst_n) begin
-    kernel_img_mul_10[0] <= 'd0
-    kernel_img_mul_10[1] <= 'd0
-    kernel_img_mul_10[2] <= 'd0
-    kernel_img_mul_10[3] <= 'd0
-    kernel_img_mul_10[4] <= 'd0
-    kernel_img_mul_10[5] <= 'd0
-    kernel_img_mul_10[6] <= 'd0
-    kernel_img_mul_10[7] <= 'd0
-    kernel_img_mul_10[8] <= 'd0
+    kernel_img_mul_10[0] <= 'd0;
+    kernel_img_mul_10[1] <= 'd0;
+    kernel_img_mul_10[2] <= 'd0;
+    kernel_img_mul_10[3] <= 'd0;
+    kernel_img_mul_10[4] <= 'd0;
+    kernel_img_mul_10[5] <= 'd0;
+    kernel_img_mul_10[6] <= 'd0;
+    kernel_img_mul_10[7] <= 'd0;
+    kernel_img_mul_10[8] <= 'd0;
   end
   else if(current_state==ST_MUL) begin
     kernel_img_mul_10[0] <= { {8{1'b0}},layer0[10][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
@@ -6432,15 +6432,15 @@ end
 reg  [15:0]  kernel_img_mul_11[0:8];
 always@(posedge clk) begin
   if(!rst_n) begin
-    kernel_img_mul_11[0] <= 'd0
-    kernel_img_mul_11[1] <= 'd0
-    kernel_img_mul_11[2] <= 'd0
-    kernel_img_mul_11[3] <= 'd0
-    kernel_img_mul_11[4] <= 'd0
-    kernel_img_mul_11[5] <= 'd0
-    kernel_img_mul_11[6] <= 'd0
-    kernel_img_mul_11[7] <= 'd0
-    kernel_img_mul_11[8] <= 'd0
+    kernel_img_mul_11[0] <= 'd0;
+    kernel_img_mul_11[1] <= 'd0;
+    kernel_img_mul_11[2] <= 'd0;
+    kernel_img_mul_11[3] <= 'd0;
+    kernel_img_mul_11[4] <= 'd0;
+    kernel_img_mul_11[5] <= 'd0;
+    kernel_img_mul_11[6] <= 'd0;
+    kernel_img_mul_11[7] <= 'd0;
+    kernel_img_mul_11[8] <= 'd0;
   end
   else if(current_state==ST_MUL) begin
     kernel_img_mul_11[0] <= { {8{1'b0}},layer0[11][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
@@ -6468,15 +6468,15 @@ end
 reg  [15:0]  kernel_img_mul_12[0:8];
 always@(posedge clk) begin
   if(!rst_n) begin
-    kernel_img_mul_12[0] <= 'd0
-    kernel_img_mul_12[1] <= 'd0
-    kernel_img_mul_12[2] <= 'd0
-    kernel_img_mul_12[3] <= 'd0
-    kernel_img_mul_12[4] <= 'd0
-    kernel_img_mul_12[5] <= 'd0
-    kernel_img_mul_12[6] <= 'd0
-    kernel_img_mul_12[7] <= 'd0
-    kernel_img_mul_12[8] <= 'd0
+    kernel_img_mul_12[0] <= 'd0;
+    kernel_img_mul_12[1] <= 'd0;
+    kernel_img_mul_12[2] <= 'd0;
+    kernel_img_mul_12[3] <= 'd0;
+    kernel_img_mul_12[4] <= 'd0;
+    kernel_img_mul_12[5] <= 'd0;
+    kernel_img_mul_12[6] <= 'd0;
+    kernel_img_mul_12[7] <= 'd0;
+    kernel_img_mul_12[8] <= 'd0;
   end
   else if(current_state==ST_MUL) begin
     kernel_img_mul_12[0] <= { {8{1'b0}},layer0[12][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
@@ -6504,15 +6504,15 @@ end
 reg  [15:0]  kernel_img_mul_13[0:8];
 always@(posedge clk) begin
   if(!rst_n) begin
-    kernel_img_mul_13[0] <= 'd0
-    kernel_img_mul_13[1] <= 'd0
-    kernel_img_mul_13[2] <= 'd0
-    kernel_img_mul_13[3] <= 'd0
-    kernel_img_mul_13[4] <= 'd0
-    kernel_img_mul_13[5] <= 'd0
-    kernel_img_mul_13[6] <= 'd0
-    kernel_img_mul_13[7] <= 'd0
-    kernel_img_mul_13[8] <= 'd0
+    kernel_img_mul_13[0] <= 'd0;
+    kernel_img_mul_13[1] <= 'd0;
+    kernel_img_mul_13[2] <= 'd0;
+    kernel_img_mul_13[3] <= 'd0;
+    kernel_img_mul_13[4] <= 'd0;
+    kernel_img_mul_13[5] <= 'd0;
+    kernel_img_mul_13[6] <= 'd0;
+    kernel_img_mul_13[7] <= 'd0;
+    kernel_img_mul_13[8] <= 'd0;
   end
   else if(current_state==ST_MUL) begin
     kernel_img_mul_13[0] <= { {8{1'b0}},layer0[13][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
@@ -6540,15 +6540,15 @@ end
 reg  [15:0]  kernel_img_mul_14[0:8];
 always@(posedge clk) begin
   if(!rst_n) begin
-    kernel_img_mul_14[0] <= 'd0
-    kernel_img_mul_14[1] <= 'd0
-    kernel_img_mul_14[2] <= 'd0
-    kernel_img_mul_14[3] <= 'd0
-    kernel_img_mul_14[4] <= 'd0
-    kernel_img_mul_14[5] <= 'd0
-    kernel_img_mul_14[6] <= 'd0
-    kernel_img_mul_14[7] <= 'd0
-    kernel_img_mul_14[8] <= 'd0
+    kernel_img_mul_14[0] <= 'd0;
+    kernel_img_mul_14[1] <= 'd0;
+    kernel_img_mul_14[2] <= 'd0;
+    kernel_img_mul_14[3] <= 'd0;
+    kernel_img_mul_14[4] <= 'd0;
+    kernel_img_mul_14[5] <= 'd0;
+    kernel_img_mul_14[6] <= 'd0;
+    kernel_img_mul_14[7] <= 'd0;
+    kernel_img_mul_14[8] <= 'd0;
   end
   else if(current_state==ST_MUL) begin
     kernel_img_mul_14[0] <= { {8{1'b0}},layer0[14][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
@@ -6576,15 +6576,15 @@ end
 reg  [15:0]  kernel_img_mul_15[0:8];
 always@(posedge clk) begin
   if(!rst_n) begin
-    kernel_img_mul_15[0] <= 'd0
-    kernel_img_mul_15[1] <= 'd0
-    kernel_img_mul_15[2] <= 'd0
-    kernel_img_mul_15[3] <= 'd0
-    kernel_img_mul_15[4] <= 'd0
-    kernel_img_mul_15[5] <= 'd0
-    kernel_img_mul_15[6] <= 'd0
-    kernel_img_mul_15[7] <= 'd0
-    kernel_img_mul_15[8] <= 'd0
+    kernel_img_mul_15[0] <= 'd0;
+    kernel_img_mul_15[1] <= 'd0;
+    kernel_img_mul_15[2] <= 'd0;
+    kernel_img_mul_15[3] <= 'd0;
+    kernel_img_mul_15[4] <= 'd0;
+    kernel_img_mul_15[5] <= 'd0;
+    kernel_img_mul_15[6] <= 'd0;
+    kernel_img_mul_15[7] <= 'd0;
+    kernel_img_mul_15[8] <= 'd0;
   end
   else if(current_state==ST_MUL) begin
     kernel_img_mul_15[0] <= { {8{1'b0}},layer0[15][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
