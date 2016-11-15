@@ -238,7 +238,7 @@ reg[2:0]  blur_mem_we_ctr;
 always @(posedge clk) begin
   if (!rst_n) 
     blur_mem_we_ctr <= 'd0;    
-  else if (g_blur_done && blur_mem_we_ctr<'d5) 
+  else if (current_state==ST_UPDATE && blur_mem_we_ctr<'d5) 
     blur_mem_we_ctr <= blur_mem_we_ctr + 1;
   else if (current_state==ST_NEXT_COL)
     blur_mem_we_ctr <= 'd0;
@@ -248,7 +248,7 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     blur_mem_we_0 <= 1'b0;
-  else if (g_blur_done /*&& blur_mem_we_ctr>='d3*/ && blur_addr_w_0<'d480) // 3 cycles from MEM read to MEM write
+  else if (current_state==ST_UPDATE /*&& blur_mem_we_ctr>='d3*/ && blur_addr_w_0<'d480) // 3 cycles from MEM read to MEM write
     blur_mem_we_0 <= 1'b1;
   else
     blur_mem_we_0 <= 1'b0;
@@ -258,7 +258,7 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     blur_mem_we_1 <= 1'b0;
-  else if (g_blur_done && blur_mem_we_ctr>='d1 && blur_addr_w_1<'d480/* && img_addr>'d3*/) // 3 + 1 cycles from MEM read to MEM write
+  else if (current_state==ST_UPDATE && blur_mem_we_ctr>='d1 && blur_addr_w_1<'d480/* && img_addr>'d3*/) // 3 + 1 cycles from MEM read to MEM write
     blur_mem_we_1 <= 1'b1;
   else
     blur_mem_we_1 <= 1'b0;
@@ -267,7 +267,7 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     blur_mem_we_2 <= 1'b0;
-  else if (g_blur_done && blur_mem_we_ctr>='d1 && blur_addr_w_2<'d480/* && img_addr>'d3*/) // 3 + 1 cycles from MEM read to MEM write
+  else if (current_state==ST_UPDATE && blur_mem_we_ctr>='d1 && blur_addr_w_2<'d480/* && img_addr>'d3*/) // 3 + 1 cycles from MEM read to MEM write
     blur_mem_we_2 <= 1'b1;
   else
     blur_mem_we_2 <= 1'b0;
@@ -277,7 +277,7 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     blur_mem_we_3 <= 1'b0;
-  else if (g_blur_done && blur_mem_we_ctr>='d2 && blur_addr_w_3<'d480/* && img_addr>'d4*/) // 3 + 2 cycles from MEM read to MEM write
+  else if (current_state==ST_UPDATE && blur_mem_we_ctr>='d2 && blur_addr_w_3<'d480/* && img_addr>'d4*/) // 3 + 2 cycles from MEM read to MEM write
     blur_mem_we_3 <= 1'b1;
   else
     blur_mem_we_3 <= 1'b0;
@@ -643,7 +643,7 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     blur_din_0 <= 'd0;    
-  else if (g_blur_done)
+  else if (current_state==ST_UPDATE)
     blur_din_0 <= blur_concat_0;
   else if (current_state==ST_IDLE)
     blur_din_0 <= 'd0;
@@ -651,7 +651,7 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     blur_din_1 <= 'd0;    
-  else if (g_blur_done)
+  else if (current_state==ST_UPDATE)
     blur_din_1 <= blur_concat_1;
   else if (current_state==ST_IDLE)
     blur_din_1 <= 'd0;
@@ -659,7 +659,7 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     blur_din_2 <= 'd0;    
-  else if (g_blur_done)
+  else if (current_state==ST_UPDATE)
     blur_din_2 <= blur_concat_2;
   else if (current_state==ST_IDLE)
     blur_din_2 <= 'd0;
@@ -667,7 +667,7 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     blur_din_3 <= 'd0;    
-  else if (g_blur_done)
+  else if (current_state==ST_UPDATE)
     blur_din_3 <= blur_concat_3;
   else if (current_state==ST_IDLE)
     blur_din_3 <= 'd0;
