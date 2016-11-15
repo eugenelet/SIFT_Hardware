@@ -116,6 +116,17 @@ reg     [3:0] current_state,
               next_state;
 
 
+/*Switches column after every row of current column is processed*/
+reg[1:0]     col_relay;
+always @(posedge clk) begin
+  if (!rst_n) 
+    col_relay <= 1'b0;
+  else if ((current_state==ST_NEXT_COL || current_state==ST_FIRST_COL) && col_relay < 2)
+    col_relay <= col_relay + 1; 
+  else if (current_state==ST_IDLE || current_state==ST_NEXT_ROW)
+    col_relay <= 1'b0;
+end
+
 /*Start and done of gaussian blur*/
 wire  g_blur_done;
 reg   g_blur_start;
@@ -126,18 +137,6 @@ always @(posedge clk) begin
     g_blur_start <= 1;
   else
     g_blur_start <= 0;
-end
-
-
-/*Switches column after every row of current column is processed*/
-reg[1:0]     col_relay;
-always @(posedge clk) begin
-  if (!rst_n) 
-    col_relay <= 1'b0;
-  else if ((current_state==ST_NEXT_COL || current_state==ST_FIRST_COL) && col_relay < 2)
-    col_relay <= col_relay + 1; 
-  else if (current_state==ST_IDLE || current_state==ST_NEXT_ROW)
-    col_relay <= 1'b0;
 end
 
 always @(posedge clk) begin
