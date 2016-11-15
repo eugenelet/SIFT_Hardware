@@ -98,7 +98,9 @@ parameter ST_IDLE        = 0,
           ST_READY       = 1,/*Idle 1 state for SRAM to get READY*/
           ST_FIRST_COL   = 2,/*Needed for column count to remain at 0 for first column*/
           ST_NEXT_COL    = 3,
-          ST_NEXT_ROW    = 4;
+          ST_NEXT_ROW    = 4,
+          ST_G_BLUR      = 5,
+          ST_UPDATE      = 6;
           // ST_GAUSSIAN_0  = 2,
           // ST_GAUSSIAN_1  = 3,
           // ST_GAUSSIAN_2  = 4,
@@ -112,6 +114,20 @@ parameter ST_IDLE        = 0,
 
 reg     [3:0] current_state,
               next_state;
+
+              
+/*Start and done of gaussian blur*/
+wire  g_blur_done;
+reg   g_blur_start;
+always @(posedge clk) begin
+  if (!rst_n)
+    g_blur_start <= 0;    
+  else if (current_state==ST_NEXT_ROW)
+    g_blur_start <= 1;
+  else
+    g_blur_start <= 0;
+end
+
 
 /*Switches column after every row of current column is processed*/
 reg[1:0]     col_relay;
@@ -129,7 +145,7 @@ always @(posedge clk) begin
     current_col <= 'd0;    
   else if (current_state==ST_IDLE || current_state==ST_FIRST_COL)
     current_col <= 'd0;
-  else if (current_state==ST_NEXT_ROW && blur_addr_w_3=='d480/*current_state==ST_NEXT_COL && col_relay==2*/) 
+  else if (current_state==ST_UPDATE && blur_addr_w_3=='d480/*current_state==ST_NEXT_COL && col_relay==2*/) 
     current_col <= current_col + 1;
 end
 
@@ -147,7 +163,7 @@ always @(posedge clk) begin
     fill_zero <= 1'b0;
   else if (current_state==ST_NEXT_ROW && blur_addr_w_3=='d480) // is a subset, thus must happen before the cond. below
     fill_zero <= 1'b0;    
-  else if (current_state==ST_NEXT_ROW && img_addr=='d480) 
+  else if ((current_state==ST_NEXT_ROW || current_state==ST_G_BLUR || current_state==ST_UPDATE) && img_addr=='d480) 
     fill_zero <= 1'b1;
 end
 
@@ -161,9 +177,9 @@ always @(posedge clk) begin
     img_addr <= 'd0;    
   // to allow the condition below apply
   // img_addr will be > 0 right after NEXT_COL
-  else if (current_state==ST_NEXT_COL || current_state==ST_FIRST_COL || (current_state==ST_NEXT_ROW && img_addr<'d480 && img_addr>0) )
+  else if (current_state==ST_NEXT_COL || current_state==ST_FIRST_COL || (g_blur_done && img_addr<'d480 && img_addr>0) )
     img_addr <= img_addr + 'd1;                                                                         
-  else if (current_state==ST_NEXT_ROW && blur_addr_w_3=='d480)
+  else if (current_state==ST_UPDATE && blur_addr_w_3=='d480)
     img_addr <= 'd0;
   else if (done || current_state==ST_IDLE)
     img_addr <= 'd0;
@@ -173,7 +189,7 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     done <= 1'b0;    
-  else if (current_state==ST_NEXT_ROW && blur_addr_w_3=='d480 && current_col=='d39)
+  else if (current_state==ST_UPDATE && blur_addr_w_3=='d480 && current_col=='d39)
     done <= 1'b1;
   else if (current_state==ST_IDLE)
     done <= 1'b0;
@@ -222,7 +238,7 @@ reg[2:0]  blur_mem_we_ctr;
 always @(posedge clk) begin
   if (!rst_n) 
     blur_mem_we_ctr <= 'd0;    
-  else if (current_state==ST_NEXT_ROW && blur_mem_we_ctr<'d5) 
+  else if (g_blur_done && blur_mem_we_ctr<'d5) 
     blur_mem_we_ctr <= blur_mem_we_ctr + 1;
   else if (current_state==ST_NEXT_COL)
     blur_mem_we_ctr <= 'd0;
@@ -232,7 +248,7 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     blur_mem_we_0 <= 1'b0;
-  else if (current_state==ST_NEXT_ROW /*&& blur_mem_we_ctr>='d3*/ && blur_addr_w_0<'d480) // 3 cycles from MEM read to MEM write
+  else if (g_blur_done /*&& blur_mem_we_ctr>='d3*/ && blur_addr_w_0<'d480) // 3 cycles from MEM read to MEM write
     blur_mem_we_0 <= 1'b1;
   else
     blur_mem_we_0 <= 1'b0;
@@ -242,7 +258,7 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     blur_mem_we_1 <= 1'b0;
-  else if (current_state==ST_NEXT_ROW && blur_mem_we_ctr>='d1 && blur_addr_w_1<'d480/* && img_addr>'d3*/) // 3 + 1 cycles from MEM read to MEM write
+  else if (g_blur_done && blur_mem_we_ctr>='d1 && blur_addr_w_1<'d480/* && img_addr>'d3*/) // 3 + 1 cycles from MEM read to MEM write
     blur_mem_we_1 <= 1'b1;
   else
     blur_mem_we_1 <= 1'b0;
@@ -251,7 +267,7 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     blur_mem_we_2 <= 1'b0;
-  else if (current_state==ST_NEXT_ROW && blur_mem_we_ctr>='d1 && blur_addr_w_2<'d480/* && img_addr>'d3*/) // 3 + 1 cycles from MEM read to MEM write
+  else if (g_blur_done && blur_mem_we_ctr>='d1 && blur_addr_w_2<'d480/* && img_addr>'d3*/) // 3 + 1 cycles from MEM read to MEM write
     blur_mem_we_2 <= 1'b1;
   else
     blur_mem_we_2 <= 1'b0;
@@ -261,7 +277,7 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     blur_mem_we_3 <= 1'b0;
-  else if (current_state==ST_NEXT_ROW && blur_mem_we_ctr>='d2 && blur_addr_w_3<'d480/* && img_addr>'d4*/) // 3 + 2 cycles from MEM read to MEM write
+  else if (g_blur_done && blur_mem_we_ctr>='d2 && blur_addr_w_3<'d480/* && img_addr>'d4*/) // 3 + 2 cycles from MEM read to MEM write
     blur_mem_we_3 <= 1'b1;
   else
     blur_mem_we_3 <= 1'b0;
@@ -305,7 +321,6 @@ always @(posedge clk) begin
 end
 
 
-
 /*Blurs 16 pixel in 1 Iteration*/
 wire  [127:0]  blur_result_0; // 16 * 8
 Gaussian_Blur_3x3 u_g_blur0(
@@ -315,7 +330,9 @@ Gaussian_Blur_3x3 u_g_blur0(
   .buffer_data_1  (buffer_data_1),
   .buffer_data_2  (buffer_data_2),
   .current_col    (current_col),
-  .blur_out       (blur_result_0)
+  .blur_out       (blur_result_0),
+  .start          (g_blur_start),
+  .done           ()
 );
 
 wire  [127:0]  blur_result_1; // 16 * 8
@@ -328,7 +345,9 @@ Gaussian_Blur_5x5_0 u_g_blur1(
   .buffer_data_3  (buffer_data_3),
   .buffer_data_4  (buffer_data_4),
   .current_col    (current_col),
-  .blur_out       (blur_result_1)
+  .blur_out       (blur_result_1),
+  .start          (g_blur_start),
+  .done           ()
 );
 
 wire  [127:0]  blur_result_2; // 16 * 8
@@ -341,7 +360,9 @@ Gaussian_Blur_5x5_1 u_g_blur2(
   .buffer_data_3  (buffer_data_3),
   .buffer_data_4  (buffer_data_4),
   .current_col    (current_col),
-  .blur_out       (blur_result_2)
+  .blur_out       (blur_result_2),
+  .start          (g_blur_start),
+  .done           ()
 );
 
 wire  [127:0]  blur_result_3; // 16 * 8
@@ -356,7 +377,9 @@ Gaussian_Blur_7x7 u_g_blur3(
   .buffer_data_5  (buffer_data_5),
   .buffer_data_6  (buffer_data_6),
   .current_col    (current_col),
-  .blur_out       (blur_result_3)
+  .blur_out       (blur_result_3),
+  .start          (g_blur_start),
+  .done           (g_blur_done)
 );
 
 /*Concats current blur SRAM storage with currently computed blur_result to be written back to memory*/
@@ -620,7 +643,7 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     blur_din_0 <= 'd0;    
-  else if (current_state==ST_NEXT_ROW)
+  else if (current_state==ST_UPDATE)
     blur_din_0 <= blur_concat_0;
   else if (current_state==ST_IDLE)
     blur_din_0 <= 'd0;
@@ -628,7 +651,7 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     blur_din_1 <= 'd0;    
-  else if (current_state==ST_NEXT_ROW)
+  else if (current_state==ST_UPDATE)
     blur_din_1 <= blur_concat_1;
   else if (current_state==ST_IDLE)
     blur_din_1 <= 'd0;
@@ -636,7 +659,7 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     blur_din_2 <= 'd0;    
-  else if (current_state==ST_NEXT_ROW)
+  else if (current_state==ST_UPDATE)
     blur_din_2 <= blur_concat_2;
   else if (current_state==ST_IDLE)
     blur_din_2 <= 'd0;
@@ -644,7 +667,7 @@ end
 always @(posedge clk) begin
   if (!rst_n)
     blur_din_3 <= 'd0;    
-  else if (current_state==ST_NEXT_ROW)
+  else if (current_state==ST_UPDATE)
     blur_din_3 <= blur_concat_3;
   else if (current_state==ST_IDLE)
     blur_din_3 <= 'd0;
@@ -688,10 +711,26 @@ always @(*) begin
     ST_NEXT_ROW: begin
       if (done)
         next_state = ST_IDLE;
-      else if (blur_addr_w_3=='d480)
-        next_state = ST_NEXT_COL;
+      else if (current_state==ST_NEXT_ROW)
+        next_state = ST_G_BLUR;
       else 
         next_state = ST_NEXT_ROW;
+    end
+    ST_G_BLUR: begin
+      if (g_blur_done)
+        next_state = ST_UPDATE;
+      else 
+        next_state = ST_G_BLUR;
+    end
+    ST_UPDATE: begin
+      if (done)
+        next_state = ST_IDLE;
+      else if (blur_addr_w_3=='d480)
+        next_state = ST_NEXT_COL;
+      else if (current_state==ST_UPDATE)
+        next_state = ST_NEXT_ROW;
+      else 
+        next_state = ST_UPDATE;
     end
     default:
       next_state = ST_IDLE;

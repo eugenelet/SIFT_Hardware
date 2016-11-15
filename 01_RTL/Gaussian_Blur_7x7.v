@@ -9,11 +9,15 @@ module Gaussian_Blur_7x7(
   buffer_data_5,
   buffer_data_6,
   current_col,
-  blur_out
+  blur_out,
+  start,
+  done
 );
 
 input                 clk;
 input                 rst_n;
+input                 start;
+output                done;
 input         [5:0]   current_col;
 input       [175:0]   buffer_data_0;
 input       [175:0]   buffer_data_1;
@@ -23,6 +27,13 @@ input       [175:0]   buffer_data_4;
 input       [175:0]   buffer_data_5;
 input       [175:0]   buffer_data_6;
 output reg  [127:0]   blur_out; // wire
+
+parameter  ST_MUL         = 0,
+           ST_ADD         = 1,
+           ST_UPDATE      = 2;
+reg     [1:0] current_state,
+              next_state;
+assign done = (current_state==ST_UPDATE) ? 1 : 0;
 
 reg       [55:0] G_Kernel_7x7  [0:3];
 always @(*) begin
@@ -32296,57 +32307,118 @@ always @(*) begin
   endcase
 end
 
-wire  [15:0]  kernel_img_mul_0[0:48];
-assign kernel_img_mul_0[0] = { {8{1'b0}},layer0[0][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
-assign kernel_img_mul_0[1] = { {8{1'b0}},layer0[0][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
-assign kernel_img_mul_0[2] = { {8{1'b0}},layer0[0][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
-assign kernel_img_mul_0[3] = { {8{1'b0}},layer0[0][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
-assign kernel_img_mul_0[4] = { {8{1'b0}},layer0[0][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
-assign kernel_img_mul_0[5] = { {8{1'b0}},layer0[0][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
-assign kernel_img_mul_0[6] = { {8{1'b0}},layer0[0][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
-assign kernel_img_mul_0[7] = { {8{1'b0}},layer1[0][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
-assign kernel_img_mul_0[8] = { {8{1'b0}},layer1[0][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
-assign kernel_img_mul_0[9] = { {8{1'b0}},layer1[0][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
-assign kernel_img_mul_0[10] = { {8{1'b0}},layer1[0][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
-assign kernel_img_mul_0[11] = { {8{1'b0}},layer1[0][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
-assign kernel_img_mul_0[12] = { {8{1'b0}},layer1[0][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
-assign kernel_img_mul_0[13] = { {8{1'b0}},layer1[0][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
-assign kernel_img_mul_0[14] = { {8{1'b0}},layer2[0][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
-assign kernel_img_mul_0[15] = { {8{1'b0}},layer2[0][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
-assign kernel_img_mul_0[16] = { {8{1'b0}},layer2[0][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
-assign kernel_img_mul_0[17] = { {8{1'b0}},layer2[0][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
-assign kernel_img_mul_0[18] = { {8{1'b0}},layer2[0][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
-assign kernel_img_mul_0[19] = { {8{1'b0}},layer2[0][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
-assign kernel_img_mul_0[20] = { {8{1'b0}},layer2[0][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
-assign kernel_img_mul_0[21] = { {8{1'b0}},layer3[0][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[3][7:0]};
-assign kernel_img_mul_0[22] = { {8{1'b0}},layer3[0][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[3][15:8]};
-assign kernel_img_mul_0[23] = { {8{1'b0}},layer3[0][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[3][23:16]};
-assign kernel_img_mul_0[24] = { {8{1'b0}},layer3[0][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[3][31:24]};
-assign kernel_img_mul_0[25] = { {8{1'b0}},layer3[0][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[3][39:32]};
-assign kernel_img_mul_0[26] = { {8{1'b0}},layer3[0][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[3][47:40]};
-assign kernel_img_mul_0[27] = { {8{1'b0}},layer3[0][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[3][55:48]};
-assign kernel_img_mul_0[28] = { {8{1'b0}},layer4[0][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
-assign kernel_img_mul_0[29] = { {8{1'b0}},layer4[0][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
-assign kernel_img_mul_0[30] = { {8{1'b0}},layer4[0][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
-assign kernel_img_mul_0[31] = { {8{1'b0}},layer4[0][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
-assign kernel_img_mul_0[32] = { {8{1'b0}},layer4[0][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
-assign kernel_img_mul_0[33] = { {8{1'b0}},layer4[0][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
-assign kernel_img_mul_0[34] = { {8{1'b0}},layer4[0][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
-assign kernel_img_mul_0[35] = { {8{1'b0}},layer5[0][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
-assign kernel_img_mul_0[36] = { {8{1'b0}},layer5[0][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
-assign kernel_img_mul_0[37] = { {8{1'b0}},layer5[0][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
-assign kernel_img_mul_0[38] = { {8{1'b0}},layer5[0][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
-assign kernel_img_mul_0[39] = { {8{1'b0}},layer5[0][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
-assign kernel_img_mul_0[40] = { {8{1'b0}},layer5[0][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
-assign kernel_img_mul_0[41] = { {8{1'b0}},layer5[0][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
-assign kernel_img_mul_0[42] = { {8{1'b0}},layer6[0][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
-assign kernel_img_mul_0[43] = { {8{1'b0}},layer6[0][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
-assign kernel_img_mul_0[44] = { {8{1'b0}},layer6[0][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
-assign kernel_img_mul_0[45] = { {8{1'b0}},layer6[0][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
-assign kernel_img_mul_0[46] = { {8{1'b0}},layer6[0][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
-assign kernel_img_mul_0[47] = { {8{1'b0}},layer6[0][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
-assign kernel_img_mul_0[48] = { {8{1'b0}},layer6[0][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
-wire  [15:0]  kernel_img_sum_0 = kernel_img_mul_0[0] + kernel_img_mul_0[1] + kernel_img_mul_0[2] + 
+reg  [15:0]  kernel_img_mul_0[0:48];
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_mul_0[0] <= 'd0
+    kernel_img_mul_0[1] <= 'd0
+    kernel_img_mul_0[2] <= 'd0
+    kernel_img_mul_0[3] <= 'd0
+    kernel_img_mul_0[4] <= 'd0
+    kernel_img_mul_0[5] <= 'd0
+    kernel_img_mul_0[6] <= 'd0
+    kernel_img_mul_0[7] <= 'd0
+    kernel_img_mul_0[8] <= 'd0
+    kernel_img_mul_0[9] <= 'd0
+    kernel_img_mul_0[10] <= 'd0
+    kernel_img_mul_0[11] <= 'd0
+    kernel_img_mul_0[12] <= 'd0
+    kernel_img_mul_0[13] <= 'd0
+    kernel_img_mul_0[14] <= 'd0
+    kernel_img_mul_0[15] <= 'd0
+    kernel_img_mul_0[16] <= 'd0
+    kernel_img_mul_0[17] <= 'd0
+    kernel_img_mul_0[18] <= 'd0
+    kernel_img_mul_0[19] <= 'd0
+    kernel_img_mul_0[20] <= 'd0
+    kernel_img_mul_0[21] <= 'd0
+    kernel_img_mul_0[22] <= 'd0
+    kernel_img_mul_0[23] <= 'd0
+    kernel_img_mul_0[24] <= 'd0
+    kernel_img_mul_0[25] <= 'd0
+    kernel_img_mul_0[26] <= 'd0
+    kernel_img_mul_0[27] <= 'd0
+    kernel_img_mul_0[28] <= 'd0
+    kernel_img_mul_0[29] <= 'd0
+    kernel_img_mul_0[30] <= 'd0
+    kernel_img_mul_0[31] <= 'd0
+    kernel_img_mul_0[32] <= 'd0
+    kernel_img_mul_0[33] <= 'd0
+    kernel_img_mul_0[34] <= 'd0
+    kernel_img_mul_0[35] <= 'd0
+    kernel_img_mul_0[36] <= 'd0
+    kernel_img_mul_0[37] <= 'd0
+    kernel_img_mul_0[38] <= 'd0
+    kernel_img_mul_0[39] <= 'd0
+    kernel_img_mul_0[40] <= 'd0
+    kernel_img_mul_0[41] <= 'd0
+    kernel_img_mul_0[42] <= 'd0
+    kernel_img_mul_0[43] <= 'd0
+    kernel_img_mul_0[44] <= 'd0
+    kernel_img_mul_0[45] <= 'd0
+    kernel_img_mul_0[46] <= 'd0
+    kernel_img_mul_0[47] <= 'd0
+    kernel_img_mul_0[48] <= 'd0
+  end
+  else if(current_state==ST_MUL) begin
+    kernel_img_mul_0[0] <= { {8{1'b0}},layer0[0][7:0]} * { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
+    kernel_img_mul_0[1] <= { {8{1'b0}},layer0[0][15:8]} * { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
+    kernel_img_mul_0[2] <= { {8{1'b0}},layer0[0][23:16]} * { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
+    kernel_img_mul_0[3] <= { {8{1'b0}},layer0[0][31:24]} * { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
+    kernel_img_mul_0[4] <= { {8{1'b0}},layer0[0][39:32]} * { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
+    kernel_img_mul_0[5] <= { {8{1'b0}},layer0[0][47:40]} * { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
+    kernel_img_mul_0[6] <= { {8{1'b0}},layer0[0][55:48]} * { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
+    kernel_img_mul_0[7] <= { {8{1'b0}},layer1[0][7:0]} * { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
+    kernel_img_mul_0[8] <= { {8{1'b0}},layer1[0][15:8]} * { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
+    kernel_img_mul_0[9] <= { {8{1'b0}},layer1[0][23:16]} * { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
+    kernel_img_mul_0[10] <= { {8{1'b0}},layer1[0][31:24]} * { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
+    kernel_img_mul_0[11] <= { {8{1'b0}},layer1[0][39:32]} * { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
+    kernel_img_mul_0[12] <= { {8{1'b0}},layer1[0][47:40]} * { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
+    kernel_img_mul_0[13] <= { {8{1'b0}},layer1[0][55:48]} * { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
+    kernel_img_mul_0[14] <= { {8{1'b0}},layer2[0][7:0]} * { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
+    kernel_img_mul_0[15] <= { {8{1'b0}},layer2[0][15:8]} * { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
+    kernel_img_mul_0[16] <= { {8{1'b0}},layer2[0][23:16]} * { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
+    kernel_img_mul_0[17] <= { {8{1'b0}},layer2[0][31:24]} * { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
+    kernel_img_mul_0[18] <= { {8{1'b0}},layer2[0][39:32]} * { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
+    kernel_img_mul_0[19] <= { {8{1'b0}},layer2[0][47:40]} * { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
+    kernel_img_mul_0[20] <= { {8{1'b0}},layer2[0][55:48]} * { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
+    kernel_img_mul_0[21] <= { {8{1'b0}},layer3[0][7:0]} * { {8{1'b0}}, G_Kernel_7x7[3][7:0]};
+    kernel_img_mul_0[22] <= { {8{1'b0}},layer3[0][15:8]} * { {8{1'b0}}, G_Kernel_7x7[3][15:8]};
+    kernel_img_mul_0[23] <= { {8{1'b0}},layer3[0][23:16]} * { {8{1'b0}}, G_Kernel_7x7[3][23:16]};
+    kernel_img_mul_0[24] <= { {8{1'b0}},layer3[0][31:24]} * { {8{1'b0}}, G_Kernel_7x7[3][31:24]};
+    kernel_img_mul_0[25] <= { {8{1'b0}},layer3[0][39:32]} * { {8{1'b0}}, G_Kernel_7x7[3][39:32]};
+    kernel_img_mul_0[26] <= { {8{1'b0}},layer3[0][47:40]} * { {8{1'b0}}, G_Kernel_7x7[3][47:40]};
+    kernel_img_mul_0[27] <= { {8{1'b0}},layer3[0][55:48]} * { {8{1'b0}}, G_Kernel_7x7[3][55:48]};
+    kernel_img_mul_0[28] <= { {8{1'b0}},layer4[0][7:0]} * { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
+    kernel_img_mul_0[29] <= { {8{1'b0}},layer4[0][15:8]} * { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
+    kernel_img_mul_0[30] <= { {8{1'b0}},layer4[0][23:16]} * { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
+    kernel_img_mul_0[31] <= { {8{1'b0}},layer4[0][31:24]} * { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
+    kernel_img_mul_0[32] <= { {8{1'b0}},layer4[0][39:32]} * { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
+    kernel_img_mul_0[33] <= { {8{1'b0}},layer4[0][47:40]} * { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
+    kernel_img_mul_0[34] <= { {8{1'b0}},layer4[0][55:48]} * { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
+    kernel_img_mul_0[35] <= { {8{1'b0}},layer5[0][7:0]} * { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
+    kernel_img_mul_0[36] <= { {8{1'b0}},layer5[0][15:8]} * { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
+    kernel_img_mul_0[37] <= { {8{1'b0}},layer5[0][23:16]} * { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
+    kernel_img_mul_0[38] <= { {8{1'b0}},layer5[0][31:24]} * { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
+    kernel_img_mul_0[39] <= { {8{1'b0}},layer5[0][39:32]} * { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
+    kernel_img_mul_0[40] <= { {8{1'b0}},layer5[0][47:40]} * { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
+    kernel_img_mul_0[41] <= { {8{1'b0}},layer5[0][55:48]} * { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
+    kernel_img_mul_0[42] <= { {8{1'b0}},layer6[0][7:0]} * { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
+    kernel_img_mul_0[43] <= { {8{1'b0}},layer6[0][15:8]} * { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
+    kernel_img_mul_0[44] <= { {8{1'b0}},layer6[0][23:16]} * { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
+    kernel_img_mul_0[45] <= { {8{1'b0}},layer6[0][31:24]} * { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
+    kernel_img_mul_0[46] <= { {8{1'b0}},layer6[0][39:32]} * { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
+    kernel_img_mul_0[47] <= { {8{1'b0}},layer6[0][47:40]} * { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
+    kernel_img_mul_0[48] <= { {8{1'b0}},layer6[0][55:48]} * { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
+  end
+end
+reg  [15:0]  kernel_img_sum_0;
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_sum_0 <= 'd0
+  end
+  else if(current_state==ST_ADD) begin
+    kernel_img_sum_0 <= kernel_img_mul_0[0] + kernel_img_mul_0[1] + kernel_img_mul_0[2] + 
                 kernel_img_mul_0[3] + kernel_img_mul_0[4] + kernel_img_mul_0[5] + 
                 kernel_img_mul_0[6] + kernel_img_mul_0[7] + kernel_img_mul_0[8] + 
                 kernel_img_mul_0[9] + kernel_img_mul_0[10] + kernel_img_mul_0[11] + 
@@ -32363,57 +32435,120 @@ wire  [15:0]  kernel_img_sum_0 = kernel_img_mul_0[0] + kernel_img_mul_0[1] + ker
                 kernel_img_mul_0[42] + kernel_img_mul_0[43] + kernel_img_mul_0[44] + 
                 kernel_img_mul_0[45] + kernel_img_mul_0[46] + kernel_img_mul_0[47] + 
                 kernel_img_mul_0[48];
-wire  [15:0]  kernel_img_mul_1[0:48];
-assign kernel_img_mul_1[0] = { {8{1'b0}},layer0[1][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
-assign kernel_img_mul_1[1] = { {8{1'b0}},layer0[1][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
-assign kernel_img_mul_1[2] = { {8{1'b0}},layer0[1][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
-assign kernel_img_mul_1[3] = { {8{1'b0}},layer0[1][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
-assign kernel_img_mul_1[4] = { {8{1'b0}},layer0[1][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
-assign kernel_img_mul_1[5] = { {8{1'b0}},layer0[1][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
-assign kernel_img_mul_1[6] = { {8{1'b0}},layer0[1][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
-assign kernel_img_mul_1[7] = { {8{1'b0}},layer1[1][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
-assign kernel_img_mul_1[8] = { {8{1'b0}},layer1[1][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
-assign kernel_img_mul_1[9] = { {8{1'b0}},layer1[1][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
-assign kernel_img_mul_1[10] = { {8{1'b0}},layer1[1][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
-assign kernel_img_mul_1[11] = { {8{1'b0}},layer1[1][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
-assign kernel_img_mul_1[12] = { {8{1'b0}},layer1[1][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
-assign kernel_img_mul_1[13] = { {8{1'b0}},layer1[1][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
-assign kernel_img_mul_1[14] = { {8{1'b0}},layer2[1][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
-assign kernel_img_mul_1[15] = { {8{1'b0}},layer2[1][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
-assign kernel_img_mul_1[16] = { {8{1'b0}},layer2[1][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
-assign kernel_img_mul_1[17] = { {8{1'b0}},layer2[1][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
-assign kernel_img_mul_1[18] = { {8{1'b0}},layer2[1][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
-assign kernel_img_mul_1[19] = { {8{1'b0}},layer2[1][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
-assign kernel_img_mul_1[20] = { {8{1'b0}},layer2[1][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
-assign kernel_img_mul_1[21] = { {8{1'b0}},layer3[1][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[3][7:0]};
-assign kernel_img_mul_1[22] = { {8{1'b0}},layer3[1][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[3][15:8]};
-assign kernel_img_mul_1[23] = { {8{1'b0}},layer3[1][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[3][23:16]};
-assign kernel_img_mul_1[24] = { {8{1'b0}},layer3[1][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[3][31:24]};
-assign kernel_img_mul_1[25] = { {8{1'b0}},layer3[1][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[3][39:32]};
-assign kernel_img_mul_1[26] = { {8{1'b0}},layer3[1][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[3][47:40]};
-assign kernel_img_mul_1[27] = { {8{1'b0}},layer3[1][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[3][55:48]};
-assign kernel_img_mul_1[28] = { {8{1'b0}},layer4[1][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
-assign kernel_img_mul_1[29] = { {8{1'b0}},layer4[1][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
-assign kernel_img_mul_1[30] = { {8{1'b0}},layer4[1][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
-assign kernel_img_mul_1[31] = { {8{1'b0}},layer4[1][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
-assign kernel_img_mul_1[32] = { {8{1'b0}},layer4[1][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
-assign kernel_img_mul_1[33] = { {8{1'b0}},layer4[1][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
-assign kernel_img_mul_1[34] = { {8{1'b0}},layer4[1][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
-assign kernel_img_mul_1[35] = { {8{1'b0}},layer5[1][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
-assign kernel_img_mul_1[36] = { {8{1'b0}},layer5[1][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
-assign kernel_img_mul_1[37] = { {8{1'b0}},layer5[1][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
-assign kernel_img_mul_1[38] = { {8{1'b0}},layer5[1][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
-assign kernel_img_mul_1[39] = { {8{1'b0}},layer5[1][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
-assign kernel_img_mul_1[40] = { {8{1'b0}},layer5[1][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
-assign kernel_img_mul_1[41] = { {8{1'b0}},layer5[1][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
-assign kernel_img_mul_1[42] = { {8{1'b0}},layer6[1][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
-assign kernel_img_mul_1[43] = { {8{1'b0}},layer6[1][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
-assign kernel_img_mul_1[44] = { {8{1'b0}},layer6[1][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
-assign kernel_img_mul_1[45] = { {8{1'b0}},layer6[1][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
-assign kernel_img_mul_1[46] = { {8{1'b0}},layer6[1][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
-assign kernel_img_mul_1[47] = { {8{1'b0}},layer6[1][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
-assign kernel_img_mul_1[48] = { {8{1'b0}},layer6[1][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
-wire  [15:0]  kernel_img_sum_1 = kernel_img_mul_1[0] + kernel_img_mul_1[1] + kernel_img_mul_1[2] + 
+  end
+end
+reg  [15:0]  kernel_img_mul_1[0:48];
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_mul_1[0] <= 'd0
+    kernel_img_mul_1[1] <= 'd0
+    kernel_img_mul_1[2] <= 'd0
+    kernel_img_mul_1[3] <= 'd0
+    kernel_img_mul_1[4] <= 'd0
+    kernel_img_mul_1[5] <= 'd0
+    kernel_img_mul_1[6] <= 'd0
+    kernel_img_mul_1[7] <= 'd0
+    kernel_img_mul_1[8] <= 'd0
+    kernel_img_mul_1[9] <= 'd0
+    kernel_img_mul_1[10] <= 'd0
+    kernel_img_mul_1[11] <= 'd0
+    kernel_img_mul_1[12] <= 'd0
+    kernel_img_mul_1[13] <= 'd0
+    kernel_img_mul_1[14] <= 'd0
+    kernel_img_mul_1[15] <= 'd0
+    kernel_img_mul_1[16] <= 'd0
+    kernel_img_mul_1[17] <= 'd0
+    kernel_img_mul_1[18] <= 'd0
+    kernel_img_mul_1[19] <= 'd0
+    kernel_img_mul_1[20] <= 'd0
+    kernel_img_mul_1[21] <= 'd0
+    kernel_img_mul_1[22] <= 'd0
+    kernel_img_mul_1[23] <= 'd0
+    kernel_img_mul_1[24] <= 'd0
+    kernel_img_mul_1[25] <= 'd0
+    kernel_img_mul_1[26] <= 'd0
+    kernel_img_mul_1[27] <= 'd0
+    kernel_img_mul_1[28] <= 'd0
+    kernel_img_mul_1[29] <= 'd0
+    kernel_img_mul_1[30] <= 'd0
+    kernel_img_mul_1[31] <= 'd0
+    kernel_img_mul_1[32] <= 'd0
+    kernel_img_mul_1[33] <= 'd0
+    kernel_img_mul_1[34] <= 'd0
+    kernel_img_mul_1[35] <= 'd0
+    kernel_img_mul_1[36] <= 'd0
+    kernel_img_mul_1[37] <= 'd0
+    kernel_img_mul_1[38] <= 'd0
+    kernel_img_mul_1[39] <= 'd0
+    kernel_img_mul_1[40] <= 'd0
+    kernel_img_mul_1[41] <= 'd0
+    kernel_img_mul_1[42] <= 'd0
+    kernel_img_mul_1[43] <= 'd0
+    kernel_img_mul_1[44] <= 'd0
+    kernel_img_mul_1[45] <= 'd0
+    kernel_img_mul_1[46] <= 'd0
+    kernel_img_mul_1[47] <= 'd0
+    kernel_img_mul_1[48] <= 'd0
+  end
+  else if(current_state==ST_MUL) begin
+    kernel_img_mul_1[0] <= { {8{1'b0}},layer0[1][7:0]} * { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
+    kernel_img_mul_1[1] <= { {8{1'b0}},layer0[1][15:8]} * { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
+    kernel_img_mul_1[2] <= { {8{1'b0}},layer0[1][23:16]} * { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
+    kernel_img_mul_1[3] <= { {8{1'b0}},layer0[1][31:24]} * { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
+    kernel_img_mul_1[4] <= { {8{1'b0}},layer0[1][39:32]} * { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
+    kernel_img_mul_1[5] <= { {8{1'b0}},layer0[1][47:40]} * { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
+    kernel_img_mul_1[6] <= { {8{1'b0}},layer0[1][55:48]} * { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
+    kernel_img_mul_1[7] <= { {8{1'b0}},layer1[1][7:0]} * { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
+    kernel_img_mul_1[8] <= { {8{1'b0}},layer1[1][15:8]} * { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
+    kernel_img_mul_1[9] <= { {8{1'b0}},layer1[1][23:16]} * { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
+    kernel_img_mul_1[10] <= { {8{1'b0}},layer1[1][31:24]} * { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
+    kernel_img_mul_1[11] <= { {8{1'b0}},layer1[1][39:32]} * { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
+    kernel_img_mul_1[12] <= { {8{1'b0}},layer1[1][47:40]} * { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
+    kernel_img_mul_1[13] <= { {8{1'b0}},layer1[1][55:48]} * { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
+    kernel_img_mul_1[14] <= { {8{1'b0}},layer2[1][7:0]} * { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
+    kernel_img_mul_1[15] <= { {8{1'b0}},layer2[1][15:8]} * { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
+    kernel_img_mul_1[16] <= { {8{1'b0}},layer2[1][23:16]} * { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
+    kernel_img_mul_1[17] <= { {8{1'b0}},layer2[1][31:24]} * { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
+    kernel_img_mul_1[18] <= { {8{1'b0}},layer2[1][39:32]} * { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
+    kernel_img_mul_1[19] <= { {8{1'b0}},layer2[1][47:40]} * { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
+    kernel_img_mul_1[20] <= { {8{1'b0}},layer2[1][55:48]} * { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
+    kernel_img_mul_1[21] <= { {8{1'b0}},layer3[1][7:0]} * { {8{1'b0}}, G_Kernel_7x7[3][7:0]};
+    kernel_img_mul_1[22] <= { {8{1'b0}},layer3[1][15:8]} * { {8{1'b0}}, G_Kernel_7x7[3][15:8]};
+    kernel_img_mul_1[23] <= { {8{1'b0}},layer3[1][23:16]} * { {8{1'b0}}, G_Kernel_7x7[3][23:16]};
+    kernel_img_mul_1[24] <= { {8{1'b0}},layer3[1][31:24]} * { {8{1'b0}}, G_Kernel_7x7[3][31:24]};
+    kernel_img_mul_1[25] <= { {8{1'b0}},layer3[1][39:32]} * { {8{1'b0}}, G_Kernel_7x7[3][39:32]};
+    kernel_img_mul_1[26] <= { {8{1'b0}},layer3[1][47:40]} * { {8{1'b0}}, G_Kernel_7x7[3][47:40]};
+    kernel_img_mul_1[27] <= { {8{1'b0}},layer3[1][55:48]} * { {8{1'b0}}, G_Kernel_7x7[3][55:48]};
+    kernel_img_mul_1[28] <= { {8{1'b0}},layer4[1][7:0]} * { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
+    kernel_img_mul_1[29] <= { {8{1'b0}},layer4[1][15:8]} * { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
+    kernel_img_mul_1[30] <= { {8{1'b0}},layer4[1][23:16]} * { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
+    kernel_img_mul_1[31] <= { {8{1'b0}},layer4[1][31:24]} * { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
+    kernel_img_mul_1[32] <= { {8{1'b0}},layer4[1][39:32]} * { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
+    kernel_img_mul_1[33] <= { {8{1'b0}},layer4[1][47:40]} * { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
+    kernel_img_mul_1[34] <= { {8{1'b0}},layer4[1][55:48]} * { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
+    kernel_img_mul_1[35] <= { {8{1'b0}},layer5[1][7:0]} * { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
+    kernel_img_mul_1[36] <= { {8{1'b0}},layer5[1][15:8]} * { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
+    kernel_img_mul_1[37] <= { {8{1'b0}},layer5[1][23:16]} * { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
+    kernel_img_mul_1[38] <= { {8{1'b0}},layer5[1][31:24]} * { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
+    kernel_img_mul_1[39] <= { {8{1'b0}},layer5[1][39:32]} * { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
+    kernel_img_mul_1[40] <= { {8{1'b0}},layer5[1][47:40]} * { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
+    kernel_img_mul_1[41] <= { {8{1'b0}},layer5[1][55:48]} * { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
+    kernel_img_mul_1[42] <= { {8{1'b0}},layer6[1][7:0]} * { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
+    kernel_img_mul_1[43] <= { {8{1'b0}},layer6[1][15:8]} * { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
+    kernel_img_mul_1[44] <= { {8{1'b0}},layer6[1][23:16]} * { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
+    kernel_img_mul_1[45] <= { {8{1'b0}},layer6[1][31:24]} * { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
+    kernel_img_mul_1[46] <= { {8{1'b0}},layer6[1][39:32]} * { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
+    kernel_img_mul_1[47] <= { {8{1'b0}},layer6[1][47:40]} * { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
+    kernel_img_mul_1[48] <= { {8{1'b0}},layer6[1][55:48]} * { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
+  end
+end
+reg  [15:0]  kernel_img_sum_1;
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_sum_1 <= 'd0
+  end
+  else if(current_state==ST_ADD) begin
+    kernel_img_sum_1 <= kernel_img_mul_1[0] + kernel_img_mul_1[1] + kernel_img_mul_1[2] + 
                 kernel_img_mul_1[3] + kernel_img_mul_1[4] + kernel_img_mul_1[5] + 
                 kernel_img_mul_1[6] + kernel_img_mul_1[7] + kernel_img_mul_1[8] + 
                 kernel_img_mul_1[9] + kernel_img_mul_1[10] + kernel_img_mul_1[11] + 
@@ -32430,57 +32565,120 @@ wire  [15:0]  kernel_img_sum_1 = kernel_img_mul_1[0] + kernel_img_mul_1[1] + ker
                 kernel_img_mul_1[42] + kernel_img_mul_1[43] + kernel_img_mul_1[44] + 
                 kernel_img_mul_1[45] + kernel_img_mul_1[46] + kernel_img_mul_1[47] + 
                 kernel_img_mul_1[48];
-wire  [15:0]  kernel_img_mul_2[0:48];
-assign kernel_img_mul_2[0] = { {8{1'b0}},layer0[2][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
-assign kernel_img_mul_2[1] = { {8{1'b0}},layer0[2][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
-assign kernel_img_mul_2[2] = { {8{1'b0}},layer0[2][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
-assign kernel_img_mul_2[3] = { {8{1'b0}},layer0[2][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
-assign kernel_img_mul_2[4] = { {8{1'b0}},layer0[2][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
-assign kernel_img_mul_2[5] = { {8{1'b0}},layer0[2][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
-assign kernel_img_mul_2[6] = { {8{1'b0}},layer0[2][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
-assign kernel_img_mul_2[7] = { {8{1'b0}},layer1[2][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
-assign kernel_img_mul_2[8] = { {8{1'b0}},layer1[2][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
-assign kernel_img_mul_2[9] = { {8{1'b0}},layer1[2][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
-assign kernel_img_mul_2[10] = { {8{1'b0}},layer1[2][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
-assign kernel_img_mul_2[11] = { {8{1'b0}},layer1[2][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
-assign kernel_img_mul_2[12] = { {8{1'b0}},layer1[2][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
-assign kernel_img_mul_2[13] = { {8{1'b0}},layer1[2][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
-assign kernel_img_mul_2[14] = { {8{1'b0}},layer2[2][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
-assign kernel_img_mul_2[15] = { {8{1'b0}},layer2[2][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
-assign kernel_img_mul_2[16] = { {8{1'b0}},layer2[2][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
-assign kernel_img_mul_2[17] = { {8{1'b0}},layer2[2][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
-assign kernel_img_mul_2[18] = { {8{1'b0}},layer2[2][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
-assign kernel_img_mul_2[19] = { {8{1'b0}},layer2[2][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
-assign kernel_img_mul_2[20] = { {8{1'b0}},layer2[2][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
-assign kernel_img_mul_2[21] = { {8{1'b0}},layer3[2][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[3][7:0]};
-assign kernel_img_mul_2[22] = { {8{1'b0}},layer3[2][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[3][15:8]};
-assign kernel_img_mul_2[23] = { {8{1'b0}},layer3[2][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[3][23:16]};
-assign kernel_img_mul_2[24] = { {8{1'b0}},layer3[2][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[3][31:24]};
-assign kernel_img_mul_2[25] = { {8{1'b0}},layer3[2][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[3][39:32]};
-assign kernel_img_mul_2[26] = { {8{1'b0}},layer3[2][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[3][47:40]};
-assign kernel_img_mul_2[27] = { {8{1'b0}},layer3[2][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[3][55:48]};
-assign kernel_img_mul_2[28] = { {8{1'b0}},layer4[2][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
-assign kernel_img_mul_2[29] = { {8{1'b0}},layer4[2][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
-assign kernel_img_mul_2[30] = { {8{1'b0}},layer4[2][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
-assign kernel_img_mul_2[31] = { {8{1'b0}},layer4[2][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
-assign kernel_img_mul_2[32] = { {8{1'b0}},layer4[2][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
-assign kernel_img_mul_2[33] = { {8{1'b0}},layer4[2][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
-assign kernel_img_mul_2[34] = { {8{1'b0}},layer4[2][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
-assign kernel_img_mul_2[35] = { {8{1'b0}},layer5[2][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
-assign kernel_img_mul_2[36] = { {8{1'b0}},layer5[2][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
-assign kernel_img_mul_2[37] = { {8{1'b0}},layer5[2][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
-assign kernel_img_mul_2[38] = { {8{1'b0}},layer5[2][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
-assign kernel_img_mul_2[39] = { {8{1'b0}},layer5[2][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
-assign kernel_img_mul_2[40] = { {8{1'b0}},layer5[2][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
-assign kernel_img_mul_2[41] = { {8{1'b0}},layer5[2][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
-assign kernel_img_mul_2[42] = { {8{1'b0}},layer6[2][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
-assign kernel_img_mul_2[43] = { {8{1'b0}},layer6[2][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
-assign kernel_img_mul_2[44] = { {8{1'b0}},layer6[2][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
-assign kernel_img_mul_2[45] = { {8{1'b0}},layer6[2][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
-assign kernel_img_mul_2[46] = { {8{1'b0}},layer6[2][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
-assign kernel_img_mul_2[47] = { {8{1'b0}},layer6[2][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
-assign kernel_img_mul_2[48] = { {8{1'b0}},layer6[2][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
-wire  [15:0]  kernel_img_sum_2 = kernel_img_mul_2[0] + kernel_img_mul_2[1] + kernel_img_mul_2[2] + 
+  end
+end
+reg  [15:0]  kernel_img_mul_2[0:48];
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_mul_2[0] <= 'd0
+    kernel_img_mul_2[1] <= 'd0
+    kernel_img_mul_2[2] <= 'd0
+    kernel_img_mul_2[3] <= 'd0
+    kernel_img_mul_2[4] <= 'd0
+    kernel_img_mul_2[5] <= 'd0
+    kernel_img_mul_2[6] <= 'd0
+    kernel_img_mul_2[7] <= 'd0
+    kernel_img_mul_2[8] <= 'd0
+    kernel_img_mul_2[9] <= 'd0
+    kernel_img_mul_2[10] <= 'd0
+    kernel_img_mul_2[11] <= 'd0
+    kernel_img_mul_2[12] <= 'd0
+    kernel_img_mul_2[13] <= 'd0
+    kernel_img_mul_2[14] <= 'd0
+    kernel_img_mul_2[15] <= 'd0
+    kernel_img_mul_2[16] <= 'd0
+    kernel_img_mul_2[17] <= 'd0
+    kernel_img_mul_2[18] <= 'd0
+    kernel_img_mul_2[19] <= 'd0
+    kernel_img_mul_2[20] <= 'd0
+    kernel_img_mul_2[21] <= 'd0
+    kernel_img_mul_2[22] <= 'd0
+    kernel_img_mul_2[23] <= 'd0
+    kernel_img_mul_2[24] <= 'd0
+    kernel_img_mul_2[25] <= 'd0
+    kernel_img_mul_2[26] <= 'd0
+    kernel_img_mul_2[27] <= 'd0
+    kernel_img_mul_2[28] <= 'd0
+    kernel_img_mul_2[29] <= 'd0
+    kernel_img_mul_2[30] <= 'd0
+    kernel_img_mul_2[31] <= 'd0
+    kernel_img_mul_2[32] <= 'd0
+    kernel_img_mul_2[33] <= 'd0
+    kernel_img_mul_2[34] <= 'd0
+    kernel_img_mul_2[35] <= 'd0
+    kernel_img_mul_2[36] <= 'd0
+    kernel_img_mul_2[37] <= 'd0
+    kernel_img_mul_2[38] <= 'd0
+    kernel_img_mul_2[39] <= 'd0
+    kernel_img_mul_2[40] <= 'd0
+    kernel_img_mul_2[41] <= 'd0
+    kernel_img_mul_2[42] <= 'd0
+    kernel_img_mul_2[43] <= 'd0
+    kernel_img_mul_2[44] <= 'd0
+    kernel_img_mul_2[45] <= 'd0
+    kernel_img_mul_2[46] <= 'd0
+    kernel_img_mul_2[47] <= 'd0
+    kernel_img_mul_2[48] <= 'd0
+  end
+  else if(current_state==ST_MUL) begin
+    kernel_img_mul_2[0] <= { {8{1'b0}},layer0[2][7:0]} * { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
+    kernel_img_mul_2[1] <= { {8{1'b0}},layer0[2][15:8]} * { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
+    kernel_img_mul_2[2] <= { {8{1'b0}},layer0[2][23:16]} * { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
+    kernel_img_mul_2[3] <= { {8{1'b0}},layer0[2][31:24]} * { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
+    kernel_img_mul_2[4] <= { {8{1'b0}},layer0[2][39:32]} * { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
+    kernel_img_mul_2[5] <= { {8{1'b0}},layer0[2][47:40]} * { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
+    kernel_img_mul_2[6] <= { {8{1'b0}},layer0[2][55:48]} * { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
+    kernel_img_mul_2[7] <= { {8{1'b0}},layer1[2][7:0]} * { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
+    kernel_img_mul_2[8] <= { {8{1'b0}},layer1[2][15:8]} * { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
+    kernel_img_mul_2[9] <= { {8{1'b0}},layer1[2][23:16]} * { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
+    kernel_img_mul_2[10] <= { {8{1'b0}},layer1[2][31:24]} * { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
+    kernel_img_mul_2[11] <= { {8{1'b0}},layer1[2][39:32]} * { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
+    kernel_img_mul_2[12] <= { {8{1'b0}},layer1[2][47:40]} * { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
+    kernel_img_mul_2[13] <= { {8{1'b0}},layer1[2][55:48]} * { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
+    kernel_img_mul_2[14] <= { {8{1'b0}},layer2[2][7:0]} * { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
+    kernel_img_mul_2[15] <= { {8{1'b0}},layer2[2][15:8]} * { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
+    kernel_img_mul_2[16] <= { {8{1'b0}},layer2[2][23:16]} * { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
+    kernel_img_mul_2[17] <= { {8{1'b0}},layer2[2][31:24]} * { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
+    kernel_img_mul_2[18] <= { {8{1'b0}},layer2[2][39:32]} * { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
+    kernel_img_mul_2[19] <= { {8{1'b0}},layer2[2][47:40]} * { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
+    kernel_img_mul_2[20] <= { {8{1'b0}},layer2[2][55:48]} * { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
+    kernel_img_mul_2[21] <= { {8{1'b0}},layer3[2][7:0]} * { {8{1'b0}}, G_Kernel_7x7[3][7:0]};
+    kernel_img_mul_2[22] <= { {8{1'b0}},layer3[2][15:8]} * { {8{1'b0}}, G_Kernel_7x7[3][15:8]};
+    kernel_img_mul_2[23] <= { {8{1'b0}},layer3[2][23:16]} * { {8{1'b0}}, G_Kernel_7x7[3][23:16]};
+    kernel_img_mul_2[24] <= { {8{1'b0}},layer3[2][31:24]} * { {8{1'b0}}, G_Kernel_7x7[3][31:24]};
+    kernel_img_mul_2[25] <= { {8{1'b0}},layer3[2][39:32]} * { {8{1'b0}}, G_Kernel_7x7[3][39:32]};
+    kernel_img_mul_2[26] <= { {8{1'b0}},layer3[2][47:40]} * { {8{1'b0}}, G_Kernel_7x7[3][47:40]};
+    kernel_img_mul_2[27] <= { {8{1'b0}},layer3[2][55:48]} * { {8{1'b0}}, G_Kernel_7x7[3][55:48]};
+    kernel_img_mul_2[28] <= { {8{1'b0}},layer4[2][7:0]} * { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
+    kernel_img_mul_2[29] <= { {8{1'b0}},layer4[2][15:8]} * { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
+    kernel_img_mul_2[30] <= { {8{1'b0}},layer4[2][23:16]} * { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
+    kernel_img_mul_2[31] <= { {8{1'b0}},layer4[2][31:24]} * { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
+    kernel_img_mul_2[32] <= { {8{1'b0}},layer4[2][39:32]} * { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
+    kernel_img_mul_2[33] <= { {8{1'b0}},layer4[2][47:40]} * { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
+    kernel_img_mul_2[34] <= { {8{1'b0}},layer4[2][55:48]} * { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
+    kernel_img_mul_2[35] <= { {8{1'b0}},layer5[2][7:0]} * { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
+    kernel_img_mul_2[36] <= { {8{1'b0}},layer5[2][15:8]} * { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
+    kernel_img_mul_2[37] <= { {8{1'b0}},layer5[2][23:16]} * { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
+    kernel_img_mul_2[38] <= { {8{1'b0}},layer5[2][31:24]} * { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
+    kernel_img_mul_2[39] <= { {8{1'b0}},layer5[2][39:32]} * { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
+    kernel_img_mul_2[40] <= { {8{1'b0}},layer5[2][47:40]} * { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
+    kernel_img_mul_2[41] <= { {8{1'b0}},layer5[2][55:48]} * { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
+    kernel_img_mul_2[42] <= { {8{1'b0}},layer6[2][7:0]} * { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
+    kernel_img_mul_2[43] <= { {8{1'b0}},layer6[2][15:8]} * { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
+    kernel_img_mul_2[44] <= { {8{1'b0}},layer6[2][23:16]} * { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
+    kernel_img_mul_2[45] <= { {8{1'b0}},layer6[2][31:24]} * { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
+    kernel_img_mul_2[46] <= { {8{1'b0}},layer6[2][39:32]} * { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
+    kernel_img_mul_2[47] <= { {8{1'b0}},layer6[2][47:40]} * { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
+    kernel_img_mul_2[48] <= { {8{1'b0}},layer6[2][55:48]} * { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
+  end
+end
+reg  [15:0]  kernel_img_sum_2;
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_sum_2 <= 'd0
+  end
+  else if(current_state==ST_ADD) begin
+    kernel_img_sum_2 <= kernel_img_mul_2[0] + kernel_img_mul_2[1] + kernel_img_mul_2[2] + 
                 kernel_img_mul_2[3] + kernel_img_mul_2[4] + kernel_img_mul_2[5] + 
                 kernel_img_mul_2[6] + kernel_img_mul_2[7] + kernel_img_mul_2[8] + 
                 kernel_img_mul_2[9] + kernel_img_mul_2[10] + kernel_img_mul_2[11] + 
@@ -32497,57 +32695,120 @@ wire  [15:0]  kernel_img_sum_2 = kernel_img_mul_2[0] + kernel_img_mul_2[1] + ker
                 kernel_img_mul_2[42] + kernel_img_mul_2[43] + kernel_img_mul_2[44] + 
                 kernel_img_mul_2[45] + kernel_img_mul_2[46] + kernel_img_mul_2[47] + 
                 kernel_img_mul_2[48];
-wire  [15:0]  kernel_img_mul_3[0:48];
-assign kernel_img_mul_3[0] = { {8{1'b0}},layer0[3][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
-assign kernel_img_mul_3[1] = { {8{1'b0}},layer0[3][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
-assign kernel_img_mul_3[2] = { {8{1'b0}},layer0[3][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
-assign kernel_img_mul_3[3] = { {8{1'b0}},layer0[3][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
-assign kernel_img_mul_3[4] = { {8{1'b0}},layer0[3][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
-assign kernel_img_mul_3[5] = { {8{1'b0}},layer0[3][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
-assign kernel_img_mul_3[6] = { {8{1'b0}},layer0[3][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
-assign kernel_img_mul_3[7] = { {8{1'b0}},layer1[3][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
-assign kernel_img_mul_3[8] = { {8{1'b0}},layer1[3][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
-assign kernel_img_mul_3[9] = { {8{1'b0}},layer1[3][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
-assign kernel_img_mul_3[10] = { {8{1'b0}},layer1[3][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
-assign kernel_img_mul_3[11] = { {8{1'b0}},layer1[3][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
-assign kernel_img_mul_3[12] = { {8{1'b0}},layer1[3][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
-assign kernel_img_mul_3[13] = { {8{1'b0}},layer1[3][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
-assign kernel_img_mul_3[14] = { {8{1'b0}},layer2[3][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
-assign kernel_img_mul_3[15] = { {8{1'b0}},layer2[3][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
-assign kernel_img_mul_3[16] = { {8{1'b0}},layer2[3][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
-assign kernel_img_mul_3[17] = { {8{1'b0}},layer2[3][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
-assign kernel_img_mul_3[18] = { {8{1'b0}},layer2[3][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
-assign kernel_img_mul_3[19] = { {8{1'b0}},layer2[3][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
-assign kernel_img_mul_3[20] = { {8{1'b0}},layer2[3][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
-assign kernel_img_mul_3[21] = { {8{1'b0}},layer3[3][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[3][7:0]};
-assign kernel_img_mul_3[22] = { {8{1'b0}},layer3[3][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[3][15:8]};
-assign kernel_img_mul_3[23] = { {8{1'b0}},layer3[3][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[3][23:16]};
-assign kernel_img_mul_3[24] = { {8{1'b0}},layer3[3][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[3][31:24]};
-assign kernel_img_mul_3[25] = { {8{1'b0}},layer3[3][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[3][39:32]};
-assign kernel_img_mul_3[26] = { {8{1'b0}},layer3[3][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[3][47:40]};
-assign kernel_img_mul_3[27] = { {8{1'b0}},layer3[3][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[3][55:48]};
-assign kernel_img_mul_3[28] = { {8{1'b0}},layer4[3][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
-assign kernel_img_mul_3[29] = { {8{1'b0}},layer4[3][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
-assign kernel_img_mul_3[30] = { {8{1'b0}},layer4[3][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
-assign kernel_img_mul_3[31] = { {8{1'b0}},layer4[3][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
-assign kernel_img_mul_3[32] = { {8{1'b0}},layer4[3][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
-assign kernel_img_mul_3[33] = { {8{1'b0}},layer4[3][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
-assign kernel_img_mul_3[34] = { {8{1'b0}},layer4[3][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
-assign kernel_img_mul_3[35] = { {8{1'b0}},layer5[3][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
-assign kernel_img_mul_3[36] = { {8{1'b0}},layer5[3][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
-assign kernel_img_mul_3[37] = { {8{1'b0}},layer5[3][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
-assign kernel_img_mul_3[38] = { {8{1'b0}},layer5[3][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
-assign kernel_img_mul_3[39] = { {8{1'b0}},layer5[3][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
-assign kernel_img_mul_3[40] = { {8{1'b0}},layer5[3][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
-assign kernel_img_mul_3[41] = { {8{1'b0}},layer5[3][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
-assign kernel_img_mul_3[42] = { {8{1'b0}},layer6[3][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
-assign kernel_img_mul_3[43] = { {8{1'b0}},layer6[3][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
-assign kernel_img_mul_3[44] = { {8{1'b0}},layer6[3][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
-assign kernel_img_mul_3[45] = { {8{1'b0}},layer6[3][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
-assign kernel_img_mul_3[46] = { {8{1'b0}},layer6[3][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
-assign kernel_img_mul_3[47] = { {8{1'b0}},layer6[3][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
-assign kernel_img_mul_3[48] = { {8{1'b0}},layer6[3][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
-wire  [15:0]  kernel_img_sum_3 = kernel_img_mul_3[0] + kernel_img_mul_3[1] + kernel_img_mul_3[2] + 
+  end
+end
+reg  [15:0]  kernel_img_mul_3[0:48];
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_mul_3[0] <= 'd0
+    kernel_img_mul_3[1] <= 'd0
+    kernel_img_mul_3[2] <= 'd0
+    kernel_img_mul_3[3] <= 'd0
+    kernel_img_mul_3[4] <= 'd0
+    kernel_img_mul_3[5] <= 'd0
+    kernel_img_mul_3[6] <= 'd0
+    kernel_img_mul_3[7] <= 'd0
+    kernel_img_mul_3[8] <= 'd0
+    kernel_img_mul_3[9] <= 'd0
+    kernel_img_mul_3[10] <= 'd0
+    kernel_img_mul_3[11] <= 'd0
+    kernel_img_mul_3[12] <= 'd0
+    kernel_img_mul_3[13] <= 'd0
+    kernel_img_mul_3[14] <= 'd0
+    kernel_img_mul_3[15] <= 'd0
+    kernel_img_mul_3[16] <= 'd0
+    kernel_img_mul_3[17] <= 'd0
+    kernel_img_mul_3[18] <= 'd0
+    kernel_img_mul_3[19] <= 'd0
+    kernel_img_mul_3[20] <= 'd0
+    kernel_img_mul_3[21] <= 'd0
+    kernel_img_mul_3[22] <= 'd0
+    kernel_img_mul_3[23] <= 'd0
+    kernel_img_mul_3[24] <= 'd0
+    kernel_img_mul_3[25] <= 'd0
+    kernel_img_mul_3[26] <= 'd0
+    kernel_img_mul_3[27] <= 'd0
+    kernel_img_mul_3[28] <= 'd0
+    kernel_img_mul_3[29] <= 'd0
+    kernel_img_mul_3[30] <= 'd0
+    kernel_img_mul_3[31] <= 'd0
+    kernel_img_mul_3[32] <= 'd0
+    kernel_img_mul_3[33] <= 'd0
+    kernel_img_mul_3[34] <= 'd0
+    kernel_img_mul_3[35] <= 'd0
+    kernel_img_mul_3[36] <= 'd0
+    kernel_img_mul_3[37] <= 'd0
+    kernel_img_mul_3[38] <= 'd0
+    kernel_img_mul_3[39] <= 'd0
+    kernel_img_mul_3[40] <= 'd0
+    kernel_img_mul_3[41] <= 'd0
+    kernel_img_mul_3[42] <= 'd0
+    kernel_img_mul_3[43] <= 'd0
+    kernel_img_mul_3[44] <= 'd0
+    kernel_img_mul_3[45] <= 'd0
+    kernel_img_mul_3[46] <= 'd0
+    kernel_img_mul_3[47] <= 'd0
+    kernel_img_mul_3[48] <= 'd0
+  end
+  else if(current_state==ST_MUL) begin
+    kernel_img_mul_3[0] <= { {8{1'b0}},layer0[3][7:0]} * { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
+    kernel_img_mul_3[1] <= { {8{1'b0}},layer0[3][15:8]} * { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
+    kernel_img_mul_3[2] <= { {8{1'b0}},layer0[3][23:16]} * { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
+    kernel_img_mul_3[3] <= { {8{1'b0}},layer0[3][31:24]} * { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
+    kernel_img_mul_3[4] <= { {8{1'b0}},layer0[3][39:32]} * { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
+    kernel_img_mul_3[5] <= { {8{1'b0}},layer0[3][47:40]} * { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
+    kernel_img_mul_3[6] <= { {8{1'b0}},layer0[3][55:48]} * { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
+    kernel_img_mul_3[7] <= { {8{1'b0}},layer1[3][7:0]} * { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
+    kernel_img_mul_3[8] <= { {8{1'b0}},layer1[3][15:8]} * { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
+    kernel_img_mul_3[9] <= { {8{1'b0}},layer1[3][23:16]} * { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
+    kernel_img_mul_3[10] <= { {8{1'b0}},layer1[3][31:24]} * { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
+    kernel_img_mul_3[11] <= { {8{1'b0}},layer1[3][39:32]} * { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
+    kernel_img_mul_3[12] <= { {8{1'b0}},layer1[3][47:40]} * { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
+    kernel_img_mul_3[13] <= { {8{1'b0}},layer1[3][55:48]} * { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
+    kernel_img_mul_3[14] <= { {8{1'b0}},layer2[3][7:0]} * { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
+    kernel_img_mul_3[15] <= { {8{1'b0}},layer2[3][15:8]} * { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
+    kernel_img_mul_3[16] <= { {8{1'b0}},layer2[3][23:16]} * { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
+    kernel_img_mul_3[17] <= { {8{1'b0}},layer2[3][31:24]} * { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
+    kernel_img_mul_3[18] <= { {8{1'b0}},layer2[3][39:32]} * { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
+    kernel_img_mul_3[19] <= { {8{1'b0}},layer2[3][47:40]} * { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
+    kernel_img_mul_3[20] <= { {8{1'b0}},layer2[3][55:48]} * { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
+    kernel_img_mul_3[21] <= { {8{1'b0}},layer3[3][7:0]} * { {8{1'b0}}, G_Kernel_7x7[3][7:0]};
+    kernel_img_mul_3[22] <= { {8{1'b0}},layer3[3][15:8]} * { {8{1'b0}}, G_Kernel_7x7[3][15:8]};
+    kernel_img_mul_3[23] <= { {8{1'b0}},layer3[3][23:16]} * { {8{1'b0}}, G_Kernel_7x7[3][23:16]};
+    kernel_img_mul_3[24] <= { {8{1'b0}},layer3[3][31:24]} * { {8{1'b0}}, G_Kernel_7x7[3][31:24]};
+    kernel_img_mul_3[25] <= { {8{1'b0}},layer3[3][39:32]} * { {8{1'b0}}, G_Kernel_7x7[3][39:32]};
+    kernel_img_mul_3[26] <= { {8{1'b0}},layer3[3][47:40]} * { {8{1'b0}}, G_Kernel_7x7[3][47:40]};
+    kernel_img_mul_3[27] <= { {8{1'b0}},layer3[3][55:48]} * { {8{1'b0}}, G_Kernel_7x7[3][55:48]};
+    kernel_img_mul_3[28] <= { {8{1'b0}},layer4[3][7:0]} * { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
+    kernel_img_mul_3[29] <= { {8{1'b0}},layer4[3][15:8]} * { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
+    kernel_img_mul_3[30] <= { {8{1'b0}},layer4[3][23:16]} * { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
+    kernel_img_mul_3[31] <= { {8{1'b0}},layer4[3][31:24]} * { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
+    kernel_img_mul_3[32] <= { {8{1'b0}},layer4[3][39:32]} * { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
+    kernel_img_mul_3[33] <= { {8{1'b0}},layer4[3][47:40]} * { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
+    kernel_img_mul_3[34] <= { {8{1'b0}},layer4[3][55:48]} * { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
+    kernel_img_mul_3[35] <= { {8{1'b0}},layer5[3][7:0]} * { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
+    kernel_img_mul_3[36] <= { {8{1'b0}},layer5[3][15:8]} * { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
+    kernel_img_mul_3[37] <= { {8{1'b0}},layer5[3][23:16]} * { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
+    kernel_img_mul_3[38] <= { {8{1'b0}},layer5[3][31:24]} * { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
+    kernel_img_mul_3[39] <= { {8{1'b0}},layer5[3][39:32]} * { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
+    kernel_img_mul_3[40] <= { {8{1'b0}},layer5[3][47:40]} * { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
+    kernel_img_mul_3[41] <= { {8{1'b0}},layer5[3][55:48]} * { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
+    kernel_img_mul_3[42] <= { {8{1'b0}},layer6[3][7:0]} * { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
+    kernel_img_mul_3[43] <= { {8{1'b0}},layer6[3][15:8]} * { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
+    kernel_img_mul_3[44] <= { {8{1'b0}},layer6[3][23:16]} * { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
+    kernel_img_mul_3[45] <= { {8{1'b0}},layer6[3][31:24]} * { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
+    kernel_img_mul_3[46] <= { {8{1'b0}},layer6[3][39:32]} * { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
+    kernel_img_mul_3[47] <= { {8{1'b0}},layer6[3][47:40]} * { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
+    kernel_img_mul_3[48] <= { {8{1'b0}},layer6[3][55:48]} * { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
+  end
+end
+reg  [15:0]  kernel_img_sum_3;
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_sum_3 <= 'd0
+  end
+  else if(current_state==ST_ADD) begin
+    kernel_img_sum_3 <= kernel_img_mul_3[0] + kernel_img_mul_3[1] + kernel_img_mul_3[2] + 
                 kernel_img_mul_3[3] + kernel_img_mul_3[4] + kernel_img_mul_3[5] + 
                 kernel_img_mul_3[6] + kernel_img_mul_3[7] + kernel_img_mul_3[8] + 
                 kernel_img_mul_3[9] + kernel_img_mul_3[10] + kernel_img_mul_3[11] + 
@@ -32564,57 +32825,120 @@ wire  [15:0]  kernel_img_sum_3 = kernel_img_mul_3[0] + kernel_img_mul_3[1] + ker
                 kernel_img_mul_3[42] + kernel_img_mul_3[43] + kernel_img_mul_3[44] + 
                 kernel_img_mul_3[45] + kernel_img_mul_3[46] + kernel_img_mul_3[47] + 
                 kernel_img_mul_3[48];
-wire  [15:0]  kernel_img_mul_4[0:48];
-assign kernel_img_mul_4[0] = { {8{1'b0}},layer0[4][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
-assign kernel_img_mul_4[1] = { {8{1'b0}},layer0[4][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
-assign kernel_img_mul_4[2] = { {8{1'b0}},layer0[4][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
-assign kernel_img_mul_4[3] = { {8{1'b0}},layer0[4][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
-assign kernel_img_mul_4[4] = { {8{1'b0}},layer0[4][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
-assign kernel_img_mul_4[5] = { {8{1'b0}},layer0[4][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
-assign kernel_img_mul_4[6] = { {8{1'b0}},layer0[4][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
-assign kernel_img_mul_4[7] = { {8{1'b0}},layer1[4][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
-assign kernel_img_mul_4[8] = { {8{1'b0}},layer1[4][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
-assign kernel_img_mul_4[9] = { {8{1'b0}},layer1[4][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
-assign kernel_img_mul_4[10] = { {8{1'b0}},layer1[4][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
-assign kernel_img_mul_4[11] = { {8{1'b0}},layer1[4][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
-assign kernel_img_mul_4[12] = { {8{1'b0}},layer1[4][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
-assign kernel_img_mul_4[13] = { {8{1'b0}},layer1[4][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
-assign kernel_img_mul_4[14] = { {8{1'b0}},layer2[4][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
-assign kernel_img_mul_4[15] = { {8{1'b0}},layer2[4][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
-assign kernel_img_mul_4[16] = { {8{1'b0}},layer2[4][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
-assign kernel_img_mul_4[17] = { {8{1'b0}},layer2[4][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
-assign kernel_img_mul_4[18] = { {8{1'b0}},layer2[4][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
-assign kernel_img_mul_4[19] = { {8{1'b0}},layer2[4][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
-assign kernel_img_mul_4[20] = { {8{1'b0}},layer2[4][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
-assign kernel_img_mul_4[21] = { {8{1'b0}},layer3[4][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[3][7:0]};
-assign kernel_img_mul_4[22] = { {8{1'b0}},layer3[4][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[3][15:8]};
-assign kernel_img_mul_4[23] = { {8{1'b0}},layer3[4][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[3][23:16]};
-assign kernel_img_mul_4[24] = { {8{1'b0}},layer3[4][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[3][31:24]};
-assign kernel_img_mul_4[25] = { {8{1'b0}},layer3[4][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[3][39:32]};
-assign kernel_img_mul_4[26] = { {8{1'b0}},layer3[4][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[3][47:40]};
-assign kernel_img_mul_4[27] = { {8{1'b0}},layer3[4][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[3][55:48]};
-assign kernel_img_mul_4[28] = { {8{1'b0}},layer4[4][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
-assign kernel_img_mul_4[29] = { {8{1'b0}},layer4[4][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
-assign kernel_img_mul_4[30] = { {8{1'b0}},layer4[4][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
-assign kernel_img_mul_4[31] = { {8{1'b0}},layer4[4][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
-assign kernel_img_mul_4[32] = { {8{1'b0}},layer4[4][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
-assign kernel_img_mul_4[33] = { {8{1'b0}},layer4[4][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
-assign kernel_img_mul_4[34] = { {8{1'b0}},layer4[4][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
-assign kernel_img_mul_4[35] = { {8{1'b0}},layer5[4][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
-assign kernel_img_mul_4[36] = { {8{1'b0}},layer5[4][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
-assign kernel_img_mul_4[37] = { {8{1'b0}},layer5[4][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
-assign kernel_img_mul_4[38] = { {8{1'b0}},layer5[4][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
-assign kernel_img_mul_4[39] = { {8{1'b0}},layer5[4][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
-assign kernel_img_mul_4[40] = { {8{1'b0}},layer5[4][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
-assign kernel_img_mul_4[41] = { {8{1'b0}},layer5[4][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
-assign kernel_img_mul_4[42] = { {8{1'b0}},layer6[4][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
-assign kernel_img_mul_4[43] = { {8{1'b0}},layer6[4][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
-assign kernel_img_mul_4[44] = { {8{1'b0}},layer6[4][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
-assign kernel_img_mul_4[45] = { {8{1'b0}},layer6[4][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
-assign kernel_img_mul_4[46] = { {8{1'b0}},layer6[4][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
-assign kernel_img_mul_4[47] = { {8{1'b0}},layer6[4][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
-assign kernel_img_mul_4[48] = { {8{1'b0}},layer6[4][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
-wire  [15:0]  kernel_img_sum_4 = kernel_img_mul_4[0] + kernel_img_mul_4[1] + kernel_img_mul_4[2] + 
+  end
+end
+reg  [15:0]  kernel_img_mul_4[0:48];
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_mul_4[0] <= 'd0
+    kernel_img_mul_4[1] <= 'd0
+    kernel_img_mul_4[2] <= 'd0
+    kernel_img_mul_4[3] <= 'd0
+    kernel_img_mul_4[4] <= 'd0
+    kernel_img_mul_4[5] <= 'd0
+    kernel_img_mul_4[6] <= 'd0
+    kernel_img_mul_4[7] <= 'd0
+    kernel_img_mul_4[8] <= 'd0
+    kernel_img_mul_4[9] <= 'd0
+    kernel_img_mul_4[10] <= 'd0
+    kernel_img_mul_4[11] <= 'd0
+    kernel_img_mul_4[12] <= 'd0
+    kernel_img_mul_4[13] <= 'd0
+    kernel_img_mul_4[14] <= 'd0
+    kernel_img_mul_4[15] <= 'd0
+    kernel_img_mul_4[16] <= 'd0
+    kernel_img_mul_4[17] <= 'd0
+    kernel_img_mul_4[18] <= 'd0
+    kernel_img_mul_4[19] <= 'd0
+    kernel_img_mul_4[20] <= 'd0
+    kernel_img_mul_4[21] <= 'd0
+    kernel_img_mul_4[22] <= 'd0
+    kernel_img_mul_4[23] <= 'd0
+    kernel_img_mul_4[24] <= 'd0
+    kernel_img_mul_4[25] <= 'd0
+    kernel_img_mul_4[26] <= 'd0
+    kernel_img_mul_4[27] <= 'd0
+    kernel_img_mul_4[28] <= 'd0
+    kernel_img_mul_4[29] <= 'd0
+    kernel_img_mul_4[30] <= 'd0
+    kernel_img_mul_4[31] <= 'd0
+    kernel_img_mul_4[32] <= 'd0
+    kernel_img_mul_4[33] <= 'd0
+    kernel_img_mul_4[34] <= 'd0
+    kernel_img_mul_4[35] <= 'd0
+    kernel_img_mul_4[36] <= 'd0
+    kernel_img_mul_4[37] <= 'd0
+    kernel_img_mul_4[38] <= 'd0
+    kernel_img_mul_4[39] <= 'd0
+    kernel_img_mul_4[40] <= 'd0
+    kernel_img_mul_4[41] <= 'd0
+    kernel_img_mul_4[42] <= 'd0
+    kernel_img_mul_4[43] <= 'd0
+    kernel_img_mul_4[44] <= 'd0
+    kernel_img_mul_4[45] <= 'd0
+    kernel_img_mul_4[46] <= 'd0
+    kernel_img_mul_4[47] <= 'd0
+    kernel_img_mul_4[48] <= 'd0
+  end
+  else if(current_state==ST_MUL) begin
+    kernel_img_mul_4[0] <= { {8{1'b0}},layer0[4][7:0]} * { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
+    kernel_img_mul_4[1] <= { {8{1'b0}},layer0[4][15:8]} * { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
+    kernel_img_mul_4[2] <= { {8{1'b0}},layer0[4][23:16]} * { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
+    kernel_img_mul_4[3] <= { {8{1'b0}},layer0[4][31:24]} * { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
+    kernel_img_mul_4[4] <= { {8{1'b0}},layer0[4][39:32]} * { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
+    kernel_img_mul_4[5] <= { {8{1'b0}},layer0[4][47:40]} * { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
+    kernel_img_mul_4[6] <= { {8{1'b0}},layer0[4][55:48]} * { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
+    kernel_img_mul_4[7] <= { {8{1'b0}},layer1[4][7:0]} * { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
+    kernel_img_mul_4[8] <= { {8{1'b0}},layer1[4][15:8]} * { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
+    kernel_img_mul_4[9] <= { {8{1'b0}},layer1[4][23:16]} * { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
+    kernel_img_mul_4[10] <= { {8{1'b0}},layer1[4][31:24]} * { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
+    kernel_img_mul_4[11] <= { {8{1'b0}},layer1[4][39:32]} * { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
+    kernel_img_mul_4[12] <= { {8{1'b0}},layer1[4][47:40]} * { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
+    kernel_img_mul_4[13] <= { {8{1'b0}},layer1[4][55:48]} * { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
+    kernel_img_mul_4[14] <= { {8{1'b0}},layer2[4][7:0]} * { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
+    kernel_img_mul_4[15] <= { {8{1'b0}},layer2[4][15:8]} * { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
+    kernel_img_mul_4[16] <= { {8{1'b0}},layer2[4][23:16]} * { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
+    kernel_img_mul_4[17] <= { {8{1'b0}},layer2[4][31:24]} * { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
+    kernel_img_mul_4[18] <= { {8{1'b0}},layer2[4][39:32]} * { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
+    kernel_img_mul_4[19] <= { {8{1'b0}},layer2[4][47:40]} * { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
+    kernel_img_mul_4[20] <= { {8{1'b0}},layer2[4][55:48]} * { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
+    kernel_img_mul_4[21] <= { {8{1'b0}},layer3[4][7:0]} * { {8{1'b0}}, G_Kernel_7x7[3][7:0]};
+    kernel_img_mul_4[22] <= { {8{1'b0}},layer3[4][15:8]} * { {8{1'b0}}, G_Kernel_7x7[3][15:8]};
+    kernel_img_mul_4[23] <= { {8{1'b0}},layer3[4][23:16]} * { {8{1'b0}}, G_Kernel_7x7[3][23:16]};
+    kernel_img_mul_4[24] <= { {8{1'b0}},layer3[4][31:24]} * { {8{1'b0}}, G_Kernel_7x7[3][31:24]};
+    kernel_img_mul_4[25] <= { {8{1'b0}},layer3[4][39:32]} * { {8{1'b0}}, G_Kernel_7x7[3][39:32]};
+    kernel_img_mul_4[26] <= { {8{1'b0}},layer3[4][47:40]} * { {8{1'b0}}, G_Kernel_7x7[3][47:40]};
+    kernel_img_mul_4[27] <= { {8{1'b0}},layer3[4][55:48]} * { {8{1'b0}}, G_Kernel_7x7[3][55:48]};
+    kernel_img_mul_4[28] <= { {8{1'b0}},layer4[4][7:0]} * { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
+    kernel_img_mul_4[29] <= { {8{1'b0}},layer4[4][15:8]} * { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
+    kernel_img_mul_4[30] <= { {8{1'b0}},layer4[4][23:16]} * { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
+    kernel_img_mul_4[31] <= { {8{1'b0}},layer4[4][31:24]} * { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
+    kernel_img_mul_4[32] <= { {8{1'b0}},layer4[4][39:32]} * { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
+    kernel_img_mul_4[33] <= { {8{1'b0}},layer4[4][47:40]} * { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
+    kernel_img_mul_4[34] <= { {8{1'b0}},layer4[4][55:48]} * { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
+    kernel_img_mul_4[35] <= { {8{1'b0}},layer5[4][7:0]} * { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
+    kernel_img_mul_4[36] <= { {8{1'b0}},layer5[4][15:8]} * { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
+    kernel_img_mul_4[37] <= { {8{1'b0}},layer5[4][23:16]} * { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
+    kernel_img_mul_4[38] <= { {8{1'b0}},layer5[4][31:24]} * { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
+    kernel_img_mul_4[39] <= { {8{1'b0}},layer5[4][39:32]} * { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
+    kernel_img_mul_4[40] <= { {8{1'b0}},layer5[4][47:40]} * { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
+    kernel_img_mul_4[41] <= { {8{1'b0}},layer5[4][55:48]} * { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
+    kernel_img_mul_4[42] <= { {8{1'b0}},layer6[4][7:0]} * { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
+    kernel_img_mul_4[43] <= { {8{1'b0}},layer6[4][15:8]} * { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
+    kernel_img_mul_4[44] <= { {8{1'b0}},layer6[4][23:16]} * { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
+    kernel_img_mul_4[45] <= { {8{1'b0}},layer6[4][31:24]} * { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
+    kernel_img_mul_4[46] <= { {8{1'b0}},layer6[4][39:32]} * { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
+    kernel_img_mul_4[47] <= { {8{1'b0}},layer6[4][47:40]} * { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
+    kernel_img_mul_4[48] <= { {8{1'b0}},layer6[4][55:48]} * { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
+  end
+end
+reg  [15:0]  kernel_img_sum_4;
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_sum_4 <= 'd0
+  end
+  else if(current_state==ST_ADD) begin
+    kernel_img_sum_4 <= kernel_img_mul_4[0] + kernel_img_mul_4[1] + kernel_img_mul_4[2] + 
                 kernel_img_mul_4[3] + kernel_img_mul_4[4] + kernel_img_mul_4[5] + 
                 kernel_img_mul_4[6] + kernel_img_mul_4[7] + kernel_img_mul_4[8] + 
                 kernel_img_mul_4[9] + kernel_img_mul_4[10] + kernel_img_mul_4[11] + 
@@ -32631,57 +32955,120 @@ wire  [15:0]  kernel_img_sum_4 = kernel_img_mul_4[0] + kernel_img_mul_4[1] + ker
                 kernel_img_mul_4[42] + kernel_img_mul_4[43] + kernel_img_mul_4[44] + 
                 kernel_img_mul_4[45] + kernel_img_mul_4[46] + kernel_img_mul_4[47] + 
                 kernel_img_mul_4[48];
-wire  [15:0]  kernel_img_mul_5[0:48];
-assign kernel_img_mul_5[0] = { {8{1'b0}},layer0[5][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
-assign kernel_img_mul_5[1] = { {8{1'b0}},layer0[5][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
-assign kernel_img_mul_5[2] = { {8{1'b0}},layer0[5][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
-assign kernel_img_mul_5[3] = { {8{1'b0}},layer0[5][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
-assign kernel_img_mul_5[4] = { {8{1'b0}},layer0[5][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
-assign kernel_img_mul_5[5] = { {8{1'b0}},layer0[5][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
-assign kernel_img_mul_5[6] = { {8{1'b0}},layer0[5][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
-assign kernel_img_mul_5[7] = { {8{1'b0}},layer1[5][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
-assign kernel_img_mul_5[8] = { {8{1'b0}},layer1[5][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
-assign kernel_img_mul_5[9] = { {8{1'b0}},layer1[5][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
-assign kernel_img_mul_5[10] = { {8{1'b0}},layer1[5][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
-assign kernel_img_mul_5[11] = { {8{1'b0}},layer1[5][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
-assign kernel_img_mul_5[12] = { {8{1'b0}},layer1[5][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
-assign kernel_img_mul_5[13] = { {8{1'b0}},layer1[5][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
-assign kernel_img_mul_5[14] = { {8{1'b0}},layer2[5][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
-assign kernel_img_mul_5[15] = { {8{1'b0}},layer2[5][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
-assign kernel_img_mul_5[16] = { {8{1'b0}},layer2[5][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
-assign kernel_img_mul_5[17] = { {8{1'b0}},layer2[5][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
-assign kernel_img_mul_5[18] = { {8{1'b0}},layer2[5][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
-assign kernel_img_mul_5[19] = { {8{1'b0}},layer2[5][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
-assign kernel_img_mul_5[20] = { {8{1'b0}},layer2[5][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
-assign kernel_img_mul_5[21] = { {8{1'b0}},layer3[5][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[3][7:0]};
-assign kernel_img_mul_5[22] = { {8{1'b0}},layer3[5][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[3][15:8]};
-assign kernel_img_mul_5[23] = { {8{1'b0}},layer3[5][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[3][23:16]};
-assign kernel_img_mul_5[24] = { {8{1'b0}},layer3[5][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[3][31:24]};
-assign kernel_img_mul_5[25] = { {8{1'b0}},layer3[5][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[3][39:32]};
-assign kernel_img_mul_5[26] = { {8{1'b0}},layer3[5][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[3][47:40]};
-assign kernel_img_mul_5[27] = { {8{1'b0}},layer3[5][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[3][55:48]};
-assign kernel_img_mul_5[28] = { {8{1'b0}},layer4[5][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
-assign kernel_img_mul_5[29] = { {8{1'b0}},layer4[5][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
-assign kernel_img_mul_5[30] = { {8{1'b0}},layer4[5][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
-assign kernel_img_mul_5[31] = { {8{1'b0}},layer4[5][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
-assign kernel_img_mul_5[32] = { {8{1'b0}},layer4[5][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
-assign kernel_img_mul_5[33] = { {8{1'b0}},layer4[5][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
-assign kernel_img_mul_5[34] = { {8{1'b0}},layer4[5][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
-assign kernel_img_mul_5[35] = { {8{1'b0}},layer5[5][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
-assign kernel_img_mul_5[36] = { {8{1'b0}},layer5[5][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
-assign kernel_img_mul_5[37] = { {8{1'b0}},layer5[5][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
-assign kernel_img_mul_5[38] = { {8{1'b0}},layer5[5][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
-assign kernel_img_mul_5[39] = { {8{1'b0}},layer5[5][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
-assign kernel_img_mul_5[40] = { {8{1'b0}},layer5[5][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
-assign kernel_img_mul_5[41] = { {8{1'b0}},layer5[5][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
-assign kernel_img_mul_5[42] = { {8{1'b0}},layer6[5][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
-assign kernel_img_mul_5[43] = { {8{1'b0}},layer6[5][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
-assign kernel_img_mul_5[44] = { {8{1'b0}},layer6[5][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
-assign kernel_img_mul_5[45] = { {8{1'b0}},layer6[5][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
-assign kernel_img_mul_5[46] = { {8{1'b0}},layer6[5][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
-assign kernel_img_mul_5[47] = { {8{1'b0}},layer6[5][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
-assign kernel_img_mul_5[48] = { {8{1'b0}},layer6[5][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
-wire  [15:0]  kernel_img_sum_5 = kernel_img_mul_5[0] + kernel_img_mul_5[1] + kernel_img_mul_5[2] + 
+  end
+end
+reg  [15:0]  kernel_img_mul_5[0:48];
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_mul_5[0] <= 'd0
+    kernel_img_mul_5[1] <= 'd0
+    kernel_img_mul_5[2] <= 'd0
+    kernel_img_mul_5[3] <= 'd0
+    kernel_img_mul_5[4] <= 'd0
+    kernel_img_mul_5[5] <= 'd0
+    kernel_img_mul_5[6] <= 'd0
+    kernel_img_mul_5[7] <= 'd0
+    kernel_img_mul_5[8] <= 'd0
+    kernel_img_mul_5[9] <= 'd0
+    kernel_img_mul_5[10] <= 'd0
+    kernel_img_mul_5[11] <= 'd0
+    kernel_img_mul_5[12] <= 'd0
+    kernel_img_mul_5[13] <= 'd0
+    kernel_img_mul_5[14] <= 'd0
+    kernel_img_mul_5[15] <= 'd0
+    kernel_img_mul_5[16] <= 'd0
+    kernel_img_mul_5[17] <= 'd0
+    kernel_img_mul_5[18] <= 'd0
+    kernel_img_mul_5[19] <= 'd0
+    kernel_img_mul_5[20] <= 'd0
+    kernel_img_mul_5[21] <= 'd0
+    kernel_img_mul_5[22] <= 'd0
+    kernel_img_mul_5[23] <= 'd0
+    kernel_img_mul_5[24] <= 'd0
+    kernel_img_mul_5[25] <= 'd0
+    kernel_img_mul_5[26] <= 'd0
+    kernel_img_mul_5[27] <= 'd0
+    kernel_img_mul_5[28] <= 'd0
+    kernel_img_mul_5[29] <= 'd0
+    kernel_img_mul_5[30] <= 'd0
+    kernel_img_mul_5[31] <= 'd0
+    kernel_img_mul_5[32] <= 'd0
+    kernel_img_mul_5[33] <= 'd0
+    kernel_img_mul_5[34] <= 'd0
+    kernel_img_mul_5[35] <= 'd0
+    kernel_img_mul_5[36] <= 'd0
+    kernel_img_mul_5[37] <= 'd0
+    kernel_img_mul_5[38] <= 'd0
+    kernel_img_mul_5[39] <= 'd0
+    kernel_img_mul_5[40] <= 'd0
+    kernel_img_mul_5[41] <= 'd0
+    kernel_img_mul_5[42] <= 'd0
+    kernel_img_mul_5[43] <= 'd0
+    kernel_img_mul_5[44] <= 'd0
+    kernel_img_mul_5[45] <= 'd0
+    kernel_img_mul_5[46] <= 'd0
+    kernel_img_mul_5[47] <= 'd0
+    kernel_img_mul_5[48] <= 'd0
+  end
+  else if(current_state==ST_MUL) begin
+    kernel_img_mul_5[0] <= { {8{1'b0}},layer0[5][7:0]} * { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
+    kernel_img_mul_5[1] <= { {8{1'b0}},layer0[5][15:8]} * { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
+    kernel_img_mul_5[2] <= { {8{1'b0}},layer0[5][23:16]} * { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
+    kernel_img_mul_5[3] <= { {8{1'b0}},layer0[5][31:24]} * { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
+    kernel_img_mul_5[4] <= { {8{1'b0}},layer0[5][39:32]} * { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
+    kernel_img_mul_5[5] <= { {8{1'b0}},layer0[5][47:40]} * { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
+    kernel_img_mul_5[6] <= { {8{1'b0}},layer0[5][55:48]} * { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
+    kernel_img_mul_5[7] <= { {8{1'b0}},layer1[5][7:0]} * { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
+    kernel_img_mul_5[8] <= { {8{1'b0}},layer1[5][15:8]} * { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
+    kernel_img_mul_5[9] <= { {8{1'b0}},layer1[5][23:16]} * { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
+    kernel_img_mul_5[10] <= { {8{1'b0}},layer1[5][31:24]} * { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
+    kernel_img_mul_5[11] <= { {8{1'b0}},layer1[5][39:32]} * { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
+    kernel_img_mul_5[12] <= { {8{1'b0}},layer1[5][47:40]} * { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
+    kernel_img_mul_5[13] <= { {8{1'b0}},layer1[5][55:48]} * { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
+    kernel_img_mul_5[14] <= { {8{1'b0}},layer2[5][7:0]} * { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
+    kernel_img_mul_5[15] <= { {8{1'b0}},layer2[5][15:8]} * { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
+    kernel_img_mul_5[16] <= { {8{1'b0}},layer2[5][23:16]} * { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
+    kernel_img_mul_5[17] <= { {8{1'b0}},layer2[5][31:24]} * { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
+    kernel_img_mul_5[18] <= { {8{1'b0}},layer2[5][39:32]} * { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
+    kernel_img_mul_5[19] <= { {8{1'b0}},layer2[5][47:40]} * { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
+    kernel_img_mul_5[20] <= { {8{1'b0}},layer2[5][55:48]} * { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
+    kernel_img_mul_5[21] <= { {8{1'b0}},layer3[5][7:0]} * { {8{1'b0}}, G_Kernel_7x7[3][7:0]};
+    kernel_img_mul_5[22] <= { {8{1'b0}},layer3[5][15:8]} * { {8{1'b0}}, G_Kernel_7x7[3][15:8]};
+    kernel_img_mul_5[23] <= { {8{1'b0}},layer3[5][23:16]} * { {8{1'b0}}, G_Kernel_7x7[3][23:16]};
+    kernel_img_mul_5[24] <= { {8{1'b0}},layer3[5][31:24]} * { {8{1'b0}}, G_Kernel_7x7[3][31:24]};
+    kernel_img_mul_5[25] <= { {8{1'b0}},layer3[5][39:32]} * { {8{1'b0}}, G_Kernel_7x7[3][39:32]};
+    kernel_img_mul_5[26] <= { {8{1'b0}},layer3[5][47:40]} * { {8{1'b0}}, G_Kernel_7x7[3][47:40]};
+    kernel_img_mul_5[27] <= { {8{1'b0}},layer3[5][55:48]} * { {8{1'b0}}, G_Kernel_7x7[3][55:48]};
+    kernel_img_mul_5[28] <= { {8{1'b0}},layer4[5][7:0]} * { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
+    kernel_img_mul_5[29] <= { {8{1'b0}},layer4[5][15:8]} * { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
+    kernel_img_mul_5[30] <= { {8{1'b0}},layer4[5][23:16]} * { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
+    kernel_img_mul_5[31] <= { {8{1'b0}},layer4[5][31:24]} * { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
+    kernel_img_mul_5[32] <= { {8{1'b0}},layer4[5][39:32]} * { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
+    kernel_img_mul_5[33] <= { {8{1'b0}},layer4[5][47:40]} * { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
+    kernel_img_mul_5[34] <= { {8{1'b0}},layer4[5][55:48]} * { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
+    kernel_img_mul_5[35] <= { {8{1'b0}},layer5[5][7:0]} * { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
+    kernel_img_mul_5[36] <= { {8{1'b0}},layer5[5][15:8]} * { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
+    kernel_img_mul_5[37] <= { {8{1'b0}},layer5[5][23:16]} * { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
+    kernel_img_mul_5[38] <= { {8{1'b0}},layer5[5][31:24]} * { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
+    kernel_img_mul_5[39] <= { {8{1'b0}},layer5[5][39:32]} * { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
+    kernel_img_mul_5[40] <= { {8{1'b0}},layer5[5][47:40]} * { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
+    kernel_img_mul_5[41] <= { {8{1'b0}},layer5[5][55:48]} * { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
+    kernel_img_mul_5[42] <= { {8{1'b0}},layer6[5][7:0]} * { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
+    kernel_img_mul_5[43] <= { {8{1'b0}},layer6[5][15:8]} * { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
+    kernel_img_mul_5[44] <= { {8{1'b0}},layer6[5][23:16]} * { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
+    kernel_img_mul_5[45] <= { {8{1'b0}},layer6[5][31:24]} * { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
+    kernel_img_mul_5[46] <= { {8{1'b0}},layer6[5][39:32]} * { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
+    kernel_img_mul_5[47] <= { {8{1'b0}},layer6[5][47:40]} * { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
+    kernel_img_mul_5[48] <= { {8{1'b0}},layer6[5][55:48]} * { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
+  end
+end
+reg  [15:0]  kernel_img_sum_5;
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_sum_5 <= 'd0
+  end
+  else if(current_state==ST_ADD) begin
+    kernel_img_sum_5 <= kernel_img_mul_5[0] + kernel_img_mul_5[1] + kernel_img_mul_5[2] + 
                 kernel_img_mul_5[3] + kernel_img_mul_5[4] + kernel_img_mul_5[5] + 
                 kernel_img_mul_5[6] + kernel_img_mul_5[7] + kernel_img_mul_5[8] + 
                 kernel_img_mul_5[9] + kernel_img_mul_5[10] + kernel_img_mul_5[11] + 
@@ -32698,57 +33085,120 @@ wire  [15:0]  kernel_img_sum_5 = kernel_img_mul_5[0] + kernel_img_mul_5[1] + ker
                 kernel_img_mul_5[42] + kernel_img_mul_5[43] + kernel_img_mul_5[44] + 
                 kernel_img_mul_5[45] + kernel_img_mul_5[46] + kernel_img_mul_5[47] + 
                 kernel_img_mul_5[48];
-wire  [15:0]  kernel_img_mul_6[0:48];
-assign kernel_img_mul_6[0] = { {8{1'b0}},layer0[6][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
-assign kernel_img_mul_6[1] = { {8{1'b0}},layer0[6][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
-assign kernel_img_mul_6[2] = { {8{1'b0}},layer0[6][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
-assign kernel_img_mul_6[3] = { {8{1'b0}},layer0[6][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
-assign kernel_img_mul_6[4] = { {8{1'b0}},layer0[6][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
-assign kernel_img_mul_6[5] = { {8{1'b0}},layer0[6][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
-assign kernel_img_mul_6[6] = { {8{1'b0}},layer0[6][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
-assign kernel_img_mul_6[7] = { {8{1'b0}},layer1[6][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
-assign kernel_img_mul_6[8] = { {8{1'b0}},layer1[6][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
-assign kernel_img_mul_6[9] = { {8{1'b0}},layer1[6][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
-assign kernel_img_mul_6[10] = { {8{1'b0}},layer1[6][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
-assign kernel_img_mul_6[11] = { {8{1'b0}},layer1[6][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
-assign kernel_img_mul_6[12] = { {8{1'b0}},layer1[6][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
-assign kernel_img_mul_6[13] = { {8{1'b0}},layer1[6][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
-assign kernel_img_mul_6[14] = { {8{1'b0}},layer2[6][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
-assign kernel_img_mul_6[15] = { {8{1'b0}},layer2[6][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
-assign kernel_img_mul_6[16] = { {8{1'b0}},layer2[6][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
-assign kernel_img_mul_6[17] = { {8{1'b0}},layer2[6][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
-assign kernel_img_mul_6[18] = { {8{1'b0}},layer2[6][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
-assign kernel_img_mul_6[19] = { {8{1'b0}},layer2[6][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
-assign kernel_img_mul_6[20] = { {8{1'b0}},layer2[6][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
-assign kernel_img_mul_6[21] = { {8{1'b0}},layer3[6][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[3][7:0]};
-assign kernel_img_mul_6[22] = { {8{1'b0}},layer3[6][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[3][15:8]};
-assign kernel_img_mul_6[23] = { {8{1'b0}},layer3[6][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[3][23:16]};
-assign kernel_img_mul_6[24] = { {8{1'b0}},layer3[6][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[3][31:24]};
-assign kernel_img_mul_6[25] = { {8{1'b0}},layer3[6][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[3][39:32]};
-assign kernel_img_mul_6[26] = { {8{1'b0}},layer3[6][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[3][47:40]};
-assign kernel_img_mul_6[27] = { {8{1'b0}},layer3[6][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[3][55:48]};
-assign kernel_img_mul_6[28] = { {8{1'b0}},layer4[6][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
-assign kernel_img_mul_6[29] = { {8{1'b0}},layer4[6][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
-assign kernel_img_mul_6[30] = { {8{1'b0}},layer4[6][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
-assign kernel_img_mul_6[31] = { {8{1'b0}},layer4[6][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
-assign kernel_img_mul_6[32] = { {8{1'b0}},layer4[6][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
-assign kernel_img_mul_6[33] = { {8{1'b0}},layer4[6][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
-assign kernel_img_mul_6[34] = { {8{1'b0}},layer4[6][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
-assign kernel_img_mul_6[35] = { {8{1'b0}},layer5[6][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
-assign kernel_img_mul_6[36] = { {8{1'b0}},layer5[6][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
-assign kernel_img_mul_6[37] = { {8{1'b0}},layer5[6][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
-assign kernel_img_mul_6[38] = { {8{1'b0}},layer5[6][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
-assign kernel_img_mul_6[39] = { {8{1'b0}},layer5[6][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
-assign kernel_img_mul_6[40] = { {8{1'b0}},layer5[6][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
-assign kernel_img_mul_6[41] = { {8{1'b0}},layer5[6][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
-assign kernel_img_mul_6[42] = { {8{1'b0}},layer6[6][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
-assign kernel_img_mul_6[43] = { {8{1'b0}},layer6[6][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
-assign kernel_img_mul_6[44] = { {8{1'b0}},layer6[6][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
-assign kernel_img_mul_6[45] = { {8{1'b0}},layer6[6][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
-assign kernel_img_mul_6[46] = { {8{1'b0}},layer6[6][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
-assign kernel_img_mul_6[47] = { {8{1'b0}},layer6[6][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
-assign kernel_img_mul_6[48] = { {8{1'b0}},layer6[6][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
-wire  [15:0]  kernel_img_sum_6 = kernel_img_mul_6[0] + kernel_img_mul_6[1] + kernel_img_mul_6[2] + 
+  end
+end
+reg  [15:0]  kernel_img_mul_6[0:48];
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_mul_6[0] <= 'd0
+    kernel_img_mul_6[1] <= 'd0
+    kernel_img_mul_6[2] <= 'd0
+    kernel_img_mul_6[3] <= 'd0
+    kernel_img_mul_6[4] <= 'd0
+    kernel_img_mul_6[5] <= 'd0
+    kernel_img_mul_6[6] <= 'd0
+    kernel_img_mul_6[7] <= 'd0
+    kernel_img_mul_6[8] <= 'd0
+    kernel_img_mul_6[9] <= 'd0
+    kernel_img_mul_6[10] <= 'd0
+    kernel_img_mul_6[11] <= 'd0
+    kernel_img_mul_6[12] <= 'd0
+    kernel_img_mul_6[13] <= 'd0
+    kernel_img_mul_6[14] <= 'd0
+    kernel_img_mul_6[15] <= 'd0
+    kernel_img_mul_6[16] <= 'd0
+    kernel_img_mul_6[17] <= 'd0
+    kernel_img_mul_6[18] <= 'd0
+    kernel_img_mul_6[19] <= 'd0
+    kernel_img_mul_6[20] <= 'd0
+    kernel_img_mul_6[21] <= 'd0
+    kernel_img_mul_6[22] <= 'd0
+    kernel_img_mul_6[23] <= 'd0
+    kernel_img_mul_6[24] <= 'd0
+    kernel_img_mul_6[25] <= 'd0
+    kernel_img_mul_6[26] <= 'd0
+    kernel_img_mul_6[27] <= 'd0
+    kernel_img_mul_6[28] <= 'd0
+    kernel_img_mul_6[29] <= 'd0
+    kernel_img_mul_6[30] <= 'd0
+    kernel_img_mul_6[31] <= 'd0
+    kernel_img_mul_6[32] <= 'd0
+    kernel_img_mul_6[33] <= 'd0
+    kernel_img_mul_6[34] <= 'd0
+    kernel_img_mul_6[35] <= 'd0
+    kernel_img_mul_6[36] <= 'd0
+    kernel_img_mul_6[37] <= 'd0
+    kernel_img_mul_6[38] <= 'd0
+    kernel_img_mul_6[39] <= 'd0
+    kernel_img_mul_6[40] <= 'd0
+    kernel_img_mul_6[41] <= 'd0
+    kernel_img_mul_6[42] <= 'd0
+    kernel_img_mul_6[43] <= 'd0
+    kernel_img_mul_6[44] <= 'd0
+    kernel_img_mul_6[45] <= 'd0
+    kernel_img_mul_6[46] <= 'd0
+    kernel_img_mul_6[47] <= 'd0
+    kernel_img_mul_6[48] <= 'd0
+  end
+  else if(current_state==ST_MUL) begin
+    kernel_img_mul_6[0] <= { {8{1'b0}},layer0[6][7:0]} * { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
+    kernel_img_mul_6[1] <= { {8{1'b0}},layer0[6][15:8]} * { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
+    kernel_img_mul_6[2] <= { {8{1'b0}},layer0[6][23:16]} * { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
+    kernel_img_mul_6[3] <= { {8{1'b0}},layer0[6][31:24]} * { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
+    kernel_img_mul_6[4] <= { {8{1'b0}},layer0[6][39:32]} * { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
+    kernel_img_mul_6[5] <= { {8{1'b0}},layer0[6][47:40]} * { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
+    kernel_img_mul_6[6] <= { {8{1'b0}},layer0[6][55:48]} * { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
+    kernel_img_mul_6[7] <= { {8{1'b0}},layer1[6][7:0]} * { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
+    kernel_img_mul_6[8] <= { {8{1'b0}},layer1[6][15:8]} * { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
+    kernel_img_mul_6[9] <= { {8{1'b0}},layer1[6][23:16]} * { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
+    kernel_img_mul_6[10] <= { {8{1'b0}},layer1[6][31:24]} * { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
+    kernel_img_mul_6[11] <= { {8{1'b0}},layer1[6][39:32]} * { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
+    kernel_img_mul_6[12] <= { {8{1'b0}},layer1[6][47:40]} * { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
+    kernel_img_mul_6[13] <= { {8{1'b0}},layer1[6][55:48]} * { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
+    kernel_img_mul_6[14] <= { {8{1'b0}},layer2[6][7:0]} * { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
+    kernel_img_mul_6[15] <= { {8{1'b0}},layer2[6][15:8]} * { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
+    kernel_img_mul_6[16] <= { {8{1'b0}},layer2[6][23:16]} * { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
+    kernel_img_mul_6[17] <= { {8{1'b0}},layer2[6][31:24]} * { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
+    kernel_img_mul_6[18] <= { {8{1'b0}},layer2[6][39:32]} * { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
+    kernel_img_mul_6[19] <= { {8{1'b0}},layer2[6][47:40]} * { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
+    kernel_img_mul_6[20] <= { {8{1'b0}},layer2[6][55:48]} * { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
+    kernel_img_mul_6[21] <= { {8{1'b0}},layer3[6][7:0]} * { {8{1'b0}}, G_Kernel_7x7[3][7:0]};
+    kernel_img_mul_6[22] <= { {8{1'b0}},layer3[6][15:8]} * { {8{1'b0}}, G_Kernel_7x7[3][15:8]};
+    kernel_img_mul_6[23] <= { {8{1'b0}},layer3[6][23:16]} * { {8{1'b0}}, G_Kernel_7x7[3][23:16]};
+    kernel_img_mul_6[24] <= { {8{1'b0}},layer3[6][31:24]} * { {8{1'b0}}, G_Kernel_7x7[3][31:24]};
+    kernel_img_mul_6[25] <= { {8{1'b0}},layer3[6][39:32]} * { {8{1'b0}}, G_Kernel_7x7[3][39:32]};
+    kernel_img_mul_6[26] <= { {8{1'b0}},layer3[6][47:40]} * { {8{1'b0}}, G_Kernel_7x7[3][47:40]};
+    kernel_img_mul_6[27] <= { {8{1'b0}},layer3[6][55:48]} * { {8{1'b0}}, G_Kernel_7x7[3][55:48]};
+    kernel_img_mul_6[28] <= { {8{1'b0}},layer4[6][7:0]} * { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
+    kernel_img_mul_6[29] <= { {8{1'b0}},layer4[6][15:8]} * { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
+    kernel_img_mul_6[30] <= { {8{1'b0}},layer4[6][23:16]} * { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
+    kernel_img_mul_6[31] <= { {8{1'b0}},layer4[6][31:24]} * { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
+    kernel_img_mul_6[32] <= { {8{1'b0}},layer4[6][39:32]} * { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
+    kernel_img_mul_6[33] <= { {8{1'b0}},layer4[6][47:40]} * { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
+    kernel_img_mul_6[34] <= { {8{1'b0}},layer4[6][55:48]} * { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
+    kernel_img_mul_6[35] <= { {8{1'b0}},layer5[6][7:0]} * { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
+    kernel_img_mul_6[36] <= { {8{1'b0}},layer5[6][15:8]} * { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
+    kernel_img_mul_6[37] <= { {8{1'b0}},layer5[6][23:16]} * { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
+    kernel_img_mul_6[38] <= { {8{1'b0}},layer5[6][31:24]} * { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
+    kernel_img_mul_6[39] <= { {8{1'b0}},layer5[6][39:32]} * { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
+    kernel_img_mul_6[40] <= { {8{1'b0}},layer5[6][47:40]} * { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
+    kernel_img_mul_6[41] <= { {8{1'b0}},layer5[6][55:48]} * { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
+    kernel_img_mul_6[42] <= { {8{1'b0}},layer6[6][7:0]} * { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
+    kernel_img_mul_6[43] <= { {8{1'b0}},layer6[6][15:8]} * { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
+    kernel_img_mul_6[44] <= { {8{1'b0}},layer6[6][23:16]} * { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
+    kernel_img_mul_6[45] <= { {8{1'b0}},layer6[6][31:24]} * { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
+    kernel_img_mul_6[46] <= { {8{1'b0}},layer6[6][39:32]} * { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
+    kernel_img_mul_6[47] <= { {8{1'b0}},layer6[6][47:40]} * { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
+    kernel_img_mul_6[48] <= { {8{1'b0}},layer6[6][55:48]} * { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
+  end
+end
+reg  [15:0]  kernel_img_sum_6;
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_sum_6 <= 'd0
+  end
+  else if(current_state==ST_ADD) begin
+    kernel_img_sum_6 <= kernel_img_mul_6[0] + kernel_img_mul_6[1] + kernel_img_mul_6[2] + 
                 kernel_img_mul_6[3] + kernel_img_mul_6[4] + kernel_img_mul_6[5] + 
                 kernel_img_mul_6[6] + kernel_img_mul_6[7] + kernel_img_mul_6[8] + 
                 kernel_img_mul_6[9] + kernel_img_mul_6[10] + kernel_img_mul_6[11] + 
@@ -32765,57 +33215,120 @@ wire  [15:0]  kernel_img_sum_6 = kernel_img_mul_6[0] + kernel_img_mul_6[1] + ker
                 kernel_img_mul_6[42] + kernel_img_mul_6[43] + kernel_img_mul_6[44] + 
                 kernel_img_mul_6[45] + kernel_img_mul_6[46] + kernel_img_mul_6[47] + 
                 kernel_img_mul_6[48];
-wire  [15:0]  kernel_img_mul_7[0:48];
-assign kernel_img_mul_7[0] = { {8{1'b0}},layer0[7][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
-assign kernel_img_mul_7[1] = { {8{1'b0}},layer0[7][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
-assign kernel_img_mul_7[2] = { {8{1'b0}},layer0[7][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
-assign kernel_img_mul_7[3] = { {8{1'b0}},layer0[7][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
-assign kernel_img_mul_7[4] = { {8{1'b0}},layer0[7][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
-assign kernel_img_mul_7[5] = { {8{1'b0}},layer0[7][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
-assign kernel_img_mul_7[6] = { {8{1'b0}},layer0[7][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
-assign kernel_img_mul_7[7] = { {8{1'b0}},layer1[7][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
-assign kernel_img_mul_7[8] = { {8{1'b0}},layer1[7][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
-assign kernel_img_mul_7[9] = { {8{1'b0}},layer1[7][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
-assign kernel_img_mul_7[10] = { {8{1'b0}},layer1[7][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
-assign kernel_img_mul_7[11] = { {8{1'b0}},layer1[7][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
-assign kernel_img_mul_7[12] = { {8{1'b0}},layer1[7][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
-assign kernel_img_mul_7[13] = { {8{1'b0}},layer1[7][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
-assign kernel_img_mul_7[14] = { {8{1'b0}},layer2[7][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
-assign kernel_img_mul_7[15] = { {8{1'b0}},layer2[7][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
-assign kernel_img_mul_7[16] = { {8{1'b0}},layer2[7][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
-assign kernel_img_mul_7[17] = { {8{1'b0}},layer2[7][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
-assign kernel_img_mul_7[18] = { {8{1'b0}},layer2[7][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
-assign kernel_img_mul_7[19] = { {8{1'b0}},layer2[7][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
-assign kernel_img_mul_7[20] = { {8{1'b0}},layer2[7][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
-assign kernel_img_mul_7[21] = { {8{1'b0}},layer3[7][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[3][7:0]};
-assign kernel_img_mul_7[22] = { {8{1'b0}},layer3[7][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[3][15:8]};
-assign kernel_img_mul_7[23] = { {8{1'b0}},layer3[7][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[3][23:16]};
-assign kernel_img_mul_7[24] = { {8{1'b0}},layer3[7][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[3][31:24]};
-assign kernel_img_mul_7[25] = { {8{1'b0}},layer3[7][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[3][39:32]};
-assign kernel_img_mul_7[26] = { {8{1'b0}},layer3[7][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[3][47:40]};
-assign kernel_img_mul_7[27] = { {8{1'b0}},layer3[7][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[3][55:48]};
-assign kernel_img_mul_7[28] = { {8{1'b0}},layer4[7][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
-assign kernel_img_mul_7[29] = { {8{1'b0}},layer4[7][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
-assign kernel_img_mul_7[30] = { {8{1'b0}},layer4[7][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
-assign kernel_img_mul_7[31] = { {8{1'b0}},layer4[7][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
-assign kernel_img_mul_7[32] = { {8{1'b0}},layer4[7][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
-assign kernel_img_mul_7[33] = { {8{1'b0}},layer4[7][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
-assign kernel_img_mul_7[34] = { {8{1'b0}},layer4[7][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
-assign kernel_img_mul_7[35] = { {8{1'b0}},layer5[7][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
-assign kernel_img_mul_7[36] = { {8{1'b0}},layer5[7][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
-assign kernel_img_mul_7[37] = { {8{1'b0}},layer5[7][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
-assign kernel_img_mul_7[38] = { {8{1'b0}},layer5[7][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
-assign kernel_img_mul_7[39] = { {8{1'b0}},layer5[7][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
-assign kernel_img_mul_7[40] = { {8{1'b0}},layer5[7][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
-assign kernel_img_mul_7[41] = { {8{1'b0}},layer5[7][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
-assign kernel_img_mul_7[42] = { {8{1'b0}},layer6[7][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
-assign kernel_img_mul_7[43] = { {8{1'b0}},layer6[7][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
-assign kernel_img_mul_7[44] = { {8{1'b0}},layer6[7][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
-assign kernel_img_mul_7[45] = { {8{1'b0}},layer6[7][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
-assign kernel_img_mul_7[46] = { {8{1'b0}},layer6[7][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
-assign kernel_img_mul_7[47] = { {8{1'b0}},layer6[7][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
-assign kernel_img_mul_7[48] = { {8{1'b0}},layer6[7][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
-wire  [15:0]  kernel_img_sum_7 = kernel_img_mul_7[0] + kernel_img_mul_7[1] + kernel_img_mul_7[2] + 
+  end
+end
+reg  [15:0]  kernel_img_mul_7[0:48];
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_mul_7[0] <= 'd0
+    kernel_img_mul_7[1] <= 'd0
+    kernel_img_mul_7[2] <= 'd0
+    kernel_img_mul_7[3] <= 'd0
+    kernel_img_mul_7[4] <= 'd0
+    kernel_img_mul_7[5] <= 'd0
+    kernel_img_mul_7[6] <= 'd0
+    kernel_img_mul_7[7] <= 'd0
+    kernel_img_mul_7[8] <= 'd0
+    kernel_img_mul_7[9] <= 'd0
+    kernel_img_mul_7[10] <= 'd0
+    kernel_img_mul_7[11] <= 'd0
+    kernel_img_mul_7[12] <= 'd0
+    kernel_img_mul_7[13] <= 'd0
+    kernel_img_mul_7[14] <= 'd0
+    kernel_img_mul_7[15] <= 'd0
+    kernel_img_mul_7[16] <= 'd0
+    kernel_img_mul_7[17] <= 'd0
+    kernel_img_mul_7[18] <= 'd0
+    kernel_img_mul_7[19] <= 'd0
+    kernel_img_mul_7[20] <= 'd0
+    kernel_img_mul_7[21] <= 'd0
+    kernel_img_mul_7[22] <= 'd0
+    kernel_img_mul_7[23] <= 'd0
+    kernel_img_mul_7[24] <= 'd0
+    kernel_img_mul_7[25] <= 'd0
+    kernel_img_mul_7[26] <= 'd0
+    kernel_img_mul_7[27] <= 'd0
+    kernel_img_mul_7[28] <= 'd0
+    kernel_img_mul_7[29] <= 'd0
+    kernel_img_mul_7[30] <= 'd0
+    kernel_img_mul_7[31] <= 'd0
+    kernel_img_mul_7[32] <= 'd0
+    kernel_img_mul_7[33] <= 'd0
+    kernel_img_mul_7[34] <= 'd0
+    kernel_img_mul_7[35] <= 'd0
+    kernel_img_mul_7[36] <= 'd0
+    kernel_img_mul_7[37] <= 'd0
+    kernel_img_mul_7[38] <= 'd0
+    kernel_img_mul_7[39] <= 'd0
+    kernel_img_mul_7[40] <= 'd0
+    kernel_img_mul_7[41] <= 'd0
+    kernel_img_mul_7[42] <= 'd0
+    kernel_img_mul_7[43] <= 'd0
+    kernel_img_mul_7[44] <= 'd0
+    kernel_img_mul_7[45] <= 'd0
+    kernel_img_mul_7[46] <= 'd0
+    kernel_img_mul_7[47] <= 'd0
+    kernel_img_mul_7[48] <= 'd0
+  end
+  else if(current_state==ST_MUL) begin
+    kernel_img_mul_7[0] <= { {8{1'b0}},layer0[7][7:0]} * { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
+    kernel_img_mul_7[1] <= { {8{1'b0}},layer0[7][15:8]} * { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
+    kernel_img_mul_7[2] <= { {8{1'b0}},layer0[7][23:16]} * { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
+    kernel_img_mul_7[3] <= { {8{1'b0}},layer0[7][31:24]} * { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
+    kernel_img_mul_7[4] <= { {8{1'b0}},layer0[7][39:32]} * { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
+    kernel_img_mul_7[5] <= { {8{1'b0}},layer0[7][47:40]} * { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
+    kernel_img_mul_7[6] <= { {8{1'b0}},layer0[7][55:48]} * { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
+    kernel_img_mul_7[7] <= { {8{1'b0}},layer1[7][7:0]} * { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
+    kernel_img_mul_7[8] <= { {8{1'b0}},layer1[7][15:8]} * { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
+    kernel_img_mul_7[9] <= { {8{1'b0}},layer1[7][23:16]} * { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
+    kernel_img_mul_7[10] <= { {8{1'b0}},layer1[7][31:24]} * { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
+    kernel_img_mul_7[11] <= { {8{1'b0}},layer1[7][39:32]} * { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
+    kernel_img_mul_7[12] <= { {8{1'b0}},layer1[7][47:40]} * { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
+    kernel_img_mul_7[13] <= { {8{1'b0}},layer1[7][55:48]} * { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
+    kernel_img_mul_7[14] <= { {8{1'b0}},layer2[7][7:0]} * { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
+    kernel_img_mul_7[15] <= { {8{1'b0}},layer2[7][15:8]} * { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
+    kernel_img_mul_7[16] <= { {8{1'b0}},layer2[7][23:16]} * { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
+    kernel_img_mul_7[17] <= { {8{1'b0}},layer2[7][31:24]} * { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
+    kernel_img_mul_7[18] <= { {8{1'b0}},layer2[7][39:32]} * { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
+    kernel_img_mul_7[19] <= { {8{1'b0}},layer2[7][47:40]} * { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
+    kernel_img_mul_7[20] <= { {8{1'b0}},layer2[7][55:48]} * { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
+    kernel_img_mul_7[21] <= { {8{1'b0}},layer3[7][7:0]} * { {8{1'b0}}, G_Kernel_7x7[3][7:0]};
+    kernel_img_mul_7[22] <= { {8{1'b0}},layer3[7][15:8]} * { {8{1'b0}}, G_Kernel_7x7[3][15:8]};
+    kernel_img_mul_7[23] <= { {8{1'b0}},layer3[7][23:16]} * { {8{1'b0}}, G_Kernel_7x7[3][23:16]};
+    kernel_img_mul_7[24] <= { {8{1'b0}},layer3[7][31:24]} * { {8{1'b0}}, G_Kernel_7x7[3][31:24]};
+    kernel_img_mul_7[25] <= { {8{1'b0}},layer3[7][39:32]} * { {8{1'b0}}, G_Kernel_7x7[3][39:32]};
+    kernel_img_mul_7[26] <= { {8{1'b0}},layer3[7][47:40]} * { {8{1'b0}}, G_Kernel_7x7[3][47:40]};
+    kernel_img_mul_7[27] <= { {8{1'b0}},layer3[7][55:48]} * { {8{1'b0}}, G_Kernel_7x7[3][55:48]};
+    kernel_img_mul_7[28] <= { {8{1'b0}},layer4[7][7:0]} * { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
+    kernel_img_mul_7[29] <= { {8{1'b0}},layer4[7][15:8]} * { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
+    kernel_img_mul_7[30] <= { {8{1'b0}},layer4[7][23:16]} * { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
+    kernel_img_mul_7[31] <= { {8{1'b0}},layer4[7][31:24]} * { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
+    kernel_img_mul_7[32] <= { {8{1'b0}},layer4[7][39:32]} * { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
+    kernel_img_mul_7[33] <= { {8{1'b0}},layer4[7][47:40]} * { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
+    kernel_img_mul_7[34] <= { {8{1'b0}},layer4[7][55:48]} * { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
+    kernel_img_mul_7[35] <= { {8{1'b0}},layer5[7][7:0]} * { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
+    kernel_img_mul_7[36] <= { {8{1'b0}},layer5[7][15:8]} * { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
+    kernel_img_mul_7[37] <= { {8{1'b0}},layer5[7][23:16]} * { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
+    kernel_img_mul_7[38] <= { {8{1'b0}},layer5[7][31:24]} * { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
+    kernel_img_mul_7[39] <= { {8{1'b0}},layer5[7][39:32]} * { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
+    kernel_img_mul_7[40] <= { {8{1'b0}},layer5[7][47:40]} * { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
+    kernel_img_mul_7[41] <= { {8{1'b0}},layer5[7][55:48]} * { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
+    kernel_img_mul_7[42] <= { {8{1'b0}},layer6[7][7:0]} * { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
+    kernel_img_mul_7[43] <= { {8{1'b0}},layer6[7][15:8]} * { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
+    kernel_img_mul_7[44] <= { {8{1'b0}},layer6[7][23:16]} * { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
+    kernel_img_mul_7[45] <= { {8{1'b0}},layer6[7][31:24]} * { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
+    kernel_img_mul_7[46] <= { {8{1'b0}},layer6[7][39:32]} * { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
+    kernel_img_mul_7[47] <= { {8{1'b0}},layer6[7][47:40]} * { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
+    kernel_img_mul_7[48] <= { {8{1'b0}},layer6[7][55:48]} * { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
+  end
+end
+reg  [15:0]  kernel_img_sum_7;
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_sum_7 <= 'd0
+  end
+  else if(current_state==ST_ADD) begin
+    kernel_img_sum_7 <= kernel_img_mul_7[0] + kernel_img_mul_7[1] + kernel_img_mul_7[2] + 
                 kernel_img_mul_7[3] + kernel_img_mul_7[4] + kernel_img_mul_7[5] + 
                 kernel_img_mul_7[6] + kernel_img_mul_7[7] + kernel_img_mul_7[8] + 
                 kernel_img_mul_7[9] + kernel_img_mul_7[10] + kernel_img_mul_7[11] + 
@@ -32832,57 +33345,120 @@ wire  [15:0]  kernel_img_sum_7 = kernel_img_mul_7[0] + kernel_img_mul_7[1] + ker
                 kernel_img_mul_7[42] + kernel_img_mul_7[43] + kernel_img_mul_7[44] + 
                 kernel_img_mul_7[45] + kernel_img_mul_7[46] + kernel_img_mul_7[47] + 
                 kernel_img_mul_7[48];
-wire  [15:0]  kernel_img_mul_8[0:48];
-assign kernel_img_mul_8[0] = { {8{1'b0}},layer0[8][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
-assign kernel_img_mul_8[1] = { {8{1'b0}},layer0[8][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
-assign kernel_img_mul_8[2] = { {8{1'b0}},layer0[8][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
-assign kernel_img_mul_8[3] = { {8{1'b0}},layer0[8][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
-assign kernel_img_mul_8[4] = { {8{1'b0}},layer0[8][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
-assign kernel_img_mul_8[5] = { {8{1'b0}},layer0[8][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
-assign kernel_img_mul_8[6] = { {8{1'b0}},layer0[8][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
-assign kernel_img_mul_8[7] = { {8{1'b0}},layer1[8][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
-assign kernel_img_mul_8[8] = { {8{1'b0}},layer1[8][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
-assign kernel_img_mul_8[9] = { {8{1'b0}},layer1[8][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
-assign kernel_img_mul_8[10] = { {8{1'b0}},layer1[8][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
-assign kernel_img_mul_8[11] = { {8{1'b0}},layer1[8][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
-assign kernel_img_mul_8[12] = { {8{1'b0}},layer1[8][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
-assign kernel_img_mul_8[13] = { {8{1'b0}},layer1[8][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
-assign kernel_img_mul_8[14] = { {8{1'b0}},layer2[8][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
-assign kernel_img_mul_8[15] = { {8{1'b0}},layer2[8][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
-assign kernel_img_mul_8[16] = { {8{1'b0}},layer2[8][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
-assign kernel_img_mul_8[17] = { {8{1'b0}},layer2[8][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
-assign kernel_img_mul_8[18] = { {8{1'b0}},layer2[8][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
-assign kernel_img_mul_8[19] = { {8{1'b0}},layer2[8][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
-assign kernel_img_mul_8[20] = { {8{1'b0}},layer2[8][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
-assign kernel_img_mul_8[21] = { {8{1'b0}},layer3[8][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[3][7:0]};
-assign kernel_img_mul_8[22] = { {8{1'b0}},layer3[8][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[3][15:8]};
-assign kernel_img_mul_8[23] = { {8{1'b0}},layer3[8][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[3][23:16]};
-assign kernel_img_mul_8[24] = { {8{1'b0}},layer3[8][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[3][31:24]};
-assign kernel_img_mul_8[25] = { {8{1'b0}},layer3[8][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[3][39:32]};
-assign kernel_img_mul_8[26] = { {8{1'b0}},layer3[8][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[3][47:40]};
-assign kernel_img_mul_8[27] = { {8{1'b0}},layer3[8][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[3][55:48]};
-assign kernel_img_mul_8[28] = { {8{1'b0}},layer4[8][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
-assign kernel_img_mul_8[29] = { {8{1'b0}},layer4[8][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
-assign kernel_img_mul_8[30] = { {8{1'b0}},layer4[8][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
-assign kernel_img_mul_8[31] = { {8{1'b0}},layer4[8][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
-assign kernel_img_mul_8[32] = { {8{1'b0}},layer4[8][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
-assign kernel_img_mul_8[33] = { {8{1'b0}},layer4[8][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
-assign kernel_img_mul_8[34] = { {8{1'b0}},layer4[8][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
-assign kernel_img_mul_8[35] = { {8{1'b0}},layer5[8][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
-assign kernel_img_mul_8[36] = { {8{1'b0}},layer5[8][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
-assign kernel_img_mul_8[37] = { {8{1'b0}},layer5[8][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
-assign kernel_img_mul_8[38] = { {8{1'b0}},layer5[8][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
-assign kernel_img_mul_8[39] = { {8{1'b0}},layer5[8][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
-assign kernel_img_mul_8[40] = { {8{1'b0}},layer5[8][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
-assign kernel_img_mul_8[41] = { {8{1'b0}},layer5[8][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
-assign kernel_img_mul_8[42] = { {8{1'b0}},layer6[8][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
-assign kernel_img_mul_8[43] = { {8{1'b0}},layer6[8][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
-assign kernel_img_mul_8[44] = { {8{1'b0}},layer6[8][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
-assign kernel_img_mul_8[45] = { {8{1'b0}},layer6[8][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
-assign kernel_img_mul_8[46] = { {8{1'b0}},layer6[8][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
-assign kernel_img_mul_8[47] = { {8{1'b0}},layer6[8][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
-assign kernel_img_mul_8[48] = { {8{1'b0}},layer6[8][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
-wire  [15:0]  kernel_img_sum_8 = kernel_img_mul_8[0] + kernel_img_mul_8[1] + kernel_img_mul_8[2] + 
+  end
+end
+reg  [15:0]  kernel_img_mul_8[0:48];
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_mul_8[0] <= 'd0
+    kernel_img_mul_8[1] <= 'd0
+    kernel_img_mul_8[2] <= 'd0
+    kernel_img_mul_8[3] <= 'd0
+    kernel_img_mul_8[4] <= 'd0
+    kernel_img_mul_8[5] <= 'd0
+    kernel_img_mul_8[6] <= 'd0
+    kernel_img_mul_8[7] <= 'd0
+    kernel_img_mul_8[8] <= 'd0
+    kernel_img_mul_8[9] <= 'd0
+    kernel_img_mul_8[10] <= 'd0
+    kernel_img_mul_8[11] <= 'd0
+    kernel_img_mul_8[12] <= 'd0
+    kernel_img_mul_8[13] <= 'd0
+    kernel_img_mul_8[14] <= 'd0
+    kernel_img_mul_8[15] <= 'd0
+    kernel_img_mul_8[16] <= 'd0
+    kernel_img_mul_8[17] <= 'd0
+    kernel_img_mul_8[18] <= 'd0
+    kernel_img_mul_8[19] <= 'd0
+    kernel_img_mul_8[20] <= 'd0
+    kernel_img_mul_8[21] <= 'd0
+    kernel_img_mul_8[22] <= 'd0
+    kernel_img_mul_8[23] <= 'd0
+    kernel_img_mul_8[24] <= 'd0
+    kernel_img_mul_8[25] <= 'd0
+    kernel_img_mul_8[26] <= 'd0
+    kernel_img_mul_8[27] <= 'd0
+    kernel_img_mul_8[28] <= 'd0
+    kernel_img_mul_8[29] <= 'd0
+    kernel_img_mul_8[30] <= 'd0
+    kernel_img_mul_8[31] <= 'd0
+    kernel_img_mul_8[32] <= 'd0
+    kernel_img_mul_8[33] <= 'd0
+    kernel_img_mul_8[34] <= 'd0
+    kernel_img_mul_8[35] <= 'd0
+    kernel_img_mul_8[36] <= 'd0
+    kernel_img_mul_8[37] <= 'd0
+    kernel_img_mul_8[38] <= 'd0
+    kernel_img_mul_8[39] <= 'd0
+    kernel_img_mul_8[40] <= 'd0
+    kernel_img_mul_8[41] <= 'd0
+    kernel_img_mul_8[42] <= 'd0
+    kernel_img_mul_8[43] <= 'd0
+    kernel_img_mul_8[44] <= 'd0
+    kernel_img_mul_8[45] <= 'd0
+    kernel_img_mul_8[46] <= 'd0
+    kernel_img_mul_8[47] <= 'd0
+    kernel_img_mul_8[48] <= 'd0
+  end
+  else if(current_state==ST_MUL) begin
+    kernel_img_mul_8[0] <= { {8{1'b0}},layer0[8][7:0]} * { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
+    kernel_img_mul_8[1] <= { {8{1'b0}},layer0[8][15:8]} * { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
+    kernel_img_mul_8[2] <= { {8{1'b0}},layer0[8][23:16]} * { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
+    kernel_img_mul_8[3] <= { {8{1'b0}},layer0[8][31:24]} * { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
+    kernel_img_mul_8[4] <= { {8{1'b0}},layer0[8][39:32]} * { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
+    kernel_img_mul_8[5] <= { {8{1'b0}},layer0[8][47:40]} * { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
+    kernel_img_mul_8[6] <= { {8{1'b0}},layer0[8][55:48]} * { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
+    kernel_img_mul_8[7] <= { {8{1'b0}},layer1[8][7:0]} * { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
+    kernel_img_mul_8[8] <= { {8{1'b0}},layer1[8][15:8]} * { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
+    kernel_img_mul_8[9] <= { {8{1'b0}},layer1[8][23:16]} * { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
+    kernel_img_mul_8[10] <= { {8{1'b0}},layer1[8][31:24]} * { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
+    kernel_img_mul_8[11] <= { {8{1'b0}},layer1[8][39:32]} * { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
+    kernel_img_mul_8[12] <= { {8{1'b0}},layer1[8][47:40]} * { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
+    kernel_img_mul_8[13] <= { {8{1'b0}},layer1[8][55:48]} * { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
+    kernel_img_mul_8[14] <= { {8{1'b0}},layer2[8][7:0]} * { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
+    kernel_img_mul_8[15] <= { {8{1'b0}},layer2[8][15:8]} * { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
+    kernel_img_mul_8[16] <= { {8{1'b0}},layer2[8][23:16]} * { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
+    kernel_img_mul_8[17] <= { {8{1'b0}},layer2[8][31:24]} * { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
+    kernel_img_mul_8[18] <= { {8{1'b0}},layer2[8][39:32]} * { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
+    kernel_img_mul_8[19] <= { {8{1'b0}},layer2[8][47:40]} * { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
+    kernel_img_mul_8[20] <= { {8{1'b0}},layer2[8][55:48]} * { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
+    kernel_img_mul_8[21] <= { {8{1'b0}},layer3[8][7:0]} * { {8{1'b0}}, G_Kernel_7x7[3][7:0]};
+    kernel_img_mul_8[22] <= { {8{1'b0}},layer3[8][15:8]} * { {8{1'b0}}, G_Kernel_7x7[3][15:8]};
+    kernel_img_mul_8[23] <= { {8{1'b0}},layer3[8][23:16]} * { {8{1'b0}}, G_Kernel_7x7[3][23:16]};
+    kernel_img_mul_8[24] <= { {8{1'b0}},layer3[8][31:24]} * { {8{1'b0}}, G_Kernel_7x7[3][31:24]};
+    kernel_img_mul_8[25] <= { {8{1'b0}},layer3[8][39:32]} * { {8{1'b0}}, G_Kernel_7x7[3][39:32]};
+    kernel_img_mul_8[26] <= { {8{1'b0}},layer3[8][47:40]} * { {8{1'b0}}, G_Kernel_7x7[3][47:40]};
+    kernel_img_mul_8[27] <= { {8{1'b0}},layer3[8][55:48]} * { {8{1'b0}}, G_Kernel_7x7[3][55:48]};
+    kernel_img_mul_8[28] <= { {8{1'b0}},layer4[8][7:0]} * { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
+    kernel_img_mul_8[29] <= { {8{1'b0}},layer4[8][15:8]} * { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
+    kernel_img_mul_8[30] <= { {8{1'b0}},layer4[8][23:16]} * { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
+    kernel_img_mul_8[31] <= { {8{1'b0}},layer4[8][31:24]} * { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
+    kernel_img_mul_8[32] <= { {8{1'b0}},layer4[8][39:32]} * { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
+    kernel_img_mul_8[33] <= { {8{1'b0}},layer4[8][47:40]} * { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
+    kernel_img_mul_8[34] <= { {8{1'b0}},layer4[8][55:48]} * { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
+    kernel_img_mul_8[35] <= { {8{1'b0}},layer5[8][7:0]} * { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
+    kernel_img_mul_8[36] <= { {8{1'b0}},layer5[8][15:8]} * { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
+    kernel_img_mul_8[37] <= { {8{1'b0}},layer5[8][23:16]} * { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
+    kernel_img_mul_8[38] <= { {8{1'b0}},layer5[8][31:24]} * { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
+    kernel_img_mul_8[39] <= { {8{1'b0}},layer5[8][39:32]} * { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
+    kernel_img_mul_8[40] <= { {8{1'b0}},layer5[8][47:40]} * { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
+    kernel_img_mul_8[41] <= { {8{1'b0}},layer5[8][55:48]} * { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
+    kernel_img_mul_8[42] <= { {8{1'b0}},layer6[8][7:0]} * { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
+    kernel_img_mul_8[43] <= { {8{1'b0}},layer6[8][15:8]} * { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
+    kernel_img_mul_8[44] <= { {8{1'b0}},layer6[8][23:16]} * { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
+    kernel_img_mul_8[45] <= { {8{1'b0}},layer6[8][31:24]} * { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
+    kernel_img_mul_8[46] <= { {8{1'b0}},layer6[8][39:32]} * { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
+    kernel_img_mul_8[47] <= { {8{1'b0}},layer6[8][47:40]} * { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
+    kernel_img_mul_8[48] <= { {8{1'b0}},layer6[8][55:48]} * { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
+  end
+end
+reg  [15:0]  kernel_img_sum_8;
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_sum_8 <= 'd0
+  end
+  else if(current_state==ST_ADD) begin
+    kernel_img_sum_8 <= kernel_img_mul_8[0] + kernel_img_mul_8[1] + kernel_img_mul_8[2] + 
                 kernel_img_mul_8[3] + kernel_img_mul_8[4] + kernel_img_mul_8[5] + 
                 kernel_img_mul_8[6] + kernel_img_mul_8[7] + kernel_img_mul_8[8] + 
                 kernel_img_mul_8[9] + kernel_img_mul_8[10] + kernel_img_mul_8[11] + 
@@ -32899,57 +33475,120 @@ wire  [15:0]  kernel_img_sum_8 = kernel_img_mul_8[0] + kernel_img_mul_8[1] + ker
                 kernel_img_mul_8[42] + kernel_img_mul_8[43] + kernel_img_mul_8[44] + 
                 kernel_img_mul_8[45] + kernel_img_mul_8[46] + kernel_img_mul_8[47] + 
                 kernel_img_mul_8[48];
-wire  [15:0]  kernel_img_mul_9[0:48];
-assign kernel_img_mul_9[0] = { {8{1'b0}},layer0[9][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
-assign kernel_img_mul_9[1] = { {8{1'b0}},layer0[9][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
-assign kernel_img_mul_9[2] = { {8{1'b0}},layer0[9][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
-assign kernel_img_mul_9[3] = { {8{1'b0}},layer0[9][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
-assign kernel_img_mul_9[4] = { {8{1'b0}},layer0[9][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
-assign kernel_img_mul_9[5] = { {8{1'b0}},layer0[9][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
-assign kernel_img_mul_9[6] = { {8{1'b0}},layer0[9][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
-assign kernel_img_mul_9[7] = { {8{1'b0}},layer1[9][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
-assign kernel_img_mul_9[8] = { {8{1'b0}},layer1[9][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
-assign kernel_img_mul_9[9] = { {8{1'b0}},layer1[9][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
-assign kernel_img_mul_9[10] = { {8{1'b0}},layer1[9][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
-assign kernel_img_mul_9[11] = { {8{1'b0}},layer1[9][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
-assign kernel_img_mul_9[12] = { {8{1'b0}},layer1[9][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
-assign kernel_img_mul_9[13] = { {8{1'b0}},layer1[9][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
-assign kernel_img_mul_9[14] = { {8{1'b0}},layer2[9][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
-assign kernel_img_mul_9[15] = { {8{1'b0}},layer2[9][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
-assign kernel_img_mul_9[16] = { {8{1'b0}},layer2[9][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
-assign kernel_img_mul_9[17] = { {8{1'b0}},layer2[9][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
-assign kernel_img_mul_9[18] = { {8{1'b0}},layer2[9][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
-assign kernel_img_mul_9[19] = { {8{1'b0}},layer2[9][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
-assign kernel_img_mul_9[20] = { {8{1'b0}},layer2[9][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
-assign kernel_img_mul_9[21] = { {8{1'b0}},layer3[9][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[3][7:0]};
-assign kernel_img_mul_9[22] = { {8{1'b0}},layer3[9][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[3][15:8]};
-assign kernel_img_mul_9[23] = { {8{1'b0}},layer3[9][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[3][23:16]};
-assign kernel_img_mul_9[24] = { {8{1'b0}},layer3[9][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[3][31:24]};
-assign kernel_img_mul_9[25] = { {8{1'b0}},layer3[9][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[3][39:32]};
-assign kernel_img_mul_9[26] = { {8{1'b0}},layer3[9][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[3][47:40]};
-assign kernel_img_mul_9[27] = { {8{1'b0}},layer3[9][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[3][55:48]};
-assign kernel_img_mul_9[28] = { {8{1'b0}},layer4[9][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
-assign kernel_img_mul_9[29] = { {8{1'b0}},layer4[9][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
-assign kernel_img_mul_9[30] = { {8{1'b0}},layer4[9][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
-assign kernel_img_mul_9[31] = { {8{1'b0}},layer4[9][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
-assign kernel_img_mul_9[32] = { {8{1'b0}},layer4[9][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
-assign kernel_img_mul_9[33] = { {8{1'b0}},layer4[9][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
-assign kernel_img_mul_9[34] = { {8{1'b0}},layer4[9][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
-assign kernel_img_mul_9[35] = { {8{1'b0}},layer5[9][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
-assign kernel_img_mul_9[36] = { {8{1'b0}},layer5[9][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
-assign kernel_img_mul_9[37] = { {8{1'b0}},layer5[9][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
-assign kernel_img_mul_9[38] = { {8{1'b0}},layer5[9][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
-assign kernel_img_mul_9[39] = { {8{1'b0}},layer5[9][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
-assign kernel_img_mul_9[40] = { {8{1'b0}},layer5[9][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
-assign kernel_img_mul_9[41] = { {8{1'b0}},layer5[9][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
-assign kernel_img_mul_9[42] = { {8{1'b0}},layer6[9][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
-assign kernel_img_mul_9[43] = { {8{1'b0}},layer6[9][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
-assign kernel_img_mul_9[44] = { {8{1'b0}},layer6[9][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
-assign kernel_img_mul_9[45] = { {8{1'b0}},layer6[9][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
-assign kernel_img_mul_9[46] = { {8{1'b0}},layer6[9][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
-assign kernel_img_mul_9[47] = { {8{1'b0}},layer6[9][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
-assign kernel_img_mul_9[48] = { {8{1'b0}},layer6[9][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
-wire  [15:0]  kernel_img_sum_9 = kernel_img_mul_9[0] + kernel_img_mul_9[1] + kernel_img_mul_9[2] + 
+  end
+end
+reg  [15:0]  kernel_img_mul_9[0:48];
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_mul_9[0] <= 'd0
+    kernel_img_mul_9[1] <= 'd0
+    kernel_img_mul_9[2] <= 'd0
+    kernel_img_mul_9[3] <= 'd0
+    kernel_img_mul_9[4] <= 'd0
+    kernel_img_mul_9[5] <= 'd0
+    kernel_img_mul_9[6] <= 'd0
+    kernel_img_mul_9[7] <= 'd0
+    kernel_img_mul_9[8] <= 'd0
+    kernel_img_mul_9[9] <= 'd0
+    kernel_img_mul_9[10] <= 'd0
+    kernel_img_mul_9[11] <= 'd0
+    kernel_img_mul_9[12] <= 'd0
+    kernel_img_mul_9[13] <= 'd0
+    kernel_img_mul_9[14] <= 'd0
+    kernel_img_mul_9[15] <= 'd0
+    kernel_img_mul_9[16] <= 'd0
+    kernel_img_mul_9[17] <= 'd0
+    kernel_img_mul_9[18] <= 'd0
+    kernel_img_mul_9[19] <= 'd0
+    kernel_img_mul_9[20] <= 'd0
+    kernel_img_mul_9[21] <= 'd0
+    kernel_img_mul_9[22] <= 'd0
+    kernel_img_mul_9[23] <= 'd0
+    kernel_img_mul_9[24] <= 'd0
+    kernel_img_mul_9[25] <= 'd0
+    kernel_img_mul_9[26] <= 'd0
+    kernel_img_mul_9[27] <= 'd0
+    kernel_img_mul_9[28] <= 'd0
+    kernel_img_mul_9[29] <= 'd0
+    kernel_img_mul_9[30] <= 'd0
+    kernel_img_mul_9[31] <= 'd0
+    kernel_img_mul_9[32] <= 'd0
+    kernel_img_mul_9[33] <= 'd0
+    kernel_img_mul_9[34] <= 'd0
+    kernel_img_mul_9[35] <= 'd0
+    kernel_img_mul_9[36] <= 'd0
+    kernel_img_mul_9[37] <= 'd0
+    kernel_img_mul_9[38] <= 'd0
+    kernel_img_mul_9[39] <= 'd0
+    kernel_img_mul_9[40] <= 'd0
+    kernel_img_mul_9[41] <= 'd0
+    kernel_img_mul_9[42] <= 'd0
+    kernel_img_mul_9[43] <= 'd0
+    kernel_img_mul_9[44] <= 'd0
+    kernel_img_mul_9[45] <= 'd0
+    kernel_img_mul_9[46] <= 'd0
+    kernel_img_mul_9[47] <= 'd0
+    kernel_img_mul_9[48] <= 'd0
+  end
+  else if(current_state==ST_MUL) begin
+    kernel_img_mul_9[0] <= { {8{1'b0}},layer0[9][7:0]} * { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
+    kernel_img_mul_9[1] <= { {8{1'b0}},layer0[9][15:8]} * { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
+    kernel_img_mul_9[2] <= { {8{1'b0}},layer0[9][23:16]} * { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
+    kernel_img_mul_9[3] <= { {8{1'b0}},layer0[9][31:24]} * { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
+    kernel_img_mul_9[4] <= { {8{1'b0}},layer0[9][39:32]} * { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
+    kernel_img_mul_9[5] <= { {8{1'b0}},layer0[9][47:40]} * { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
+    kernel_img_mul_9[6] <= { {8{1'b0}},layer0[9][55:48]} * { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
+    kernel_img_mul_9[7] <= { {8{1'b0}},layer1[9][7:0]} * { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
+    kernel_img_mul_9[8] <= { {8{1'b0}},layer1[9][15:8]} * { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
+    kernel_img_mul_9[9] <= { {8{1'b0}},layer1[9][23:16]} * { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
+    kernel_img_mul_9[10] <= { {8{1'b0}},layer1[9][31:24]} * { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
+    kernel_img_mul_9[11] <= { {8{1'b0}},layer1[9][39:32]} * { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
+    kernel_img_mul_9[12] <= { {8{1'b0}},layer1[9][47:40]} * { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
+    kernel_img_mul_9[13] <= { {8{1'b0}},layer1[9][55:48]} * { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
+    kernel_img_mul_9[14] <= { {8{1'b0}},layer2[9][7:0]} * { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
+    kernel_img_mul_9[15] <= { {8{1'b0}},layer2[9][15:8]} * { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
+    kernel_img_mul_9[16] <= { {8{1'b0}},layer2[9][23:16]} * { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
+    kernel_img_mul_9[17] <= { {8{1'b0}},layer2[9][31:24]} * { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
+    kernel_img_mul_9[18] <= { {8{1'b0}},layer2[9][39:32]} * { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
+    kernel_img_mul_9[19] <= { {8{1'b0}},layer2[9][47:40]} * { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
+    kernel_img_mul_9[20] <= { {8{1'b0}},layer2[9][55:48]} * { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
+    kernel_img_mul_9[21] <= { {8{1'b0}},layer3[9][7:0]} * { {8{1'b0}}, G_Kernel_7x7[3][7:0]};
+    kernel_img_mul_9[22] <= { {8{1'b0}},layer3[9][15:8]} * { {8{1'b0}}, G_Kernel_7x7[3][15:8]};
+    kernel_img_mul_9[23] <= { {8{1'b0}},layer3[9][23:16]} * { {8{1'b0}}, G_Kernel_7x7[3][23:16]};
+    kernel_img_mul_9[24] <= { {8{1'b0}},layer3[9][31:24]} * { {8{1'b0}}, G_Kernel_7x7[3][31:24]};
+    kernel_img_mul_9[25] <= { {8{1'b0}},layer3[9][39:32]} * { {8{1'b0}}, G_Kernel_7x7[3][39:32]};
+    kernel_img_mul_9[26] <= { {8{1'b0}},layer3[9][47:40]} * { {8{1'b0}}, G_Kernel_7x7[3][47:40]};
+    kernel_img_mul_9[27] <= { {8{1'b0}},layer3[9][55:48]} * { {8{1'b0}}, G_Kernel_7x7[3][55:48]};
+    kernel_img_mul_9[28] <= { {8{1'b0}},layer4[9][7:0]} * { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
+    kernel_img_mul_9[29] <= { {8{1'b0}},layer4[9][15:8]} * { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
+    kernel_img_mul_9[30] <= { {8{1'b0}},layer4[9][23:16]} * { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
+    kernel_img_mul_9[31] <= { {8{1'b0}},layer4[9][31:24]} * { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
+    kernel_img_mul_9[32] <= { {8{1'b0}},layer4[9][39:32]} * { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
+    kernel_img_mul_9[33] <= { {8{1'b0}},layer4[9][47:40]} * { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
+    kernel_img_mul_9[34] <= { {8{1'b0}},layer4[9][55:48]} * { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
+    kernel_img_mul_9[35] <= { {8{1'b0}},layer5[9][7:0]} * { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
+    kernel_img_mul_9[36] <= { {8{1'b0}},layer5[9][15:8]} * { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
+    kernel_img_mul_9[37] <= { {8{1'b0}},layer5[9][23:16]} * { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
+    kernel_img_mul_9[38] <= { {8{1'b0}},layer5[9][31:24]} * { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
+    kernel_img_mul_9[39] <= { {8{1'b0}},layer5[9][39:32]} * { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
+    kernel_img_mul_9[40] <= { {8{1'b0}},layer5[9][47:40]} * { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
+    kernel_img_mul_9[41] <= { {8{1'b0}},layer5[9][55:48]} * { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
+    kernel_img_mul_9[42] <= { {8{1'b0}},layer6[9][7:0]} * { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
+    kernel_img_mul_9[43] <= { {8{1'b0}},layer6[9][15:8]} * { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
+    kernel_img_mul_9[44] <= { {8{1'b0}},layer6[9][23:16]} * { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
+    kernel_img_mul_9[45] <= { {8{1'b0}},layer6[9][31:24]} * { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
+    kernel_img_mul_9[46] <= { {8{1'b0}},layer6[9][39:32]} * { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
+    kernel_img_mul_9[47] <= { {8{1'b0}},layer6[9][47:40]} * { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
+    kernel_img_mul_9[48] <= { {8{1'b0}},layer6[9][55:48]} * { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
+  end
+end
+reg  [15:0]  kernel_img_sum_9;
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_sum_9 <= 'd0
+  end
+  else if(current_state==ST_ADD) begin
+    kernel_img_sum_9 <= kernel_img_mul_9[0] + kernel_img_mul_9[1] + kernel_img_mul_9[2] + 
                 kernel_img_mul_9[3] + kernel_img_mul_9[4] + kernel_img_mul_9[5] + 
                 kernel_img_mul_9[6] + kernel_img_mul_9[7] + kernel_img_mul_9[8] + 
                 kernel_img_mul_9[9] + kernel_img_mul_9[10] + kernel_img_mul_9[11] + 
@@ -32966,57 +33605,120 @@ wire  [15:0]  kernel_img_sum_9 = kernel_img_mul_9[0] + kernel_img_mul_9[1] + ker
                 kernel_img_mul_9[42] + kernel_img_mul_9[43] + kernel_img_mul_9[44] + 
                 kernel_img_mul_9[45] + kernel_img_mul_9[46] + kernel_img_mul_9[47] + 
                 kernel_img_mul_9[48];
-wire  [15:0]  kernel_img_mul_10[0:48];
-assign kernel_img_mul_10[0] = { {8{1'b0}},layer0[10][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
-assign kernel_img_mul_10[1] = { {8{1'b0}},layer0[10][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
-assign kernel_img_mul_10[2] = { {8{1'b0}},layer0[10][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
-assign kernel_img_mul_10[3] = { {8{1'b0}},layer0[10][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
-assign kernel_img_mul_10[4] = { {8{1'b0}},layer0[10][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
-assign kernel_img_mul_10[5] = { {8{1'b0}},layer0[10][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
-assign kernel_img_mul_10[6] = { {8{1'b0}},layer0[10][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
-assign kernel_img_mul_10[7] = { {8{1'b0}},layer1[10][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
-assign kernel_img_mul_10[8] = { {8{1'b0}},layer1[10][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
-assign kernel_img_mul_10[9] = { {8{1'b0}},layer1[10][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
-assign kernel_img_mul_10[10] = { {8{1'b0}},layer1[10][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
-assign kernel_img_mul_10[11] = { {8{1'b0}},layer1[10][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
-assign kernel_img_mul_10[12] = { {8{1'b0}},layer1[10][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
-assign kernel_img_mul_10[13] = { {8{1'b0}},layer1[10][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
-assign kernel_img_mul_10[14] = { {8{1'b0}},layer2[10][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
-assign kernel_img_mul_10[15] = { {8{1'b0}},layer2[10][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
-assign kernel_img_mul_10[16] = { {8{1'b0}},layer2[10][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
-assign kernel_img_mul_10[17] = { {8{1'b0}},layer2[10][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
-assign kernel_img_mul_10[18] = { {8{1'b0}},layer2[10][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
-assign kernel_img_mul_10[19] = { {8{1'b0}},layer2[10][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
-assign kernel_img_mul_10[20] = { {8{1'b0}},layer2[10][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
-assign kernel_img_mul_10[21] = { {8{1'b0}},layer3[10][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[3][7:0]};
-assign kernel_img_mul_10[22] = { {8{1'b0}},layer3[10][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[3][15:8]};
-assign kernel_img_mul_10[23] = { {8{1'b0}},layer3[10][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[3][23:16]};
-assign kernel_img_mul_10[24] = { {8{1'b0}},layer3[10][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[3][31:24]};
-assign kernel_img_mul_10[25] = { {8{1'b0}},layer3[10][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[3][39:32]};
-assign kernel_img_mul_10[26] = { {8{1'b0}},layer3[10][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[3][47:40]};
-assign kernel_img_mul_10[27] = { {8{1'b0}},layer3[10][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[3][55:48]};
-assign kernel_img_mul_10[28] = { {8{1'b0}},layer4[10][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
-assign kernel_img_mul_10[29] = { {8{1'b0}},layer4[10][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
-assign kernel_img_mul_10[30] = { {8{1'b0}},layer4[10][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
-assign kernel_img_mul_10[31] = { {8{1'b0}},layer4[10][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
-assign kernel_img_mul_10[32] = { {8{1'b0}},layer4[10][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
-assign kernel_img_mul_10[33] = { {8{1'b0}},layer4[10][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
-assign kernel_img_mul_10[34] = { {8{1'b0}},layer4[10][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
-assign kernel_img_mul_10[35] = { {8{1'b0}},layer5[10][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
-assign kernel_img_mul_10[36] = { {8{1'b0}},layer5[10][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
-assign kernel_img_mul_10[37] = { {8{1'b0}},layer5[10][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
-assign kernel_img_mul_10[38] = { {8{1'b0}},layer5[10][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
-assign kernel_img_mul_10[39] = { {8{1'b0}},layer5[10][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
-assign kernel_img_mul_10[40] = { {8{1'b0}},layer5[10][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
-assign kernel_img_mul_10[41] = { {8{1'b0}},layer5[10][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
-assign kernel_img_mul_10[42] = { {8{1'b0}},layer6[10][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
-assign kernel_img_mul_10[43] = { {8{1'b0}},layer6[10][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
-assign kernel_img_mul_10[44] = { {8{1'b0}},layer6[10][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
-assign kernel_img_mul_10[45] = { {8{1'b0}},layer6[10][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
-assign kernel_img_mul_10[46] = { {8{1'b0}},layer6[10][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
-assign kernel_img_mul_10[47] = { {8{1'b0}},layer6[10][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
-assign kernel_img_mul_10[48] = { {8{1'b0}},layer6[10][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
-wire  [15:0]  kernel_img_sum_10 = kernel_img_mul_10[0] + kernel_img_mul_10[1] + kernel_img_mul_10[2] + 
+  end
+end
+reg  [15:0]  kernel_img_mul_10[0:48];
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_mul_10[0] <= 'd0
+    kernel_img_mul_10[1] <= 'd0
+    kernel_img_mul_10[2] <= 'd0
+    kernel_img_mul_10[3] <= 'd0
+    kernel_img_mul_10[4] <= 'd0
+    kernel_img_mul_10[5] <= 'd0
+    kernel_img_mul_10[6] <= 'd0
+    kernel_img_mul_10[7] <= 'd0
+    kernel_img_mul_10[8] <= 'd0
+    kernel_img_mul_10[9] <= 'd0
+    kernel_img_mul_10[10] <= 'd0
+    kernel_img_mul_10[11] <= 'd0
+    kernel_img_mul_10[12] <= 'd0
+    kernel_img_mul_10[13] <= 'd0
+    kernel_img_mul_10[14] <= 'd0
+    kernel_img_mul_10[15] <= 'd0
+    kernel_img_mul_10[16] <= 'd0
+    kernel_img_mul_10[17] <= 'd0
+    kernel_img_mul_10[18] <= 'd0
+    kernel_img_mul_10[19] <= 'd0
+    kernel_img_mul_10[20] <= 'd0
+    kernel_img_mul_10[21] <= 'd0
+    kernel_img_mul_10[22] <= 'd0
+    kernel_img_mul_10[23] <= 'd0
+    kernel_img_mul_10[24] <= 'd0
+    kernel_img_mul_10[25] <= 'd0
+    kernel_img_mul_10[26] <= 'd0
+    kernel_img_mul_10[27] <= 'd0
+    kernel_img_mul_10[28] <= 'd0
+    kernel_img_mul_10[29] <= 'd0
+    kernel_img_mul_10[30] <= 'd0
+    kernel_img_mul_10[31] <= 'd0
+    kernel_img_mul_10[32] <= 'd0
+    kernel_img_mul_10[33] <= 'd0
+    kernel_img_mul_10[34] <= 'd0
+    kernel_img_mul_10[35] <= 'd0
+    kernel_img_mul_10[36] <= 'd0
+    kernel_img_mul_10[37] <= 'd0
+    kernel_img_mul_10[38] <= 'd0
+    kernel_img_mul_10[39] <= 'd0
+    kernel_img_mul_10[40] <= 'd0
+    kernel_img_mul_10[41] <= 'd0
+    kernel_img_mul_10[42] <= 'd0
+    kernel_img_mul_10[43] <= 'd0
+    kernel_img_mul_10[44] <= 'd0
+    kernel_img_mul_10[45] <= 'd0
+    kernel_img_mul_10[46] <= 'd0
+    kernel_img_mul_10[47] <= 'd0
+    kernel_img_mul_10[48] <= 'd0
+  end
+  else if(current_state==ST_MUL) begin
+    kernel_img_mul_10[0] <= { {8{1'b0}},layer0[10][7:0]} * { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
+    kernel_img_mul_10[1] <= { {8{1'b0}},layer0[10][15:8]} * { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
+    kernel_img_mul_10[2] <= { {8{1'b0}},layer0[10][23:16]} * { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
+    kernel_img_mul_10[3] <= { {8{1'b0}},layer0[10][31:24]} * { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
+    kernel_img_mul_10[4] <= { {8{1'b0}},layer0[10][39:32]} * { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
+    kernel_img_mul_10[5] <= { {8{1'b0}},layer0[10][47:40]} * { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
+    kernel_img_mul_10[6] <= { {8{1'b0}},layer0[10][55:48]} * { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
+    kernel_img_mul_10[7] <= { {8{1'b0}},layer1[10][7:0]} * { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
+    kernel_img_mul_10[8] <= { {8{1'b0}},layer1[10][15:8]} * { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
+    kernel_img_mul_10[9] <= { {8{1'b0}},layer1[10][23:16]} * { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
+    kernel_img_mul_10[10] <= { {8{1'b0}},layer1[10][31:24]} * { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
+    kernel_img_mul_10[11] <= { {8{1'b0}},layer1[10][39:32]} * { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
+    kernel_img_mul_10[12] <= { {8{1'b0}},layer1[10][47:40]} * { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
+    kernel_img_mul_10[13] <= { {8{1'b0}},layer1[10][55:48]} * { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
+    kernel_img_mul_10[14] <= { {8{1'b0}},layer2[10][7:0]} * { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
+    kernel_img_mul_10[15] <= { {8{1'b0}},layer2[10][15:8]} * { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
+    kernel_img_mul_10[16] <= { {8{1'b0}},layer2[10][23:16]} * { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
+    kernel_img_mul_10[17] <= { {8{1'b0}},layer2[10][31:24]} * { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
+    kernel_img_mul_10[18] <= { {8{1'b0}},layer2[10][39:32]} * { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
+    kernel_img_mul_10[19] <= { {8{1'b0}},layer2[10][47:40]} * { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
+    kernel_img_mul_10[20] <= { {8{1'b0}},layer2[10][55:48]} * { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
+    kernel_img_mul_10[21] <= { {8{1'b0}},layer3[10][7:0]} * { {8{1'b0}}, G_Kernel_7x7[3][7:0]};
+    kernel_img_mul_10[22] <= { {8{1'b0}},layer3[10][15:8]} * { {8{1'b0}}, G_Kernel_7x7[3][15:8]};
+    kernel_img_mul_10[23] <= { {8{1'b0}},layer3[10][23:16]} * { {8{1'b0}}, G_Kernel_7x7[3][23:16]};
+    kernel_img_mul_10[24] <= { {8{1'b0}},layer3[10][31:24]} * { {8{1'b0}}, G_Kernel_7x7[3][31:24]};
+    kernel_img_mul_10[25] <= { {8{1'b0}},layer3[10][39:32]} * { {8{1'b0}}, G_Kernel_7x7[3][39:32]};
+    kernel_img_mul_10[26] <= { {8{1'b0}},layer3[10][47:40]} * { {8{1'b0}}, G_Kernel_7x7[3][47:40]};
+    kernel_img_mul_10[27] <= { {8{1'b0}},layer3[10][55:48]} * { {8{1'b0}}, G_Kernel_7x7[3][55:48]};
+    kernel_img_mul_10[28] <= { {8{1'b0}},layer4[10][7:0]} * { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
+    kernel_img_mul_10[29] <= { {8{1'b0}},layer4[10][15:8]} * { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
+    kernel_img_mul_10[30] <= { {8{1'b0}},layer4[10][23:16]} * { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
+    kernel_img_mul_10[31] <= { {8{1'b0}},layer4[10][31:24]} * { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
+    kernel_img_mul_10[32] <= { {8{1'b0}},layer4[10][39:32]} * { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
+    kernel_img_mul_10[33] <= { {8{1'b0}},layer4[10][47:40]} * { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
+    kernel_img_mul_10[34] <= { {8{1'b0}},layer4[10][55:48]} * { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
+    kernel_img_mul_10[35] <= { {8{1'b0}},layer5[10][7:0]} * { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
+    kernel_img_mul_10[36] <= { {8{1'b0}},layer5[10][15:8]} * { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
+    kernel_img_mul_10[37] <= { {8{1'b0}},layer5[10][23:16]} * { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
+    kernel_img_mul_10[38] <= { {8{1'b0}},layer5[10][31:24]} * { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
+    kernel_img_mul_10[39] <= { {8{1'b0}},layer5[10][39:32]} * { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
+    kernel_img_mul_10[40] <= { {8{1'b0}},layer5[10][47:40]} * { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
+    kernel_img_mul_10[41] <= { {8{1'b0}},layer5[10][55:48]} * { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
+    kernel_img_mul_10[42] <= { {8{1'b0}},layer6[10][7:0]} * { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
+    kernel_img_mul_10[43] <= { {8{1'b0}},layer6[10][15:8]} * { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
+    kernel_img_mul_10[44] <= { {8{1'b0}},layer6[10][23:16]} * { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
+    kernel_img_mul_10[45] <= { {8{1'b0}},layer6[10][31:24]} * { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
+    kernel_img_mul_10[46] <= { {8{1'b0}},layer6[10][39:32]} * { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
+    kernel_img_mul_10[47] <= { {8{1'b0}},layer6[10][47:40]} * { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
+    kernel_img_mul_10[48] <= { {8{1'b0}},layer6[10][55:48]} * { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
+  end
+end
+reg  [15:0]  kernel_img_sum_10;
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_sum_10 <= 'd0
+  end
+  else if(current_state==ST_ADD) begin
+    kernel_img_sum_10 <= kernel_img_mul_10[0] + kernel_img_mul_10[1] + kernel_img_mul_10[2] + 
                 kernel_img_mul_10[3] + kernel_img_mul_10[4] + kernel_img_mul_10[5] + 
                 kernel_img_mul_10[6] + kernel_img_mul_10[7] + kernel_img_mul_10[8] + 
                 kernel_img_mul_10[9] + kernel_img_mul_10[10] + kernel_img_mul_10[11] + 
@@ -33033,57 +33735,120 @@ wire  [15:0]  kernel_img_sum_10 = kernel_img_mul_10[0] + kernel_img_mul_10[1] + 
                 kernel_img_mul_10[42] + kernel_img_mul_10[43] + kernel_img_mul_10[44] + 
                 kernel_img_mul_10[45] + kernel_img_mul_10[46] + kernel_img_mul_10[47] + 
                 kernel_img_mul_10[48];
-wire  [15:0]  kernel_img_mul_11[0:48];
-assign kernel_img_mul_11[0] = { {8{1'b0}},layer0[11][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
-assign kernel_img_mul_11[1] = { {8{1'b0}},layer0[11][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
-assign kernel_img_mul_11[2] = { {8{1'b0}},layer0[11][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
-assign kernel_img_mul_11[3] = { {8{1'b0}},layer0[11][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
-assign kernel_img_mul_11[4] = { {8{1'b0}},layer0[11][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
-assign kernel_img_mul_11[5] = { {8{1'b0}},layer0[11][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
-assign kernel_img_mul_11[6] = { {8{1'b0}},layer0[11][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
-assign kernel_img_mul_11[7] = { {8{1'b0}},layer1[11][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
-assign kernel_img_mul_11[8] = { {8{1'b0}},layer1[11][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
-assign kernel_img_mul_11[9] = { {8{1'b0}},layer1[11][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
-assign kernel_img_mul_11[10] = { {8{1'b0}},layer1[11][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
-assign kernel_img_mul_11[11] = { {8{1'b0}},layer1[11][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
-assign kernel_img_mul_11[12] = { {8{1'b0}},layer1[11][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
-assign kernel_img_mul_11[13] = { {8{1'b0}},layer1[11][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
-assign kernel_img_mul_11[14] = { {8{1'b0}},layer2[11][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
-assign kernel_img_mul_11[15] = { {8{1'b0}},layer2[11][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
-assign kernel_img_mul_11[16] = { {8{1'b0}},layer2[11][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
-assign kernel_img_mul_11[17] = { {8{1'b0}},layer2[11][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
-assign kernel_img_mul_11[18] = { {8{1'b0}},layer2[11][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
-assign kernel_img_mul_11[19] = { {8{1'b0}},layer2[11][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
-assign kernel_img_mul_11[20] = { {8{1'b0}},layer2[11][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
-assign kernel_img_mul_11[21] = { {8{1'b0}},layer3[11][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[3][7:0]};
-assign kernel_img_mul_11[22] = { {8{1'b0}},layer3[11][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[3][15:8]};
-assign kernel_img_mul_11[23] = { {8{1'b0}},layer3[11][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[3][23:16]};
-assign kernel_img_mul_11[24] = { {8{1'b0}},layer3[11][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[3][31:24]};
-assign kernel_img_mul_11[25] = { {8{1'b0}},layer3[11][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[3][39:32]};
-assign kernel_img_mul_11[26] = { {8{1'b0}},layer3[11][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[3][47:40]};
-assign kernel_img_mul_11[27] = { {8{1'b0}},layer3[11][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[3][55:48]};
-assign kernel_img_mul_11[28] = { {8{1'b0}},layer4[11][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
-assign kernel_img_mul_11[29] = { {8{1'b0}},layer4[11][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
-assign kernel_img_mul_11[30] = { {8{1'b0}},layer4[11][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
-assign kernel_img_mul_11[31] = { {8{1'b0}},layer4[11][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
-assign kernel_img_mul_11[32] = { {8{1'b0}},layer4[11][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
-assign kernel_img_mul_11[33] = { {8{1'b0}},layer4[11][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
-assign kernel_img_mul_11[34] = { {8{1'b0}},layer4[11][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
-assign kernel_img_mul_11[35] = { {8{1'b0}},layer5[11][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
-assign kernel_img_mul_11[36] = { {8{1'b0}},layer5[11][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
-assign kernel_img_mul_11[37] = { {8{1'b0}},layer5[11][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
-assign kernel_img_mul_11[38] = { {8{1'b0}},layer5[11][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
-assign kernel_img_mul_11[39] = { {8{1'b0}},layer5[11][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
-assign kernel_img_mul_11[40] = { {8{1'b0}},layer5[11][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
-assign kernel_img_mul_11[41] = { {8{1'b0}},layer5[11][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
-assign kernel_img_mul_11[42] = { {8{1'b0}},layer6[11][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
-assign kernel_img_mul_11[43] = { {8{1'b0}},layer6[11][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
-assign kernel_img_mul_11[44] = { {8{1'b0}},layer6[11][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
-assign kernel_img_mul_11[45] = { {8{1'b0}},layer6[11][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
-assign kernel_img_mul_11[46] = { {8{1'b0}},layer6[11][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
-assign kernel_img_mul_11[47] = { {8{1'b0}},layer6[11][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
-assign kernel_img_mul_11[48] = { {8{1'b0}},layer6[11][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
-wire  [15:0]  kernel_img_sum_11 = kernel_img_mul_11[0] + kernel_img_mul_11[1] + kernel_img_mul_11[2] + 
+  end
+end
+reg  [15:0]  kernel_img_mul_11[0:48];
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_mul_11[0] <= 'd0
+    kernel_img_mul_11[1] <= 'd0
+    kernel_img_mul_11[2] <= 'd0
+    kernel_img_mul_11[3] <= 'd0
+    kernel_img_mul_11[4] <= 'd0
+    kernel_img_mul_11[5] <= 'd0
+    kernel_img_mul_11[6] <= 'd0
+    kernel_img_mul_11[7] <= 'd0
+    kernel_img_mul_11[8] <= 'd0
+    kernel_img_mul_11[9] <= 'd0
+    kernel_img_mul_11[10] <= 'd0
+    kernel_img_mul_11[11] <= 'd0
+    kernel_img_mul_11[12] <= 'd0
+    kernel_img_mul_11[13] <= 'd0
+    kernel_img_mul_11[14] <= 'd0
+    kernel_img_mul_11[15] <= 'd0
+    kernel_img_mul_11[16] <= 'd0
+    kernel_img_mul_11[17] <= 'd0
+    kernel_img_mul_11[18] <= 'd0
+    kernel_img_mul_11[19] <= 'd0
+    kernel_img_mul_11[20] <= 'd0
+    kernel_img_mul_11[21] <= 'd0
+    kernel_img_mul_11[22] <= 'd0
+    kernel_img_mul_11[23] <= 'd0
+    kernel_img_mul_11[24] <= 'd0
+    kernel_img_mul_11[25] <= 'd0
+    kernel_img_mul_11[26] <= 'd0
+    kernel_img_mul_11[27] <= 'd0
+    kernel_img_mul_11[28] <= 'd0
+    kernel_img_mul_11[29] <= 'd0
+    kernel_img_mul_11[30] <= 'd0
+    kernel_img_mul_11[31] <= 'd0
+    kernel_img_mul_11[32] <= 'd0
+    kernel_img_mul_11[33] <= 'd0
+    kernel_img_mul_11[34] <= 'd0
+    kernel_img_mul_11[35] <= 'd0
+    kernel_img_mul_11[36] <= 'd0
+    kernel_img_mul_11[37] <= 'd0
+    kernel_img_mul_11[38] <= 'd0
+    kernel_img_mul_11[39] <= 'd0
+    kernel_img_mul_11[40] <= 'd0
+    kernel_img_mul_11[41] <= 'd0
+    kernel_img_mul_11[42] <= 'd0
+    kernel_img_mul_11[43] <= 'd0
+    kernel_img_mul_11[44] <= 'd0
+    kernel_img_mul_11[45] <= 'd0
+    kernel_img_mul_11[46] <= 'd0
+    kernel_img_mul_11[47] <= 'd0
+    kernel_img_mul_11[48] <= 'd0
+  end
+  else if(current_state==ST_MUL) begin
+    kernel_img_mul_11[0] <= { {8{1'b0}},layer0[11][7:0]} * { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
+    kernel_img_mul_11[1] <= { {8{1'b0}},layer0[11][15:8]} * { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
+    kernel_img_mul_11[2] <= { {8{1'b0}},layer0[11][23:16]} * { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
+    kernel_img_mul_11[3] <= { {8{1'b0}},layer0[11][31:24]} * { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
+    kernel_img_mul_11[4] <= { {8{1'b0}},layer0[11][39:32]} * { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
+    kernel_img_mul_11[5] <= { {8{1'b0}},layer0[11][47:40]} * { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
+    kernel_img_mul_11[6] <= { {8{1'b0}},layer0[11][55:48]} * { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
+    kernel_img_mul_11[7] <= { {8{1'b0}},layer1[11][7:0]} * { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
+    kernel_img_mul_11[8] <= { {8{1'b0}},layer1[11][15:8]} * { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
+    kernel_img_mul_11[9] <= { {8{1'b0}},layer1[11][23:16]} * { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
+    kernel_img_mul_11[10] <= { {8{1'b0}},layer1[11][31:24]} * { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
+    kernel_img_mul_11[11] <= { {8{1'b0}},layer1[11][39:32]} * { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
+    kernel_img_mul_11[12] <= { {8{1'b0}},layer1[11][47:40]} * { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
+    kernel_img_mul_11[13] <= { {8{1'b0}},layer1[11][55:48]} * { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
+    kernel_img_mul_11[14] <= { {8{1'b0}},layer2[11][7:0]} * { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
+    kernel_img_mul_11[15] <= { {8{1'b0}},layer2[11][15:8]} * { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
+    kernel_img_mul_11[16] <= { {8{1'b0}},layer2[11][23:16]} * { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
+    kernel_img_mul_11[17] <= { {8{1'b0}},layer2[11][31:24]} * { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
+    kernel_img_mul_11[18] <= { {8{1'b0}},layer2[11][39:32]} * { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
+    kernel_img_mul_11[19] <= { {8{1'b0}},layer2[11][47:40]} * { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
+    kernel_img_mul_11[20] <= { {8{1'b0}},layer2[11][55:48]} * { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
+    kernel_img_mul_11[21] <= { {8{1'b0}},layer3[11][7:0]} * { {8{1'b0}}, G_Kernel_7x7[3][7:0]};
+    kernel_img_mul_11[22] <= { {8{1'b0}},layer3[11][15:8]} * { {8{1'b0}}, G_Kernel_7x7[3][15:8]};
+    kernel_img_mul_11[23] <= { {8{1'b0}},layer3[11][23:16]} * { {8{1'b0}}, G_Kernel_7x7[3][23:16]};
+    kernel_img_mul_11[24] <= { {8{1'b0}},layer3[11][31:24]} * { {8{1'b0}}, G_Kernel_7x7[3][31:24]};
+    kernel_img_mul_11[25] <= { {8{1'b0}},layer3[11][39:32]} * { {8{1'b0}}, G_Kernel_7x7[3][39:32]};
+    kernel_img_mul_11[26] <= { {8{1'b0}},layer3[11][47:40]} * { {8{1'b0}}, G_Kernel_7x7[3][47:40]};
+    kernel_img_mul_11[27] <= { {8{1'b0}},layer3[11][55:48]} * { {8{1'b0}}, G_Kernel_7x7[3][55:48]};
+    kernel_img_mul_11[28] <= { {8{1'b0}},layer4[11][7:0]} * { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
+    kernel_img_mul_11[29] <= { {8{1'b0}},layer4[11][15:8]} * { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
+    kernel_img_mul_11[30] <= { {8{1'b0}},layer4[11][23:16]} * { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
+    kernel_img_mul_11[31] <= { {8{1'b0}},layer4[11][31:24]} * { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
+    kernel_img_mul_11[32] <= { {8{1'b0}},layer4[11][39:32]} * { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
+    kernel_img_mul_11[33] <= { {8{1'b0}},layer4[11][47:40]} * { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
+    kernel_img_mul_11[34] <= { {8{1'b0}},layer4[11][55:48]} * { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
+    kernel_img_mul_11[35] <= { {8{1'b0}},layer5[11][7:0]} * { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
+    kernel_img_mul_11[36] <= { {8{1'b0}},layer5[11][15:8]} * { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
+    kernel_img_mul_11[37] <= { {8{1'b0}},layer5[11][23:16]} * { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
+    kernel_img_mul_11[38] <= { {8{1'b0}},layer5[11][31:24]} * { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
+    kernel_img_mul_11[39] <= { {8{1'b0}},layer5[11][39:32]} * { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
+    kernel_img_mul_11[40] <= { {8{1'b0}},layer5[11][47:40]} * { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
+    kernel_img_mul_11[41] <= { {8{1'b0}},layer5[11][55:48]} * { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
+    kernel_img_mul_11[42] <= { {8{1'b0}},layer6[11][7:0]} * { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
+    kernel_img_mul_11[43] <= { {8{1'b0}},layer6[11][15:8]} * { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
+    kernel_img_mul_11[44] <= { {8{1'b0}},layer6[11][23:16]} * { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
+    kernel_img_mul_11[45] <= { {8{1'b0}},layer6[11][31:24]} * { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
+    kernel_img_mul_11[46] <= { {8{1'b0}},layer6[11][39:32]} * { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
+    kernel_img_mul_11[47] <= { {8{1'b0}},layer6[11][47:40]} * { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
+    kernel_img_mul_11[48] <= { {8{1'b0}},layer6[11][55:48]} * { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
+  end
+end
+reg  [15:0]  kernel_img_sum_11;
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_sum_11 <= 'd0
+  end
+  else if(current_state==ST_ADD) begin
+    kernel_img_sum_11 <= kernel_img_mul_11[0] + kernel_img_mul_11[1] + kernel_img_mul_11[2] + 
                 kernel_img_mul_11[3] + kernel_img_mul_11[4] + kernel_img_mul_11[5] + 
                 kernel_img_mul_11[6] + kernel_img_mul_11[7] + kernel_img_mul_11[8] + 
                 kernel_img_mul_11[9] + kernel_img_mul_11[10] + kernel_img_mul_11[11] + 
@@ -33100,57 +33865,120 @@ wire  [15:0]  kernel_img_sum_11 = kernel_img_mul_11[0] + kernel_img_mul_11[1] + 
                 kernel_img_mul_11[42] + kernel_img_mul_11[43] + kernel_img_mul_11[44] + 
                 kernel_img_mul_11[45] + kernel_img_mul_11[46] + kernel_img_mul_11[47] + 
                 kernel_img_mul_11[48];
-wire  [15:0]  kernel_img_mul_12[0:48];
-assign kernel_img_mul_12[0] = { {8{1'b0}},layer0[12][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
-assign kernel_img_mul_12[1] = { {8{1'b0}},layer0[12][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
-assign kernel_img_mul_12[2] = { {8{1'b0}},layer0[12][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
-assign kernel_img_mul_12[3] = { {8{1'b0}},layer0[12][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
-assign kernel_img_mul_12[4] = { {8{1'b0}},layer0[12][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
-assign kernel_img_mul_12[5] = { {8{1'b0}},layer0[12][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
-assign kernel_img_mul_12[6] = { {8{1'b0}},layer0[12][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
-assign kernel_img_mul_12[7] = { {8{1'b0}},layer1[12][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
-assign kernel_img_mul_12[8] = { {8{1'b0}},layer1[12][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
-assign kernel_img_mul_12[9] = { {8{1'b0}},layer1[12][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
-assign kernel_img_mul_12[10] = { {8{1'b0}},layer1[12][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
-assign kernel_img_mul_12[11] = { {8{1'b0}},layer1[12][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
-assign kernel_img_mul_12[12] = { {8{1'b0}},layer1[12][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
-assign kernel_img_mul_12[13] = { {8{1'b0}},layer1[12][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
-assign kernel_img_mul_12[14] = { {8{1'b0}},layer2[12][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
-assign kernel_img_mul_12[15] = { {8{1'b0}},layer2[12][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
-assign kernel_img_mul_12[16] = { {8{1'b0}},layer2[12][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
-assign kernel_img_mul_12[17] = { {8{1'b0}},layer2[12][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
-assign kernel_img_mul_12[18] = { {8{1'b0}},layer2[12][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
-assign kernel_img_mul_12[19] = { {8{1'b0}},layer2[12][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
-assign kernel_img_mul_12[20] = { {8{1'b0}},layer2[12][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
-assign kernel_img_mul_12[21] = { {8{1'b0}},layer3[12][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[3][7:0]};
-assign kernel_img_mul_12[22] = { {8{1'b0}},layer3[12][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[3][15:8]};
-assign kernel_img_mul_12[23] = { {8{1'b0}},layer3[12][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[3][23:16]};
-assign kernel_img_mul_12[24] = { {8{1'b0}},layer3[12][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[3][31:24]};
-assign kernel_img_mul_12[25] = { {8{1'b0}},layer3[12][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[3][39:32]};
-assign kernel_img_mul_12[26] = { {8{1'b0}},layer3[12][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[3][47:40]};
-assign kernel_img_mul_12[27] = { {8{1'b0}},layer3[12][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[3][55:48]};
-assign kernel_img_mul_12[28] = { {8{1'b0}},layer4[12][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
-assign kernel_img_mul_12[29] = { {8{1'b0}},layer4[12][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
-assign kernel_img_mul_12[30] = { {8{1'b0}},layer4[12][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
-assign kernel_img_mul_12[31] = { {8{1'b0}},layer4[12][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
-assign kernel_img_mul_12[32] = { {8{1'b0}},layer4[12][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
-assign kernel_img_mul_12[33] = { {8{1'b0}},layer4[12][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
-assign kernel_img_mul_12[34] = { {8{1'b0}},layer4[12][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
-assign kernel_img_mul_12[35] = { {8{1'b0}},layer5[12][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
-assign kernel_img_mul_12[36] = { {8{1'b0}},layer5[12][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
-assign kernel_img_mul_12[37] = { {8{1'b0}},layer5[12][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
-assign kernel_img_mul_12[38] = { {8{1'b0}},layer5[12][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
-assign kernel_img_mul_12[39] = { {8{1'b0}},layer5[12][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
-assign kernel_img_mul_12[40] = { {8{1'b0}},layer5[12][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
-assign kernel_img_mul_12[41] = { {8{1'b0}},layer5[12][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
-assign kernel_img_mul_12[42] = { {8{1'b0}},layer6[12][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
-assign kernel_img_mul_12[43] = { {8{1'b0}},layer6[12][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
-assign kernel_img_mul_12[44] = { {8{1'b0}},layer6[12][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
-assign kernel_img_mul_12[45] = { {8{1'b0}},layer6[12][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
-assign kernel_img_mul_12[46] = { {8{1'b0}},layer6[12][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
-assign kernel_img_mul_12[47] = { {8{1'b0}},layer6[12][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
-assign kernel_img_mul_12[48] = { {8{1'b0}},layer6[12][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
-wire  [15:0]  kernel_img_sum_12 = kernel_img_mul_12[0] + kernel_img_mul_12[1] + kernel_img_mul_12[2] + 
+  end
+end
+reg  [15:0]  kernel_img_mul_12[0:48];
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_mul_12[0] <= 'd0
+    kernel_img_mul_12[1] <= 'd0
+    kernel_img_mul_12[2] <= 'd0
+    kernel_img_mul_12[3] <= 'd0
+    kernel_img_mul_12[4] <= 'd0
+    kernel_img_mul_12[5] <= 'd0
+    kernel_img_mul_12[6] <= 'd0
+    kernel_img_mul_12[7] <= 'd0
+    kernel_img_mul_12[8] <= 'd0
+    kernel_img_mul_12[9] <= 'd0
+    kernel_img_mul_12[10] <= 'd0
+    kernel_img_mul_12[11] <= 'd0
+    kernel_img_mul_12[12] <= 'd0
+    kernel_img_mul_12[13] <= 'd0
+    kernel_img_mul_12[14] <= 'd0
+    kernel_img_mul_12[15] <= 'd0
+    kernel_img_mul_12[16] <= 'd0
+    kernel_img_mul_12[17] <= 'd0
+    kernel_img_mul_12[18] <= 'd0
+    kernel_img_mul_12[19] <= 'd0
+    kernel_img_mul_12[20] <= 'd0
+    kernel_img_mul_12[21] <= 'd0
+    kernel_img_mul_12[22] <= 'd0
+    kernel_img_mul_12[23] <= 'd0
+    kernel_img_mul_12[24] <= 'd0
+    kernel_img_mul_12[25] <= 'd0
+    kernel_img_mul_12[26] <= 'd0
+    kernel_img_mul_12[27] <= 'd0
+    kernel_img_mul_12[28] <= 'd0
+    kernel_img_mul_12[29] <= 'd0
+    kernel_img_mul_12[30] <= 'd0
+    kernel_img_mul_12[31] <= 'd0
+    kernel_img_mul_12[32] <= 'd0
+    kernel_img_mul_12[33] <= 'd0
+    kernel_img_mul_12[34] <= 'd0
+    kernel_img_mul_12[35] <= 'd0
+    kernel_img_mul_12[36] <= 'd0
+    kernel_img_mul_12[37] <= 'd0
+    kernel_img_mul_12[38] <= 'd0
+    kernel_img_mul_12[39] <= 'd0
+    kernel_img_mul_12[40] <= 'd0
+    kernel_img_mul_12[41] <= 'd0
+    kernel_img_mul_12[42] <= 'd0
+    kernel_img_mul_12[43] <= 'd0
+    kernel_img_mul_12[44] <= 'd0
+    kernel_img_mul_12[45] <= 'd0
+    kernel_img_mul_12[46] <= 'd0
+    kernel_img_mul_12[47] <= 'd0
+    kernel_img_mul_12[48] <= 'd0
+  end
+  else if(current_state==ST_MUL) begin
+    kernel_img_mul_12[0] <= { {8{1'b0}},layer0[12][7:0]} * { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
+    kernel_img_mul_12[1] <= { {8{1'b0}},layer0[12][15:8]} * { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
+    kernel_img_mul_12[2] <= { {8{1'b0}},layer0[12][23:16]} * { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
+    kernel_img_mul_12[3] <= { {8{1'b0}},layer0[12][31:24]} * { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
+    kernel_img_mul_12[4] <= { {8{1'b0}},layer0[12][39:32]} * { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
+    kernel_img_mul_12[5] <= { {8{1'b0}},layer0[12][47:40]} * { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
+    kernel_img_mul_12[6] <= { {8{1'b0}},layer0[12][55:48]} * { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
+    kernel_img_mul_12[7] <= { {8{1'b0}},layer1[12][7:0]} * { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
+    kernel_img_mul_12[8] <= { {8{1'b0}},layer1[12][15:8]} * { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
+    kernel_img_mul_12[9] <= { {8{1'b0}},layer1[12][23:16]} * { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
+    kernel_img_mul_12[10] <= { {8{1'b0}},layer1[12][31:24]} * { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
+    kernel_img_mul_12[11] <= { {8{1'b0}},layer1[12][39:32]} * { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
+    kernel_img_mul_12[12] <= { {8{1'b0}},layer1[12][47:40]} * { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
+    kernel_img_mul_12[13] <= { {8{1'b0}},layer1[12][55:48]} * { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
+    kernel_img_mul_12[14] <= { {8{1'b0}},layer2[12][7:0]} * { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
+    kernel_img_mul_12[15] <= { {8{1'b0}},layer2[12][15:8]} * { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
+    kernel_img_mul_12[16] <= { {8{1'b0}},layer2[12][23:16]} * { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
+    kernel_img_mul_12[17] <= { {8{1'b0}},layer2[12][31:24]} * { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
+    kernel_img_mul_12[18] <= { {8{1'b0}},layer2[12][39:32]} * { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
+    kernel_img_mul_12[19] <= { {8{1'b0}},layer2[12][47:40]} * { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
+    kernel_img_mul_12[20] <= { {8{1'b0}},layer2[12][55:48]} * { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
+    kernel_img_mul_12[21] <= { {8{1'b0}},layer3[12][7:0]} * { {8{1'b0}}, G_Kernel_7x7[3][7:0]};
+    kernel_img_mul_12[22] <= { {8{1'b0}},layer3[12][15:8]} * { {8{1'b0}}, G_Kernel_7x7[3][15:8]};
+    kernel_img_mul_12[23] <= { {8{1'b0}},layer3[12][23:16]} * { {8{1'b0}}, G_Kernel_7x7[3][23:16]};
+    kernel_img_mul_12[24] <= { {8{1'b0}},layer3[12][31:24]} * { {8{1'b0}}, G_Kernel_7x7[3][31:24]};
+    kernel_img_mul_12[25] <= { {8{1'b0}},layer3[12][39:32]} * { {8{1'b0}}, G_Kernel_7x7[3][39:32]};
+    kernel_img_mul_12[26] <= { {8{1'b0}},layer3[12][47:40]} * { {8{1'b0}}, G_Kernel_7x7[3][47:40]};
+    kernel_img_mul_12[27] <= { {8{1'b0}},layer3[12][55:48]} * { {8{1'b0}}, G_Kernel_7x7[3][55:48]};
+    kernel_img_mul_12[28] <= { {8{1'b0}},layer4[12][7:0]} * { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
+    kernel_img_mul_12[29] <= { {8{1'b0}},layer4[12][15:8]} * { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
+    kernel_img_mul_12[30] <= { {8{1'b0}},layer4[12][23:16]} * { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
+    kernel_img_mul_12[31] <= { {8{1'b0}},layer4[12][31:24]} * { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
+    kernel_img_mul_12[32] <= { {8{1'b0}},layer4[12][39:32]} * { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
+    kernel_img_mul_12[33] <= { {8{1'b0}},layer4[12][47:40]} * { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
+    kernel_img_mul_12[34] <= { {8{1'b0}},layer4[12][55:48]} * { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
+    kernel_img_mul_12[35] <= { {8{1'b0}},layer5[12][7:0]} * { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
+    kernel_img_mul_12[36] <= { {8{1'b0}},layer5[12][15:8]} * { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
+    kernel_img_mul_12[37] <= { {8{1'b0}},layer5[12][23:16]} * { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
+    kernel_img_mul_12[38] <= { {8{1'b0}},layer5[12][31:24]} * { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
+    kernel_img_mul_12[39] <= { {8{1'b0}},layer5[12][39:32]} * { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
+    kernel_img_mul_12[40] <= { {8{1'b0}},layer5[12][47:40]} * { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
+    kernel_img_mul_12[41] <= { {8{1'b0}},layer5[12][55:48]} * { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
+    kernel_img_mul_12[42] <= { {8{1'b0}},layer6[12][7:0]} * { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
+    kernel_img_mul_12[43] <= { {8{1'b0}},layer6[12][15:8]} * { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
+    kernel_img_mul_12[44] <= { {8{1'b0}},layer6[12][23:16]} * { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
+    kernel_img_mul_12[45] <= { {8{1'b0}},layer6[12][31:24]} * { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
+    kernel_img_mul_12[46] <= { {8{1'b0}},layer6[12][39:32]} * { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
+    kernel_img_mul_12[47] <= { {8{1'b0}},layer6[12][47:40]} * { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
+    kernel_img_mul_12[48] <= { {8{1'b0}},layer6[12][55:48]} * { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
+  end
+end
+reg  [15:0]  kernel_img_sum_12;
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_sum_12 <= 'd0
+  end
+  else if(current_state==ST_ADD) begin
+    kernel_img_sum_12 <= kernel_img_mul_12[0] + kernel_img_mul_12[1] + kernel_img_mul_12[2] + 
                 kernel_img_mul_12[3] + kernel_img_mul_12[4] + kernel_img_mul_12[5] + 
                 kernel_img_mul_12[6] + kernel_img_mul_12[7] + kernel_img_mul_12[8] + 
                 kernel_img_mul_12[9] + kernel_img_mul_12[10] + kernel_img_mul_12[11] + 
@@ -33167,57 +33995,120 @@ wire  [15:0]  kernel_img_sum_12 = kernel_img_mul_12[0] + kernel_img_mul_12[1] + 
                 kernel_img_mul_12[42] + kernel_img_mul_12[43] + kernel_img_mul_12[44] + 
                 kernel_img_mul_12[45] + kernel_img_mul_12[46] + kernel_img_mul_12[47] + 
                 kernel_img_mul_12[48];
-wire  [15:0]  kernel_img_mul_13[0:48];
-assign kernel_img_mul_13[0] = { {8{1'b0}},layer0[13][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
-assign kernel_img_mul_13[1] = { {8{1'b0}},layer0[13][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
-assign kernel_img_mul_13[2] = { {8{1'b0}},layer0[13][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
-assign kernel_img_mul_13[3] = { {8{1'b0}},layer0[13][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
-assign kernel_img_mul_13[4] = { {8{1'b0}},layer0[13][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
-assign kernel_img_mul_13[5] = { {8{1'b0}},layer0[13][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
-assign kernel_img_mul_13[6] = { {8{1'b0}},layer0[13][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
-assign kernel_img_mul_13[7] = { {8{1'b0}},layer1[13][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
-assign kernel_img_mul_13[8] = { {8{1'b0}},layer1[13][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
-assign kernel_img_mul_13[9] = { {8{1'b0}},layer1[13][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
-assign kernel_img_mul_13[10] = { {8{1'b0}},layer1[13][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
-assign kernel_img_mul_13[11] = { {8{1'b0}},layer1[13][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
-assign kernel_img_mul_13[12] = { {8{1'b0}},layer1[13][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
-assign kernel_img_mul_13[13] = { {8{1'b0}},layer1[13][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
-assign kernel_img_mul_13[14] = { {8{1'b0}},layer2[13][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
-assign kernel_img_mul_13[15] = { {8{1'b0}},layer2[13][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
-assign kernel_img_mul_13[16] = { {8{1'b0}},layer2[13][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
-assign kernel_img_mul_13[17] = { {8{1'b0}},layer2[13][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
-assign kernel_img_mul_13[18] = { {8{1'b0}},layer2[13][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
-assign kernel_img_mul_13[19] = { {8{1'b0}},layer2[13][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
-assign kernel_img_mul_13[20] = { {8{1'b0}},layer2[13][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
-assign kernel_img_mul_13[21] = { {8{1'b0}},layer3[13][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[3][7:0]};
-assign kernel_img_mul_13[22] = { {8{1'b0}},layer3[13][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[3][15:8]};
-assign kernel_img_mul_13[23] = { {8{1'b0}},layer3[13][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[3][23:16]};
-assign kernel_img_mul_13[24] = { {8{1'b0}},layer3[13][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[3][31:24]};
-assign kernel_img_mul_13[25] = { {8{1'b0}},layer3[13][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[3][39:32]};
-assign kernel_img_mul_13[26] = { {8{1'b0}},layer3[13][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[3][47:40]};
-assign kernel_img_mul_13[27] = { {8{1'b0}},layer3[13][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[3][55:48]};
-assign kernel_img_mul_13[28] = { {8{1'b0}},layer4[13][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
-assign kernel_img_mul_13[29] = { {8{1'b0}},layer4[13][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
-assign kernel_img_mul_13[30] = { {8{1'b0}},layer4[13][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
-assign kernel_img_mul_13[31] = { {8{1'b0}},layer4[13][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
-assign kernel_img_mul_13[32] = { {8{1'b0}},layer4[13][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
-assign kernel_img_mul_13[33] = { {8{1'b0}},layer4[13][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
-assign kernel_img_mul_13[34] = { {8{1'b0}},layer4[13][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
-assign kernel_img_mul_13[35] = { {8{1'b0}},layer5[13][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
-assign kernel_img_mul_13[36] = { {8{1'b0}},layer5[13][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
-assign kernel_img_mul_13[37] = { {8{1'b0}},layer5[13][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
-assign kernel_img_mul_13[38] = { {8{1'b0}},layer5[13][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
-assign kernel_img_mul_13[39] = { {8{1'b0}},layer5[13][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
-assign kernel_img_mul_13[40] = { {8{1'b0}},layer5[13][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
-assign kernel_img_mul_13[41] = { {8{1'b0}},layer5[13][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
-assign kernel_img_mul_13[42] = { {8{1'b0}},layer6[13][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
-assign kernel_img_mul_13[43] = { {8{1'b0}},layer6[13][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
-assign kernel_img_mul_13[44] = { {8{1'b0}},layer6[13][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
-assign kernel_img_mul_13[45] = { {8{1'b0}},layer6[13][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
-assign kernel_img_mul_13[46] = { {8{1'b0}},layer6[13][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
-assign kernel_img_mul_13[47] = { {8{1'b0}},layer6[13][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
-assign kernel_img_mul_13[48] = { {8{1'b0}},layer6[13][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
-wire  [15:0]  kernel_img_sum_13 = kernel_img_mul_13[0] + kernel_img_mul_13[1] + kernel_img_mul_13[2] + 
+  end
+end
+reg  [15:0]  kernel_img_mul_13[0:48];
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_mul_13[0] <= 'd0
+    kernel_img_mul_13[1] <= 'd0
+    kernel_img_mul_13[2] <= 'd0
+    kernel_img_mul_13[3] <= 'd0
+    kernel_img_mul_13[4] <= 'd0
+    kernel_img_mul_13[5] <= 'd0
+    kernel_img_mul_13[6] <= 'd0
+    kernel_img_mul_13[7] <= 'd0
+    kernel_img_mul_13[8] <= 'd0
+    kernel_img_mul_13[9] <= 'd0
+    kernel_img_mul_13[10] <= 'd0
+    kernel_img_mul_13[11] <= 'd0
+    kernel_img_mul_13[12] <= 'd0
+    kernel_img_mul_13[13] <= 'd0
+    kernel_img_mul_13[14] <= 'd0
+    kernel_img_mul_13[15] <= 'd0
+    kernel_img_mul_13[16] <= 'd0
+    kernel_img_mul_13[17] <= 'd0
+    kernel_img_mul_13[18] <= 'd0
+    kernel_img_mul_13[19] <= 'd0
+    kernel_img_mul_13[20] <= 'd0
+    kernel_img_mul_13[21] <= 'd0
+    kernel_img_mul_13[22] <= 'd0
+    kernel_img_mul_13[23] <= 'd0
+    kernel_img_mul_13[24] <= 'd0
+    kernel_img_mul_13[25] <= 'd0
+    kernel_img_mul_13[26] <= 'd0
+    kernel_img_mul_13[27] <= 'd0
+    kernel_img_mul_13[28] <= 'd0
+    kernel_img_mul_13[29] <= 'd0
+    kernel_img_mul_13[30] <= 'd0
+    kernel_img_mul_13[31] <= 'd0
+    kernel_img_mul_13[32] <= 'd0
+    kernel_img_mul_13[33] <= 'd0
+    kernel_img_mul_13[34] <= 'd0
+    kernel_img_mul_13[35] <= 'd0
+    kernel_img_mul_13[36] <= 'd0
+    kernel_img_mul_13[37] <= 'd0
+    kernel_img_mul_13[38] <= 'd0
+    kernel_img_mul_13[39] <= 'd0
+    kernel_img_mul_13[40] <= 'd0
+    kernel_img_mul_13[41] <= 'd0
+    kernel_img_mul_13[42] <= 'd0
+    kernel_img_mul_13[43] <= 'd0
+    kernel_img_mul_13[44] <= 'd0
+    kernel_img_mul_13[45] <= 'd0
+    kernel_img_mul_13[46] <= 'd0
+    kernel_img_mul_13[47] <= 'd0
+    kernel_img_mul_13[48] <= 'd0
+  end
+  else if(current_state==ST_MUL) begin
+    kernel_img_mul_13[0] <= { {8{1'b0}},layer0[13][7:0]} * { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
+    kernel_img_mul_13[1] <= { {8{1'b0}},layer0[13][15:8]} * { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
+    kernel_img_mul_13[2] <= { {8{1'b0}},layer0[13][23:16]} * { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
+    kernel_img_mul_13[3] <= { {8{1'b0}},layer0[13][31:24]} * { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
+    kernel_img_mul_13[4] <= { {8{1'b0}},layer0[13][39:32]} * { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
+    kernel_img_mul_13[5] <= { {8{1'b0}},layer0[13][47:40]} * { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
+    kernel_img_mul_13[6] <= { {8{1'b0}},layer0[13][55:48]} * { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
+    kernel_img_mul_13[7] <= { {8{1'b0}},layer1[13][7:0]} * { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
+    kernel_img_mul_13[8] <= { {8{1'b0}},layer1[13][15:8]} * { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
+    kernel_img_mul_13[9] <= { {8{1'b0}},layer1[13][23:16]} * { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
+    kernel_img_mul_13[10] <= { {8{1'b0}},layer1[13][31:24]} * { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
+    kernel_img_mul_13[11] <= { {8{1'b0}},layer1[13][39:32]} * { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
+    kernel_img_mul_13[12] <= { {8{1'b0}},layer1[13][47:40]} * { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
+    kernel_img_mul_13[13] <= { {8{1'b0}},layer1[13][55:48]} * { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
+    kernel_img_mul_13[14] <= { {8{1'b0}},layer2[13][7:0]} * { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
+    kernel_img_mul_13[15] <= { {8{1'b0}},layer2[13][15:8]} * { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
+    kernel_img_mul_13[16] <= { {8{1'b0}},layer2[13][23:16]} * { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
+    kernel_img_mul_13[17] <= { {8{1'b0}},layer2[13][31:24]} * { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
+    kernel_img_mul_13[18] <= { {8{1'b0}},layer2[13][39:32]} * { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
+    kernel_img_mul_13[19] <= { {8{1'b0}},layer2[13][47:40]} * { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
+    kernel_img_mul_13[20] <= { {8{1'b0}},layer2[13][55:48]} * { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
+    kernel_img_mul_13[21] <= { {8{1'b0}},layer3[13][7:0]} * { {8{1'b0}}, G_Kernel_7x7[3][7:0]};
+    kernel_img_mul_13[22] <= { {8{1'b0}},layer3[13][15:8]} * { {8{1'b0}}, G_Kernel_7x7[3][15:8]};
+    kernel_img_mul_13[23] <= { {8{1'b0}},layer3[13][23:16]} * { {8{1'b0}}, G_Kernel_7x7[3][23:16]};
+    kernel_img_mul_13[24] <= { {8{1'b0}},layer3[13][31:24]} * { {8{1'b0}}, G_Kernel_7x7[3][31:24]};
+    kernel_img_mul_13[25] <= { {8{1'b0}},layer3[13][39:32]} * { {8{1'b0}}, G_Kernel_7x7[3][39:32]};
+    kernel_img_mul_13[26] <= { {8{1'b0}},layer3[13][47:40]} * { {8{1'b0}}, G_Kernel_7x7[3][47:40]};
+    kernel_img_mul_13[27] <= { {8{1'b0}},layer3[13][55:48]} * { {8{1'b0}}, G_Kernel_7x7[3][55:48]};
+    kernel_img_mul_13[28] <= { {8{1'b0}},layer4[13][7:0]} * { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
+    kernel_img_mul_13[29] <= { {8{1'b0}},layer4[13][15:8]} * { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
+    kernel_img_mul_13[30] <= { {8{1'b0}},layer4[13][23:16]} * { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
+    kernel_img_mul_13[31] <= { {8{1'b0}},layer4[13][31:24]} * { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
+    kernel_img_mul_13[32] <= { {8{1'b0}},layer4[13][39:32]} * { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
+    kernel_img_mul_13[33] <= { {8{1'b0}},layer4[13][47:40]} * { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
+    kernel_img_mul_13[34] <= { {8{1'b0}},layer4[13][55:48]} * { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
+    kernel_img_mul_13[35] <= { {8{1'b0}},layer5[13][7:0]} * { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
+    kernel_img_mul_13[36] <= { {8{1'b0}},layer5[13][15:8]} * { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
+    kernel_img_mul_13[37] <= { {8{1'b0}},layer5[13][23:16]} * { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
+    kernel_img_mul_13[38] <= { {8{1'b0}},layer5[13][31:24]} * { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
+    kernel_img_mul_13[39] <= { {8{1'b0}},layer5[13][39:32]} * { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
+    kernel_img_mul_13[40] <= { {8{1'b0}},layer5[13][47:40]} * { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
+    kernel_img_mul_13[41] <= { {8{1'b0}},layer5[13][55:48]} * { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
+    kernel_img_mul_13[42] <= { {8{1'b0}},layer6[13][7:0]} * { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
+    kernel_img_mul_13[43] <= { {8{1'b0}},layer6[13][15:8]} * { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
+    kernel_img_mul_13[44] <= { {8{1'b0}},layer6[13][23:16]} * { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
+    kernel_img_mul_13[45] <= { {8{1'b0}},layer6[13][31:24]} * { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
+    kernel_img_mul_13[46] <= { {8{1'b0}},layer6[13][39:32]} * { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
+    kernel_img_mul_13[47] <= { {8{1'b0}},layer6[13][47:40]} * { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
+    kernel_img_mul_13[48] <= { {8{1'b0}},layer6[13][55:48]} * { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
+  end
+end
+reg  [15:0]  kernel_img_sum_13;
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_sum_13 <= 'd0
+  end
+  else if(current_state==ST_ADD) begin
+    kernel_img_sum_13 <= kernel_img_mul_13[0] + kernel_img_mul_13[1] + kernel_img_mul_13[2] + 
                 kernel_img_mul_13[3] + kernel_img_mul_13[4] + kernel_img_mul_13[5] + 
                 kernel_img_mul_13[6] + kernel_img_mul_13[7] + kernel_img_mul_13[8] + 
                 kernel_img_mul_13[9] + kernel_img_mul_13[10] + kernel_img_mul_13[11] + 
@@ -33234,57 +34125,120 @@ wire  [15:0]  kernel_img_sum_13 = kernel_img_mul_13[0] + kernel_img_mul_13[1] + 
                 kernel_img_mul_13[42] + kernel_img_mul_13[43] + kernel_img_mul_13[44] + 
                 kernel_img_mul_13[45] + kernel_img_mul_13[46] + kernel_img_mul_13[47] + 
                 kernel_img_mul_13[48];
-wire  [15:0]  kernel_img_mul_14[0:48];
-assign kernel_img_mul_14[0] = { {8{1'b0}},layer0[14][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
-assign kernel_img_mul_14[1] = { {8{1'b0}},layer0[14][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
-assign kernel_img_mul_14[2] = { {8{1'b0}},layer0[14][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
-assign kernel_img_mul_14[3] = { {8{1'b0}},layer0[14][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
-assign kernel_img_mul_14[4] = { {8{1'b0}},layer0[14][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
-assign kernel_img_mul_14[5] = { {8{1'b0}},layer0[14][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
-assign kernel_img_mul_14[6] = { {8{1'b0}},layer0[14][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
-assign kernel_img_mul_14[7] = { {8{1'b0}},layer1[14][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
-assign kernel_img_mul_14[8] = { {8{1'b0}},layer1[14][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
-assign kernel_img_mul_14[9] = { {8{1'b0}},layer1[14][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
-assign kernel_img_mul_14[10] = { {8{1'b0}},layer1[14][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
-assign kernel_img_mul_14[11] = { {8{1'b0}},layer1[14][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
-assign kernel_img_mul_14[12] = { {8{1'b0}},layer1[14][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
-assign kernel_img_mul_14[13] = { {8{1'b0}},layer1[14][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
-assign kernel_img_mul_14[14] = { {8{1'b0}},layer2[14][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
-assign kernel_img_mul_14[15] = { {8{1'b0}},layer2[14][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
-assign kernel_img_mul_14[16] = { {8{1'b0}},layer2[14][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
-assign kernel_img_mul_14[17] = { {8{1'b0}},layer2[14][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
-assign kernel_img_mul_14[18] = { {8{1'b0}},layer2[14][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
-assign kernel_img_mul_14[19] = { {8{1'b0}},layer2[14][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
-assign kernel_img_mul_14[20] = { {8{1'b0}},layer2[14][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
-assign kernel_img_mul_14[21] = { {8{1'b0}},layer3[14][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[3][7:0]};
-assign kernel_img_mul_14[22] = { {8{1'b0}},layer3[14][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[3][15:8]};
-assign kernel_img_mul_14[23] = { {8{1'b0}},layer3[14][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[3][23:16]};
-assign kernel_img_mul_14[24] = { {8{1'b0}},layer3[14][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[3][31:24]};
-assign kernel_img_mul_14[25] = { {8{1'b0}},layer3[14][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[3][39:32]};
-assign kernel_img_mul_14[26] = { {8{1'b0}},layer3[14][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[3][47:40]};
-assign kernel_img_mul_14[27] = { {8{1'b0}},layer3[14][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[3][55:48]};
-assign kernel_img_mul_14[28] = { {8{1'b0}},layer4[14][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
-assign kernel_img_mul_14[29] = { {8{1'b0}},layer4[14][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
-assign kernel_img_mul_14[30] = { {8{1'b0}},layer4[14][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
-assign kernel_img_mul_14[31] = { {8{1'b0}},layer4[14][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
-assign kernel_img_mul_14[32] = { {8{1'b0}},layer4[14][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
-assign kernel_img_mul_14[33] = { {8{1'b0}},layer4[14][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
-assign kernel_img_mul_14[34] = { {8{1'b0}},layer4[14][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
-assign kernel_img_mul_14[35] = { {8{1'b0}},layer5[14][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
-assign kernel_img_mul_14[36] = { {8{1'b0}},layer5[14][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
-assign kernel_img_mul_14[37] = { {8{1'b0}},layer5[14][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
-assign kernel_img_mul_14[38] = { {8{1'b0}},layer5[14][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
-assign kernel_img_mul_14[39] = { {8{1'b0}},layer5[14][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
-assign kernel_img_mul_14[40] = { {8{1'b0}},layer5[14][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
-assign kernel_img_mul_14[41] = { {8{1'b0}},layer5[14][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
-assign kernel_img_mul_14[42] = { {8{1'b0}},layer6[14][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
-assign kernel_img_mul_14[43] = { {8{1'b0}},layer6[14][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
-assign kernel_img_mul_14[44] = { {8{1'b0}},layer6[14][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
-assign kernel_img_mul_14[45] = { {8{1'b0}},layer6[14][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
-assign kernel_img_mul_14[46] = { {8{1'b0}},layer6[14][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
-assign kernel_img_mul_14[47] = { {8{1'b0}},layer6[14][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
-assign kernel_img_mul_14[48] = { {8{1'b0}},layer6[14][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
-wire  [15:0]  kernel_img_sum_14 = kernel_img_mul_14[0] + kernel_img_mul_14[1] + kernel_img_mul_14[2] + 
+  end
+end
+reg  [15:0]  kernel_img_mul_14[0:48];
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_mul_14[0] <= 'd0
+    kernel_img_mul_14[1] <= 'd0
+    kernel_img_mul_14[2] <= 'd0
+    kernel_img_mul_14[3] <= 'd0
+    kernel_img_mul_14[4] <= 'd0
+    kernel_img_mul_14[5] <= 'd0
+    kernel_img_mul_14[6] <= 'd0
+    kernel_img_mul_14[7] <= 'd0
+    kernel_img_mul_14[8] <= 'd0
+    kernel_img_mul_14[9] <= 'd0
+    kernel_img_mul_14[10] <= 'd0
+    kernel_img_mul_14[11] <= 'd0
+    kernel_img_mul_14[12] <= 'd0
+    kernel_img_mul_14[13] <= 'd0
+    kernel_img_mul_14[14] <= 'd0
+    kernel_img_mul_14[15] <= 'd0
+    kernel_img_mul_14[16] <= 'd0
+    kernel_img_mul_14[17] <= 'd0
+    kernel_img_mul_14[18] <= 'd0
+    kernel_img_mul_14[19] <= 'd0
+    kernel_img_mul_14[20] <= 'd0
+    kernel_img_mul_14[21] <= 'd0
+    kernel_img_mul_14[22] <= 'd0
+    kernel_img_mul_14[23] <= 'd0
+    kernel_img_mul_14[24] <= 'd0
+    kernel_img_mul_14[25] <= 'd0
+    kernel_img_mul_14[26] <= 'd0
+    kernel_img_mul_14[27] <= 'd0
+    kernel_img_mul_14[28] <= 'd0
+    kernel_img_mul_14[29] <= 'd0
+    kernel_img_mul_14[30] <= 'd0
+    kernel_img_mul_14[31] <= 'd0
+    kernel_img_mul_14[32] <= 'd0
+    kernel_img_mul_14[33] <= 'd0
+    kernel_img_mul_14[34] <= 'd0
+    kernel_img_mul_14[35] <= 'd0
+    kernel_img_mul_14[36] <= 'd0
+    kernel_img_mul_14[37] <= 'd0
+    kernel_img_mul_14[38] <= 'd0
+    kernel_img_mul_14[39] <= 'd0
+    kernel_img_mul_14[40] <= 'd0
+    kernel_img_mul_14[41] <= 'd0
+    kernel_img_mul_14[42] <= 'd0
+    kernel_img_mul_14[43] <= 'd0
+    kernel_img_mul_14[44] <= 'd0
+    kernel_img_mul_14[45] <= 'd0
+    kernel_img_mul_14[46] <= 'd0
+    kernel_img_mul_14[47] <= 'd0
+    kernel_img_mul_14[48] <= 'd0
+  end
+  else if(current_state==ST_MUL) begin
+    kernel_img_mul_14[0] <= { {8{1'b0}},layer0[14][7:0]} * { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
+    kernel_img_mul_14[1] <= { {8{1'b0}},layer0[14][15:8]} * { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
+    kernel_img_mul_14[2] <= { {8{1'b0}},layer0[14][23:16]} * { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
+    kernel_img_mul_14[3] <= { {8{1'b0}},layer0[14][31:24]} * { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
+    kernel_img_mul_14[4] <= { {8{1'b0}},layer0[14][39:32]} * { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
+    kernel_img_mul_14[5] <= { {8{1'b0}},layer0[14][47:40]} * { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
+    kernel_img_mul_14[6] <= { {8{1'b0}},layer0[14][55:48]} * { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
+    kernel_img_mul_14[7] <= { {8{1'b0}},layer1[14][7:0]} * { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
+    kernel_img_mul_14[8] <= { {8{1'b0}},layer1[14][15:8]} * { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
+    kernel_img_mul_14[9] <= { {8{1'b0}},layer1[14][23:16]} * { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
+    kernel_img_mul_14[10] <= { {8{1'b0}},layer1[14][31:24]} * { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
+    kernel_img_mul_14[11] <= { {8{1'b0}},layer1[14][39:32]} * { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
+    kernel_img_mul_14[12] <= { {8{1'b0}},layer1[14][47:40]} * { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
+    kernel_img_mul_14[13] <= { {8{1'b0}},layer1[14][55:48]} * { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
+    kernel_img_mul_14[14] <= { {8{1'b0}},layer2[14][7:0]} * { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
+    kernel_img_mul_14[15] <= { {8{1'b0}},layer2[14][15:8]} * { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
+    kernel_img_mul_14[16] <= { {8{1'b0}},layer2[14][23:16]} * { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
+    kernel_img_mul_14[17] <= { {8{1'b0}},layer2[14][31:24]} * { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
+    kernel_img_mul_14[18] <= { {8{1'b0}},layer2[14][39:32]} * { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
+    kernel_img_mul_14[19] <= { {8{1'b0}},layer2[14][47:40]} * { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
+    kernel_img_mul_14[20] <= { {8{1'b0}},layer2[14][55:48]} * { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
+    kernel_img_mul_14[21] <= { {8{1'b0}},layer3[14][7:0]} * { {8{1'b0}}, G_Kernel_7x7[3][7:0]};
+    kernel_img_mul_14[22] <= { {8{1'b0}},layer3[14][15:8]} * { {8{1'b0}}, G_Kernel_7x7[3][15:8]};
+    kernel_img_mul_14[23] <= { {8{1'b0}},layer3[14][23:16]} * { {8{1'b0}}, G_Kernel_7x7[3][23:16]};
+    kernel_img_mul_14[24] <= { {8{1'b0}},layer3[14][31:24]} * { {8{1'b0}}, G_Kernel_7x7[3][31:24]};
+    kernel_img_mul_14[25] <= { {8{1'b0}},layer3[14][39:32]} * { {8{1'b0}}, G_Kernel_7x7[3][39:32]};
+    kernel_img_mul_14[26] <= { {8{1'b0}},layer3[14][47:40]} * { {8{1'b0}}, G_Kernel_7x7[3][47:40]};
+    kernel_img_mul_14[27] <= { {8{1'b0}},layer3[14][55:48]} * { {8{1'b0}}, G_Kernel_7x7[3][55:48]};
+    kernel_img_mul_14[28] <= { {8{1'b0}},layer4[14][7:0]} * { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
+    kernel_img_mul_14[29] <= { {8{1'b0}},layer4[14][15:8]} * { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
+    kernel_img_mul_14[30] <= { {8{1'b0}},layer4[14][23:16]} * { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
+    kernel_img_mul_14[31] <= { {8{1'b0}},layer4[14][31:24]} * { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
+    kernel_img_mul_14[32] <= { {8{1'b0}},layer4[14][39:32]} * { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
+    kernel_img_mul_14[33] <= { {8{1'b0}},layer4[14][47:40]} * { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
+    kernel_img_mul_14[34] <= { {8{1'b0}},layer4[14][55:48]} * { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
+    kernel_img_mul_14[35] <= { {8{1'b0}},layer5[14][7:0]} * { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
+    kernel_img_mul_14[36] <= { {8{1'b0}},layer5[14][15:8]} * { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
+    kernel_img_mul_14[37] <= { {8{1'b0}},layer5[14][23:16]} * { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
+    kernel_img_mul_14[38] <= { {8{1'b0}},layer5[14][31:24]} * { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
+    kernel_img_mul_14[39] <= { {8{1'b0}},layer5[14][39:32]} * { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
+    kernel_img_mul_14[40] <= { {8{1'b0}},layer5[14][47:40]} * { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
+    kernel_img_mul_14[41] <= { {8{1'b0}},layer5[14][55:48]} * { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
+    kernel_img_mul_14[42] <= { {8{1'b0}},layer6[14][7:0]} * { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
+    kernel_img_mul_14[43] <= { {8{1'b0}},layer6[14][15:8]} * { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
+    kernel_img_mul_14[44] <= { {8{1'b0}},layer6[14][23:16]} * { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
+    kernel_img_mul_14[45] <= { {8{1'b0}},layer6[14][31:24]} * { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
+    kernel_img_mul_14[46] <= { {8{1'b0}},layer6[14][39:32]} * { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
+    kernel_img_mul_14[47] <= { {8{1'b0}},layer6[14][47:40]} * { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
+    kernel_img_mul_14[48] <= { {8{1'b0}},layer6[14][55:48]} * { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
+  end
+end
+reg  [15:0]  kernel_img_sum_14;
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_sum_14 <= 'd0
+  end
+  else if(current_state==ST_ADD) begin
+    kernel_img_sum_14 <= kernel_img_mul_14[0] + kernel_img_mul_14[1] + kernel_img_mul_14[2] + 
                 kernel_img_mul_14[3] + kernel_img_mul_14[4] + kernel_img_mul_14[5] + 
                 kernel_img_mul_14[6] + kernel_img_mul_14[7] + kernel_img_mul_14[8] + 
                 kernel_img_mul_14[9] + kernel_img_mul_14[10] + kernel_img_mul_14[11] + 
@@ -33301,57 +34255,120 @@ wire  [15:0]  kernel_img_sum_14 = kernel_img_mul_14[0] + kernel_img_mul_14[1] + 
                 kernel_img_mul_14[42] + kernel_img_mul_14[43] + kernel_img_mul_14[44] + 
                 kernel_img_mul_14[45] + kernel_img_mul_14[46] + kernel_img_mul_14[47] + 
                 kernel_img_mul_14[48];
-wire  [15:0]  kernel_img_mul_15[0:48];
-assign kernel_img_mul_15[0] = { {8{1'b0}},layer0[15][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
-assign kernel_img_mul_15[1] = { {8{1'b0}},layer0[15][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
-assign kernel_img_mul_15[2] = { {8{1'b0}},layer0[15][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
-assign kernel_img_mul_15[3] = { {8{1'b0}},layer0[15][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
-assign kernel_img_mul_15[4] = { {8{1'b0}},layer0[15][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
-assign kernel_img_mul_15[5] = { {8{1'b0}},layer0[15][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
-assign kernel_img_mul_15[6] = { {8{1'b0}},layer0[15][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
-assign kernel_img_mul_15[7] = { {8{1'b0}},layer1[15][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
-assign kernel_img_mul_15[8] = { {8{1'b0}},layer1[15][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
-assign kernel_img_mul_15[9] = { {8{1'b0}},layer1[15][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
-assign kernel_img_mul_15[10] = { {8{1'b0}},layer1[15][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
-assign kernel_img_mul_15[11] = { {8{1'b0}},layer1[15][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
-assign kernel_img_mul_15[12] = { {8{1'b0}},layer1[15][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
-assign kernel_img_mul_15[13] = { {8{1'b0}},layer1[15][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
-assign kernel_img_mul_15[14] = { {8{1'b0}},layer2[15][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
-assign kernel_img_mul_15[15] = { {8{1'b0}},layer2[15][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
-assign kernel_img_mul_15[16] = { {8{1'b0}},layer2[15][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
-assign kernel_img_mul_15[17] = { {8{1'b0}},layer2[15][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
-assign kernel_img_mul_15[18] = { {8{1'b0}},layer2[15][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
-assign kernel_img_mul_15[19] = { {8{1'b0}},layer2[15][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
-assign kernel_img_mul_15[20] = { {8{1'b0}},layer2[15][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
-assign kernel_img_mul_15[21] = { {8{1'b0}},layer3[15][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[3][7:0]};
-assign kernel_img_mul_15[22] = { {8{1'b0}},layer3[15][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[3][15:8]};
-assign kernel_img_mul_15[23] = { {8{1'b0}},layer3[15][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[3][23:16]};
-assign kernel_img_mul_15[24] = { {8{1'b0}},layer3[15][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[3][31:24]};
-assign kernel_img_mul_15[25] = { {8{1'b0}},layer3[15][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[3][39:32]};
-assign kernel_img_mul_15[26] = { {8{1'b0}},layer3[15][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[3][47:40]};
-assign kernel_img_mul_15[27] = { {8{1'b0}},layer3[15][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[3][55:48]};
-assign kernel_img_mul_15[28] = { {8{1'b0}},layer4[15][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
-assign kernel_img_mul_15[29] = { {8{1'b0}},layer4[15][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
-assign kernel_img_mul_15[30] = { {8{1'b0}},layer4[15][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
-assign kernel_img_mul_15[31] = { {8{1'b0}},layer4[15][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
-assign kernel_img_mul_15[32] = { {8{1'b0}},layer4[15][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
-assign kernel_img_mul_15[33] = { {8{1'b0}},layer4[15][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
-assign kernel_img_mul_15[34] = { {8{1'b0}},layer4[15][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
-assign kernel_img_mul_15[35] = { {8{1'b0}},layer5[15][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
-assign kernel_img_mul_15[36] = { {8{1'b0}},layer5[15][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
-assign kernel_img_mul_15[37] = { {8{1'b0}},layer5[15][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
-assign kernel_img_mul_15[38] = { {8{1'b0}},layer5[15][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
-assign kernel_img_mul_15[39] = { {8{1'b0}},layer5[15][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
-assign kernel_img_mul_15[40] = { {8{1'b0}},layer5[15][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
-assign kernel_img_mul_15[41] = { {8{1'b0}},layer5[15][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
-assign kernel_img_mul_15[42] = { {8{1'b0}},layer6[15][7:0]} *  { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
-assign kernel_img_mul_15[43] = { {8{1'b0}},layer6[15][15:8]} *  { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
-assign kernel_img_mul_15[44] = { {8{1'b0}},layer6[15][23:16]} *  { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
-assign kernel_img_mul_15[45] = { {8{1'b0}},layer6[15][31:24]} *  { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
-assign kernel_img_mul_15[46] = { {8{1'b0}},layer6[15][39:32]} *  { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
-assign kernel_img_mul_15[47] = { {8{1'b0}},layer6[15][47:40]} *  { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
-assign kernel_img_mul_15[48] = { {8{1'b0}},layer6[15][55:48]} *  { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
-wire  [15:0]  kernel_img_sum_15 = kernel_img_mul_15[0] + kernel_img_mul_15[1] + kernel_img_mul_15[2] + 
+  end
+end
+reg  [15:0]  kernel_img_mul_15[0:48];
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_mul_15[0] <= 'd0
+    kernel_img_mul_15[1] <= 'd0
+    kernel_img_mul_15[2] <= 'd0
+    kernel_img_mul_15[3] <= 'd0
+    kernel_img_mul_15[4] <= 'd0
+    kernel_img_mul_15[5] <= 'd0
+    kernel_img_mul_15[6] <= 'd0
+    kernel_img_mul_15[7] <= 'd0
+    kernel_img_mul_15[8] <= 'd0
+    kernel_img_mul_15[9] <= 'd0
+    kernel_img_mul_15[10] <= 'd0
+    kernel_img_mul_15[11] <= 'd0
+    kernel_img_mul_15[12] <= 'd0
+    kernel_img_mul_15[13] <= 'd0
+    kernel_img_mul_15[14] <= 'd0
+    kernel_img_mul_15[15] <= 'd0
+    kernel_img_mul_15[16] <= 'd0
+    kernel_img_mul_15[17] <= 'd0
+    kernel_img_mul_15[18] <= 'd0
+    kernel_img_mul_15[19] <= 'd0
+    kernel_img_mul_15[20] <= 'd0
+    kernel_img_mul_15[21] <= 'd0
+    kernel_img_mul_15[22] <= 'd0
+    kernel_img_mul_15[23] <= 'd0
+    kernel_img_mul_15[24] <= 'd0
+    kernel_img_mul_15[25] <= 'd0
+    kernel_img_mul_15[26] <= 'd0
+    kernel_img_mul_15[27] <= 'd0
+    kernel_img_mul_15[28] <= 'd0
+    kernel_img_mul_15[29] <= 'd0
+    kernel_img_mul_15[30] <= 'd0
+    kernel_img_mul_15[31] <= 'd0
+    kernel_img_mul_15[32] <= 'd0
+    kernel_img_mul_15[33] <= 'd0
+    kernel_img_mul_15[34] <= 'd0
+    kernel_img_mul_15[35] <= 'd0
+    kernel_img_mul_15[36] <= 'd0
+    kernel_img_mul_15[37] <= 'd0
+    kernel_img_mul_15[38] <= 'd0
+    kernel_img_mul_15[39] <= 'd0
+    kernel_img_mul_15[40] <= 'd0
+    kernel_img_mul_15[41] <= 'd0
+    kernel_img_mul_15[42] <= 'd0
+    kernel_img_mul_15[43] <= 'd0
+    kernel_img_mul_15[44] <= 'd0
+    kernel_img_mul_15[45] <= 'd0
+    kernel_img_mul_15[46] <= 'd0
+    kernel_img_mul_15[47] <= 'd0
+    kernel_img_mul_15[48] <= 'd0
+  end
+  else if(current_state==ST_MUL) begin
+    kernel_img_mul_15[0] <= { {8{1'b0}},layer0[15][7:0]} * { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
+    kernel_img_mul_15[1] <= { {8{1'b0}},layer0[15][15:8]} * { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
+    kernel_img_mul_15[2] <= { {8{1'b0}},layer0[15][23:16]} * { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
+    kernel_img_mul_15[3] <= { {8{1'b0}},layer0[15][31:24]} * { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
+    kernel_img_mul_15[4] <= { {8{1'b0}},layer0[15][39:32]} * { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
+    kernel_img_mul_15[5] <= { {8{1'b0}},layer0[15][47:40]} * { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
+    kernel_img_mul_15[6] <= { {8{1'b0}},layer0[15][55:48]} * { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
+    kernel_img_mul_15[7] <= { {8{1'b0}},layer1[15][7:0]} * { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
+    kernel_img_mul_15[8] <= { {8{1'b0}},layer1[15][15:8]} * { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
+    kernel_img_mul_15[9] <= { {8{1'b0}},layer1[15][23:16]} * { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
+    kernel_img_mul_15[10] <= { {8{1'b0}},layer1[15][31:24]} * { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
+    kernel_img_mul_15[11] <= { {8{1'b0}},layer1[15][39:32]} * { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
+    kernel_img_mul_15[12] <= { {8{1'b0}},layer1[15][47:40]} * { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
+    kernel_img_mul_15[13] <= { {8{1'b0}},layer1[15][55:48]} * { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
+    kernel_img_mul_15[14] <= { {8{1'b0}},layer2[15][7:0]} * { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
+    kernel_img_mul_15[15] <= { {8{1'b0}},layer2[15][15:8]} * { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
+    kernel_img_mul_15[16] <= { {8{1'b0}},layer2[15][23:16]} * { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
+    kernel_img_mul_15[17] <= { {8{1'b0}},layer2[15][31:24]} * { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
+    kernel_img_mul_15[18] <= { {8{1'b0}},layer2[15][39:32]} * { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
+    kernel_img_mul_15[19] <= { {8{1'b0}},layer2[15][47:40]} * { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
+    kernel_img_mul_15[20] <= { {8{1'b0}},layer2[15][55:48]} * { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
+    kernel_img_mul_15[21] <= { {8{1'b0}},layer3[15][7:0]} * { {8{1'b0}}, G_Kernel_7x7[3][7:0]};
+    kernel_img_mul_15[22] <= { {8{1'b0}},layer3[15][15:8]} * { {8{1'b0}}, G_Kernel_7x7[3][15:8]};
+    kernel_img_mul_15[23] <= { {8{1'b0}},layer3[15][23:16]} * { {8{1'b0}}, G_Kernel_7x7[3][23:16]};
+    kernel_img_mul_15[24] <= { {8{1'b0}},layer3[15][31:24]} * { {8{1'b0}}, G_Kernel_7x7[3][31:24]};
+    kernel_img_mul_15[25] <= { {8{1'b0}},layer3[15][39:32]} * { {8{1'b0}}, G_Kernel_7x7[3][39:32]};
+    kernel_img_mul_15[26] <= { {8{1'b0}},layer3[15][47:40]} * { {8{1'b0}}, G_Kernel_7x7[3][47:40]};
+    kernel_img_mul_15[27] <= { {8{1'b0}},layer3[15][55:48]} * { {8{1'b0}}, G_Kernel_7x7[3][55:48]};
+    kernel_img_mul_15[28] <= { {8{1'b0}},layer4[15][7:0]} * { {8{1'b0}}, G_Kernel_7x7[2][7:0]};
+    kernel_img_mul_15[29] <= { {8{1'b0}},layer4[15][15:8]} * { {8{1'b0}}, G_Kernel_7x7[2][15:8]};
+    kernel_img_mul_15[30] <= { {8{1'b0}},layer4[15][23:16]} * { {8{1'b0}}, G_Kernel_7x7[2][23:16]};
+    kernel_img_mul_15[31] <= { {8{1'b0}},layer4[15][31:24]} * { {8{1'b0}}, G_Kernel_7x7[2][31:24]};
+    kernel_img_mul_15[32] <= { {8{1'b0}},layer4[15][39:32]} * { {8{1'b0}}, G_Kernel_7x7[2][39:32]};
+    kernel_img_mul_15[33] <= { {8{1'b0}},layer4[15][47:40]} * { {8{1'b0}}, G_Kernel_7x7[2][47:40]};
+    kernel_img_mul_15[34] <= { {8{1'b0}},layer4[15][55:48]} * { {8{1'b0}}, G_Kernel_7x7[2][55:48]};
+    kernel_img_mul_15[35] <= { {8{1'b0}},layer5[15][7:0]} * { {8{1'b0}}, G_Kernel_7x7[1][7:0]};
+    kernel_img_mul_15[36] <= { {8{1'b0}},layer5[15][15:8]} * { {8{1'b0}}, G_Kernel_7x7[1][15:8]};
+    kernel_img_mul_15[37] <= { {8{1'b0}},layer5[15][23:16]} * { {8{1'b0}}, G_Kernel_7x7[1][23:16]};
+    kernel_img_mul_15[38] <= { {8{1'b0}},layer5[15][31:24]} * { {8{1'b0}}, G_Kernel_7x7[1][31:24]};
+    kernel_img_mul_15[39] <= { {8{1'b0}},layer5[15][39:32]} * { {8{1'b0}}, G_Kernel_7x7[1][39:32]};
+    kernel_img_mul_15[40] <= { {8{1'b0}},layer5[15][47:40]} * { {8{1'b0}}, G_Kernel_7x7[1][47:40]};
+    kernel_img_mul_15[41] <= { {8{1'b0}},layer5[15][55:48]} * { {8{1'b0}}, G_Kernel_7x7[1][55:48]};
+    kernel_img_mul_15[42] <= { {8{1'b0}},layer6[15][7:0]} * { {8{1'b0}}, G_Kernel_7x7[0][7:0]};
+    kernel_img_mul_15[43] <= { {8{1'b0}},layer6[15][15:8]} * { {8{1'b0}}, G_Kernel_7x7[0][15:8]};
+    kernel_img_mul_15[44] <= { {8{1'b0}},layer6[15][23:16]} * { {8{1'b0}}, G_Kernel_7x7[0][23:16]};
+    kernel_img_mul_15[45] <= { {8{1'b0}},layer6[15][31:24]} * { {8{1'b0}}, G_Kernel_7x7[0][31:24]};
+    kernel_img_mul_15[46] <= { {8{1'b0}},layer6[15][39:32]} * { {8{1'b0}}, G_Kernel_7x7[0][39:32]};
+    kernel_img_mul_15[47] <= { {8{1'b0}},layer6[15][47:40]} * { {8{1'b0}}, G_Kernel_7x7[0][47:40]};
+    kernel_img_mul_15[48] <= { {8{1'b0}},layer6[15][55:48]} * { {8{1'b0}}, G_Kernel_7x7[0][55:48]};
+  end
+end
+reg  [15:0]  kernel_img_sum_15;
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_sum_15 <= 'd0
+  end
+  else if(current_state==ST_ADD) begin
+    kernel_img_sum_15 <= kernel_img_mul_15[0] + kernel_img_mul_15[1] + kernel_img_mul_15[2] + 
                 kernel_img_mul_15[3] + kernel_img_mul_15[4] + kernel_img_mul_15[5] + 
                 kernel_img_mul_15[6] + kernel_img_mul_15[7] + kernel_img_mul_15[8] + 
                 kernel_img_mul_15[9] + kernel_img_mul_15[10] + kernel_img_mul_15[11] + 
@@ -33368,24 +34385,82 @@ wire  [15:0]  kernel_img_sum_15 = kernel_img_mul_15[0] + kernel_img_mul_15[1] + 
                 kernel_img_mul_15[42] + kernel_img_mul_15[43] + kernel_img_mul_15[44] + 
                 kernel_img_mul_15[45] + kernel_img_mul_15[46] + kernel_img_mul_15[47] + 
                 kernel_img_mul_15[48];
-always @(*) begin
-    blur_out[7:0] = kernel_img_sum_0[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[15:8] = kernel_img_sum_1[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[23:16] = kernel_img_sum_2[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[31:24] = kernel_img_sum_3[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[39:32] = kernel_img_sum_4[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[47:40] = kernel_img_sum_5[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[55:48] = kernel_img_sum_6[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[63:56] = kernel_img_sum_7[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[71:64] = kernel_img_sum_8[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[79:72] = kernel_img_sum_9[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[87:80] = kernel_img_sum_10[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[95:88] = kernel_img_sum_11[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[103:96] = kernel_img_sum_12[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[111:104] = kernel_img_sum_13[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[119:112] = kernel_img_sum_14[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[127:120] = kernel_img_sum_15[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+  end
+end
+always @(posedge clk) begin
+  if(!rst_n) begin
+    blur_out[7:0] <= 'd0;
+    blur_out[15:8] <= 'd0;
+    blur_out[23:16] <= 'd0;
+    blur_out[31:24] <= 'd0;
+    blur_out[39:32] <= 'd0;
+    blur_out[47:40] <= 'd0;
+    blur_out[55:48] <= 'd0;
+    blur_out[63:56] <= 'd0;
+    blur_out[71:64] <= 'd0;
+    blur_out[79:72] <= 'd0;
+    blur_out[87:80] <= 'd0;
+    blur_out[95:88] <= 'd0;
+    blur_out[103:96] <= 'd0;
+    blur_out[111:104] <= 'd0;
+    blur_out[119:112] <= 'd0;
+    blur_out[127:120] <= 'd0;
+  end
+  else if(current_state==ST_UPDATE) begin
+    blur_out[7:0] <= kernel_img_sum_0[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[15:8] <= kernel_img_sum_1[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[23:16] <= kernel_img_sum_2[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[31:24] <= kernel_img_sum_3[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[39:32] <= kernel_img_sum_4[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[47:40] <= kernel_img_sum_5[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[55:48] <= kernel_img_sum_6[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[63:56] <= kernel_img_sum_7[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[71:64] <= kernel_img_sum_8[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[79:72] <= kernel_img_sum_9[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[87:80] <= kernel_img_sum_10[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[95:88] <= kernel_img_sum_11[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[103:96] <= kernel_img_sum_12[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[111:104] <= kernel_img_sum_13[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[119:112] <= kernel_img_sum_14[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[127:120] <= kernel_img_sum_15[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+  end
 end
 
+/*
+ *  FSM
+ *
+ */
+always @(posedge clk) begin
+  if (!rst_n) begin
+    current_state <= ST_MUL;    
+  end
+  else begin
+    current_state <= next_state;
+  end
+end
+always @(*) begin
+  case(current_state)
+    ST_MUL: begin
+      if(start)
+        next_state = ST_ADD;
+      else
+        next_state = ST_MUL;
+    end
+    ST_ADD: begin
+      if(current_state==ST_ADD)
+        next_state = ST_UPDATE;
+      else 
+        next_state = ST_ADD;
+    end
+    ST_UPDATE: begin
+      if(current_state==ST_UPDATE)
+        next_state = ST_MUL;
+      else 
+        next_state = ST_UPDATE;
+    end
+    default:
+      next_state = ST_MUL;
+  endcase
+end
 
 endmodule
