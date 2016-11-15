@@ -161,7 +161,7 @@ end
 always @(posedge clk) begin
   if (!rst_n) 
     fill_zero <= 1'b0;
-  else if (current_state==ST_NEXT_ROW && blur_addr_w_3=='d480) // is a subset, thus must happen before the cond. below
+  else if (current_state==ST_UPDATE && blur_addr_w_3=='d480) // is a subset, thus must happen before the cond. below
     fill_zero <= 1'b0;    
   else if ((current_state==ST_NEXT_ROW || current_state==ST_G_BLUR || current_state==ST_UPDATE) && img_addr=='d480) 
     fill_zero <= 1'b1;
