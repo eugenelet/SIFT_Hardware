@@ -7,9 +7,13 @@ module compareDist(//combinational
     matched_MEM,
     WE,
     matched_MEM_din,
-    firstImgGrp
+    firstImgGrp,
+    clk,
+    rst_n
 );
 
+    input               clk;
+    input               rst_n;
     input       [383:0] tar;
     input       [402:0] img0,
                         img1,
@@ -80,24 +84,32 @@ module compareDist(//combinational
     //////////////////////////////
     
     computeDistance u_computeDistance_0( //dist0
+        .clk        (clk),
+        .rst_n      (rst_n),
         .A          (tar),
         .B          (img0[383:0]),
         .distance   (dist0)
     );
     
     computeDistance u_computeDistance_1( //dist1
+        .clk        (clk),
+        .rst_n      (rst_n),
         .A          (tar),
         .B          (img1[383:0]),
         .distance   (dist1)
     );
     
     computeDistance u_computeDistance_2( //dist2
+        .clk        (clk),
+        .rst_n      (rst_n),
         .A          (tar),
         .B          (img2[383:0]),
         .distance   (dist2)
     );
     
     computeDistance u_computeDistance_3( //dist3
+        .clk        (clk),
+        .rst_n      (rst_n),
         .A          (tar),
         .B          (img3[383:0]),
         .distance   (dist3)

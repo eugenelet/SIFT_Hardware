@@ -103,9 +103,9 @@ module match(
     assign done                 = (cs == ST_DONE)? 1'b1 : 1'b0;
     assign descriptor_request   = (cs == ST_SEND_REQUEST)? 1'b1 : 1'b0;
     assign tar_addr             = tar_group_counter;
-    assign matched_addr_2       = tar_group_counter;
+    assign matched_addr_2       = tar_group_counter - 1'b1;
     //assign matched_WE           = (cs == ST_READ_COMPUTE)? matched_WE_fake : 4'b0000;
-    assign matched_addr_1       = tar_group_counter - 2'b10;
+    assign matched_addr_1       = tar_group_counter - 2'b11;
     assign img_descpt_group_num = kpt_num / 4;
     assign firstImgGrp_FLAG      = img_group_counter == 'd1;
     
@@ -120,7 +120,9 @@ module match(
         .matched_MEM    (matched_dout2_FF_0),
         .WE             (matched_WE_fake[0]),
         .matched_MEM_din(matched_din_0),
-        .firstImgGrp    (firstImgGrp_FLAG)
+        .firstImgGrp    (firstImgGrp_FLAG),
+        .clk            (clk),
+        .rst_n          (rst_n)
     );
     
     compareDist u_compareDist_1(//(combinational) matched_WE_fake[1], matched_din_1
@@ -132,7 +134,9 @@ module match(
         .matched_MEM    (matched_dout2_FF_1),
         .WE             (matched_WE_fake[1]),
         .matched_MEM_din(matched_din_1),
-        .firstImgGrp    (firstImgGrp_FLAG)
+        .firstImgGrp    (firstImgGrp_FLAG),
+        .clk            (clk),
+        .rst_n          (rst_n)
     );
     
     compareDist u_compareDist_2(//(combinational) matched_WE_fake[2], matched_din_2
@@ -144,7 +148,9 @@ module match(
         .matched_MEM    (matched_dout2_FF_2),
         .WE             (matched_WE_fake[2]),
         .matched_MEM_din(matched_din_2),
-        .firstImgGrp    (firstImgGrp_FLAG)
+        .firstImgGrp    (firstImgGrp_FLAG),
+        .clk            (clk),
+        .rst_n          (rst_n)
     );
     
     compareDist u_compareDist_3(//(combinational) matched_WE_fake[3], matched_din_3
@@ -156,7 +162,9 @@ module match(
         .matched_MEM    (matched_dout2_FF_3),
         .WE             (matched_WE_fake[3]),
         .matched_MEM_din(matched_din_3),
-        .firstImgGrp    (firstImgGrp_FLAG)
+        .firstImgGrp    (firstImgGrp_FLAG),
+        .clk            (clk),
+        .rst_n          (rst_n)
     );
     
     //////////////////////////////
@@ -291,9 +299,9 @@ module match(
             ST_READING_ONLY:
                 ns = ST_READ_COMPUTE;
             ST_READ_COMPUTE:
-                if((tar_group_counter-1'b1 == tar_group_num) && (img_group_counter!=img_group_num))//scan all T but still has image
+                if((tar_group_counter-2'b10 == tar_group_num) && (img_group_counter!=img_group_num))//scan all T but still has image
                     ns = ST_SEND_REQUEST;
-                else if((tar_group_counter-1'b1 == tar_group_num) && (img_group_counter==img_group_num))//scan all T and no image
+                else if((tar_group_counter-2'b10 == tar_group_num) && (img_group_counter==img_group_num))//scan all T and no image
                     ns = ST_DONE;
                 else//hasn't yet scan all T
                     ns = ST_READ_COMPUTE;

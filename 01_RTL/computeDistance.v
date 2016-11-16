@@ -1,12 +1,20 @@
 module computeDistance(//combinational,should have m * n copies
+    clk,
+    rst_n,
     A,//each dim is an integer(12 bit)
     B,
     distance
 );
 
+    input               clk;
+    input               rst_n;
     input       [383:0] A;//(12 bit) * (32 dim)
     input       [383:0] B;
     output      [14:0]  distance;
+    
+    //////////////////////////////
+    
+    reg     [14:0]  itmdaResult1, itmdaResult2;
     
     //////////////////////////////
     
@@ -54,12 +62,41 @@ module computeDistance(//combinational,should have m * n copies
     assign dim31 = (A[371:360] > B[371:360])? A[371:360] - B[371:360] : B[371:360] - A[371:360];
     assign dim32 = (A[383:372] > B[383:372])? A[383:372] - B[383:372] : B[383:372] - A[383:372];
     
-    assign distance = dim01 + dim02 + dim03 + dim04 + dim05 +
-                      dim06 + dim07 + dim08 + dim09 + dim10 +
-                      dim11 + dim12 + dim13 + dim14 + dim15 +
-                      dim16 + dim17 + dim18 + dim19 + dim20 +
-                      dim21 + dim22 + dim23 + dim24 + dim25 +
-                      dim26 + dim27 + dim28 + dim29 + dim30 +
-                      dim31 + dim32;
+    //assign distance = dim01 + dim02 + dim03 + dim04 + dim05 +
+    //                  dim06 + dim07 + dim08 + dim09 + dim10 +
+    //                  dim11 + dim12 + dim13 + dim14 + dim15 +
+    //                  dim16 + dim17 + dim18 + dim19 + dim20 +
+    //                  dim21 + dim22 + dim23 + dim24 + dim25 +
+    //                  dim26 + dim27 + dim28 + dim29 + dim30 +
+    //                  dim31 + dim32;
+    
+    assign distance = itmdaResult1 + itmdaResult2;
+    
+    //////////////////////////////
+    
+    always @(posedge clk) begin //itmdaResult1
+    
+        if(!rst_n)
+            itmdaResult1 <= 'd0;
+        else
+            itmdaResult1 <= dim01 + dim02 + dim03 + dim04 + dim05 +
+                            dim06 + dim07 + dim08 + dim09 + dim10 +
+                            dim11 + dim12 + dim13 + dim14 + dim15 +
+                            dim16;
+    
+    end
+    
+    always @(posedge clk) begin //itmdaResult2
+    
+        if(!rst_n)
+            itmdaResult2 <= 'd0;
+        else
+            itmdaResult2 <= dim17 + dim18 + dim19 + dim20 +
+                            dim21 + dim22 + dim23 + dim24 + dim25 +
+                            dim26 + dim27 + dim28 + dim29 + dim30 +
+                            dim31 + dim32;
+    
+    end
+    
                       
 endmodule
