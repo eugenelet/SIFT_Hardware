@@ -133,7 +133,7 @@ reg   g_blur_start;
 always @(posedge clk) begin
   if (!rst_n)
     g_blur_start <= 0;    
-  else if ((current_state==ST_NEXT_COL || current_state==ST_FIRST_COL)&&col_relay==2 || current_state==ST_UPDATE)
+  else if ((current_state==ST_NEXT_COL || current_state==ST_FIRST_COL)&&col_relay==2 || (current_state==ST_UPDATE && blur_addr_w_3!='d480))
     g_blur_start <= 1;
   else
     g_blur_start <= 0;
