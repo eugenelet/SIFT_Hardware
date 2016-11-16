@@ -1,4 +1,3 @@
-`timescale 1ns/10ps
 module Line_Buffer_10(
   clk,
   rst_n,
