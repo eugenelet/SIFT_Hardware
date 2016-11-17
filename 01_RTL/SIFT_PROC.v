@@ -1,5 +1,5 @@
 `timescale 1ns/10ps
-module CORE(
+module SIFT_PROC(
     clk,
     rst_n,
     start,

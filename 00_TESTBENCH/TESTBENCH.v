@@ -21,7 +21,7 @@ parameter ST_IDLE       = 0,
 
 initial begin
   `ifdef GATE
-    $sdf_annotate("CORE_syn.sdf",u_core);
+    $sdf_annotate("CORE_syn.sdf",u_sift_proc);
   `endif
   `ifdef POST
     $sdf_annotate("CHIP.sdf",u_chip);
@@ -83,7 +83,7 @@ initial clk = 0;
 always #(`CLK_PERIOD/2) clk = ~clk;
 
 
-CORE u_core(
+SIFT_PROC u_sift_proc(
     .clk              (clk),
     .rst_n            (rst_n),
     .start            (start),
@@ -155,7 +155,7 @@ initial begin
   /* Write Target SRAM */
   targetFile = $fopen("targetRowColDespt.txt", "r");
   rc = $fscanf(targetFile, "%d", targetKptNum);
-  u_core.tar_descpt_group_num = targetKptNum/4;
+  u_sift_proc.tar_descpt_group_num = targetKptNum/4;
   target_0_we = 0;
   target_1_we = 0;
   target_2_we = 0;
@@ -347,7 +347,7 @@ initial begin
 
   /* Compute cycle count for Gaussian*/
   cycleCount = 0;
-  while(!u_core.gaussian_done[0]) begin
+  while(!u_sift_proc.gaussian_done[0]) begin
     @(negedge clk);
     cycleCount = cycleCount + 1;
   end
@@ -360,11 +360,11 @@ initial begin
   blur3x3_ans  = $fopen("blurredImgs1.txt","r");
   for(i=0;i<`ROWS;i=i+1) begin
     for(j=1;j<=`COLS;j=j+1) begin
-      $fwrite(blur3x3,"%d ",u_core.blur_img_0.mem[i][j*8-1-:8]);
+      $fwrite(blur3x3,"%d ",u_sift_proc.blur_img_0.mem[i][j*8-1-:8]);
       dummy = $fscanf(blur3x3_ans,"%d",tmp);
-      if(u_core.blur_img_0.mem[i][j*8-1-:8] != tmp) begin
-        error = u_core.blur_img_0.mem[i][j*8-1-:8] - tmp;
-        $fwrite(errorFile, "3x3 i:%d j:%d wrong value:%d correct value:%d error:%d\n", i, j, u_core.blur_img_0.mem[i][j*8-1-:8], tmp, error);
+      if(u_sift_proc.blur_img_0.mem[i][j*8-1-:8] != tmp) begin
+        error = u_sift_proc.blur_img_0.mem[i][j*8-1-:8] - tmp;
+        $fwrite(errorFile, "3x3 i:%d j:%d wrong value:%d correct value:%d error:%d\n", i, j, u_sift_proc.blur_img_0.mem[i][j*8-1-:8], tmp, error);
       end
     end
     $fwrite(blur3x3,"\n",);
@@ -376,11 +376,11 @@ initial begin
   blur5x5_1_ans  = $fopen("blurredImgs2.txt","r");
   for(i=0;i<`ROWS;i=i+1) begin
     for(j=1;j<=`COLS;j=j+1) begin
-      $fwrite(blur5x5_1,"%d ",u_core.blur_img_1.mem[i][j*8-1-:8]);
+      $fwrite(blur5x5_1,"%d ",u_sift_proc.blur_img_1.mem[i][j*8-1-:8]);
       dummy = $fscanf(blur5x5_1_ans,"%d",tmp);
-      if(u_core.blur_img_1.mem[i][j*8-1-:8] != tmp) begin
-        error = u_core.blur_img_1.mem[i][j*8-1-:8] - tmp;
-        $fwrite(errorFile, "5x5_1 i:%d j:%d wrong value:%d correct value:%d error:%d\n", i, j, u_core.blur_img_1.mem[i][j*8-1-:8], tmp, error);
+      if(u_sift_proc.blur_img_1.mem[i][j*8-1-:8] != tmp) begin
+        error = u_sift_proc.blur_img_1.mem[i][j*8-1-:8] - tmp;
+        $fwrite(errorFile, "5x5_1 i:%d j:%d wrong value:%d correct value:%d error:%d\n", i, j, u_sift_proc.blur_img_1.mem[i][j*8-1-:8], tmp, error);
       end
     end
     $fwrite(blur5x5_1,"\n",);
@@ -392,11 +392,11 @@ initial begin
   blur5x5_2_ans  = $fopen("blurredImgs3.txt","r");
   for(i=0;i<`ROWS;i=i+1) begin
     for(j=1;j<=`COLS;j=j+1) begin
-      $fwrite(blur5x5_2,"%d ",u_core.blur_img_2.mem[i][j*8-1-:8]);
+      $fwrite(blur5x5_2,"%d ",u_sift_proc.blur_img_2.mem[i][j*8-1-:8]);
       dummy = $fscanf(blur5x5_2_ans,"%d",tmp);
-      if(u_core.blur_img_2.mem[i][j*8-1-:8] != tmp) begin
-        error = u_core.blur_img_2.mem[i][j*8-1-:8] - tmp;
-        $fwrite(errorFile, "5x5_2 i:%d j:%d wrong value:%d correct value:%d error:%d\n", i, j, u_core.blur_img_2.mem[i][j*8-1-:8], tmp, error);
+      if(u_sift_proc.blur_img_2.mem[i][j*8-1-:8] != tmp) begin
+        error = u_sift_proc.blur_img_2.mem[i][j*8-1-:8] - tmp;
+        $fwrite(errorFile, "5x5_2 i:%d j:%d wrong value:%d correct value:%d error:%d\n", i, j, u_sift_proc.blur_img_2.mem[i][j*8-1-:8], tmp, error);
       end
     end
     $fwrite(blur5x5_2,"\n",);
@@ -408,11 +408,11 @@ initial begin
   blur7x7_ans  = $fopen("blurredImgs4.txt","r");
   for(i=0;i<`ROWS;i=i+1) begin
     for(j=1;j<=`COLS;j=j+1) begin
-      $fwrite(blur7x7,"%d ",u_core.blur_img_3.mem[i][j*8-1-:8]);
+      $fwrite(blur7x7,"%d ",u_sift_proc.blur_img_3.mem[i][j*8-1-:8]);
       dummy = $fscanf(blur7x7_ans,"%d",tmp);
-      if(u_core.blur_img_3.mem[i][j*8-1-:8] != tmp) begin
-        error = u_core.blur_img_3.mem[i][j*8-1-:8] - tmp;
-        $fwrite(errorFile, "7x7 i:%d j:%d wrong value:%d correct value:%d error:%d\n", i, j, u_core.blur_img_3.mem[i][j*8-1-:8], tmp, error);
+      if(u_sift_proc.blur_img_3.mem[i][j*8-1-:8] != tmp) begin
+        error = u_sift_proc.blur_img_3.mem[i][j*8-1-:8] - tmp;
+        $fwrite(errorFile, "7x7 i:%d j:%d wrong value:%d correct value:%d error:%d\n", i, j, u_sift_proc.blur_img_3.mem[i][j*8-1-:8], tmp, error);
       end
     end
     $fwrite(blur7x7,"\n",);
@@ -429,14 +429,14 @@ initial begin
   filterCount = 0;
   detectCount = 0;
   kp_count = 0;
-  while(!u_core.detect_filter_done) begin
+  while(!u_sift_proc.detect_filter_done) begin
     @(negedge clk);
     cycleCount = cycleCount + 1;
-    if(u_core.u_detect_filter_keypoints.current_state == ST_FILTER)
+    if(u_sift_proc.u_detect_filter_keypoints.current_state == ST_FILTER)
       filterCount = filterCount + 1;
-    if(u_core.u_detect_filter_keypoints.current_state == ST_DETECT)
+    if(u_sift_proc.u_detect_filter_keypoints.current_state == ST_DETECT)
       detectCount = detectCount + 1;
-    if(u_core.u_detect_filter_keypoints.current_state==ST_FILTER)
+    if(u_sift_proc.u_detect_filter_keypoints.current_state==ST_FILTER)
       kp_count = kp_count + 1;
   end
 
@@ -451,15 +451,15 @@ initial begin
   kp_errorFile = $fopen("kp_error.txt", "w");
   kpt_total_ans = $fopen("keypoint.txt", "r");
   kpt_total = $fopen("kpt_RTL.txt", "w");
-  for(i=0; i < u_core.u_detect_filter_keypoints.keypoint_addr; i=i+1) 
-    $fwrite(kpt_total, "%d %d %d\n", u_core.keypoint_mem.mem[i][19], u_core.keypoint_mem.mem[i][18:10], u_core.keypoint_mem.mem[i][9:0]);
+  for(i=0; i < u_sift_proc.u_detect_filter_keypoints.keypoint_addr; i=i+1) 
+    $fwrite(kpt_total, "%d %d %d\n", u_sift_proc.keypoint_mem.mem[i][19], u_sift_proc.keypoint_mem.mem[i][18:10], u_sift_proc.keypoint_mem.mem[i][9:0]);
 
   while (!$feof(kpt_total_ans)) begin
     dummy = $fscanf(kpt_total_ans,"%d",ans1);
     dummy = $fscanf(kpt_total_ans,"%d",ans2);
     dummy = $fscanf(kpt_total_ans,"%d",ans3);
-    for(i=0; i < u_core.u_detect_filter_keypoints.keypoint_addr; i=i+1) 
-      if (u_core.keypoint_mem.mem[i][19]==ans1 && u_core.keypoint_mem.mem[i][18:10]==ans2 && u_core.keypoint_mem.mem[i][9:0]==ans3)
+    for(i=0; i < u_sift_proc.u_detect_filter_keypoints.keypoint_addr; i=i+1) 
+      if (u_sift_proc.keypoint_mem.mem[i][19]==ans1 && u_sift_proc.keypoint_mem.mem[i][18:10]==ans2 && u_sift_proc.keypoint_mem.mem[i][9:0]==ans3)
         match = 1;
     if (match == 1)
       match = 0;
@@ -474,8 +474,8 @@ initial begin
 
 
   cycleCount = 0;
-  while(!u_core.compute_match_done) begin
-      // $display("kpt_addr : %d", u_core.kpt_addr);
+  while(!u_sift_proc.compute_match_done) begin
+      // $display("kpt_addr : %d", u_sift_proc.kpt_addr);
       @(negedge clk);
       cycleCount = cycleCount + 1;
   end

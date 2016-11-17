@@ -195,18 +195,6 @@ end
 
 wire[9:0] current_col = buffer_col << 'd4; // mul 16
 
-/*
-always @(posedge clk) begin
-  if (!rst_n) 
-    current_col <= 'd8;    
-  else if (  (current_state==ST_FILTER && keypoint_layer_1_empty && keypoint_layer_2_empty) ||
-             (current_state==ST_NO_FILTER && keypoint_layer_1_empty && keypoint_layer_2_empty) ||
-             (current_state==ST_DETECT && !(|is_keypoint_0) && !(|is_keypoint_1)) && /*if no keypoints found*/
-             // current_col < 'd631/*'d639*/) 
-    // current_col <= current_col + 'd64;
-  // else if (current_state==ST_UPDATE || current_state==ST_IDLE)
-    // current_col <= 'd8;
-// end*/
 
 wire[175:0] img_dout_buffer;
 wire[175:0] blur3x3_dout_buffer;
