@@ -34639,9 +34639,15 @@ always @(*) begin
     end
     ST_ADD3: begin
       if(current_state==ST_ADD3)
-        next_state = ST_UPDATE;
+        next_state = ST_ADD4;
       else 
         next_state = ST_ADD3;
+    end
+    ST_ADD4: begin
+      if(current_state==ST_ADD4)
+        next_state = ST_UPDATE;
+      else 
+        next_state = ST_ADD4;
     end
     ST_UPDATE: begin
       if(current_state==ST_UPDATE)
