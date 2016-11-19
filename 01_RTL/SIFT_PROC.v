@@ -1,4 +1,3 @@
-`timescale 1ns/10ps
 module SIFT_PROC(
     clk,
     rst_n,
