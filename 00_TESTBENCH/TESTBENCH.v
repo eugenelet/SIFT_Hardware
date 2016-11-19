@@ -10,14 +10,13 @@ module TESTBENCH();
 
 /*Module FSM*/
 parameter ST_IDLE       = 0,
-          ST_READY      = 1,/*Idle 1 state for SRAM to get READY*/
-          ST_DETECT     = 2,
-          ST_NO_FILTER  = 3,
-          ST_FILTER     = 4,
-          ST_UPDATE     = 5,/*Grants a cycle to update MEM addr*/
-          ST_BUFFER     = 6;/*Grants buffer a cycle to update*/
-
-
+          ST_FIRST_COL  = 1,/*Idle 1 state for SRAM to get READY*/
+          ST_PRE_DETECT = 2,/*Buffers data from SRAM*/
+          ST_DETECT     = 3,/*Includes switching of row*/
+          ST_NO_FILTER  = 4,/*Includes switching of row*/
+          ST_FILTER     = 5,/*Includes switching of row*/
+          ST_NEXT_COL   = 6,/*Grants 3 cycle to update MEM addr for next column*/
+          ST_BUFFER     = 7;/*Grants buffer a cycle to update*/
 
 initial begin
   `ifdef GATE
