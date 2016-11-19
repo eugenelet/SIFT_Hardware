@@ -29,7 +29,8 @@ parameter  ST_MUL         = 0,
            ST_ADD2        = 2,
            ST_ADD3        = 3,
            ST_ADD4        = 4,
-           ST_UPDATE      = 5;
+           ST_ADD5        = 5,
+           ST_UPDATE      = 6;
 reg     [2:0] current_state,
               next_state;
 assign done = (current_state==ST_UPDATE) ? 1 : 0;
@@ -16608,12 +16609,14 @@ reg  [15:0]  kernel_img_sum_1_0;
 reg  [15:0]  kernel_img_sum_2_0;
 reg  [15:0]  kernel_img_sum_3_0;
 reg  [15:0]  kernel_img_sum_4_0;
+reg  [15:0]  kernel_img_sum_5_0;
+reg  [15:0]  kernel_img_sum_6_0;
 always@(posedge clk) begin
   if(!rst_n) begin
     kernel_img_sum_1_0 <= 'd0;
   end
   else if(current_state==ST_ADD1) begin
-    kernel_img_sum_1_0 <= kernel_img_mul_0[0] + kernel_img_mul_0[1] + kernel_img_mul_0[2] + kernel_img_mul_0[3] + kernel_img_mul_0[4] + kernel_img_mul_0[5] + kernel_img_mul_0[6];
+    kernel_img_sum_1_0 <= kernel_img_mul_0[0] + kernel_img_mul_0[1] + kernel_img_mul_0[2] + kernel_img_mul_0[3] + kernel_img_mul_0[4];
   end
 end
 always@(posedge clk) begin
@@ -16621,7 +16624,7 @@ always@(posedge clk) begin
     kernel_img_sum_2_0 <= 'd0;
   end
   else if(current_state==ST_ADD2) begin
-    kernel_img_sum_2_0 <= kernel_img_sum_1_0 + kernel_img_mul_0[7] + kernel_img_mul_0[8] + kernel_img_mul_0[9] + kernel_img_mul_0[10] + kernel_img_mul_0[11] + kernel_img_mul_0[12];
+    kernel_img_sum_2_0 <= kernel_img_sum_1_0 + kernel_img_mul_0[5] + kernel_img_mul_0[6] + kernel_img_mul_0[7] + kernel_img_mul_0[8];
   end
 end
 always@(posedge clk) begin
@@ -16629,7 +16632,7 @@ always@(posedge clk) begin
     kernel_img_sum_3_0 <= 'd0;
   end
   else if(current_state==ST_ADD3) begin
-    kernel_img_sum_3_0 <= kernel_img_sum_2_0 + kernel_img_mul_0[13] + kernel_img_mul_0[14] + kernel_img_mul_0[15] + kernel_img_mul_0[16] + kernel_img_mul_0[17] + kernel_img_mul_0[18];
+    kernel_img_sum_3_0 <= kernel_img_sum_2_0 + kernel_img_mul_0[9] + kernel_img_mul_0[10] + kernel_img_mul_0[11] + kernel_img_mul_0[12];
   end
 end
 always@(posedge clk) begin
@@ -16637,8 +16640,19 @@ always@(posedge clk) begin
     kernel_img_sum_4_0 <= 'd0;
   end
   else if(current_state==ST_ADD4) begin
-    kernel_img_sum_4_0 <= kernel_img_sum_3_0 + kernel_img_mul_0[19] + kernel_img_mul_0[20] + kernel_img_mul_0[21] + kernel_img_mul_0[22] + kernel_img_mul_0[23] + kernel_img_mul_0[24];
+    kernel_img_sum_4_0 <= kernel_img_sum_3_0 + kernel_img_mul_0[13] + kernel_img_mul_0[14] + kernel_img_mul_0[15] + kernel_img_mul_0[16];
   end
+end
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_sum_5_0 <= 'd0;
+  end
+  else if(current_state==ST_ADD5) begin
+    kernel_img_sum_5_0 <= kernel_img_sum_4_0 + kernel_img_mul_0[17] + kernel_img_mul_0[18] + kernel_img_mul_0[19] + kernel_img_mul_0[20];
+  end
+end
+always@(*) begin
+  kernel_img_sum_6_0 = kernel_img_sum_5_0 + kernel_img_mul_0[21] + kernel_img_mul_0[22] + kernel_img_mul_0[23] + kernel_img_mul_0[24];
 end
 reg  [15:0]  kernel_img_mul_1[0:24];
 always@(posedge clk) begin
@@ -16701,12 +16715,14 @@ reg  [15:0]  kernel_img_sum_1_1;
 reg  [15:0]  kernel_img_sum_2_1;
 reg  [15:0]  kernel_img_sum_3_1;
 reg  [15:0]  kernel_img_sum_4_1;
+reg  [15:0]  kernel_img_sum_5_1;
+reg  [15:0]  kernel_img_sum_6_1;
 always@(posedge clk) begin
   if(!rst_n) begin
     kernel_img_sum_1_1 <= 'd0;
   end
   else if(current_state==ST_ADD1) begin
-    kernel_img_sum_1_1 <= kernel_img_mul_1[0] + kernel_img_mul_1[1] + kernel_img_mul_1[2] + kernel_img_mul_1[3] + kernel_img_mul_1[4] + kernel_img_mul_1[5] + kernel_img_mul_1[6];
+    kernel_img_sum_1_1 <= kernel_img_mul_1[0] + kernel_img_mul_1[1] + kernel_img_mul_1[2] + kernel_img_mul_1[3] + kernel_img_mul_1[4];
   end
 end
 always@(posedge clk) begin
@@ -16714,7 +16730,7 @@ always@(posedge clk) begin
     kernel_img_sum_2_1 <= 'd0;
   end
   else if(current_state==ST_ADD2) begin
-    kernel_img_sum_2_1 <= kernel_img_sum_1_1 + kernel_img_mul_1[7] + kernel_img_mul_1[8] + kernel_img_mul_1[9] + kernel_img_mul_1[10] + kernel_img_mul_1[11] + kernel_img_mul_1[12];
+    kernel_img_sum_2_1 <= kernel_img_sum_1_1 + kernel_img_mul_1[5] + kernel_img_mul_1[6] + kernel_img_mul_1[7] + kernel_img_mul_1[8];
   end
 end
 always@(posedge clk) begin
@@ -16722,7 +16738,7 @@ always@(posedge clk) begin
     kernel_img_sum_3_1 <= 'd0;
   end
   else if(current_state==ST_ADD3) begin
-    kernel_img_sum_3_1 <= kernel_img_sum_2_1 + kernel_img_mul_1[13] + kernel_img_mul_1[14] + kernel_img_mul_1[15] + kernel_img_mul_1[16] + kernel_img_mul_1[17] + kernel_img_mul_1[18];
+    kernel_img_sum_3_1 <= kernel_img_sum_2_1 + kernel_img_mul_1[9] + kernel_img_mul_1[10] + kernel_img_mul_1[11] + kernel_img_mul_1[12];
   end
 end
 always@(posedge clk) begin
@@ -16730,8 +16746,19 @@ always@(posedge clk) begin
     kernel_img_sum_4_1 <= 'd0;
   end
   else if(current_state==ST_ADD4) begin
-    kernel_img_sum_4_1 <= kernel_img_sum_3_1 + kernel_img_mul_1[19] + kernel_img_mul_1[20] + kernel_img_mul_1[21] + kernel_img_mul_1[22] + kernel_img_mul_1[23] + kernel_img_mul_1[24];
+    kernel_img_sum_4_1 <= kernel_img_sum_3_1 + kernel_img_mul_1[13] + kernel_img_mul_1[14] + kernel_img_mul_1[15] + kernel_img_mul_1[16];
   end
+end
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_sum_5_1 <= 'd0;
+  end
+  else if(current_state==ST_ADD5) begin
+    kernel_img_sum_5_1 <= kernel_img_sum_4_1 + kernel_img_mul_1[17] + kernel_img_mul_1[18] + kernel_img_mul_1[19] + kernel_img_mul_1[20];
+  end
+end
+always@(*) begin
+  kernel_img_sum_6_1 = kernel_img_sum_5_1 + kernel_img_mul_1[21] + kernel_img_mul_1[22] + kernel_img_mul_1[23] + kernel_img_mul_1[24];
 end
 reg  [15:0]  kernel_img_mul_2[0:24];
 always@(posedge clk) begin
@@ -16794,12 +16821,14 @@ reg  [15:0]  kernel_img_sum_1_2;
 reg  [15:0]  kernel_img_sum_2_2;
 reg  [15:0]  kernel_img_sum_3_2;
 reg  [15:0]  kernel_img_sum_4_2;
+reg  [15:0]  kernel_img_sum_5_2;
+reg  [15:0]  kernel_img_sum_6_2;
 always@(posedge clk) begin
   if(!rst_n) begin
     kernel_img_sum_1_2 <= 'd0;
   end
   else if(current_state==ST_ADD1) begin
-    kernel_img_sum_1_2 <= kernel_img_mul_2[0] + kernel_img_mul_2[1] + kernel_img_mul_2[2] + kernel_img_mul_2[3] + kernel_img_mul_2[4] + kernel_img_mul_2[5] + kernel_img_mul_2[6];
+    kernel_img_sum_1_2 <= kernel_img_mul_2[0] + kernel_img_mul_2[1] + kernel_img_mul_2[2] + kernel_img_mul_2[3] + kernel_img_mul_2[4];
   end
 end
 always@(posedge clk) begin
@@ -16807,7 +16836,7 @@ always@(posedge clk) begin
     kernel_img_sum_2_2 <= 'd0;
   end
   else if(current_state==ST_ADD2) begin
-    kernel_img_sum_2_2 <= kernel_img_sum_1_2 + kernel_img_mul_2[7] + kernel_img_mul_2[8] + kernel_img_mul_2[9] + kernel_img_mul_2[10] + kernel_img_mul_2[11] + kernel_img_mul_2[12];
+    kernel_img_sum_2_2 <= kernel_img_sum_1_2 + kernel_img_mul_2[5] + kernel_img_mul_2[6] + kernel_img_mul_2[7] + kernel_img_mul_2[8];
   end
 end
 always@(posedge clk) begin
@@ -16815,7 +16844,7 @@ always@(posedge clk) begin
     kernel_img_sum_3_2 <= 'd0;
   end
   else if(current_state==ST_ADD3) begin
-    kernel_img_sum_3_2 <= kernel_img_sum_2_2 + kernel_img_mul_2[13] + kernel_img_mul_2[14] + kernel_img_mul_2[15] + kernel_img_mul_2[16] + kernel_img_mul_2[17] + kernel_img_mul_2[18];
+    kernel_img_sum_3_2 <= kernel_img_sum_2_2 + kernel_img_mul_2[9] + kernel_img_mul_2[10] + kernel_img_mul_2[11] + kernel_img_mul_2[12];
   end
 end
 always@(posedge clk) begin
@@ -16823,8 +16852,19 @@ always@(posedge clk) begin
     kernel_img_sum_4_2 <= 'd0;
   end
   else if(current_state==ST_ADD4) begin
-    kernel_img_sum_4_2 <= kernel_img_sum_3_2 + kernel_img_mul_2[19] + kernel_img_mul_2[20] + kernel_img_mul_2[21] + kernel_img_mul_2[22] + kernel_img_mul_2[23] + kernel_img_mul_2[24];
+    kernel_img_sum_4_2 <= kernel_img_sum_3_2 + kernel_img_mul_2[13] + kernel_img_mul_2[14] + kernel_img_mul_2[15] + kernel_img_mul_2[16];
   end
+end
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_sum_5_2 <= 'd0;
+  end
+  else if(current_state==ST_ADD5) begin
+    kernel_img_sum_5_2 <= kernel_img_sum_4_2 + kernel_img_mul_2[17] + kernel_img_mul_2[18] + kernel_img_mul_2[19] + kernel_img_mul_2[20];
+  end
+end
+always@(*) begin
+  kernel_img_sum_6_2 = kernel_img_sum_5_2 + kernel_img_mul_2[21] + kernel_img_mul_2[22] + kernel_img_mul_2[23] + kernel_img_mul_2[24];
 end
 reg  [15:0]  kernel_img_mul_3[0:24];
 always@(posedge clk) begin
@@ -16887,12 +16927,14 @@ reg  [15:0]  kernel_img_sum_1_3;
 reg  [15:0]  kernel_img_sum_2_3;
 reg  [15:0]  kernel_img_sum_3_3;
 reg  [15:0]  kernel_img_sum_4_3;
+reg  [15:0]  kernel_img_sum_5_3;
+reg  [15:0]  kernel_img_sum_6_3;
 always@(posedge clk) begin
   if(!rst_n) begin
     kernel_img_sum_1_3 <= 'd0;
   end
   else if(current_state==ST_ADD1) begin
-    kernel_img_sum_1_3 <= kernel_img_mul_3[0] + kernel_img_mul_3[1] + kernel_img_mul_3[2] + kernel_img_mul_3[3] + kernel_img_mul_3[4] + kernel_img_mul_3[5] + kernel_img_mul_3[6];
+    kernel_img_sum_1_3 <= kernel_img_mul_3[0] + kernel_img_mul_3[1] + kernel_img_mul_3[2] + kernel_img_mul_3[3] + kernel_img_mul_3[4];
   end
 end
 always@(posedge clk) begin
@@ -16900,7 +16942,7 @@ always@(posedge clk) begin
     kernel_img_sum_2_3 <= 'd0;
   end
   else if(current_state==ST_ADD2) begin
-    kernel_img_sum_2_3 <= kernel_img_sum_1_3 + kernel_img_mul_3[7] + kernel_img_mul_3[8] + kernel_img_mul_3[9] + kernel_img_mul_3[10] + kernel_img_mul_3[11] + kernel_img_mul_3[12];
+    kernel_img_sum_2_3 <= kernel_img_sum_1_3 + kernel_img_mul_3[5] + kernel_img_mul_3[6] + kernel_img_mul_3[7] + kernel_img_mul_3[8];
   end
 end
 always@(posedge clk) begin
@@ -16908,7 +16950,7 @@ always@(posedge clk) begin
     kernel_img_sum_3_3 <= 'd0;
   end
   else if(current_state==ST_ADD3) begin
-    kernel_img_sum_3_3 <= kernel_img_sum_2_3 + kernel_img_mul_3[13] + kernel_img_mul_3[14] + kernel_img_mul_3[15] + kernel_img_mul_3[16] + kernel_img_mul_3[17] + kernel_img_mul_3[18];
+    kernel_img_sum_3_3 <= kernel_img_sum_2_3 + kernel_img_mul_3[9] + kernel_img_mul_3[10] + kernel_img_mul_3[11] + kernel_img_mul_3[12];
   end
 end
 always@(posedge clk) begin
@@ -16916,8 +16958,19 @@ always@(posedge clk) begin
     kernel_img_sum_4_3 <= 'd0;
   end
   else if(current_state==ST_ADD4) begin
-    kernel_img_sum_4_3 <= kernel_img_sum_3_3 + kernel_img_mul_3[19] + kernel_img_mul_3[20] + kernel_img_mul_3[21] + kernel_img_mul_3[22] + kernel_img_mul_3[23] + kernel_img_mul_3[24];
+    kernel_img_sum_4_3 <= kernel_img_sum_3_3 + kernel_img_mul_3[13] + kernel_img_mul_3[14] + kernel_img_mul_3[15] + kernel_img_mul_3[16];
   end
+end
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_sum_5_3 <= 'd0;
+  end
+  else if(current_state==ST_ADD5) begin
+    kernel_img_sum_5_3 <= kernel_img_sum_4_3 + kernel_img_mul_3[17] + kernel_img_mul_3[18] + kernel_img_mul_3[19] + kernel_img_mul_3[20];
+  end
+end
+always@(*) begin
+  kernel_img_sum_6_3 = kernel_img_sum_5_3 + kernel_img_mul_3[21] + kernel_img_mul_3[22] + kernel_img_mul_3[23] + kernel_img_mul_3[24];
 end
 reg  [15:0]  kernel_img_mul_4[0:24];
 always@(posedge clk) begin
@@ -16980,12 +17033,14 @@ reg  [15:0]  kernel_img_sum_1_4;
 reg  [15:0]  kernel_img_sum_2_4;
 reg  [15:0]  kernel_img_sum_3_4;
 reg  [15:0]  kernel_img_sum_4_4;
+reg  [15:0]  kernel_img_sum_5_4;
+reg  [15:0]  kernel_img_sum_6_4;
 always@(posedge clk) begin
   if(!rst_n) begin
     kernel_img_sum_1_4 <= 'd0;
   end
   else if(current_state==ST_ADD1) begin
-    kernel_img_sum_1_4 <= kernel_img_mul_4[0] + kernel_img_mul_4[1] + kernel_img_mul_4[2] + kernel_img_mul_4[3] + kernel_img_mul_4[4] + kernel_img_mul_4[5] + kernel_img_mul_4[6];
+    kernel_img_sum_1_4 <= kernel_img_mul_4[0] + kernel_img_mul_4[1] + kernel_img_mul_4[2] + kernel_img_mul_4[3] + kernel_img_mul_4[4];
   end
 end
 always@(posedge clk) begin
@@ -16993,7 +17048,7 @@ always@(posedge clk) begin
     kernel_img_sum_2_4 <= 'd0;
   end
   else if(current_state==ST_ADD2) begin
-    kernel_img_sum_2_4 <= kernel_img_sum_1_4 + kernel_img_mul_4[7] + kernel_img_mul_4[8] + kernel_img_mul_4[9] + kernel_img_mul_4[10] + kernel_img_mul_4[11] + kernel_img_mul_4[12];
+    kernel_img_sum_2_4 <= kernel_img_sum_1_4 + kernel_img_mul_4[5] + kernel_img_mul_4[6] + kernel_img_mul_4[7] + kernel_img_mul_4[8];
   end
 end
 always@(posedge clk) begin
@@ -17001,7 +17056,7 @@ always@(posedge clk) begin
     kernel_img_sum_3_4 <= 'd0;
   end
   else if(current_state==ST_ADD3) begin
-    kernel_img_sum_3_4 <= kernel_img_sum_2_4 + kernel_img_mul_4[13] + kernel_img_mul_4[14] + kernel_img_mul_4[15] + kernel_img_mul_4[16] + kernel_img_mul_4[17] + kernel_img_mul_4[18];
+    kernel_img_sum_3_4 <= kernel_img_sum_2_4 + kernel_img_mul_4[9] + kernel_img_mul_4[10] + kernel_img_mul_4[11] + kernel_img_mul_4[12];
   end
 end
 always@(posedge clk) begin
@@ -17009,8 +17064,19 @@ always@(posedge clk) begin
     kernel_img_sum_4_4 <= 'd0;
   end
   else if(current_state==ST_ADD4) begin
-    kernel_img_sum_4_4 <= kernel_img_sum_3_4 + kernel_img_mul_4[19] + kernel_img_mul_4[20] + kernel_img_mul_4[21] + kernel_img_mul_4[22] + kernel_img_mul_4[23] + kernel_img_mul_4[24];
+    kernel_img_sum_4_4 <= kernel_img_sum_3_4 + kernel_img_mul_4[13] + kernel_img_mul_4[14] + kernel_img_mul_4[15] + kernel_img_mul_4[16];
   end
+end
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_sum_5_4 <= 'd0;
+  end
+  else if(current_state==ST_ADD5) begin
+    kernel_img_sum_5_4 <= kernel_img_sum_4_4 + kernel_img_mul_4[17] + kernel_img_mul_4[18] + kernel_img_mul_4[19] + kernel_img_mul_4[20];
+  end
+end
+always@(*) begin
+  kernel_img_sum_6_4 = kernel_img_sum_5_4 + kernel_img_mul_4[21] + kernel_img_mul_4[22] + kernel_img_mul_4[23] + kernel_img_mul_4[24];
 end
 reg  [15:0]  kernel_img_mul_5[0:24];
 always@(posedge clk) begin
@@ -17073,12 +17139,14 @@ reg  [15:0]  kernel_img_sum_1_5;
 reg  [15:0]  kernel_img_sum_2_5;
 reg  [15:0]  kernel_img_sum_3_5;
 reg  [15:0]  kernel_img_sum_4_5;
+reg  [15:0]  kernel_img_sum_5_5;
+reg  [15:0]  kernel_img_sum_6_5;
 always@(posedge clk) begin
   if(!rst_n) begin
     kernel_img_sum_1_5 <= 'd0;
   end
   else if(current_state==ST_ADD1) begin
-    kernel_img_sum_1_5 <= kernel_img_mul_5[0] + kernel_img_mul_5[1] + kernel_img_mul_5[2] + kernel_img_mul_5[3] + kernel_img_mul_5[4] + kernel_img_mul_5[5] + kernel_img_mul_5[6];
+    kernel_img_sum_1_5 <= kernel_img_mul_5[0] + kernel_img_mul_5[1] + kernel_img_mul_5[2] + kernel_img_mul_5[3] + kernel_img_mul_5[4];
   end
 end
 always@(posedge clk) begin
@@ -17086,7 +17154,7 @@ always@(posedge clk) begin
     kernel_img_sum_2_5 <= 'd0;
   end
   else if(current_state==ST_ADD2) begin
-    kernel_img_sum_2_5 <= kernel_img_sum_1_5 + kernel_img_mul_5[7] + kernel_img_mul_5[8] + kernel_img_mul_5[9] + kernel_img_mul_5[10] + kernel_img_mul_5[11] + kernel_img_mul_5[12];
+    kernel_img_sum_2_5 <= kernel_img_sum_1_5 + kernel_img_mul_5[5] + kernel_img_mul_5[6] + kernel_img_mul_5[7] + kernel_img_mul_5[8];
   end
 end
 always@(posedge clk) begin
@@ -17094,7 +17162,7 @@ always@(posedge clk) begin
     kernel_img_sum_3_5 <= 'd0;
   end
   else if(current_state==ST_ADD3) begin
-    kernel_img_sum_3_5 <= kernel_img_sum_2_5 + kernel_img_mul_5[13] + kernel_img_mul_5[14] + kernel_img_mul_5[15] + kernel_img_mul_5[16] + kernel_img_mul_5[17] + kernel_img_mul_5[18];
+    kernel_img_sum_3_5 <= kernel_img_sum_2_5 + kernel_img_mul_5[9] + kernel_img_mul_5[10] + kernel_img_mul_5[11] + kernel_img_mul_5[12];
   end
 end
 always@(posedge clk) begin
@@ -17102,8 +17170,19 @@ always@(posedge clk) begin
     kernel_img_sum_4_5 <= 'd0;
   end
   else if(current_state==ST_ADD4) begin
-    kernel_img_sum_4_5 <= kernel_img_sum_3_5 + kernel_img_mul_5[19] + kernel_img_mul_5[20] + kernel_img_mul_5[21] + kernel_img_mul_5[22] + kernel_img_mul_5[23] + kernel_img_mul_5[24];
+    kernel_img_sum_4_5 <= kernel_img_sum_3_5 + kernel_img_mul_5[13] + kernel_img_mul_5[14] + kernel_img_mul_5[15] + kernel_img_mul_5[16];
   end
+end
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_sum_5_5 <= 'd0;
+  end
+  else if(current_state==ST_ADD5) begin
+    kernel_img_sum_5_5 <= kernel_img_sum_4_5 + kernel_img_mul_5[17] + kernel_img_mul_5[18] + kernel_img_mul_5[19] + kernel_img_mul_5[20];
+  end
+end
+always@(*) begin
+  kernel_img_sum_6_5 = kernel_img_sum_5_5 + kernel_img_mul_5[21] + kernel_img_mul_5[22] + kernel_img_mul_5[23] + kernel_img_mul_5[24];
 end
 reg  [15:0]  kernel_img_mul_6[0:24];
 always@(posedge clk) begin
@@ -17166,12 +17245,14 @@ reg  [15:0]  kernel_img_sum_1_6;
 reg  [15:0]  kernel_img_sum_2_6;
 reg  [15:0]  kernel_img_sum_3_6;
 reg  [15:0]  kernel_img_sum_4_6;
+reg  [15:0]  kernel_img_sum_5_6;
+reg  [15:0]  kernel_img_sum_6_6;
 always@(posedge clk) begin
   if(!rst_n) begin
     kernel_img_sum_1_6 <= 'd0;
   end
   else if(current_state==ST_ADD1) begin
-    kernel_img_sum_1_6 <= kernel_img_mul_6[0] + kernel_img_mul_6[1] + kernel_img_mul_6[2] + kernel_img_mul_6[3] + kernel_img_mul_6[4] + kernel_img_mul_6[5] + kernel_img_mul_6[6];
+    kernel_img_sum_1_6 <= kernel_img_mul_6[0] + kernel_img_mul_6[1] + kernel_img_mul_6[2] + kernel_img_mul_6[3] + kernel_img_mul_6[4];
   end
 end
 always@(posedge clk) begin
@@ -17179,7 +17260,7 @@ always@(posedge clk) begin
     kernel_img_sum_2_6 <= 'd0;
   end
   else if(current_state==ST_ADD2) begin
-    kernel_img_sum_2_6 <= kernel_img_sum_1_6 + kernel_img_mul_6[7] + kernel_img_mul_6[8] + kernel_img_mul_6[9] + kernel_img_mul_6[10] + kernel_img_mul_6[11] + kernel_img_mul_6[12];
+    kernel_img_sum_2_6 <= kernel_img_sum_1_6 + kernel_img_mul_6[5] + kernel_img_mul_6[6] + kernel_img_mul_6[7] + kernel_img_mul_6[8];
   end
 end
 always@(posedge clk) begin
@@ -17187,7 +17268,7 @@ always@(posedge clk) begin
     kernel_img_sum_3_6 <= 'd0;
   end
   else if(current_state==ST_ADD3) begin
-    kernel_img_sum_3_6 <= kernel_img_sum_2_6 + kernel_img_mul_6[13] + kernel_img_mul_6[14] + kernel_img_mul_6[15] + kernel_img_mul_6[16] + kernel_img_mul_6[17] + kernel_img_mul_6[18];
+    kernel_img_sum_3_6 <= kernel_img_sum_2_6 + kernel_img_mul_6[9] + kernel_img_mul_6[10] + kernel_img_mul_6[11] + kernel_img_mul_6[12];
   end
 end
 always@(posedge clk) begin
@@ -17195,8 +17276,19 @@ always@(posedge clk) begin
     kernel_img_sum_4_6 <= 'd0;
   end
   else if(current_state==ST_ADD4) begin
-    kernel_img_sum_4_6 <= kernel_img_sum_3_6 + kernel_img_mul_6[19] + kernel_img_mul_6[20] + kernel_img_mul_6[21] + kernel_img_mul_6[22] + kernel_img_mul_6[23] + kernel_img_mul_6[24];
+    kernel_img_sum_4_6 <= kernel_img_sum_3_6 + kernel_img_mul_6[13] + kernel_img_mul_6[14] + kernel_img_mul_6[15] + kernel_img_mul_6[16];
   end
+end
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_sum_5_6 <= 'd0;
+  end
+  else if(current_state==ST_ADD5) begin
+    kernel_img_sum_5_6 <= kernel_img_sum_4_6 + kernel_img_mul_6[17] + kernel_img_mul_6[18] + kernel_img_mul_6[19] + kernel_img_mul_6[20];
+  end
+end
+always@(*) begin
+  kernel_img_sum_6_6 = kernel_img_sum_5_6 + kernel_img_mul_6[21] + kernel_img_mul_6[22] + kernel_img_mul_6[23] + kernel_img_mul_6[24];
 end
 reg  [15:0]  kernel_img_mul_7[0:24];
 always@(posedge clk) begin
@@ -17259,12 +17351,14 @@ reg  [15:0]  kernel_img_sum_1_7;
 reg  [15:0]  kernel_img_sum_2_7;
 reg  [15:0]  kernel_img_sum_3_7;
 reg  [15:0]  kernel_img_sum_4_7;
+reg  [15:0]  kernel_img_sum_5_7;
+reg  [15:0]  kernel_img_sum_6_7;
 always@(posedge clk) begin
   if(!rst_n) begin
     kernel_img_sum_1_7 <= 'd0;
   end
   else if(current_state==ST_ADD1) begin
-    kernel_img_sum_1_7 <= kernel_img_mul_7[0] + kernel_img_mul_7[1] + kernel_img_mul_7[2] + kernel_img_mul_7[3] + kernel_img_mul_7[4] + kernel_img_mul_7[5] + kernel_img_mul_7[6];
+    kernel_img_sum_1_7 <= kernel_img_mul_7[0] + kernel_img_mul_7[1] + kernel_img_mul_7[2] + kernel_img_mul_7[3] + kernel_img_mul_7[4];
   end
 end
 always@(posedge clk) begin
@@ -17272,7 +17366,7 @@ always@(posedge clk) begin
     kernel_img_sum_2_7 <= 'd0;
   end
   else if(current_state==ST_ADD2) begin
-    kernel_img_sum_2_7 <= kernel_img_sum_1_7 + kernel_img_mul_7[7] + kernel_img_mul_7[8] + kernel_img_mul_7[9] + kernel_img_mul_7[10] + kernel_img_mul_7[11] + kernel_img_mul_7[12];
+    kernel_img_sum_2_7 <= kernel_img_sum_1_7 + kernel_img_mul_7[5] + kernel_img_mul_7[6] + kernel_img_mul_7[7] + kernel_img_mul_7[8];
   end
 end
 always@(posedge clk) begin
@@ -17280,7 +17374,7 @@ always@(posedge clk) begin
     kernel_img_sum_3_7 <= 'd0;
   end
   else if(current_state==ST_ADD3) begin
-    kernel_img_sum_3_7 <= kernel_img_sum_2_7 + kernel_img_mul_7[13] + kernel_img_mul_7[14] + kernel_img_mul_7[15] + kernel_img_mul_7[16] + kernel_img_mul_7[17] + kernel_img_mul_7[18];
+    kernel_img_sum_3_7 <= kernel_img_sum_2_7 + kernel_img_mul_7[9] + kernel_img_mul_7[10] + kernel_img_mul_7[11] + kernel_img_mul_7[12];
   end
 end
 always@(posedge clk) begin
@@ -17288,8 +17382,19 @@ always@(posedge clk) begin
     kernel_img_sum_4_7 <= 'd0;
   end
   else if(current_state==ST_ADD4) begin
-    kernel_img_sum_4_7 <= kernel_img_sum_3_7 + kernel_img_mul_7[19] + kernel_img_mul_7[20] + kernel_img_mul_7[21] + kernel_img_mul_7[22] + kernel_img_mul_7[23] + kernel_img_mul_7[24];
+    kernel_img_sum_4_7 <= kernel_img_sum_3_7 + kernel_img_mul_7[13] + kernel_img_mul_7[14] + kernel_img_mul_7[15] + kernel_img_mul_7[16];
   end
+end
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_sum_5_7 <= 'd0;
+  end
+  else if(current_state==ST_ADD5) begin
+    kernel_img_sum_5_7 <= kernel_img_sum_4_7 + kernel_img_mul_7[17] + kernel_img_mul_7[18] + kernel_img_mul_7[19] + kernel_img_mul_7[20];
+  end
+end
+always@(*) begin
+  kernel_img_sum_6_7 = kernel_img_sum_5_7 + kernel_img_mul_7[21] + kernel_img_mul_7[22] + kernel_img_mul_7[23] + kernel_img_mul_7[24];
 end
 reg  [15:0]  kernel_img_mul_8[0:24];
 always@(posedge clk) begin
@@ -17352,12 +17457,14 @@ reg  [15:0]  kernel_img_sum_1_8;
 reg  [15:0]  kernel_img_sum_2_8;
 reg  [15:0]  kernel_img_sum_3_8;
 reg  [15:0]  kernel_img_sum_4_8;
+reg  [15:0]  kernel_img_sum_5_8;
+reg  [15:0]  kernel_img_sum_6_8;
 always@(posedge clk) begin
   if(!rst_n) begin
     kernel_img_sum_1_8 <= 'd0;
   end
   else if(current_state==ST_ADD1) begin
-    kernel_img_sum_1_8 <= kernel_img_mul_8[0] + kernel_img_mul_8[1] + kernel_img_mul_8[2] + kernel_img_mul_8[3] + kernel_img_mul_8[4] + kernel_img_mul_8[5] + kernel_img_mul_8[6];
+    kernel_img_sum_1_8 <= kernel_img_mul_8[0] + kernel_img_mul_8[1] + kernel_img_mul_8[2] + kernel_img_mul_8[3] + kernel_img_mul_8[4];
   end
 end
 always@(posedge clk) begin
@@ -17365,7 +17472,7 @@ always@(posedge clk) begin
     kernel_img_sum_2_8 <= 'd0;
   end
   else if(current_state==ST_ADD2) begin
-    kernel_img_sum_2_8 <= kernel_img_sum_1_8 + kernel_img_mul_8[7] + kernel_img_mul_8[8] + kernel_img_mul_8[9] + kernel_img_mul_8[10] + kernel_img_mul_8[11] + kernel_img_mul_8[12];
+    kernel_img_sum_2_8 <= kernel_img_sum_1_8 + kernel_img_mul_8[5] + kernel_img_mul_8[6] + kernel_img_mul_8[7] + kernel_img_mul_8[8];
   end
 end
 always@(posedge clk) begin
@@ -17373,7 +17480,7 @@ always@(posedge clk) begin
     kernel_img_sum_3_8 <= 'd0;
   end
   else if(current_state==ST_ADD3) begin
-    kernel_img_sum_3_8 <= kernel_img_sum_2_8 + kernel_img_mul_8[13] + kernel_img_mul_8[14] + kernel_img_mul_8[15] + kernel_img_mul_8[16] + kernel_img_mul_8[17] + kernel_img_mul_8[18];
+    kernel_img_sum_3_8 <= kernel_img_sum_2_8 + kernel_img_mul_8[9] + kernel_img_mul_8[10] + kernel_img_mul_8[11] + kernel_img_mul_8[12];
   end
 end
 always@(posedge clk) begin
@@ -17381,8 +17488,19 @@ always@(posedge clk) begin
     kernel_img_sum_4_8 <= 'd0;
   end
   else if(current_state==ST_ADD4) begin
-    kernel_img_sum_4_8 <= kernel_img_sum_3_8 + kernel_img_mul_8[19] + kernel_img_mul_8[20] + kernel_img_mul_8[21] + kernel_img_mul_8[22] + kernel_img_mul_8[23] + kernel_img_mul_8[24];
+    kernel_img_sum_4_8 <= kernel_img_sum_3_8 + kernel_img_mul_8[13] + kernel_img_mul_8[14] + kernel_img_mul_8[15] + kernel_img_mul_8[16];
   end
+end
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_sum_5_8 <= 'd0;
+  end
+  else if(current_state==ST_ADD5) begin
+    kernel_img_sum_5_8 <= kernel_img_sum_4_8 + kernel_img_mul_8[17] + kernel_img_mul_8[18] + kernel_img_mul_8[19] + kernel_img_mul_8[20];
+  end
+end
+always@(*) begin
+  kernel_img_sum_6_8 = kernel_img_sum_5_8 + kernel_img_mul_8[21] + kernel_img_mul_8[22] + kernel_img_mul_8[23] + kernel_img_mul_8[24];
 end
 reg  [15:0]  kernel_img_mul_9[0:24];
 always@(posedge clk) begin
@@ -17445,12 +17563,14 @@ reg  [15:0]  kernel_img_sum_1_9;
 reg  [15:0]  kernel_img_sum_2_9;
 reg  [15:0]  kernel_img_sum_3_9;
 reg  [15:0]  kernel_img_sum_4_9;
+reg  [15:0]  kernel_img_sum_5_9;
+reg  [15:0]  kernel_img_sum_6_9;
 always@(posedge clk) begin
   if(!rst_n) begin
     kernel_img_sum_1_9 <= 'd0;
   end
   else if(current_state==ST_ADD1) begin
-    kernel_img_sum_1_9 <= kernel_img_mul_9[0] + kernel_img_mul_9[1] + kernel_img_mul_9[2] + kernel_img_mul_9[3] + kernel_img_mul_9[4] + kernel_img_mul_9[5] + kernel_img_mul_9[6];
+    kernel_img_sum_1_9 <= kernel_img_mul_9[0] + kernel_img_mul_9[1] + kernel_img_mul_9[2] + kernel_img_mul_9[3] + kernel_img_mul_9[4];
   end
 end
 always@(posedge clk) begin
@@ -17458,7 +17578,7 @@ always@(posedge clk) begin
     kernel_img_sum_2_9 <= 'd0;
   end
   else if(current_state==ST_ADD2) begin
-    kernel_img_sum_2_9 <= kernel_img_sum_1_9 + kernel_img_mul_9[7] + kernel_img_mul_9[8] + kernel_img_mul_9[9] + kernel_img_mul_9[10] + kernel_img_mul_9[11] + kernel_img_mul_9[12];
+    kernel_img_sum_2_9 <= kernel_img_sum_1_9 + kernel_img_mul_9[5] + kernel_img_mul_9[6] + kernel_img_mul_9[7] + kernel_img_mul_9[8];
   end
 end
 always@(posedge clk) begin
@@ -17466,7 +17586,7 @@ always@(posedge clk) begin
     kernel_img_sum_3_9 <= 'd0;
   end
   else if(current_state==ST_ADD3) begin
-    kernel_img_sum_3_9 <= kernel_img_sum_2_9 + kernel_img_mul_9[13] + kernel_img_mul_9[14] + kernel_img_mul_9[15] + kernel_img_mul_9[16] + kernel_img_mul_9[17] + kernel_img_mul_9[18];
+    kernel_img_sum_3_9 <= kernel_img_sum_2_9 + kernel_img_mul_9[9] + kernel_img_mul_9[10] + kernel_img_mul_9[11] + kernel_img_mul_9[12];
   end
 end
 always@(posedge clk) begin
@@ -17474,8 +17594,19 @@ always@(posedge clk) begin
     kernel_img_sum_4_9 <= 'd0;
   end
   else if(current_state==ST_ADD4) begin
-    kernel_img_sum_4_9 <= kernel_img_sum_3_9 + kernel_img_mul_9[19] + kernel_img_mul_9[20] + kernel_img_mul_9[21] + kernel_img_mul_9[22] + kernel_img_mul_9[23] + kernel_img_mul_9[24];
+    kernel_img_sum_4_9 <= kernel_img_sum_3_9 + kernel_img_mul_9[13] + kernel_img_mul_9[14] + kernel_img_mul_9[15] + kernel_img_mul_9[16];
   end
+end
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_sum_5_9 <= 'd0;
+  end
+  else if(current_state==ST_ADD5) begin
+    kernel_img_sum_5_9 <= kernel_img_sum_4_9 + kernel_img_mul_9[17] + kernel_img_mul_9[18] + kernel_img_mul_9[19] + kernel_img_mul_9[20];
+  end
+end
+always@(*) begin
+  kernel_img_sum_6_9 = kernel_img_sum_5_9 + kernel_img_mul_9[21] + kernel_img_mul_9[22] + kernel_img_mul_9[23] + kernel_img_mul_9[24];
 end
 reg  [15:0]  kernel_img_mul_10[0:24];
 always@(posedge clk) begin
@@ -17538,12 +17669,14 @@ reg  [15:0]  kernel_img_sum_1_10;
 reg  [15:0]  kernel_img_sum_2_10;
 reg  [15:0]  kernel_img_sum_3_10;
 reg  [15:0]  kernel_img_sum_4_10;
+reg  [15:0]  kernel_img_sum_5_10;
+reg  [15:0]  kernel_img_sum_6_10;
 always@(posedge clk) begin
   if(!rst_n) begin
     kernel_img_sum_1_10 <= 'd0;
   end
   else if(current_state==ST_ADD1) begin
-    kernel_img_sum_1_10 <= kernel_img_mul_10[0] + kernel_img_mul_10[1] + kernel_img_mul_10[2] + kernel_img_mul_10[3] + kernel_img_mul_10[4] + kernel_img_mul_10[5] + kernel_img_mul_10[6];
+    kernel_img_sum_1_10 <= kernel_img_mul_10[0] + kernel_img_mul_10[1] + kernel_img_mul_10[2] + kernel_img_mul_10[3] + kernel_img_mul_10[4];
   end
 end
 always@(posedge clk) begin
@@ -17551,7 +17684,7 @@ always@(posedge clk) begin
     kernel_img_sum_2_10 <= 'd0;
   end
   else if(current_state==ST_ADD2) begin
-    kernel_img_sum_2_10 <= kernel_img_sum_1_10 + kernel_img_mul_10[7] + kernel_img_mul_10[8] + kernel_img_mul_10[9] + kernel_img_mul_10[10] + kernel_img_mul_10[11] + kernel_img_mul_10[12];
+    kernel_img_sum_2_10 <= kernel_img_sum_1_10 + kernel_img_mul_10[5] + kernel_img_mul_10[6] + kernel_img_mul_10[7] + kernel_img_mul_10[8];
   end
 end
 always@(posedge clk) begin
@@ -17559,7 +17692,7 @@ always@(posedge clk) begin
     kernel_img_sum_3_10 <= 'd0;
   end
   else if(current_state==ST_ADD3) begin
-    kernel_img_sum_3_10 <= kernel_img_sum_2_10 + kernel_img_mul_10[13] + kernel_img_mul_10[14] + kernel_img_mul_10[15] + kernel_img_mul_10[16] + kernel_img_mul_10[17] + kernel_img_mul_10[18];
+    kernel_img_sum_3_10 <= kernel_img_sum_2_10 + kernel_img_mul_10[9] + kernel_img_mul_10[10] + kernel_img_mul_10[11] + kernel_img_mul_10[12];
   end
 end
 always@(posedge clk) begin
@@ -17567,8 +17700,19 @@ always@(posedge clk) begin
     kernel_img_sum_4_10 <= 'd0;
   end
   else if(current_state==ST_ADD4) begin
-    kernel_img_sum_4_10 <= kernel_img_sum_3_10 + kernel_img_mul_10[19] + kernel_img_mul_10[20] + kernel_img_mul_10[21] + kernel_img_mul_10[22] + kernel_img_mul_10[23] + kernel_img_mul_10[24];
+    kernel_img_sum_4_10 <= kernel_img_sum_3_10 + kernel_img_mul_10[13] + kernel_img_mul_10[14] + kernel_img_mul_10[15] + kernel_img_mul_10[16];
   end
+end
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_sum_5_10 <= 'd0;
+  end
+  else if(current_state==ST_ADD5) begin
+    kernel_img_sum_5_10 <= kernel_img_sum_4_10 + kernel_img_mul_10[17] + kernel_img_mul_10[18] + kernel_img_mul_10[19] + kernel_img_mul_10[20];
+  end
+end
+always@(*) begin
+  kernel_img_sum_6_10 = kernel_img_sum_5_10 + kernel_img_mul_10[21] + kernel_img_mul_10[22] + kernel_img_mul_10[23] + kernel_img_mul_10[24];
 end
 reg  [15:0]  kernel_img_mul_11[0:24];
 always@(posedge clk) begin
@@ -17631,12 +17775,14 @@ reg  [15:0]  kernel_img_sum_1_11;
 reg  [15:0]  kernel_img_sum_2_11;
 reg  [15:0]  kernel_img_sum_3_11;
 reg  [15:0]  kernel_img_sum_4_11;
+reg  [15:0]  kernel_img_sum_5_11;
+reg  [15:0]  kernel_img_sum_6_11;
 always@(posedge clk) begin
   if(!rst_n) begin
     kernel_img_sum_1_11 <= 'd0;
   end
   else if(current_state==ST_ADD1) begin
-    kernel_img_sum_1_11 <= kernel_img_mul_11[0] + kernel_img_mul_11[1] + kernel_img_mul_11[2] + kernel_img_mul_11[3] + kernel_img_mul_11[4] + kernel_img_mul_11[5] + kernel_img_mul_11[6];
+    kernel_img_sum_1_11 <= kernel_img_mul_11[0] + kernel_img_mul_11[1] + kernel_img_mul_11[2] + kernel_img_mul_11[3] + kernel_img_mul_11[4];
   end
 end
 always@(posedge clk) begin
@@ -17644,7 +17790,7 @@ always@(posedge clk) begin
     kernel_img_sum_2_11 <= 'd0;
   end
   else if(current_state==ST_ADD2) begin
-    kernel_img_sum_2_11 <= kernel_img_sum_1_11 + kernel_img_mul_11[7] + kernel_img_mul_11[8] + kernel_img_mul_11[9] + kernel_img_mul_11[10] + kernel_img_mul_11[11] + kernel_img_mul_11[12];
+    kernel_img_sum_2_11 <= kernel_img_sum_1_11 + kernel_img_mul_11[5] + kernel_img_mul_11[6] + kernel_img_mul_11[7] + kernel_img_mul_11[8];
   end
 end
 always@(posedge clk) begin
@@ -17652,7 +17798,7 @@ always@(posedge clk) begin
     kernel_img_sum_3_11 <= 'd0;
   end
   else if(current_state==ST_ADD3) begin
-    kernel_img_sum_3_11 <= kernel_img_sum_2_11 + kernel_img_mul_11[13] + kernel_img_mul_11[14] + kernel_img_mul_11[15] + kernel_img_mul_11[16] + kernel_img_mul_11[17] + kernel_img_mul_11[18];
+    kernel_img_sum_3_11 <= kernel_img_sum_2_11 + kernel_img_mul_11[9] + kernel_img_mul_11[10] + kernel_img_mul_11[11] + kernel_img_mul_11[12];
   end
 end
 always@(posedge clk) begin
@@ -17660,8 +17806,19 @@ always@(posedge clk) begin
     kernel_img_sum_4_11 <= 'd0;
   end
   else if(current_state==ST_ADD4) begin
-    kernel_img_sum_4_11 <= kernel_img_sum_3_11 + kernel_img_mul_11[19] + kernel_img_mul_11[20] + kernel_img_mul_11[21] + kernel_img_mul_11[22] + kernel_img_mul_11[23] + kernel_img_mul_11[24];
+    kernel_img_sum_4_11 <= kernel_img_sum_3_11 + kernel_img_mul_11[13] + kernel_img_mul_11[14] + kernel_img_mul_11[15] + kernel_img_mul_11[16];
   end
+end
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_sum_5_11 <= 'd0;
+  end
+  else if(current_state==ST_ADD5) begin
+    kernel_img_sum_5_11 <= kernel_img_sum_4_11 + kernel_img_mul_11[17] + kernel_img_mul_11[18] + kernel_img_mul_11[19] + kernel_img_mul_11[20];
+  end
+end
+always@(*) begin
+  kernel_img_sum_6_11 = kernel_img_sum_5_11 + kernel_img_mul_11[21] + kernel_img_mul_11[22] + kernel_img_mul_11[23] + kernel_img_mul_11[24];
 end
 reg  [15:0]  kernel_img_mul_12[0:24];
 always@(posedge clk) begin
@@ -17724,12 +17881,14 @@ reg  [15:0]  kernel_img_sum_1_12;
 reg  [15:0]  kernel_img_sum_2_12;
 reg  [15:0]  kernel_img_sum_3_12;
 reg  [15:0]  kernel_img_sum_4_12;
+reg  [15:0]  kernel_img_sum_5_12;
+reg  [15:0]  kernel_img_sum_6_12;
 always@(posedge clk) begin
   if(!rst_n) begin
     kernel_img_sum_1_12 <= 'd0;
   end
   else if(current_state==ST_ADD1) begin
-    kernel_img_sum_1_12 <= kernel_img_mul_12[0] + kernel_img_mul_12[1] + kernel_img_mul_12[2] + kernel_img_mul_12[3] + kernel_img_mul_12[4] + kernel_img_mul_12[5] + kernel_img_mul_12[6];
+    kernel_img_sum_1_12 <= kernel_img_mul_12[0] + kernel_img_mul_12[1] + kernel_img_mul_12[2] + kernel_img_mul_12[3] + kernel_img_mul_12[4];
   end
 end
 always@(posedge clk) begin
@@ -17737,7 +17896,7 @@ always@(posedge clk) begin
     kernel_img_sum_2_12 <= 'd0;
   end
   else if(current_state==ST_ADD2) begin
-    kernel_img_sum_2_12 <= kernel_img_sum_1_12 + kernel_img_mul_12[7] + kernel_img_mul_12[8] + kernel_img_mul_12[9] + kernel_img_mul_12[10] + kernel_img_mul_12[11] + kernel_img_mul_12[12];
+    kernel_img_sum_2_12 <= kernel_img_sum_1_12 + kernel_img_mul_12[5] + kernel_img_mul_12[6] + kernel_img_mul_12[7] + kernel_img_mul_12[8];
   end
 end
 always@(posedge clk) begin
@@ -17745,7 +17904,7 @@ always@(posedge clk) begin
     kernel_img_sum_3_12 <= 'd0;
   end
   else if(current_state==ST_ADD3) begin
-    kernel_img_sum_3_12 <= kernel_img_sum_2_12 + kernel_img_mul_12[13] + kernel_img_mul_12[14] + kernel_img_mul_12[15] + kernel_img_mul_12[16] + kernel_img_mul_12[17] + kernel_img_mul_12[18];
+    kernel_img_sum_3_12 <= kernel_img_sum_2_12 + kernel_img_mul_12[9] + kernel_img_mul_12[10] + kernel_img_mul_12[11] + kernel_img_mul_12[12];
   end
 end
 always@(posedge clk) begin
@@ -17753,8 +17912,19 @@ always@(posedge clk) begin
     kernel_img_sum_4_12 <= 'd0;
   end
   else if(current_state==ST_ADD4) begin
-    kernel_img_sum_4_12 <= kernel_img_sum_3_12 + kernel_img_mul_12[19] + kernel_img_mul_12[20] + kernel_img_mul_12[21] + kernel_img_mul_12[22] + kernel_img_mul_12[23] + kernel_img_mul_12[24];
+    kernel_img_sum_4_12 <= kernel_img_sum_3_12 + kernel_img_mul_12[13] + kernel_img_mul_12[14] + kernel_img_mul_12[15] + kernel_img_mul_12[16];
   end
+end
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_sum_5_12 <= 'd0;
+  end
+  else if(current_state==ST_ADD5) begin
+    kernel_img_sum_5_12 <= kernel_img_sum_4_12 + kernel_img_mul_12[17] + kernel_img_mul_12[18] + kernel_img_mul_12[19] + kernel_img_mul_12[20];
+  end
+end
+always@(*) begin
+  kernel_img_sum_6_12 = kernel_img_sum_5_12 + kernel_img_mul_12[21] + kernel_img_mul_12[22] + kernel_img_mul_12[23] + kernel_img_mul_12[24];
 end
 reg  [15:0]  kernel_img_mul_13[0:24];
 always@(posedge clk) begin
@@ -17817,12 +17987,14 @@ reg  [15:0]  kernel_img_sum_1_13;
 reg  [15:0]  kernel_img_sum_2_13;
 reg  [15:0]  kernel_img_sum_3_13;
 reg  [15:0]  kernel_img_sum_4_13;
+reg  [15:0]  kernel_img_sum_5_13;
+reg  [15:0]  kernel_img_sum_6_13;
 always@(posedge clk) begin
   if(!rst_n) begin
     kernel_img_sum_1_13 <= 'd0;
   end
   else if(current_state==ST_ADD1) begin
-    kernel_img_sum_1_13 <= kernel_img_mul_13[0] + kernel_img_mul_13[1] + kernel_img_mul_13[2] + kernel_img_mul_13[3] + kernel_img_mul_13[4] + kernel_img_mul_13[5] + kernel_img_mul_13[6];
+    kernel_img_sum_1_13 <= kernel_img_mul_13[0] + kernel_img_mul_13[1] + kernel_img_mul_13[2] + kernel_img_mul_13[3] + kernel_img_mul_13[4];
   end
 end
 always@(posedge clk) begin
@@ -17830,7 +18002,7 @@ always@(posedge clk) begin
     kernel_img_sum_2_13 <= 'd0;
   end
   else if(current_state==ST_ADD2) begin
-    kernel_img_sum_2_13 <= kernel_img_sum_1_13 + kernel_img_mul_13[7] + kernel_img_mul_13[8] + kernel_img_mul_13[9] + kernel_img_mul_13[10] + kernel_img_mul_13[11] + kernel_img_mul_13[12];
+    kernel_img_sum_2_13 <= kernel_img_sum_1_13 + kernel_img_mul_13[5] + kernel_img_mul_13[6] + kernel_img_mul_13[7] + kernel_img_mul_13[8];
   end
 end
 always@(posedge clk) begin
@@ -17838,7 +18010,7 @@ always@(posedge clk) begin
     kernel_img_sum_3_13 <= 'd0;
   end
   else if(current_state==ST_ADD3) begin
-    kernel_img_sum_3_13 <= kernel_img_sum_2_13 + kernel_img_mul_13[13] + kernel_img_mul_13[14] + kernel_img_mul_13[15] + kernel_img_mul_13[16] + kernel_img_mul_13[17] + kernel_img_mul_13[18];
+    kernel_img_sum_3_13 <= kernel_img_sum_2_13 + kernel_img_mul_13[9] + kernel_img_mul_13[10] + kernel_img_mul_13[11] + kernel_img_mul_13[12];
   end
 end
 always@(posedge clk) begin
@@ -17846,8 +18018,19 @@ always@(posedge clk) begin
     kernel_img_sum_4_13 <= 'd0;
   end
   else if(current_state==ST_ADD4) begin
-    kernel_img_sum_4_13 <= kernel_img_sum_3_13 + kernel_img_mul_13[19] + kernel_img_mul_13[20] + kernel_img_mul_13[21] + kernel_img_mul_13[22] + kernel_img_mul_13[23] + kernel_img_mul_13[24];
+    kernel_img_sum_4_13 <= kernel_img_sum_3_13 + kernel_img_mul_13[13] + kernel_img_mul_13[14] + kernel_img_mul_13[15] + kernel_img_mul_13[16];
   end
+end
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_sum_5_13 <= 'd0;
+  end
+  else if(current_state==ST_ADD5) begin
+    kernel_img_sum_5_13 <= kernel_img_sum_4_13 + kernel_img_mul_13[17] + kernel_img_mul_13[18] + kernel_img_mul_13[19] + kernel_img_mul_13[20];
+  end
+end
+always@(*) begin
+  kernel_img_sum_6_13 = kernel_img_sum_5_13 + kernel_img_mul_13[21] + kernel_img_mul_13[22] + kernel_img_mul_13[23] + kernel_img_mul_13[24];
 end
 reg  [15:0]  kernel_img_mul_14[0:24];
 always@(posedge clk) begin
@@ -17910,12 +18093,14 @@ reg  [15:0]  kernel_img_sum_1_14;
 reg  [15:0]  kernel_img_sum_2_14;
 reg  [15:0]  kernel_img_sum_3_14;
 reg  [15:0]  kernel_img_sum_4_14;
+reg  [15:0]  kernel_img_sum_5_14;
+reg  [15:0]  kernel_img_sum_6_14;
 always@(posedge clk) begin
   if(!rst_n) begin
     kernel_img_sum_1_14 <= 'd0;
   end
   else if(current_state==ST_ADD1) begin
-    kernel_img_sum_1_14 <= kernel_img_mul_14[0] + kernel_img_mul_14[1] + kernel_img_mul_14[2] + kernel_img_mul_14[3] + kernel_img_mul_14[4] + kernel_img_mul_14[5] + kernel_img_mul_14[6];
+    kernel_img_sum_1_14 <= kernel_img_mul_14[0] + kernel_img_mul_14[1] + kernel_img_mul_14[2] + kernel_img_mul_14[3] + kernel_img_mul_14[4];
   end
 end
 always@(posedge clk) begin
@@ -17923,7 +18108,7 @@ always@(posedge clk) begin
     kernel_img_sum_2_14 <= 'd0;
   end
   else if(current_state==ST_ADD2) begin
-    kernel_img_sum_2_14 <= kernel_img_sum_1_14 + kernel_img_mul_14[7] + kernel_img_mul_14[8] + kernel_img_mul_14[9] + kernel_img_mul_14[10] + kernel_img_mul_14[11] + kernel_img_mul_14[12];
+    kernel_img_sum_2_14 <= kernel_img_sum_1_14 + kernel_img_mul_14[5] + kernel_img_mul_14[6] + kernel_img_mul_14[7] + kernel_img_mul_14[8];
   end
 end
 always@(posedge clk) begin
@@ -17931,7 +18116,7 @@ always@(posedge clk) begin
     kernel_img_sum_3_14 <= 'd0;
   end
   else if(current_state==ST_ADD3) begin
-    kernel_img_sum_3_14 <= kernel_img_sum_2_14 + kernel_img_mul_14[13] + kernel_img_mul_14[14] + kernel_img_mul_14[15] + kernel_img_mul_14[16] + kernel_img_mul_14[17] + kernel_img_mul_14[18];
+    kernel_img_sum_3_14 <= kernel_img_sum_2_14 + kernel_img_mul_14[9] + kernel_img_mul_14[10] + kernel_img_mul_14[11] + kernel_img_mul_14[12];
   end
 end
 always@(posedge clk) begin
@@ -17939,8 +18124,19 @@ always@(posedge clk) begin
     kernel_img_sum_4_14 <= 'd0;
   end
   else if(current_state==ST_ADD4) begin
-    kernel_img_sum_4_14 <= kernel_img_sum_3_14 + kernel_img_mul_14[19] + kernel_img_mul_14[20] + kernel_img_mul_14[21] + kernel_img_mul_14[22] + kernel_img_mul_14[23] + kernel_img_mul_14[24];
+    kernel_img_sum_4_14 <= kernel_img_sum_3_14 + kernel_img_mul_14[13] + kernel_img_mul_14[14] + kernel_img_mul_14[15] + kernel_img_mul_14[16];
   end
+end
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_sum_5_14 <= 'd0;
+  end
+  else if(current_state==ST_ADD5) begin
+    kernel_img_sum_5_14 <= kernel_img_sum_4_14 + kernel_img_mul_14[17] + kernel_img_mul_14[18] + kernel_img_mul_14[19] + kernel_img_mul_14[20];
+  end
+end
+always@(*) begin
+  kernel_img_sum_6_14 = kernel_img_sum_5_14 + kernel_img_mul_14[21] + kernel_img_mul_14[22] + kernel_img_mul_14[23] + kernel_img_mul_14[24];
 end
 reg  [15:0]  kernel_img_mul_15[0:24];
 always@(posedge clk) begin
@@ -18003,12 +18199,14 @@ reg  [15:0]  kernel_img_sum_1_15;
 reg  [15:0]  kernel_img_sum_2_15;
 reg  [15:0]  kernel_img_sum_3_15;
 reg  [15:0]  kernel_img_sum_4_15;
+reg  [15:0]  kernel_img_sum_5_15;
+reg  [15:0]  kernel_img_sum_6_15;
 always@(posedge clk) begin
   if(!rst_n) begin
     kernel_img_sum_1_15 <= 'd0;
   end
   else if(current_state==ST_ADD1) begin
-    kernel_img_sum_1_15 <= kernel_img_mul_15[0] + kernel_img_mul_15[1] + kernel_img_mul_15[2] + kernel_img_mul_15[3] + kernel_img_mul_15[4] + kernel_img_mul_15[5] + kernel_img_mul_15[6];
+    kernel_img_sum_1_15 <= kernel_img_mul_15[0] + kernel_img_mul_15[1] + kernel_img_mul_15[2] + kernel_img_mul_15[3] + kernel_img_mul_15[4];
   end
 end
 always@(posedge clk) begin
@@ -18016,7 +18214,7 @@ always@(posedge clk) begin
     kernel_img_sum_2_15 <= 'd0;
   end
   else if(current_state==ST_ADD2) begin
-    kernel_img_sum_2_15 <= kernel_img_sum_1_15 + kernel_img_mul_15[7] + kernel_img_mul_15[8] + kernel_img_mul_15[9] + kernel_img_mul_15[10] + kernel_img_mul_15[11] + kernel_img_mul_15[12];
+    kernel_img_sum_2_15 <= kernel_img_sum_1_15 + kernel_img_mul_15[5] + kernel_img_mul_15[6] + kernel_img_mul_15[7] + kernel_img_mul_15[8];
   end
 end
 always@(posedge clk) begin
@@ -18024,7 +18222,7 @@ always@(posedge clk) begin
     kernel_img_sum_3_15 <= 'd0;
   end
   else if(current_state==ST_ADD3) begin
-    kernel_img_sum_3_15 <= kernel_img_sum_2_15 + kernel_img_mul_15[13] + kernel_img_mul_15[14] + kernel_img_mul_15[15] + kernel_img_mul_15[16] + kernel_img_mul_15[17] + kernel_img_mul_15[18];
+    kernel_img_sum_3_15 <= kernel_img_sum_2_15 + kernel_img_mul_15[9] + kernel_img_mul_15[10] + kernel_img_mul_15[11] + kernel_img_mul_15[12];
   end
 end
 always@(posedge clk) begin
@@ -18032,8 +18230,19 @@ always@(posedge clk) begin
     kernel_img_sum_4_15 <= 'd0;
   end
   else if(current_state==ST_ADD4) begin
-    kernel_img_sum_4_15 <= kernel_img_sum_3_15 + kernel_img_mul_15[19] + kernel_img_mul_15[20] + kernel_img_mul_15[21] + kernel_img_mul_15[22] + kernel_img_mul_15[23] + kernel_img_mul_15[24];
+    kernel_img_sum_4_15 <= kernel_img_sum_3_15 + kernel_img_mul_15[13] + kernel_img_mul_15[14] + kernel_img_mul_15[15] + kernel_img_mul_15[16];
   end
+end
+always@(posedge clk) begin
+  if(!rst_n) begin
+    kernel_img_sum_5_15 <= 'd0;
+  end
+  else if(current_state==ST_ADD5) begin
+    kernel_img_sum_5_15 <= kernel_img_sum_4_15 + kernel_img_mul_15[17] + kernel_img_mul_15[18] + kernel_img_mul_15[19] + kernel_img_mul_15[20];
+  end
+end
+always@(*) begin
+  kernel_img_sum_6_15 = kernel_img_sum_5_15 + kernel_img_mul_15[21] + kernel_img_mul_15[22] + kernel_img_mul_15[23] + kernel_img_mul_15[24];
 end
 always @(posedge clk) begin
   if(!rst_n) begin
@@ -18055,22 +18264,22 @@ always @(posedge clk) begin
     blur_out[127:120] <= 'd0;
   end
   else if(current_state==ST_UPDATE) begin
-    blur_out[7:0] <= kernel_img_sum_4_0[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[15:8] <= kernel_img_sum_4_1[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[23:16] <= kernel_img_sum_4_2[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[31:24] <= kernel_img_sum_4_3[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[39:32] <= kernel_img_sum_4_4[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[47:40] <= kernel_img_sum_4_5[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[55:48] <= kernel_img_sum_4_6[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[63:56] <= kernel_img_sum_4_7[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[71:64] <= kernel_img_sum_4_8[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[79:72] <= kernel_img_sum_4_9[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[87:80] <= kernel_img_sum_4_10[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[95:88] <= kernel_img_sum_4_11[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[103:96] <= kernel_img_sum_4_12[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[111:104] <= kernel_img_sum_4_13[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[119:112] <= kernel_img_sum_4_14[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
-    blur_out[127:120] <= kernel_img_sum_4_15[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[7:0] <= kernel_img_sum_6_0[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[15:8] <= kernel_img_sum_6_1[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[23:16] <= kernel_img_sum_6_2[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[31:24] <= kernel_img_sum_6_3[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[39:32] <= kernel_img_sum_6_4[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[47:40] <= kernel_img_sum_6_5[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[55:48] <= kernel_img_sum_6_6[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[63:56] <= kernel_img_sum_6_7[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[71:64] <= kernel_img_sum_6_8[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[79:72] <= kernel_img_sum_6_9[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[87:80] <= kernel_img_sum_6_10[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[95:88] <= kernel_img_sum_6_11[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[103:96] <= kernel_img_sum_6_12[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[111:104] <= kernel_img_sum_6_13[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[119:112] <= kernel_img_sum_6_14[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
+    blur_out[127:120] <= kernel_img_sum_6_15[15:8];/*Q8.8 -> Q8.0 Q8.32 -> Q8.0*/
   end
 end
 
@@ -18114,9 +18323,15 @@ always @(*) begin
     end
     ST_ADD4: begin
       if(current_state==ST_ADD4)
-        next_state = ST_UPDATE;
+        next_state = ST_ADD5;
       else 
         next_state = ST_ADD4;
+    end
+    ST_ADD5: begin
+      if(current_state==ST_ADD5)
+        next_state = ST_UPDATE;
+      else 
+        next_state = ST_ADD5;
     end
     ST_UPDATE: begin
       if(current_state==ST_UPDATE)
