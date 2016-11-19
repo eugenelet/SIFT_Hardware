@@ -87,11 +87,12 @@ parameter MAX_KEYPOINT = 'd2048;
 /*Module FSM*/
 parameter ST_IDLE       = 0,
           ST_FIRST_COL  = 1,/*Idle 1 state for SRAM to get READY*/
-          ST_DETECT     = 2,/*Includes switching of row*/
-          ST_NO_FILTER  = 3,/*Includes switching of row*/
-          ST_FILTER     = 4,/*Includes switching of row*/
-          ST_NEXT_COL   = 5,/*Grants 3 cycle to update MEM addr for next column*/
-          ST_BUFFER     = 6;/*Grants buffer a cycle to update*/
+          ST_PRE_DETECT = 2,/*Buffers data from SRAM*/
+          ST_DETECT     = 3,/*Includes switching of row*/
+          ST_NO_FILTER  = 4,/*Includes switching of row*/
+          ST_FILTER     = 5,/*Includes switching of row*/
+          ST_NEXT_COL   = 6,/*Grants 3 cycle to update MEM addr for next column*/
+          ST_BUFFER     = 7;/*Grants buffer a cycle to update*/
 
 assign done = (current_state==ST_BUFFER && img_addr=='d472 && buffer_col=='d39) ? 1 : 0;
 
@@ -196,25 +197,60 @@ end
 wire[9:0] current_col = buffer_col << 'd4; // mul 16
 
 
-wire[175:0] img_dout_buffer;
-wire[175:0] blur3x3_dout_buffer;
-wire[175:0] blur5x5_1_dout_buffer;
-wire[175:0] blur5x5_2_dout_buffer;
-wire[175:0] blur7x7_dout_buffer;
+wire[175:0] img_dout_wire;
+wire[175:0] blur3x3_dout_wire;
+wire[175:0] blur5x5_1_dout_wire;
+wire[175:0] blur5x5_2_dout_wire;
+wire[175:0] blur7x7_dout_wire;
 bus_partition u_bus_partition(
   .img0       (img_dout),
   .img1       (blur3x3_dout),
   .img2       (blur5x5_1_dout),
   .img3       (blur5x5_2_dout),
   .img4       (blur7x7_dout),
-  .img_out0   (img_dout_buffer),
-  .img_out1   (blur3x3_dout_buffer),
-  .img_out2   (blur5x5_1_dout_buffer),
-  .img_out3   (blur5x5_2_dout_buffer),
-  .img_out4   (blur7x7_dout_buffer),
+  .img_out0   (img_dout_wire),
+  .img_out1   (blur3x3_dout_wire),
+  .img_out2   (blur5x5_1_dout_wire),
+  .img_out3   (blur5x5_2_dout_wire),
+  .img_out4   (blur7x7_dout_wire),
   .buffer_col (buffer_col)
 );
 
+reg[175:0] img_dout_buffer;
+reg[175:0] blur3x3_dout_buffer;
+reg[175:0] blur5x5_1_dout_buffer;
+reg[175:0] blur5x5_2_dout_buffer;
+reg[175:0] blur7x7_dout_buffer;
+always @(posedge clk) begin
+  if (!rst_n)
+    img_dout_buffer <= 'd0;    
+  else if (current_state==ST_PRE_DETECT) 
+    img_dout_buffer <= img_dout_wire;
+end
+always @(posedge clk) begin
+  if (!rst_n)
+    blur3x3_dout_buffer <= 'd0;    
+  else if (current_state==ST_PRE_DETECT) 
+    blur3x3_dout_buffer <= blur3x3_dout_wire;
+end
+always @(posedge clk) begin
+  if (!rst_n)
+    blur5x5_1_dout_buffer <= 'd0;    
+  else if (current_state==ST_PRE_DETECT) 
+    blur5x5_1_dout_buffer <= blur5x5_1_dout_wire;
+end
+always @(posedge clk) begin
+  if (!rst_n)
+    blur5x5_2_dout_buffer <= 'd0;    
+  else if (current_state==ST_PRE_DETECT) 
+    blur5x5_2_dout_buffer <= blur5x5_2_dout_wire;
+end
+always @(posedge clk) begin
+  if (!rst_n)
+    blur7x7_dout_buffer <= 'd0;    
+  else if (current_state==ST_PRE_DETECT) 
+    blur7x7_dout_buffer <= blur7x7_dout_wire;
+end
 /*Detect Keypoints Modules*/
 detect_keypoint u_detect_keypoint_0_0(
   .layer_0_0        (buffer_data_1),
@@ -1009,13 +1045,13 @@ always @(*) begin
     end
     ST_FIRST_COL: begin
       if(next_col_count == 'd3)
-        next_state = ST_DETECT;
+        next_state = ST_PRE_DETECT;
       else
         next_state = ST_FIRST_COL;
     end
     ST_NEXT_COL: begin
       if(next_col_count == 'd3)
-        next_state = ST_DETECT;
+        next_state = ST_PRE_DETECT;
       else
         next_state = ST_NEXT_COL;
     end
@@ -1058,9 +1094,15 @@ always @(*) begin
       else if(img_addr=='d472/*'d631*//*'d639*/)
         next_state = ST_NEXT_COL;
       else if(current_state==ST_BUFFER)
-        next_state = ST_DETECT;
+        next_state = ST_PRE_DETECT;
       else
         next_state = ST_BUFFER;
+    end
+    ST_PRE_DETECT: begin
+      if (current_state==ST_PRE_DETECT)
+        next_state = ST_DETECT;
+      else 
+        next_state = ST_PRE_DETECT;
     end
     default:
       next_state = ST_IDLE;
