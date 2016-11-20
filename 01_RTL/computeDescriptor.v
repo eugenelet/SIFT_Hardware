@@ -83,8 +83,26 @@ module computeDescriptor(
     
     reg [2:0]   descpt_ready_num;//how many descpts are ready in inner_FF
     
-    reg [95:0]  accu_8_dim_1,//8 int x 12 = 96
-                accu_8_dim_2;
+    //reg [95:0]  accu_8_dim_1,//8 int x 12 = 96
+    //            accu_8_dim_2;
+                
+    reg [11:0]  dim1_bin_0,
+                dim1_bin_1,
+                dim1_bin_2,
+                dim1_bin_3,
+                dim1_bin_4,
+                dim1_bin_5,
+                dim1_bin_6,
+                dim1_bin_7;
+                
+    reg [11:0]  dim2_bin_0,
+                dim2_bin_1,
+                dim2_bin_2,
+                dim2_bin_3,
+                dim2_bin_4,
+                dim2_bin_5,
+                dim2_bin_6,
+                dim2_bin_7,
                 
     reg [135:0] buffer_0,
                 buffer_1,
@@ -1390,9 +1408,41 @@ module computeDescriptor(
         else if(cs==ST_GET_KPT && descpt_ready_num=='d0)
             inner_row_col_descpt1 <= { kptRowCol_FF, {384{1'b0}} };//write row col
         else if(cs==ST_LB_GET && descpt_ready_num=='d0 && cycle_count=='d10)
-            inner_row_col_descpt1 <= { inner_row_col_descpt1[402:384], accu_8_dim_1 + row_accu_result1, accu_8_dim_2 + row_accu_result2, {192{1'b0}} };//write first 16 dims
+            inner_row_col_descpt1 <= { inner_row_col_descpt1[402:384], dim1_bin_0 + row_accu_result1[95:84],
+                                                                       dim1_bin_1 + row_accu_result1[83:72],
+                                                                       dim1_bin_2 + row_accu_result1[71:60],
+                                                                       dim1_bin_3 + row_accu_result1[59:48],
+                                                                       dim1_bin_4 + row_accu_result1[47:36],
+                                                                       dim1_bin_5 + row_accu_result1[35:24],
+                                                                       dim1_bin_6 + row_accu_result1[23:12],
+                                                                       dim1_bin_7 + row_accu_result1[11:0 ],
+                                                                       dim2_bin_0 + row_accu_result2[95:84],
+                                                                       dim2_bin_1 + row_accu_result2[83:72],
+                                                                       dim2_bin_2 + row_accu_result2[71:60],
+                                                                       dim2_bin_3 + row_accu_result2[59:48],
+                                                                       dim2_bin_4 + row_accu_result2[47:36],
+                                                                       dim2_bin_5 + row_accu_result2[35:24],
+                                                                       dim2_bin_6 + row_accu_result2[23:12],
+                                                                       dim2_bin_7 + row_accu_result2[11:0 ],
+                                                                       {192{1'b0}} };//write first 16 dims
         else if(cs==ST_LB_GET && descpt_ready_num=='d0 && cycle_count=='d17)
-            inner_row_col_descpt1 <= { inner_row_col_descpt1[402:192],  accu_8_dim_1 + row_accu_result1, accu_8_dim_2 + row_accu_result2};//write last 16 dims
+            inner_row_col_descpt1 <= { inner_row_col_descpt1[402:192], dim1_bin_0 + row_accu_result1[95:84],
+                                                                       dim1_bin_1 + row_accu_result1[83:72],
+                                                                       dim1_bin_2 + row_accu_result1[71:60],
+                                                                       dim1_bin_3 + row_accu_result1[59:48],
+                                                                       dim1_bin_4 + row_accu_result1[47:36],
+                                                                       dim1_bin_5 + row_accu_result1[35:24],
+                                                                       dim1_bin_6 + row_accu_result1[23:12],
+                                                                       dim1_bin_7 + row_accu_result1[11:0 ],
+                                                                       dim2_bin_0 + row_accu_result2[95:84],
+                                                                       dim2_bin_1 + row_accu_result2[83:72],
+                                                                       dim2_bin_2 + row_accu_result2[71:60],
+                                                                       dim2_bin_3 + row_accu_result2[59:48],
+                                                                       dim2_bin_4 + row_accu_result2[47:36],
+                                                                       dim2_bin_5 + row_accu_result2[35:24],
+                                                                       dim2_bin_6 + row_accu_result2[23:12],
+                                                                       dim2_bin_7 + row_accu_result2[11:0 ]
+                                                                       };//write last 16 dims
         else
             inner_row_col_descpt1 <= inner_row_col_descpt1;
     
@@ -1405,9 +1455,41 @@ module computeDescriptor(
         else if(cs==ST_GET_KPT && descpt_ready_num=='d1)
             inner_row_col_descpt2 <= { kptRowCol_FF, {384{1'b0}} };//write row col
         else if(cs==ST_LB_GET && descpt_ready_num=='d1 && cycle_count=='d10)
-            inner_row_col_descpt2 <= { inner_row_col_descpt2[402:384], accu_8_dim_1 + row_accu_result1, accu_8_dim_2 + row_accu_result2, {192{1'b0}} };//write first row col
+            inner_row_col_descpt2 <= { inner_row_col_descpt2[402:384], dim1_bin_0 + row_accu_result1[95:84],
+                                                                       dim1_bin_1 + row_accu_result1[83:72], 
+                                                                       dim1_bin_2 + row_accu_result1[71:60], 
+                                                                       dim1_bin_3 + row_accu_result1[59:48], 
+                                                                       dim1_bin_4 + row_accu_result1[47:36], 
+                                                                       dim1_bin_5 + row_accu_result1[35:24], 
+                                                                       dim1_bin_6 + row_accu_result1[23:12], 
+                                                                       dim1_bin_7 + row_accu_result1[11:0 ], 
+                                                                       dim2_bin_0 + row_accu_result2[95:84], 
+                                                                       dim2_bin_1 + row_accu_result2[83:72], 
+                                                                       dim2_bin_2 + row_accu_result2[71:60], 
+                                                                       dim2_bin_3 + row_accu_result2[59:48], 
+                                                                       dim2_bin_4 + row_accu_result2[47:36], 
+                                                                       dim2_bin_5 + row_accu_result2[35:24], 
+                                                                       dim2_bin_6 + row_accu_result2[23:12], 
+                                                                       dim2_bin_7 + row_accu_result2[11:0 ], 
+                                                                       {192{1'b0}} };//write first row col
         else if(cs==ST_LB_GET && descpt_ready_num=='d1 && cycle_count=='d17)
-            inner_row_col_descpt2 <= { inner_row_col_descpt2[402:192],  accu_8_dim_1 + row_accu_result1, accu_8_dim_2 + row_accu_result2};//write last row col
+            inner_row_col_descpt2 <= { inner_row_col_descpt2[402:192], dim1_bin_0 + row_accu_result1[95:84],
+                                                                       dim1_bin_1 + row_accu_result1[83:72],
+                                                                       dim1_bin_2 + row_accu_result1[71:60],
+                                                                       dim1_bin_3 + row_accu_result1[59:48],
+                                                                       dim1_bin_4 + row_accu_result1[47:36],
+                                                                       dim1_bin_5 + row_accu_result1[35:24],
+                                                                       dim1_bin_6 + row_accu_result1[23:12],
+                                                                       dim1_bin_7 + row_accu_result1[11:0 ],
+                                                                       dim2_bin_0 + row_accu_result2[95:84],
+                                                                       dim2_bin_1 + row_accu_result2[83:72],
+                                                                       dim2_bin_2 + row_accu_result2[71:60],
+                                                                       dim2_bin_3 + row_accu_result2[59:48],
+                                                                       dim2_bin_4 + row_accu_result2[47:36],
+                                                                       dim2_bin_5 + row_accu_result2[35:24],
+                                                                       dim2_bin_6 + row_accu_result2[23:12],
+                                                                       dim2_bin_7 + row_accu_result2[11:0 ]
+                                                                       };//write last row col
         else
             inner_row_col_descpt2 <= inner_row_col_descpt2;
     
@@ -1420,9 +1502,41 @@ module computeDescriptor(
         else if(cs==ST_GET_KPT && descpt_ready_num=='d2)
             inner_row_col_descpt3 <= { kptRowCol_FF, {384{1'b0}} };//wirte row col
         else if(cs==ST_LB_GET && descpt_ready_num=='d2 && cycle_count=='d10)
-            inner_row_col_descpt3 <= { inner_row_col_descpt3[402:384], accu_8_dim_1 + row_accu_result1, accu_8_dim_2 + row_accu_result2, {192{1'b0}} };//write first 16 dims
+            inner_row_col_descpt3 <= { inner_row_col_descpt3[402:384], dim1_bin_0 + row_accu_result1[95:84],
+                                                                       dim1_bin_1 + row_accu_result1[83:72], 
+                                                                       dim1_bin_2 + row_accu_result1[71:60], 
+                                                                       dim1_bin_3 + row_accu_result1[59:48], 
+                                                                       dim1_bin_4 + row_accu_result1[47:36], 
+                                                                       dim1_bin_5 + row_accu_result1[35:24], 
+                                                                       dim1_bin_6 + row_accu_result1[23:12], 
+                                                                       dim1_bin_7 + row_accu_result1[11:0 ], 
+                                                                       dim2_bin_0 + row_accu_result2[95:84], 
+                                                                       dim2_bin_1 + row_accu_result2[83:72], 
+                                                                       dim2_bin_2 + row_accu_result2[71:60], 
+                                                                       dim2_bin_3 + row_accu_result2[59:48], 
+                                                                       dim2_bin_4 + row_accu_result2[47:36], 
+                                                                       dim2_bin_5 + row_accu_result2[35:24], 
+                                                                       dim2_bin_6 + row_accu_result2[23:12], 
+                                                                       dim2_bin_7 + row_accu_result2[11:0 ], 
+                                                                       {192{1'b0}} };//write first 16 dims
         else if(cs==ST_LB_GET && descpt_ready_num=='d2 && cycle_count=='d17)
-            inner_row_col_descpt3 <= { inner_row_col_descpt3[402:192],  accu_8_dim_1 + row_accu_result1, accu_8_dim_2 + row_accu_result2};//write last 16 dims
+            inner_row_col_descpt3 <= { inner_row_col_descpt3[402:192], dim1_bin_0 + row_accu_result1[95:84], 
+                                                                       dim1_bin_1 + row_accu_result1[83:72], 
+                                                                       dim1_bin_2 + row_accu_result1[71:60], 
+                                                                       dim1_bin_3 + row_accu_result1[59:48], 
+                                                                       dim1_bin_4 + row_accu_result1[47:36], 
+                                                                       dim1_bin_5 + row_accu_result1[35:24], 
+                                                                       dim1_bin_6 + row_accu_result1[23:12], 
+                                                                       dim1_bin_7 + row_accu_result1[11:0 ], 
+                                                                       dim2_bin_0 + row_accu_result2[95:84], 
+                                                                       dim2_bin_1 + row_accu_result2[83:72], 
+                                                                       dim2_bin_2 + row_accu_result2[71:60], 
+                                                                       dim2_bin_3 + row_accu_result2[59:48], 
+                                                                       dim2_bin_4 + row_accu_result2[47:36], 
+                                                                       dim2_bin_5 + row_accu_result2[35:24], 
+                                                                       dim2_bin_6 + row_accu_result2[23:12], 
+                                                                       dim2_bin_7 + row_accu_result2[11:0 ]
+                                                                       };//write last 16 dims
         else
             inner_row_col_descpt3 <= inner_row_col_descpt3;
     
@@ -1435,37 +1549,164 @@ module computeDescriptor(
         else if(cs==ST_GET_KPT && descpt_ready_num=='d3)
             inner_row_col_descpt4 <= { kptRowCol_FF, {384{1'b0}} };//write row col
         else if(cs==ST_LB_GET && descpt_ready_num=='d3 && cycle_count=='d10)
-            inner_row_col_descpt4 <= { inner_row_col_descpt4[402:384], accu_8_dim_1 + row_accu_result1, accu_8_dim_2 + row_accu_result2, {192{1'b0}} };//write first 16 dims
+            inner_row_col_descpt4 <= { inner_row_col_descpt4[402:384], dim1_bin_0 + row_accu_result1[95:84],
+                                                                       dim1_bin_1 + row_accu_result1[83:72], 
+                                                                       dim1_bin_2 + row_accu_result1[71:60], 
+                                                                       dim1_bin_3 + row_accu_result1[59:48], 
+                                                                       dim1_bin_4 + row_accu_result1[47:36], 
+                                                                       dim1_bin_5 + row_accu_result1[35:24], 
+                                                                       dim1_bin_6 + row_accu_result1[23:12], 
+                                                                       dim1_bin_7 + row_accu_result1[11:0 ], 
+                                                                       dim2_bin_0 + row_accu_result2[95:84], 
+                                                                       dim2_bin_1 + row_accu_result2[83:72], 
+                                                                       dim2_bin_2 + row_accu_result2[71:60], 
+                                                                       dim2_bin_3 + row_accu_result2[59:48], 
+                                                                       dim2_bin_4 + row_accu_result2[47:36], 
+                                                                       dim2_bin_5 + row_accu_result2[35:24], 
+                                                                       dim2_bin_6 + row_accu_result2[23:12], 
+                                                                       dim2_bin_7 + row_accu_result2[11:0 ], 
+                                                                       {192{1'b0}} };//write first 16 dims
         else if(cs==ST_LB_GET && descpt_ready_num=='d3 && cycle_count=='d17)
-            inner_row_col_descpt4 <= { inner_row_col_descpt4[402:192],  accu_8_dim_1 + row_accu_result1, accu_8_dim_2 + row_accu_result2};//write last 16 dims
+            inner_row_col_descpt4 <= { inner_row_col_descpt4[402:192], dim1_bin_0 + row_accu_result1[95:84],
+                                                                       dim1_bin_1 + row_accu_result1[83:72],
+                                                                       dim1_bin_2 + row_accu_result1[71:60],
+                                                                       dim1_bin_3 + row_accu_result1[59:48],
+                                                                       dim1_bin_4 + row_accu_result1[47:36],
+                                                                       dim1_bin_5 + row_accu_result1[35:24],
+                                                                       dim1_bin_6 + row_accu_result1[23:12],
+                                                                       dim1_bin_7 + row_accu_result1[11:0 ],
+                                                                       dim2_bin_0 + row_accu_result2[95:84],
+                                                                       dim2_bin_1 + row_accu_result2[83:72],
+                                                                       dim2_bin_2 + row_accu_result2[71:60],
+                                                                       dim2_bin_3 + row_accu_result2[59:48],
+                                                                       dim2_bin_4 + row_accu_result2[47:36],
+                                                                       dim2_bin_5 + row_accu_result2[35:24],
+                                                                       dim2_bin_6 + row_accu_result2[23:12],
+                                                                       dim2_bin_7 + row_accu_result2[11:0 ]
+                                                                       };//write last 16 dims
         else
             inner_row_col_descpt4 <= inner_row_col_descpt4;
     
     end
     
-    always @(posedge clk) begin //accu_8_dim_1, accu_8_dim_2
+    //always @(posedge clk) begin //accu_8_dim_1, accu_8_dim_2
+    //
+    //    if(!rst_n) begin
+    //        accu_8_dim_1 <= 'd0;
+    //        accu_8_dim_2 <= 'd0;
+    //    end
+    //    else if(cs == ST_WAITING_BLUR) begin
+    //        accu_8_dim_1 <= 'd0;
+    //        accu_8_dim_2 <= 'd0;
+    //    end
+    //    else if(cycle_count == 'd10) begin
+    //        accu_8_dim_1 <= row_accu_result1;
+    //        accu_8_dim_2 <= row_accu_result2;
+    //    end
+    //    else if(cycle_count>='d3 && cycle_count<='d17) begin
+    //        accu_8_dim_1 <= accu_8_dim_1 + row_accu_result1;
+    //        accu_8_dim_2 <= accu_8_dim_2 + row_accu_result2;
+    //    end
+    //    else begin
+    //        accu_8_dim_1 <= accu_8_dim_1;
+    //        accu_8_dim_2 <= accu_8_dim_2;
+    //    end
+    //    
+    //end
+    
+    always @(posedge clk) begin 
     
         if(!rst_n) begin
-            accu_8_dim_1 <= 'd0;
-            accu_8_dim_2 <= 'd0;
+            dim1_bin_0 <= 'd0;
+            dim1_bin_1 <= 'd0;
+            dim1_bin_2 <= 'd0;
+            dim1_bin_3 <= 'd0;
+            dim1_bin_4 <= 'd0;
+            dim1_bin_5 <= 'd0;
+            dim1_bin_6 <= 'd0;
+            dim1_bin_7 <= 'd0;
+            dim2_bin_0 <= 'd0;
+            dim2_bin_1 <= 'd0;
+            dim2_bin_2 <= 'd0;
+            dim2_bin_3 <= 'd0;
+            dim2_bin_4 <= 'd0;
+            dim2_bin_5 <= 'd0;
+            dim2_bin_6 <= 'd0;
+            dim2_bin_7 <= 'd0;
         end
         else if(cs == ST_WAITING_BLUR) begin
-            accu_8_dim_1 <= 'd0;
-            accu_8_dim_2 <= 'd0;
+            dim1_bin_0 <= 'd0;
+            dim1_bin_1 <= 'd0;
+            dim1_bin_2 <= 'd0;
+            dim1_bin_3 <= 'd0;
+            dim1_bin_4 <= 'd0;
+            dim1_bin_5 <= 'd0;
+            dim1_bin_6 <= 'd0;
+            dim1_bin_7 <= 'd0;
+            dim2_bin_0 <= 'd0;
+            dim2_bin_1 <= 'd0;
+            dim2_bin_2 <= 'd0;
+            dim2_bin_3 <= 'd0;
+            dim2_bin_4 <= 'd0;
+            dim2_bin_5 <= 'd0;
+            dim2_bin_6 <= 'd0;
+            dim2_bin_7 <= 'd0;
         end
         else if(cycle_count == 'd10) begin
-            accu_8_dim_1 <= row_accu_result1;
-            accu_8_dim_2 <= row_accu_result2;
+            dim1_bin_0 <= row_accu_result1[95:84];
+            dim1_bin_1 <= row_accu_result1[83:72]; 
+            dim1_bin_2 <= row_accu_result1[71:60];
+            dim1_bin_3 <= row_accu_result1[59:48];
+            dim1_bin_4 <= row_accu_result1[47:36];
+            dim1_bin_5 <= row_accu_result1[35:24];
+            dim1_bin_6 <= row_accu_result1[23:12];
+            dim1_bin_7 <= row_accu_result1[11:0 ];
+            dim2_bin_0 <= row_accu_result2[95:84];
+            dim2_bin_1 <= row_accu_result2[83:72];
+            dim2_bin_2 <= row_accu_result2[71:60];
+            dim2_bin_3 <= row_accu_result2[59:48];
+            dim2_bin_4 <= row_accu_result2[47:36];
+            dim2_bin_5 <= row_accu_result2[35:24];
+            dim2_bin_6 <= row_accu_result2[23:12];
+            dim2_bin_7 <= row_accu_result2[11:0];
         end
         else if(cycle_count>='d3 && cycle_count<='d17) begin
-            accu_8_dim_1 <= accu_8_dim_1 + row_accu_result1;
-            accu_8_dim_2 <= accu_8_dim_2 + row_accu_result2;
+            dim1_bin_0 <= dim1_bin_0 + row_accu_result1[95:84];
+            dim1_bin_1 <= dim1_bin_1 + row_accu_result1[83:72]; 
+            dim1_bin_2 <= dim1_bin_2 + row_accu_result1[71:60];
+            dim1_bin_3 <= dim1_bin_3 + row_accu_result1[59:48];
+            dim1_bin_4 <= dim1_bin_4 + row_accu_result1[47:36];
+            dim1_bin_5 <= dim1_bin_5 + row_accu_result1[35:24];
+            dim1_bin_6 <= dim1_bin_6 + row_accu_result1[23:12];
+            dim1_bin_7 <= dim1_bin_7 + row_accu_result1[11:0];
+            dim2_bin_0 <= dim2_bin_0 + row_accu_result2[95:84];
+            dim2_bin_1 <= dim2_bin_1 + row_accu_result2[83:72];
+            dim2_bin_2 <= dim2_bin_2 + row_accu_result2[71:60];
+            dim2_bin_3 <= dim2_bin_3 + row_accu_result2[59:48];
+            dim2_bin_4 <= dim2_bin_4 + row_accu_result2[47:36];
+            dim2_bin_5 <= dim2_bin_5 + row_accu_result2[35:24];
+            dim2_bin_6 <= dim2_bin_6 + row_accu_result2[23:12];
+            dim2_bin_7 <= dim2_bin_7 + row_accu_result2[11:0];
         end
         else begin
-            accu_8_dim_1 <= accu_8_dim_1;
-            accu_8_dim_2 <= accu_8_dim_2;
+            dim1_bin_0 <= dim1_bin_0;
+            dim1_bin_1 <= dim1_bin_1;
+            dim1_bin_2 <= dim1_bin_2;
+            dim1_bin_3 <= dim1_bin_3;
+            dim1_bin_4 <= dim1_bin_4;
+            dim1_bin_5 <= dim1_bin_5;
+            dim1_bin_6 <= dim1_bin_6;
+            dim1_bin_7 <= dim1_bin_7;
+            dim2_bin_0 <= dim2_bin_0;
+            dim2_bin_1 <= dim2_bin_1;
+            dim2_bin_2 <= dim2_bin_2;
+            dim2_bin_3 <= dim2_bin_3;
+            dim2_bin_4 <= dim2_bin_4;
+            dim2_bin_5 <= dim2_bin_5;
+            dim2_bin_6 <= dim2_bin_6;
+            dim2_bin_7 <= dim2_bin_7;
         end
-        
+    
     end
     
     always @(posedge clk) begin //cycle_count
