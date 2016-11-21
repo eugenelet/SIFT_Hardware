@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"img_do",
+				"img_dout_buffer"
+			],
+			[
+				"nex",
+				"next_state"
+			],
+			[
 				"kern",
 				"kernel_img_sum_1_"
 			],
@@ -62,10 +70,6 @@
 			[
 				"ST_FI",
 				"ST_FIRST_COL"
-			],
-			[
-				"nex",
-				"next_col_count"
 			],
 			[
 				"blur",
@@ -510,10 +514,6 @@
 			[
 				"debug",
 				"debug"
-			],
-			[
-				"nu",
-				"numElems"
 			]
 		]
 	},
@@ -541,7 +541,7 @@
 			"file": "01_RTL/Gaussian_Blur_3x3.v",
 			"settings":
 			{
-				"buffer_size": 330286,
+				"buffer_size": 335435,
 				"line_ending": "Unix"
 			}
 		},
@@ -549,7 +549,7 @@
 			"file": "01_RTL/Gaussian_Blur_5x5_0.v",
 			"settings":
 			{
-				"buffer_size": 888392,
+				"buffer_size": 893541,
 				"line_ending": "Unix"
 			}
 		},
@@ -557,7 +557,7 @@
 			"file": "00_TESTBENCH/TESTBENCH.v",
 			"settings":
 			{
-				"buffer_size": 23437,
+				"buffer_size": 23593,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -566,7 +566,7 @@
 			"file": "01_RTL/Detect_Filter_Keypoints.v",
 			"settings":
 			{
-				"buffer_size": 42942,
+				"buffer_size": 44152,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -584,7 +584,16 @@
 			"file": "/C/Users/Eugene/Documents/GitHub/SIFT/VerilogGenerator/generateVerilog_GKERNEL.cpp",
 			"settings":
 			{
-				"buffer_size": 22405,
+				"buffer_size": 23884,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "01_RTL/SIFT_PROC.v",
+			"settings":
+			{
+				"buffer_size": 19547,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -593,7 +602,7 @@
 			"file": "/C/Users/Eugene/Documents/GitHub/SIFT/VerilogGenerator/Gaussian_Blur_3x3.v",
 			"settings":
 			{
-				"buffer_size": 330286,
+				"buffer_size": 335435,
 				"line_ending": "Unix"
 			}
 		},
@@ -601,7 +610,7 @@
 			"file": "/C/Users/Eugene/Documents/GitHub/SIFT/VerilogGenerator/Gaussian_Blur_5x5_0.v",
 			"settings":
 			{
-				"buffer_size": 888392,
+				"buffer_size": 893541,
 				"line_ending": "Unix"
 			}
 		},
@@ -609,7 +618,7 @@
 			"file": "/C/Users/Eugene/Documents/GitHub/SIFT/VerilogGenerator/Gaussian_Blur_7x7.v",
 			"settings":
 			{
-				"buffer_size": 1726569,
+				"buffer_size": 1731718,
 				"line_ending": "Unix"
 			}
 		},
@@ -617,7 +626,7 @@
 			"file": "01_RTL/Gaussian_Blur_7x7.v",
 			"settings":
 			{
-				"buffer_size": 1726569,
+				"buffer_size": 1731718,
 				"line_ending": "Unix"
 			}
 		},
@@ -625,7 +634,7 @@
 			"file": "/C/Users/Eugene/Documents/GitHub/SIFT/VerilogGenerator/Gaussian_Blur_5x5_1.v",
 			"settings":
 			{
-				"buffer_size": 888375,
+				"buffer_size": 893524,
 				"line_ending": "Unix"
 			}
 		},
@@ -635,14 +644,6 @@
 			{
 				"buffer_size": 3543,
 				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "01_RTL/bus_partition.v",
-			"settings":
-			{
-				"buffer_size": 186198,
 				"line_ending": "Windows"
 			}
 		}
@@ -862,6 +863,13 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"fill_zer",
+			"buffer_we",
+			"ST_DETECT",
+			"img_dout_buffer",
+			"is_keypoint_0",
+			"keypoint_layer_1_empty",
+			"blur3x3_addr",
 			"kernel_div3",
 			"u_core",
 			"core",
@@ -982,14 +990,7 @@
 			"createDoG",
 			"fix",
 			"delay",
-			"true",
-			"delay",
-			"cout",
-			"hierachy",
-			"return_type",
-			"now_try",
-			"jailhouse_system_config_size",
-			"page_offset"
+			"true"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1022,7 +1023,7 @@
 	"groups":
 	[
 		{
-			"selected": 7,
+			"selected": 4,
 			"sheets":
 			[
 				{
@@ -1089,7 +1090,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 330286,
+						"buffer_size": 335435,
 						"regions":
 						{
 						},
@@ -1110,7 +1111,7 @@
 						"translation.y": 196588.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 8,
 					"type": "text"
 				},
 				{
@@ -1119,7 +1120,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 888392,
+						"buffer_size": 893541,
 						"regions":
 						{
 						},
@@ -1149,15 +1150,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 23437,
+						"buffer_size": 23593,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								436,
-								436
+								19529,
+								19539
 							]
 						],
 						"settings":
@@ -1167,10 +1168,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 11714.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -1179,15 +1180,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 42942,
+						"buffer_size": 44152,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								6829,
-								6829
+								2419,
+								1949
 							]
 						],
 						"settings":
@@ -1197,10 +1198,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 5226.0,
+						"translation.y": 2016.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
@@ -1230,7 +1231,7 @@
 						"translation.y": 9765.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 10,
 					"type": "text"
 				},
 				{
@@ -1239,15 +1240,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 22405,
+						"buffer_size": 23884,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								252,
-								252
+								312,
+								312
 							]
 						],
 						"settings":
@@ -1260,24 +1261,54 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
 					"buffer": 8,
-					"file": "/C/Users/Eugene/Documents/GitHub/SIFT/VerilogGenerator/Gaussian_Blur_3x3.v",
+					"file": "01_RTL/SIFT_PROC.v",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 330286,
+						"buffer_size": 19547,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								303907,
-								303907
+								3064,
+								3074
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Verilog/Verilog.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3303.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "/C/Users/Eugene/Documents/GitHub/SIFT/VerilogGenerator/Gaussian_Blur_3x3.v",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 335435,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								301933,
+								301933
 							]
 						],
 						"settings":
@@ -1287,19 +1318,19 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 178360.0,
+						"translation.y": 177520.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
-					"buffer": 9,
+					"buffer": 10,
 					"file": "/C/Users/Eugene/Documents/GitHub/SIFT/VerilogGenerator/Gaussian_Blur_5x5_0.v",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 888392,
+						"buffer_size": 893541,
 						"regions":
 						{
 						},
@@ -1320,54 +1351,24 @@
 						"translation.y": 506577.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 10,
-					"file": "/C/Users/Eugene/Documents/GitHub/SIFT/VerilogGenerator/Gaussian_Blur_7x7.v",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1726569,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								839,
-								839
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Verilog/Verilog.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
 					"buffer": 11,
-					"file": "01_RTL/Gaussian_Blur_7x7.v",
+					"file": "/C/Users/Eugene/Documents/GitHub/SIFT/VerilogGenerator/Gaussian_Blur_7x7.v",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1726569,
+						"buffer_size": 1731718,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1726227,
-								1726227
+								1588985,
+								1588985
 							]
 						],
 						"settings":
@@ -1377,19 +1378,49 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 969276.0,
+						"translation.y": 907573.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
 					"buffer": 12,
+					"file": "01_RTL/Gaussian_Blur_7x7.v",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1731718,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1603033,
+								1603033
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Verilog/Verilog.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 911362.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 13,
 					"file": "/C/Users/Eugene/Documents/GitHub/SIFT/VerilogGenerator/Gaussian_Blur_5x5_1.v",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 888375,
+						"buffer_size": 893524,
 						"regions":
 						{
 						},
@@ -1410,11 +1441,11 @@
 						"translation.y": 493696.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 9,
 					"type": "text"
 				},
 				{
-					"buffer": 13,
+					"buffer": 14,
 					"file": "01_RTL/Line_Buffer_10.v",
 					"semi_transient": false,
 					"settings":
@@ -1438,36 +1469,6 @@
 						},
 						"translation.x": 0.0,
 						"translation.y": 3402.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 10,
-					"type": "text"
-				},
-				{
-					"buffer": 14,
-					"file": "01_RTL/bus_partition.v",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 186198,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4645,
-								4648
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Verilog/Verilog.tmLanguage",
-							"tab_size": 6,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 6216.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 11,

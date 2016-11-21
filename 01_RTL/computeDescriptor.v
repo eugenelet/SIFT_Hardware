@@ -102,7 +102,7 @@ module computeDescriptor(
                 dim2_bin_4,
                 dim2_bin_5,
                 dim2_bin_6,
-                dim2_bin_7,
+                dim2_bin_7;
                 
     reg [135:0] buffer_0,
                 buffer_1,
