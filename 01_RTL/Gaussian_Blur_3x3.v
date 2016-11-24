@@ -7420,7 +7420,7 @@ always @(*) begin
       else
         next_state = ST_MUL;
     end
-    ST_ADD1: begin
+    ST_ADD: begin
       if(current_state==ST_ADD)
         next_state = ST_UPDATE;
       else 
