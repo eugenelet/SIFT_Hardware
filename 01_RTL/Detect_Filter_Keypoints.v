@@ -931,12 +931,12 @@ always @(*) begin
   if (current_state==ST_FILTER && !filter_layer) begin
     top_row = buffer_data_3;
     mid_row = buffer_data_2;
-    btm_row = blur3x3_dout_buffer;
+    btm_row = blur3x3_dout_wire;
   end
   else if (current_state==ST_FILTER && filter_layer) begin
     top_row = buffer_data_5;
     mid_row = buffer_data_4;
-    btm_row = blur5x5_1_dout_buffer;
+    btm_row = blur5x5_1_dout_wire;
   end
   else begin
     top_row = 0;
