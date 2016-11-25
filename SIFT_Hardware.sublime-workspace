@@ -541,7 +541,7 @@
 			"file": "01_RTL/Gaussian_Blur_3x3.v",
 			"settings":
 			{
-				"buffer_size": 335435,
+				"buffer_size": 0,
 				"line_ending": "Unix"
 			}
 		},
@@ -549,7 +549,7 @@
 			"file": "01_RTL/Gaussian_Blur_5x5_0.v",
 			"settings":
 			{
-				"buffer_size": 893541,
+				"buffer_size": 0,
 				"line_ending": "Unix"
 			}
 		},
@@ -560,6 +560,14 @@
 				"buffer_size": 23593,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "01_RTL/Gaussian_Blur_5x5_1.v",
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Unix"
 			}
 		},
 		{
@@ -581,15 +589,6 @@
 			}
 		},
 		{
-			"file": "/C/Users/Eugene/Documents/GitHub/SIFT/VerilogGenerator/generateVerilog_GKERNEL.cpp",
-			"settings":
-			{
-				"buffer_size": 23884,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "01_RTL/SIFT_PROC.v",
 			"settings":
 			{
@@ -602,7 +601,7 @@
 			"file": "/C/Users/Eugene/Documents/GitHub/SIFT/VerilogGenerator/Gaussian_Blur_3x3.v",
 			"settings":
 			{
-				"buffer_size": 335435,
+				"buffer_size": 0,
 				"line_ending": "Unix"
 			}
 		},
@@ -610,7 +609,7 @@
 			"file": "/C/Users/Eugene/Documents/GitHub/SIFT/VerilogGenerator/Gaussian_Blur_5x5_0.v",
 			"settings":
 			{
-				"buffer_size": 893541,
+				"buffer_size": 0,
 				"line_ending": "Unix"
 			}
 		},
@@ -618,7 +617,7 @@
 			"file": "/C/Users/Eugene/Documents/GitHub/SIFT/VerilogGenerator/Gaussian_Blur_7x7.v",
 			"settings":
 			{
-				"buffer_size": 1731718,
+				"buffer_size": 0,
 				"line_ending": "Unix"
 			}
 		},
@@ -626,7 +625,7 @@
 			"file": "01_RTL/Gaussian_Blur_7x7.v",
 			"settings":
 			{
-				"buffer_size": 1731718,
+				"buffer_size": 0,
 				"line_ending": "Unix"
 			}
 		},
@@ -634,7 +633,7 @@
 			"file": "/C/Users/Eugene/Documents/GitHub/SIFT/VerilogGenerator/Gaussian_Blur_5x5_1.v",
 			"settings":
 			{
-				"buffer_size": 893524,
+				"buffer_size": 0,
 				"line_ending": "Unix"
 			}
 		},
@@ -1023,7 +1022,7 @@
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 11,
 			"sheets":
 			[
 				{
@@ -1090,15 +1089,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 335435,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								291610,
-								291628
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1108,10 +1107,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 196588.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 9,
 					"type": "text"
 				},
 				{
@@ -1120,15 +1119,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 893541,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								808122,
-								808122
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1138,7 +1137,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 463064.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 12,
@@ -1171,11 +1170,41 @@
 						"translation.y": 11714.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
 					"buffer": 5,
+					"file": "01_RTL/Gaussian_Blur_5x5_1.v",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Verilog/Verilog.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
 					"file": "01_RTL/Detect_Filter_Keypoints.v",
 					"semi_transient": false,
 					"settings":
@@ -1201,11 +1230,11 @@
 						"translation.y": 2016.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 7,
 					"file": "01_RTL/Gaussian_Blur.v",
 					"semi_transient": false,
 					"settings":
@@ -1231,37 +1260,7 @@
 						"translation.y": 9765.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 10,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "/C/Users/Eugene/Documents/GitHub/SIFT/VerilogGenerator/generateVerilog_GKERNEL.cpp",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 23884,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								312,
-								312
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
@@ -1291,7 +1290,7 @@
 						"translation.y": 3303.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
@@ -1300,15 +1299,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 335435,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								301933,
-								301933
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1318,10 +1317,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 177520.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
@@ -1330,15 +1329,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 893541,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								888152,
-								888152
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1348,10 +1347,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 506577.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 8,
 					"type": "text"
 				},
 				{
@@ -1360,15 +1359,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1731718,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1588985,
-								1588985
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1378,10 +1377,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 907573.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -1390,15 +1389,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1731718,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1603033,
-								1603033
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1408,10 +1407,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 911362.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -1420,15 +1419,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 893524,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								872135,
-								872152
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1438,10 +1437,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 493696.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 10,
 					"type": "text"
 				},
 				{

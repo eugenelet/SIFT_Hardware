@@ -40,7 +40,7 @@ module match(
                         descriptor_valid;
     input       [10:0]  kpt_num;
                         
-    input       [8:0]   tar_descpt_group_num;
+    input       [9:0]   tar_descpt_group_num;
     
     input       [402:0] image_R_C_D_0,
                         image_R_C_D_1,
@@ -83,7 +83,7 @@ module match(
     wire[8:0]   img_descpt_group_num;
     wire        firstImgGrp_FLAG;
     
-    reg[8:0]    img_group_num,
+    reg[9:0]    img_group_num,
                 img_group_counter,
                 tar_group_num,
                 tar_group_counter;

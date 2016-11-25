@@ -22,7 +22,8 @@ module SIFT_PROC(
     matched_2_dout,
     matched_3_dout,
     adaptiveToggle,
-    adaptiveMode
+    adaptiveMode,
+    tar_descpt_group_num
 );
     /*Basic I/O*/
     input           clk,
@@ -79,6 +80,7 @@ module SIFT_PROC(
      */
     input           adaptiveToggle;
     input[1:0]      adaptiveMode;
+    input[9:0]      tar_descpt_group_num;
 
     /*FSM*/
     reg         [2:0] current_state,
@@ -439,7 +441,14 @@ module SIFT_PROC(
 
 
 
-    reg[8:0]  tar_descpt_group_num;
+    reg[9:0]  tar_descpt_group_num_reg;
+    always @(posedge clk) begin
+      if (!rst_n)
+        tar_descpt_group_num_reg <= 'd0;        
+      else
+        tar_descpt_group_num_reg <= tar_descpt_group_num;
+    end
+
     wire[8:0] match_target_addr;
     wire[8:0] match_matched_addr1,
               match_matched_addr2;
@@ -455,7 +464,7 @@ module SIFT_PROC(
         .done                 (compute_match_done),
         .descriptor_request   (descriptor_request),
         .descriptor_valid     (descriptor_valid),
-        .tar_descpt_group_num (tar_descpt_group_num),
+        .tar_descpt_group_num (tar_descpt_group_num_reg),
         .image_R_C_D_0        (row_col_descpt1),//image's row col descriptor
         .image_R_C_D_1        (row_col_descpt2),
         .image_R_C_D_2        (row_col_descpt3),

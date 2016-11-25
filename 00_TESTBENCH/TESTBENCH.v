@@ -78,6 +78,8 @@ reg[48:0]       matched_mem_0[0:511],
                 matched_mem_2[0:511],
                 matched_mem_3[0:511];
 
+reg[9:0]        tar_descpt_group_num;
+
 initial clk = 0;
 always #(`CLK_PERIOD/2) clk = ~clk;
 
@@ -106,7 +108,8 @@ SIFT_PROC u_sift_proc(
     .matched_2_dout   (matched_2_dout),
     .matched_3_dout   (matched_3_dout),
     .adaptiveToggle   (adaptiveToggle),
-    .adaptiveMode     (adaptiveMode)
+    .adaptiveMode     (adaptiveMode),
+    .tar_descpt_group_num (tar_descpt_group_num)
 );
 
 
@@ -154,7 +157,11 @@ initial begin
   /* Write Target SRAM */
   targetFile = $fopen("targetRowColDespt.txt", "r");
   rc = $fscanf(targetFile, "%d", targetKptNum);
-  u_sift_proc.tar_descpt_group_num = targetKptNum/4;
+
+  /*Initialize number of target desc. group*/
+  tar_descpt_group_num = targetKptNum/4;
+
+
   target_0_we = 0;
   target_1_we = 0;
   target_2_we = 0;
