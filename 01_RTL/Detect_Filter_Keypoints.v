@@ -188,7 +188,7 @@ reg[5:0]  buffer_col;
 always @(posedge clk) begin
   if (!rst_n) 
     buffer_col <= 'd0;    
-  else if (/*current_state==ST_BUFFER*/current_state==ST_PRE_DETECT && img_addr!=1 && img_addr=='d472 && buffer_col<'d40)
+  else if (current_state==ST_BUFFER && img_addr=='d472 && buffer_col<'d40)
     buffer_col <= buffer_col + 1;
   else if (done)
     buffer_col <= 'd0;
@@ -205,31 +205,31 @@ reg[5119:0] blur7x7_dout_buffer;
 always @(posedge clk) begin
   if (!rst_n)
     img_dout_buffer <= 'd0;    
-  else if (current_state==ST_PRE_DETECT) 
+  else if (current_state==ST_BUFFER) 
     img_dout_buffer <= img_dout;
 end
 always @(posedge clk) begin
   if (!rst_n)
     blur3x3_dout_buffer <= 'd0;    
-  else if (current_state==ST_PRE_DETECT) 
+  else if (current_state==ST_BUFFER) 
     blur3x3_dout_buffer <= blur3x3_dout;
 end
 always @(posedge clk) begin
   if (!rst_n)
     blur5x5_1_dout_buffer <= 'd0;    
-  else if (current_state==ST_PRE_DETECT) 
+  else if (current_state==ST_BUFFER) 
     blur5x5_1_dout_buffer <= blur5x5_1_dout;
 end
 always @(posedge clk) begin
   if (!rst_n)
     blur5x5_2_dout_buffer <= 'd0;    
-  else if (current_state==ST_PRE_DETECT) 
+  else if (current_state==ST_BUFFER) 
     blur5x5_2_dout_buffer <= blur5x5_2_dout;
 end
 always @(posedge clk) begin
   if (!rst_n)
     blur7x7_dout_buffer <= 'd0;    
-  else if (current_state==ST_PRE_DETECT) 
+  else if (current_state==ST_BUFFER) 
     blur7x7_dout_buffer <= blur7x7_dout;
 end
 
