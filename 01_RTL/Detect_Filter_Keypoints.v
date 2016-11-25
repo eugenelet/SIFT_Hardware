@@ -205,31 +205,31 @@ reg[5119:0] blur7x7_dout_buffer;
 always @(posedge clk) begin
   if (!rst_n)
     img_dout_buffer <= 'd0;    
-  else if (current_state==ST_BUFFER) 
+  else if (current_state==ST_PRE_DETECT) 
     img_dout_buffer <= img_dout;
 end
 always @(posedge clk) begin
   if (!rst_n)
     blur3x3_dout_buffer <= 'd0;    
-  else if (current_state==ST_BUFFER) 
+  else if (current_state==ST_PRE_DETECT) 
     blur3x3_dout_buffer <= blur3x3_dout;
 end
 always @(posedge clk) begin
   if (!rst_n)
     blur5x5_1_dout_buffer <= 'd0;    
-  else if (current_state==ST_BUFFER) 
+  else if (current_state==ST_PRE_DETECT) 
     blur5x5_1_dout_buffer <= blur5x5_1_dout;
 end
 always @(posedge clk) begin
   if (!rst_n)
     blur5x5_2_dout_buffer <= 'd0;    
-  else if (current_state==ST_BUFFER) 
+  else if (current_state==ST_PRE_DETECT) 
     blur5x5_2_dout_buffer <= blur5x5_2_dout;
 end
 always @(posedge clk) begin
   if (!rst_n)
     blur7x7_dout_buffer <= 'd0;    
-  else if (current_state==ST_BUFFER) 
+  else if (current_state==ST_PRE_DETECT) 
     blur7x7_dout_buffer <= blur7x7_dout;
 end
 
