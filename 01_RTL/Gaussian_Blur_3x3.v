@@ -27,16 +27,15 @@ reg     [2:0] current_state,
               next_state;
 assign done = (current_state==ST_UPDATE) ? 1 : 0;
 
-reg       [23:0]  G_Kernel_3x3[0:2];
-always @(posedge clk) begin
-  if (!rst_n) begin
-    G_Kernel_3x3[0][7:0]   <= 8'h17; //BC5428; //18'b00_0101_1110_1111_0001;//'d092717;
-    G_Kernel_3x3[0][15:8]  <= 8'h1E; //7ABFF3; //18'b00_0111_1001_1110_1010;//'d119061;
-    G_Kernel_3x3[0][23:16] <= 8'h17; //BC5428; //18'b00_0101_1110_1111_0001;//'d092717;
-    G_Kernel_3x3[1][7:0]   <= 8'h1E; //7ABFF3; //18'b00_0111_1001_1110_1010;//'d119061;
-    G_Kernel_3x3[1][15:8]  <= 8'h27; //23AF8E; //18'b00_1001_1100_1000_1110;//'d152888;
-    G_Kernel_3x3[1][23:16] <= 8'h1E; //7ABFF3; //18'b00_0111_1001_1110_1011;//'d119061;
-  end
+reg       [23:0]  G_Kernel_3x3_0;
+reg       [23:0]  G_Kernel_3x3_1;
+always @(*) begin
+    G_Kernel_3x3_0[7:0]   = 8'h17; //BC5428; //18'b00_0101_1110_1111_0001;//'d092717;
+    G_Kernel_3x3_0[15:8]  = 8'h1E; //7ABFF3; //18'b00_0111_1001_1110_1010;//'d119061;
+    G_Kernel_3x3_0[23:16] = 8'h17; //BC5428; //18'b00_0101_1110_1111_0001;//'d092717;
+    G_Kernel_3x3_1[7:0]   = 8'h1E; //7ABFF3; //18'b00_0111_1001_1110_1010;//'d119061;
+    G_Kernel_3x3_1[15:8]  = 8'h27; //23AF8E; //18'b00_1001_1100_1000_1110;//'d152888;
+    G_Kernel_3x3_1[23:16] = 8'h1E; //7ABFF3; //18'b00_0111_1001_1110_1011;//'d119061;
 end
 
 reg    [23:0]    layer0[0:15]; //wire
@@ -6047,15 +6046,15 @@ always@(posedge clk) begin
     kernel_img_mul_0[8] <= 'd0;
   end
   else if(current_state==ST_MUL) begin
-    kernel_img_mul_0[0] <= { {8{1'b0}},layer0[0][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
-    kernel_img_mul_0[1] <= { {8{1'b0}},layer0[0][15:8]} * { {8{1'b0}}, G_Kernel_3x3[0][15:8]};
-    kernel_img_mul_0[2] <= { {8{1'b0}},layer0[0][23:16]} * { {8{1'b0}}, G_Kernel_3x3[0][23:16]};
-    kernel_img_mul_0[3] <= { {8{1'b0}},layer1[0][7:0]} * { {8{1'b0}}, G_Kernel_3x3[1][7:0]};
-    kernel_img_mul_0[4] <= { {8{1'b0}},layer1[0][15:8]} * { {8{1'b0}}, G_Kernel_3x3[1][15:8]};
-    kernel_img_mul_0[5] <= { {8{1'b0}},layer1[0][23:16]} * { {8{1'b0}}, G_Kernel_3x3[1][23:16]};
-    kernel_img_mul_0[6] <= { {8{1'b0}},layer2[0][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
-    kernel_img_mul_0[7] <= { {8{1'b0}},layer2[0][15:8]} * { {8{1'b0}}, G_Kernel_3x3[0][15:8]};
-    kernel_img_mul_0[8] <= { {8{1'b0}},layer2[0][23:16]} * { {8{1'b0}}, G_Kernel_3x3[0][23:16]};
+    kernel_img_mul_0[0] <= { {8{1'b0}},layer0[0][7:0]} * { {8{1'b0}}, G_Kernel_3x3_0[7:0]};
+    kernel_img_mul_0[1] <= { {8{1'b0}},layer0[0][15:8]} * { {8{1'b0}}, G_Kernel_3x3_0[15:8]};
+    kernel_img_mul_0[2] <= { {8{1'b0}},layer0[0][23:16]} * { {8{1'b0}}, G_Kernel_3x3_0[23:16]};
+    kernel_img_mul_0[3] <= { {8{1'b0}},layer1[0][7:0]} * { {8{1'b0}}, G_Kernel_3x3_1[7:0]};
+    kernel_img_mul_0[4] <= { {8{1'b0}},layer1[0][15:8]} * { {8{1'b0}}, G_Kernel_3x3_1[15:8]};
+    kernel_img_mul_0[5] <= { {8{1'b0}},layer1[0][23:16]} * { {8{1'b0}}, G_Kernel_3x3_1[23:16]};
+    kernel_img_mul_0[6] <= { {8{1'b0}},layer2[0][7:0]} * { {8{1'b0}}, G_Kernel_3x3_0[7:0]};
+    kernel_img_mul_0[7] <= { {8{1'b0}},layer2[0][15:8]} * { {8{1'b0}}, G_Kernel_3x3_0[15:8]};
+    kernel_img_mul_0[8] <= { {8{1'b0}},layer2[0][23:16]} * { {8{1'b0}}, G_Kernel_3x3_0[23:16]};
   end
 end
 reg  [15:0]  kernel_img_sum_1_0;
@@ -6130,15 +6129,15 @@ always@(posedge clk) begin
     kernel_img_mul_1[8] <= 'd0;
   end
   else if(current_state==ST_MUL) begin
-    kernel_img_mul_1[0] <= { {8{1'b0}},layer0[1][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
-    kernel_img_mul_1[1] <= { {8{1'b0}},layer0[1][15:8]} * { {8{1'b0}}, G_Kernel_3x3[0][15:8]};
-    kernel_img_mul_1[2] <= { {8{1'b0}},layer0[1][23:16]} * { {8{1'b0}}, G_Kernel_3x3[0][23:16]};
-    kernel_img_mul_1[3] <= { {8{1'b0}},layer1[1][7:0]} * { {8{1'b0}}, G_Kernel_3x3[1][7:0]};
-    kernel_img_mul_1[4] <= { {8{1'b0}},layer1[1][15:8]} * { {8{1'b0}}, G_Kernel_3x3[1][15:8]};
-    kernel_img_mul_1[5] <= { {8{1'b0}},layer1[1][23:16]} * { {8{1'b0}}, G_Kernel_3x3[1][23:16]};
-    kernel_img_mul_1[6] <= { {8{1'b0}},layer2[1][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
-    kernel_img_mul_1[7] <= { {8{1'b0}},layer2[1][15:8]} * { {8{1'b0}}, G_Kernel_3x3[0][15:8]};
-    kernel_img_mul_1[8] <= { {8{1'b0}},layer2[1][23:16]} * { {8{1'b0}}, G_Kernel_3x3[0][23:16]};
+    kernel_img_mul_1[0] <= { {8{1'b0}},layer0[1][7:0]} * { {8{1'b0}}, G_Kernel_3x3_0[7:0]};
+    kernel_img_mul_1[1] <= { {8{1'b0}},layer0[1][15:8]} * { {8{1'b0}}, G_Kernel_3x3_0[15:8]};
+    kernel_img_mul_1[2] <= { {8{1'b0}},layer0[1][23:16]} * { {8{1'b0}}, G_Kernel_3x3_0[23:16]};
+    kernel_img_mul_1[3] <= { {8{1'b0}},layer1[1][7:0]} * { {8{1'b0}}, G_Kernel_3x3_1[7:0]};
+    kernel_img_mul_1[4] <= { {8{1'b0}},layer1[1][15:8]} * { {8{1'b0}}, G_Kernel_3x3_1[15:8]};
+    kernel_img_mul_1[5] <= { {8{1'b0}},layer1[1][23:16]} * { {8{1'b0}}, G_Kernel_3x3_1[23:16]};
+    kernel_img_mul_1[6] <= { {8{1'b0}},layer2[1][7:0]} * { {8{1'b0}}, G_Kernel_3x3_0[7:0]};
+    kernel_img_mul_1[7] <= { {8{1'b0}},layer2[1][15:8]} * { {8{1'b0}}, G_Kernel_3x3_0[15:8]};
+    kernel_img_mul_1[8] <= { {8{1'b0}},layer2[1][23:16]} * { {8{1'b0}}, G_Kernel_3x3_0[23:16]};
   end
 end
 reg  [15:0]  kernel_img_sum_1_1;
@@ -6213,15 +6212,15 @@ always@(posedge clk) begin
     kernel_img_mul_2[8] <= 'd0;
   end
   else if(current_state==ST_MUL) begin
-    kernel_img_mul_2[0] <= { {8{1'b0}},layer0[2][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
-    kernel_img_mul_2[1] <= { {8{1'b0}},layer0[2][15:8]} * { {8{1'b0}}, G_Kernel_3x3[0][15:8]};
-    kernel_img_mul_2[2] <= { {8{1'b0}},layer0[2][23:16]} * { {8{1'b0}}, G_Kernel_3x3[0][23:16]};
-    kernel_img_mul_2[3] <= { {8{1'b0}},layer1[2][7:0]} * { {8{1'b0}}, G_Kernel_3x3[1][7:0]};
-    kernel_img_mul_2[4] <= { {8{1'b0}},layer1[2][15:8]} * { {8{1'b0}}, G_Kernel_3x3[1][15:8]};
-    kernel_img_mul_2[5] <= { {8{1'b0}},layer1[2][23:16]} * { {8{1'b0}}, G_Kernel_3x3[1][23:16]};
-    kernel_img_mul_2[6] <= { {8{1'b0}},layer2[2][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
-    kernel_img_mul_2[7] <= { {8{1'b0}},layer2[2][15:8]} * { {8{1'b0}}, G_Kernel_3x3[0][15:8]};
-    kernel_img_mul_2[8] <= { {8{1'b0}},layer2[2][23:16]} * { {8{1'b0}}, G_Kernel_3x3[0][23:16]};
+    kernel_img_mul_2[0] <= { {8{1'b0}},layer0[2][7:0]} * { {8{1'b0}}, G_Kernel_3x3_0[7:0]};
+    kernel_img_mul_2[1] <= { {8{1'b0}},layer0[2][15:8]} * { {8{1'b0}}, G_Kernel_3x3_0[15:8]};
+    kernel_img_mul_2[2] <= { {8{1'b0}},layer0[2][23:16]} * { {8{1'b0}}, G_Kernel_3x3_0[23:16]};
+    kernel_img_mul_2[3] <= { {8{1'b0}},layer1[2][7:0]} * { {8{1'b0}}, G_Kernel_3x3_1[7:0]};
+    kernel_img_mul_2[4] <= { {8{1'b0}},layer1[2][15:8]} * { {8{1'b0}}, G_Kernel_3x3_1[15:8]};
+    kernel_img_mul_2[5] <= { {8{1'b0}},layer1[2][23:16]} * { {8{1'b0}}, G_Kernel_3x3_1[23:16]};
+    kernel_img_mul_2[6] <= { {8{1'b0}},layer2[2][7:0]} * { {8{1'b0}}, G_Kernel_3x3_0[7:0]};
+    kernel_img_mul_2[7] <= { {8{1'b0}},layer2[2][15:8]} * { {8{1'b0}}, G_Kernel_3x3_0[15:8]};
+    kernel_img_mul_2[8] <= { {8{1'b0}},layer2[2][23:16]} * { {8{1'b0}}, G_Kernel_3x3_0[23:16]};
   end
 end
 reg  [15:0]  kernel_img_sum_1_2;
@@ -6296,15 +6295,15 @@ always@(posedge clk) begin
     kernel_img_mul_3[8] <= 'd0;
   end
   else if(current_state==ST_MUL) begin
-    kernel_img_mul_3[0] <= { {8{1'b0}},layer0[3][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
-    kernel_img_mul_3[1] <= { {8{1'b0}},layer0[3][15:8]} * { {8{1'b0}}, G_Kernel_3x3[0][15:8]};
-    kernel_img_mul_3[2] <= { {8{1'b0}},layer0[3][23:16]} * { {8{1'b0}}, G_Kernel_3x3[0][23:16]};
-    kernel_img_mul_3[3] <= { {8{1'b0}},layer1[3][7:0]} * { {8{1'b0}}, G_Kernel_3x3[1][7:0]};
-    kernel_img_mul_3[4] <= { {8{1'b0}},layer1[3][15:8]} * { {8{1'b0}}, G_Kernel_3x3[1][15:8]};
-    kernel_img_mul_3[5] <= { {8{1'b0}},layer1[3][23:16]} * { {8{1'b0}}, G_Kernel_3x3[1][23:16]};
-    kernel_img_mul_3[6] <= { {8{1'b0}},layer2[3][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
-    kernel_img_mul_3[7] <= { {8{1'b0}},layer2[3][15:8]} * { {8{1'b0}}, G_Kernel_3x3[0][15:8]};
-    kernel_img_mul_3[8] <= { {8{1'b0}},layer2[3][23:16]} * { {8{1'b0}}, G_Kernel_3x3[0][23:16]};
+    kernel_img_mul_3[0] <= { {8{1'b0}},layer0[3][7:0]} * { {8{1'b0}}, G_Kernel_3x3_0[7:0]};
+    kernel_img_mul_3[1] <= { {8{1'b0}},layer0[3][15:8]} * { {8{1'b0}}, G_Kernel_3x3_0[15:8]};
+    kernel_img_mul_3[2] <= { {8{1'b0}},layer0[3][23:16]} * { {8{1'b0}}, G_Kernel_3x3_0[23:16]};
+    kernel_img_mul_3[3] <= { {8{1'b0}},layer1[3][7:0]} * { {8{1'b0}}, G_Kernel_3x3_1[7:0]};
+    kernel_img_mul_3[4] <= { {8{1'b0}},layer1[3][15:8]} * { {8{1'b0}}, G_Kernel_3x3_1[15:8]};
+    kernel_img_mul_3[5] <= { {8{1'b0}},layer1[3][23:16]} * { {8{1'b0}}, G_Kernel_3x3_1[23:16]};
+    kernel_img_mul_3[6] <= { {8{1'b0}},layer2[3][7:0]} * { {8{1'b0}}, G_Kernel_3x3_0[7:0]};
+    kernel_img_mul_3[7] <= { {8{1'b0}},layer2[3][15:8]} * { {8{1'b0}}, G_Kernel_3x3_0[15:8]};
+    kernel_img_mul_3[8] <= { {8{1'b0}},layer2[3][23:16]} * { {8{1'b0}}, G_Kernel_3x3_0[23:16]};
   end
 end
 reg  [15:0]  kernel_img_sum_1_3;
@@ -6379,15 +6378,15 @@ always@(posedge clk) begin
     kernel_img_mul_4[8] <= 'd0;
   end
   else if(current_state==ST_MUL) begin
-    kernel_img_mul_4[0] <= { {8{1'b0}},layer0[4][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
-    kernel_img_mul_4[1] <= { {8{1'b0}},layer0[4][15:8]} * { {8{1'b0}}, G_Kernel_3x3[0][15:8]};
-    kernel_img_mul_4[2] <= { {8{1'b0}},layer0[4][23:16]} * { {8{1'b0}}, G_Kernel_3x3[0][23:16]};
-    kernel_img_mul_4[3] <= { {8{1'b0}},layer1[4][7:0]} * { {8{1'b0}}, G_Kernel_3x3[1][7:0]};
-    kernel_img_mul_4[4] <= { {8{1'b0}},layer1[4][15:8]} * { {8{1'b0}}, G_Kernel_3x3[1][15:8]};
-    kernel_img_mul_4[5] <= { {8{1'b0}},layer1[4][23:16]} * { {8{1'b0}}, G_Kernel_3x3[1][23:16]};
-    kernel_img_mul_4[6] <= { {8{1'b0}},layer2[4][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
-    kernel_img_mul_4[7] <= { {8{1'b0}},layer2[4][15:8]} * { {8{1'b0}}, G_Kernel_3x3[0][15:8]};
-    kernel_img_mul_4[8] <= { {8{1'b0}},layer2[4][23:16]} * { {8{1'b0}}, G_Kernel_3x3[0][23:16]};
+    kernel_img_mul_4[0] <= { {8{1'b0}},layer0[4][7:0]} * { {8{1'b0}}, G_Kernel_3x3_0[7:0]};
+    kernel_img_mul_4[1] <= { {8{1'b0}},layer0[4][15:8]} * { {8{1'b0}}, G_Kernel_3x3_0[15:8]};
+    kernel_img_mul_4[2] <= { {8{1'b0}},layer0[4][23:16]} * { {8{1'b0}}, G_Kernel_3x3_0[23:16]};
+    kernel_img_mul_4[3] <= { {8{1'b0}},layer1[4][7:0]} * { {8{1'b0}}, G_Kernel_3x3_1[7:0]};
+    kernel_img_mul_4[4] <= { {8{1'b0}},layer1[4][15:8]} * { {8{1'b0}}, G_Kernel_3x3_1[15:8]};
+    kernel_img_mul_4[5] <= { {8{1'b0}},layer1[4][23:16]} * { {8{1'b0}}, G_Kernel_3x3_1[23:16]};
+    kernel_img_mul_4[6] <= { {8{1'b0}},layer2[4][7:0]} * { {8{1'b0}}, G_Kernel_3x3_0[7:0]};
+    kernel_img_mul_4[7] <= { {8{1'b0}},layer2[4][15:8]} * { {8{1'b0}}, G_Kernel_3x3_0[15:8]};
+    kernel_img_mul_4[8] <= { {8{1'b0}},layer2[4][23:16]} * { {8{1'b0}}, G_Kernel_3x3_0[23:16]};
   end
 end
 reg  [15:0]  kernel_img_sum_1_4;
@@ -6462,15 +6461,15 @@ always@(posedge clk) begin
     kernel_img_mul_5[8] <= 'd0;
   end
   else if(current_state==ST_MUL) begin
-    kernel_img_mul_5[0] <= { {8{1'b0}},layer0[5][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
-    kernel_img_mul_5[1] <= { {8{1'b0}},layer0[5][15:8]} * { {8{1'b0}}, G_Kernel_3x3[0][15:8]};
-    kernel_img_mul_5[2] <= { {8{1'b0}},layer0[5][23:16]} * { {8{1'b0}}, G_Kernel_3x3[0][23:16]};
-    kernel_img_mul_5[3] <= { {8{1'b0}},layer1[5][7:0]} * { {8{1'b0}}, G_Kernel_3x3[1][7:0]};
-    kernel_img_mul_5[4] <= { {8{1'b0}},layer1[5][15:8]} * { {8{1'b0}}, G_Kernel_3x3[1][15:8]};
-    kernel_img_mul_5[5] <= { {8{1'b0}},layer1[5][23:16]} * { {8{1'b0}}, G_Kernel_3x3[1][23:16]};
-    kernel_img_mul_5[6] <= { {8{1'b0}},layer2[5][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
-    kernel_img_mul_5[7] <= { {8{1'b0}},layer2[5][15:8]} * { {8{1'b0}}, G_Kernel_3x3[0][15:8]};
-    kernel_img_mul_5[8] <= { {8{1'b0}},layer2[5][23:16]} * { {8{1'b0}}, G_Kernel_3x3[0][23:16]};
+    kernel_img_mul_5[0] <= { {8{1'b0}},layer0[5][7:0]} * { {8{1'b0}}, G_Kernel_3x3_0[7:0]};
+    kernel_img_mul_5[1] <= { {8{1'b0}},layer0[5][15:8]} * { {8{1'b0}}, G_Kernel_3x3_0[15:8]};
+    kernel_img_mul_5[2] <= { {8{1'b0}},layer0[5][23:16]} * { {8{1'b0}}, G_Kernel_3x3_0[23:16]};
+    kernel_img_mul_5[3] <= { {8{1'b0}},layer1[5][7:0]} * { {8{1'b0}}, G_Kernel_3x3_1[7:0]};
+    kernel_img_mul_5[4] <= { {8{1'b0}},layer1[5][15:8]} * { {8{1'b0}}, G_Kernel_3x3_1[15:8]};
+    kernel_img_mul_5[5] <= { {8{1'b0}},layer1[5][23:16]} * { {8{1'b0}}, G_Kernel_3x3_1[23:16]};
+    kernel_img_mul_5[6] <= { {8{1'b0}},layer2[5][7:0]} * { {8{1'b0}}, G_Kernel_3x3_0[7:0]};
+    kernel_img_mul_5[7] <= { {8{1'b0}},layer2[5][15:8]} * { {8{1'b0}}, G_Kernel_3x3_0[15:8]};
+    kernel_img_mul_5[8] <= { {8{1'b0}},layer2[5][23:16]} * { {8{1'b0}}, G_Kernel_3x3_0[23:16]};
   end
 end
 reg  [15:0]  kernel_img_sum_1_5;
@@ -6545,15 +6544,15 @@ always@(posedge clk) begin
     kernel_img_mul_6[8] <= 'd0;
   end
   else if(current_state==ST_MUL) begin
-    kernel_img_mul_6[0] <= { {8{1'b0}},layer0[6][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
-    kernel_img_mul_6[1] <= { {8{1'b0}},layer0[6][15:8]} * { {8{1'b0}}, G_Kernel_3x3[0][15:8]};
-    kernel_img_mul_6[2] <= { {8{1'b0}},layer0[6][23:16]} * { {8{1'b0}}, G_Kernel_3x3[0][23:16]};
-    kernel_img_mul_6[3] <= { {8{1'b0}},layer1[6][7:0]} * { {8{1'b0}}, G_Kernel_3x3[1][7:0]};
-    kernel_img_mul_6[4] <= { {8{1'b0}},layer1[6][15:8]} * { {8{1'b0}}, G_Kernel_3x3[1][15:8]};
-    kernel_img_mul_6[5] <= { {8{1'b0}},layer1[6][23:16]} * { {8{1'b0}}, G_Kernel_3x3[1][23:16]};
-    kernel_img_mul_6[6] <= { {8{1'b0}},layer2[6][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
-    kernel_img_mul_6[7] <= { {8{1'b0}},layer2[6][15:8]} * { {8{1'b0}}, G_Kernel_3x3[0][15:8]};
-    kernel_img_mul_6[8] <= { {8{1'b0}},layer2[6][23:16]} * { {8{1'b0}}, G_Kernel_3x3[0][23:16]};
+    kernel_img_mul_6[0] <= { {8{1'b0}},layer0[6][7:0]} * { {8{1'b0}}, G_Kernel_3x3_0[7:0]};
+    kernel_img_mul_6[1] <= { {8{1'b0}},layer0[6][15:8]} * { {8{1'b0}}, G_Kernel_3x3_0[15:8]};
+    kernel_img_mul_6[2] <= { {8{1'b0}},layer0[6][23:16]} * { {8{1'b0}}, G_Kernel_3x3_0[23:16]};
+    kernel_img_mul_6[3] <= { {8{1'b0}},layer1[6][7:0]} * { {8{1'b0}}, G_Kernel_3x3_1[7:0]};
+    kernel_img_mul_6[4] <= { {8{1'b0}},layer1[6][15:8]} * { {8{1'b0}}, G_Kernel_3x3_1[15:8]};
+    kernel_img_mul_6[5] <= { {8{1'b0}},layer1[6][23:16]} * { {8{1'b0}}, G_Kernel_3x3_1[23:16]};
+    kernel_img_mul_6[6] <= { {8{1'b0}},layer2[6][7:0]} * { {8{1'b0}}, G_Kernel_3x3_0[7:0]};
+    kernel_img_mul_6[7] <= { {8{1'b0}},layer2[6][15:8]} * { {8{1'b0}}, G_Kernel_3x3_0[15:8]};
+    kernel_img_mul_6[8] <= { {8{1'b0}},layer2[6][23:16]} * { {8{1'b0}}, G_Kernel_3x3_0[23:16]};
   end
 end
 reg  [15:0]  kernel_img_sum_1_6;
@@ -6628,15 +6627,15 @@ always@(posedge clk) begin
     kernel_img_mul_7[8] <= 'd0;
   end
   else if(current_state==ST_MUL) begin
-    kernel_img_mul_7[0] <= { {8{1'b0}},layer0[7][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
-    kernel_img_mul_7[1] <= { {8{1'b0}},layer0[7][15:8]} * { {8{1'b0}}, G_Kernel_3x3[0][15:8]};
-    kernel_img_mul_7[2] <= { {8{1'b0}},layer0[7][23:16]} * { {8{1'b0}}, G_Kernel_3x3[0][23:16]};
-    kernel_img_mul_7[3] <= { {8{1'b0}},layer1[7][7:0]} * { {8{1'b0}}, G_Kernel_3x3[1][7:0]};
-    kernel_img_mul_7[4] <= { {8{1'b0}},layer1[7][15:8]} * { {8{1'b0}}, G_Kernel_3x3[1][15:8]};
-    kernel_img_mul_7[5] <= { {8{1'b0}},layer1[7][23:16]} * { {8{1'b0}}, G_Kernel_3x3[1][23:16]};
-    kernel_img_mul_7[6] <= { {8{1'b0}},layer2[7][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
-    kernel_img_mul_7[7] <= { {8{1'b0}},layer2[7][15:8]} * { {8{1'b0}}, G_Kernel_3x3[0][15:8]};
-    kernel_img_mul_7[8] <= { {8{1'b0}},layer2[7][23:16]} * { {8{1'b0}}, G_Kernel_3x3[0][23:16]};
+    kernel_img_mul_7[0] <= { {8{1'b0}},layer0[7][7:0]} * { {8{1'b0}}, G_Kernel_3x3_0[7:0]};
+    kernel_img_mul_7[1] <= { {8{1'b0}},layer0[7][15:8]} * { {8{1'b0}}, G_Kernel_3x3_0[15:8]};
+    kernel_img_mul_7[2] <= { {8{1'b0}},layer0[7][23:16]} * { {8{1'b0}}, G_Kernel_3x3_0[23:16]};
+    kernel_img_mul_7[3] <= { {8{1'b0}},layer1[7][7:0]} * { {8{1'b0}}, G_Kernel_3x3_1[7:0]};
+    kernel_img_mul_7[4] <= { {8{1'b0}},layer1[7][15:8]} * { {8{1'b0}}, G_Kernel_3x3_1[15:8]};
+    kernel_img_mul_7[5] <= { {8{1'b0}},layer1[7][23:16]} * { {8{1'b0}}, G_Kernel_3x3_1[23:16]};
+    kernel_img_mul_7[6] <= { {8{1'b0}},layer2[7][7:0]} * { {8{1'b0}}, G_Kernel_3x3_0[7:0]};
+    kernel_img_mul_7[7] <= { {8{1'b0}},layer2[7][15:8]} * { {8{1'b0}}, G_Kernel_3x3_0[15:8]};
+    kernel_img_mul_7[8] <= { {8{1'b0}},layer2[7][23:16]} * { {8{1'b0}}, G_Kernel_3x3_0[23:16]};
   end
 end
 reg  [15:0]  kernel_img_sum_1_7;
@@ -6711,15 +6710,15 @@ always@(posedge clk) begin
     kernel_img_mul_8[8] <= 'd0;
   end
   else if(current_state==ST_MUL) begin
-    kernel_img_mul_8[0] <= { {8{1'b0}},layer0[8][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
-    kernel_img_mul_8[1] <= { {8{1'b0}},layer0[8][15:8]} * { {8{1'b0}}, G_Kernel_3x3[0][15:8]};
-    kernel_img_mul_8[2] <= { {8{1'b0}},layer0[8][23:16]} * { {8{1'b0}}, G_Kernel_3x3[0][23:16]};
-    kernel_img_mul_8[3] <= { {8{1'b0}},layer1[8][7:0]} * { {8{1'b0}}, G_Kernel_3x3[1][7:0]};
-    kernel_img_mul_8[4] <= { {8{1'b0}},layer1[8][15:8]} * { {8{1'b0}}, G_Kernel_3x3[1][15:8]};
-    kernel_img_mul_8[5] <= { {8{1'b0}},layer1[8][23:16]} * { {8{1'b0}}, G_Kernel_3x3[1][23:16]};
-    kernel_img_mul_8[6] <= { {8{1'b0}},layer2[8][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
-    kernel_img_mul_8[7] <= { {8{1'b0}},layer2[8][15:8]} * { {8{1'b0}}, G_Kernel_3x3[0][15:8]};
-    kernel_img_mul_8[8] <= { {8{1'b0}},layer2[8][23:16]} * { {8{1'b0}}, G_Kernel_3x3[0][23:16]};
+    kernel_img_mul_8[0] <= { {8{1'b0}},layer0[8][7:0]} * { {8{1'b0}}, G_Kernel_3x3_0[7:0]};
+    kernel_img_mul_8[1] <= { {8{1'b0}},layer0[8][15:8]} * { {8{1'b0}}, G_Kernel_3x3_0[15:8]};
+    kernel_img_mul_8[2] <= { {8{1'b0}},layer0[8][23:16]} * { {8{1'b0}}, G_Kernel_3x3_0[23:16]};
+    kernel_img_mul_8[3] <= { {8{1'b0}},layer1[8][7:0]} * { {8{1'b0}}, G_Kernel_3x3_1[7:0]};
+    kernel_img_mul_8[4] <= { {8{1'b0}},layer1[8][15:8]} * { {8{1'b0}}, G_Kernel_3x3_1[15:8]};
+    kernel_img_mul_8[5] <= { {8{1'b0}},layer1[8][23:16]} * { {8{1'b0}}, G_Kernel_3x3_1[23:16]};
+    kernel_img_mul_8[6] <= { {8{1'b0}},layer2[8][7:0]} * { {8{1'b0}}, G_Kernel_3x3_0[7:0]};
+    kernel_img_mul_8[7] <= { {8{1'b0}},layer2[8][15:8]} * { {8{1'b0}}, G_Kernel_3x3_0[15:8]};
+    kernel_img_mul_8[8] <= { {8{1'b0}},layer2[8][23:16]} * { {8{1'b0}}, G_Kernel_3x3_0[23:16]};
   end
 end
 reg  [15:0]  kernel_img_sum_1_8;
@@ -6794,15 +6793,15 @@ always@(posedge clk) begin
     kernel_img_mul_9[8] <= 'd0;
   end
   else if(current_state==ST_MUL) begin
-    kernel_img_mul_9[0] <= { {8{1'b0}},layer0[9][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
-    kernel_img_mul_9[1] <= { {8{1'b0}},layer0[9][15:8]} * { {8{1'b0}}, G_Kernel_3x3[0][15:8]};
-    kernel_img_mul_9[2] <= { {8{1'b0}},layer0[9][23:16]} * { {8{1'b0}}, G_Kernel_3x3[0][23:16]};
-    kernel_img_mul_9[3] <= { {8{1'b0}},layer1[9][7:0]} * { {8{1'b0}}, G_Kernel_3x3[1][7:0]};
-    kernel_img_mul_9[4] <= { {8{1'b0}},layer1[9][15:8]} * { {8{1'b0}}, G_Kernel_3x3[1][15:8]};
-    kernel_img_mul_9[5] <= { {8{1'b0}},layer1[9][23:16]} * { {8{1'b0}}, G_Kernel_3x3[1][23:16]};
-    kernel_img_mul_9[6] <= { {8{1'b0}},layer2[9][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
-    kernel_img_mul_9[7] <= { {8{1'b0}},layer2[9][15:8]} * { {8{1'b0}}, G_Kernel_3x3[0][15:8]};
-    kernel_img_mul_9[8] <= { {8{1'b0}},layer2[9][23:16]} * { {8{1'b0}}, G_Kernel_3x3[0][23:16]};
+    kernel_img_mul_9[0] <= { {8{1'b0}},layer0[9][7:0]} * { {8{1'b0}}, G_Kernel_3x3_0[7:0]};
+    kernel_img_mul_9[1] <= { {8{1'b0}},layer0[9][15:8]} * { {8{1'b0}}, G_Kernel_3x3_0[15:8]};
+    kernel_img_mul_9[2] <= { {8{1'b0}},layer0[9][23:16]} * { {8{1'b0}}, G_Kernel_3x3_0[23:16]};
+    kernel_img_mul_9[3] <= { {8{1'b0}},layer1[9][7:0]} * { {8{1'b0}}, G_Kernel_3x3_1[7:0]};
+    kernel_img_mul_9[4] <= { {8{1'b0}},layer1[9][15:8]} * { {8{1'b0}}, G_Kernel_3x3_1[15:8]};
+    kernel_img_mul_9[5] <= { {8{1'b0}},layer1[9][23:16]} * { {8{1'b0}}, G_Kernel_3x3_1[23:16]};
+    kernel_img_mul_9[6] <= { {8{1'b0}},layer2[9][7:0]} * { {8{1'b0}}, G_Kernel_3x3_0[7:0]};
+    kernel_img_mul_9[7] <= { {8{1'b0}},layer2[9][15:8]} * { {8{1'b0}}, G_Kernel_3x3_0[15:8]};
+    kernel_img_mul_9[8] <= { {8{1'b0}},layer2[9][23:16]} * { {8{1'b0}}, G_Kernel_3x3_0[23:16]};
   end
 end
 reg  [15:0]  kernel_img_sum_1_9;
@@ -6877,15 +6876,15 @@ always@(posedge clk) begin
     kernel_img_mul_10[8] <= 'd0;
   end
   else if(current_state==ST_MUL) begin
-    kernel_img_mul_10[0] <= { {8{1'b0}},layer0[10][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
-    kernel_img_mul_10[1] <= { {8{1'b0}},layer0[10][15:8]} * { {8{1'b0}}, G_Kernel_3x3[0][15:8]};
-    kernel_img_mul_10[2] <= { {8{1'b0}},layer0[10][23:16]} * { {8{1'b0}}, G_Kernel_3x3[0][23:16]};
-    kernel_img_mul_10[3] <= { {8{1'b0}},layer1[10][7:0]} * { {8{1'b0}}, G_Kernel_3x3[1][7:0]};
-    kernel_img_mul_10[4] <= { {8{1'b0}},layer1[10][15:8]} * { {8{1'b0}}, G_Kernel_3x3[1][15:8]};
-    kernel_img_mul_10[5] <= { {8{1'b0}},layer1[10][23:16]} * { {8{1'b0}}, G_Kernel_3x3[1][23:16]};
-    kernel_img_mul_10[6] <= { {8{1'b0}},layer2[10][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
-    kernel_img_mul_10[7] <= { {8{1'b0}},layer2[10][15:8]} * { {8{1'b0}}, G_Kernel_3x3[0][15:8]};
-    kernel_img_mul_10[8] <= { {8{1'b0}},layer2[10][23:16]} * { {8{1'b0}}, G_Kernel_3x3[0][23:16]};
+    kernel_img_mul_10[0] <= { {8{1'b0}},layer0[10][7:0]} * { {8{1'b0}}, G_Kernel_3x3_0[7:0]};
+    kernel_img_mul_10[1] <= { {8{1'b0}},layer0[10][15:8]} * { {8{1'b0}}, G_Kernel_3x3_0[15:8]};
+    kernel_img_mul_10[2] <= { {8{1'b0}},layer0[10][23:16]} * { {8{1'b0}}, G_Kernel_3x3_0[23:16]};
+    kernel_img_mul_10[3] <= { {8{1'b0}},layer1[10][7:0]} * { {8{1'b0}}, G_Kernel_3x3_1[7:0]};
+    kernel_img_mul_10[4] <= { {8{1'b0}},layer1[10][15:8]} * { {8{1'b0}}, G_Kernel_3x3_1[15:8]};
+    kernel_img_mul_10[5] <= { {8{1'b0}},layer1[10][23:16]} * { {8{1'b0}}, G_Kernel_3x3_1[23:16]};
+    kernel_img_mul_10[6] <= { {8{1'b0}},layer2[10][7:0]} * { {8{1'b0}}, G_Kernel_3x3_0[7:0]};
+    kernel_img_mul_10[7] <= { {8{1'b0}},layer2[10][15:8]} * { {8{1'b0}}, G_Kernel_3x3_0[15:8]};
+    kernel_img_mul_10[8] <= { {8{1'b0}},layer2[10][23:16]} * { {8{1'b0}}, G_Kernel_3x3_0[23:16]};
   end
 end
 reg  [15:0]  kernel_img_sum_1_10;
@@ -6960,15 +6959,15 @@ always@(posedge clk) begin
     kernel_img_mul_11[8] <= 'd0;
   end
   else if(current_state==ST_MUL) begin
-    kernel_img_mul_11[0] <= { {8{1'b0}},layer0[11][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
-    kernel_img_mul_11[1] <= { {8{1'b0}},layer0[11][15:8]} * { {8{1'b0}}, G_Kernel_3x3[0][15:8]};
-    kernel_img_mul_11[2] <= { {8{1'b0}},layer0[11][23:16]} * { {8{1'b0}}, G_Kernel_3x3[0][23:16]};
-    kernel_img_mul_11[3] <= { {8{1'b0}},layer1[11][7:0]} * { {8{1'b0}}, G_Kernel_3x3[1][7:0]};
-    kernel_img_mul_11[4] <= { {8{1'b0}},layer1[11][15:8]} * { {8{1'b0}}, G_Kernel_3x3[1][15:8]};
-    kernel_img_mul_11[5] <= { {8{1'b0}},layer1[11][23:16]} * { {8{1'b0}}, G_Kernel_3x3[1][23:16]};
-    kernel_img_mul_11[6] <= { {8{1'b0}},layer2[11][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
-    kernel_img_mul_11[7] <= { {8{1'b0}},layer2[11][15:8]} * { {8{1'b0}}, G_Kernel_3x3[0][15:8]};
-    kernel_img_mul_11[8] <= { {8{1'b0}},layer2[11][23:16]} * { {8{1'b0}}, G_Kernel_3x3[0][23:16]};
+    kernel_img_mul_11[0] <= { {8{1'b0}},layer0[11][7:0]} * { {8{1'b0}}, G_Kernel_3x3_0[7:0]};
+    kernel_img_mul_11[1] <= { {8{1'b0}},layer0[11][15:8]} * { {8{1'b0}}, G_Kernel_3x3_0[15:8]};
+    kernel_img_mul_11[2] <= { {8{1'b0}},layer0[11][23:16]} * { {8{1'b0}}, G_Kernel_3x3_0[23:16]};
+    kernel_img_mul_11[3] <= { {8{1'b0}},layer1[11][7:0]} * { {8{1'b0}}, G_Kernel_3x3_1[7:0]};
+    kernel_img_mul_11[4] <= { {8{1'b0}},layer1[11][15:8]} * { {8{1'b0}}, G_Kernel_3x3_1[15:8]};
+    kernel_img_mul_11[5] <= { {8{1'b0}},layer1[11][23:16]} * { {8{1'b0}}, G_Kernel_3x3_1[23:16]};
+    kernel_img_mul_11[6] <= { {8{1'b0}},layer2[11][7:0]} * { {8{1'b0}}, G_Kernel_3x3_0[7:0]};
+    kernel_img_mul_11[7] <= { {8{1'b0}},layer2[11][15:8]} * { {8{1'b0}}, G_Kernel_3x3_0[15:8]};
+    kernel_img_mul_11[8] <= { {8{1'b0}},layer2[11][23:16]} * { {8{1'b0}}, G_Kernel_3x3_0[23:16]};
   end
 end
 reg  [15:0]  kernel_img_sum_1_11;
@@ -7043,15 +7042,15 @@ always@(posedge clk) begin
     kernel_img_mul_12[8] <= 'd0;
   end
   else if(current_state==ST_MUL) begin
-    kernel_img_mul_12[0] <= { {8{1'b0}},layer0[12][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
-    kernel_img_mul_12[1] <= { {8{1'b0}},layer0[12][15:8]} * { {8{1'b0}}, G_Kernel_3x3[0][15:8]};
-    kernel_img_mul_12[2] <= { {8{1'b0}},layer0[12][23:16]} * { {8{1'b0}}, G_Kernel_3x3[0][23:16]};
-    kernel_img_mul_12[3] <= { {8{1'b0}},layer1[12][7:0]} * { {8{1'b0}}, G_Kernel_3x3[1][7:0]};
-    kernel_img_mul_12[4] <= { {8{1'b0}},layer1[12][15:8]} * { {8{1'b0}}, G_Kernel_3x3[1][15:8]};
-    kernel_img_mul_12[5] <= { {8{1'b0}},layer1[12][23:16]} * { {8{1'b0}}, G_Kernel_3x3[1][23:16]};
-    kernel_img_mul_12[6] <= { {8{1'b0}},layer2[12][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
-    kernel_img_mul_12[7] <= { {8{1'b0}},layer2[12][15:8]} * { {8{1'b0}}, G_Kernel_3x3[0][15:8]};
-    kernel_img_mul_12[8] <= { {8{1'b0}},layer2[12][23:16]} * { {8{1'b0}}, G_Kernel_3x3[0][23:16]};
+    kernel_img_mul_12[0] <= { {8{1'b0}},layer0[12][7:0]} * { {8{1'b0}}, G_Kernel_3x3_0[7:0]};
+    kernel_img_mul_12[1] <= { {8{1'b0}},layer0[12][15:8]} * { {8{1'b0}}, G_Kernel_3x3_0[15:8]};
+    kernel_img_mul_12[2] <= { {8{1'b0}},layer0[12][23:16]} * { {8{1'b0}}, G_Kernel_3x3_0[23:16]};
+    kernel_img_mul_12[3] <= { {8{1'b0}},layer1[12][7:0]} * { {8{1'b0}}, G_Kernel_3x3_1[7:0]};
+    kernel_img_mul_12[4] <= { {8{1'b0}},layer1[12][15:8]} * { {8{1'b0}}, G_Kernel_3x3_1[15:8]};
+    kernel_img_mul_12[5] <= { {8{1'b0}},layer1[12][23:16]} * { {8{1'b0}}, G_Kernel_3x3_1[23:16]};
+    kernel_img_mul_12[6] <= { {8{1'b0}},layer2[12][7:0]} * { {8{1'b0}}, G_Kernel_3x3_0[7:0]};
+    kernel_img_mul_12[7] <= { {8{1'b0}},layer2[12][15:8]} * { {8{1'b0}}, G_Kernel_3x3_0[15:8]};
+    kernel_img_mul_12[8] <= { {8{1'b0}},layer2[12][23:16]} * { {8{1'b0}}, G_Kernel_3x3_0[23:16]};
   end
 end
 reg  [15:0]  kernel_img_sum_1_12;
@@ -7126,15 +7125,15 @@ always@(posedge clk) begin
     kernel_img_mul_13[8] <= 'd0;
   end
   else if(current_state==ST_MUL) begin
-    kernel_img_mul_13[0] <= { {8{1'b0}},layer0[13][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
-    kernel_img_mul_13[1] <= { {8{1'b0}},layer0[13][15:8]} * { {8{1'b0}}, G_Kernel_3x3[0][15:8]};
-    kernel_img_mul_13[2] <= { {8{1'b0}},layer0[13][23:16]} * { {8{1'b0}}, G_Kernel_3x3[0][23:16]};
-    kernel_img_mul_13[3] <= { {8{1'b0}},layer1[13][7:0]} * { {8{1'b0}}, G_Kernel_3x3[1][7:0]};
-    kernel_img_mul_13[4] <= { {8{1'b0}},layer1[13][15:8]} * { {8{1'b0}}, G_Kernel_3x3[1][15:8]};
-    kernel_img_mul_13[5] <= { {8{1'b0}},layer1[13][23:16]} * { {8{1'b0}}, G_Kernel_3x3[1][23:16]};
-    kernel_img_mul_13[6] <= { {8{1'b0}},layer2[13][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
-    kernel_img_mul_13[7] <= { {8{1'b0}},layer2[13][15:8]} * { {8{1'b0}}, G_Kernel_3x3[0][15:8]};
-    kernel_img_mul_13[8] <= { {8{1'b0}},layer2[13][23:16]} * { {8{1'b0}}, G_Kernel_3x3[0][23:16]};
+    kernel_img_mul_13[0] <= { {8{1'b0}},layer0[13][7:0]} * { {8{1'b0}}, G_Kernel_3x3_0[7:0]};
+    kernel_img_mul_13[1] <= { {8{1'b0}},layer0[13][15:8]} * { {8{1'b0}}, G_Kernel_3x3_0[15:8]};
+    kernel_img_mul_13[2] <= { {8{1'b0}},layer0[13][23:16]} * { {8{1'b0}}, G_Kernel_3x3_0[23:16]};
+    kernel_img_mul_13[3] <= { {8{1'b0}},layer1[13][7:0]} * { {8{1'b0}}, G_Kernel_3x3_1[7:0]};
+    kernel_img_mul_13[4] <= { {8{1'b0}},layer1[13][15:8]} * { {8{1'b0}}, G_Kernel_3x3_1[15:8]};
+    kernel_img_mul_13[5] <= { {8{1'b0}},layer1[13][23:16]} * { {8{1'b0}}, G_Kernel_3x3_1[23:16]};
+    kernel_img_mul_13[6] <= { {8{1'b0}},layer2[13][7:0]} * { {8{1'b0}}, G_Kernel_3x3_0[7:0]};
+    kernel_img_mul_13[7] <= { {8{1'b0}},layer2[13][15:8]} * { {8{1'b0}}, G_Kernel_3x3_0[15:8]};
+    kernel_img_mul_13[8] <= { {8{1'b0}},layer2[13][23:16]} * { {8{1'b0}}, G_Kernel_3x3_0[23:16]};
   end
 end
 reg  [15:0]  kernel_img_sum_1_13;
@@ -7209,15 +7208,15 @@ always@(posedge clk) begin
     kernel_img_mul_14[8] <= 'd0;
   end
   else if(current_state==ST_MUL) begin
-    kernel_img_mul_14[0] <= { {8{1'b0}},layer0[14][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
-    kernel_img_mul_14[1] <= { {8{1'b0}},layer0[14][15:8]} * { {8{1'b0}}, G_Kernel_3x3[0][15:8]};
-    kernel_img_mul_14[2] <= { {8{1'b0}},layer0[14][23:16]} * { {8{1'b0}}, G_Kernel_3x3[0][23:16]};
-    kernel_img_mul_14[3] <= { {8{1'b0}},layer1[14][7:0]} * { {8{1'b0}}, G_Kernel_3x3[1][7:0]};
-    kernel_img_mul_14[4] <= { {8{1'b0}},layer1[14][15:8]} * { {8{1'b0}}, G_Kernel_3x3[1][15:8]};
-    kernel_img_mul_14[5] <= { {8{1'b0}},layer1[14][23:16]} * { {8{1'b0}}, G_Kernel_3x3[1][23:16]};
-    kernel_img_mul_14[6] <= { {8{1'b0}},layer2[14][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
-    kernel_img_mul_14[7] <= { {8{1'b0}},layer2[14][15:8]} * { {8{1'b0}}, G_Kernel_3x3[0][15:8]};
-    kernel_img_mul_14[8] <= { {8{1'b0}},layer2[14][23:16]} * { {8{1'b0}}, G_Kernel_3x3[0][23:16]};
+    kernel_img_mul_14[0] <= { {8{1'b0}},layer0[14][7:0]} * { {8{1'b0}}, G_Kernel_3x3_0[7:0]};
+    kernel_img_mul_14[1] <= { {8{1'b0}},layer0[14][15:8]} * { {8{1'b0}}, G_Kernel_3x3_0[15:8]};
+    kernel_img_mul_14[2] <= { {8{1'b0}},layer0[14][23:16]} * { {8{1'b0}}, G_Kernel_3x3_0[23:16]};
+    kernel_img_mul_14[3] <= { {8{1'b0}},layer1[14][7:0]} * { {8{1'b0}}, G_Kernel_3x3_1[7:0]};
+    kernel_img_mul_14[4] <= { {8{1'b0}},layer1[14][15:8]} * { {8{1'b0}}, G_Kernel_3x3_1[15:8]};
+    kernel_img_mul_14[5] <= { {8{1'b0}},layer1[14][23:16]} * { {8{1'b0}}, G_Kernel_3x3_1[23:16]};
+    kernel_img_mul_14[6] <= { {8{1'b0}},layer2[14][7:0]} * { {8{1'b0}}, G_Kernel_3x3_0[7:0]};
+    kernel_img_mul_14[7] <= { {8{1'b0}},layer2[14][15:8]} * { {8{1'b0}}, G_Kernel_3x3_0[15:8]};
+    kernel_img_mul_14[8] <= { {8{1'b0}},layer2[14][23:16]} * { {8{1'b0}}, G_Kernel_3x3_0[23:16]};
   end
 end
 reg  [15:0]  kernel_img_sum_1_14;
@@ -7292,15 +7291,15 @@ always@(posedge clk) begin
     kernel_img_mul_15[8] <= 'd0;
   end
   else if(current_state==ST_MUL) begin
-    kernel_img_mul_15[0] <= { {8{1'b0}},layer0[15][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
-    kernel_img_mul_15[1] <= { {8{1'b0}},layer0[15][15:8]} * { {8{1'b0}}, G_Kernel_3x3[0][15:8]};
-    kernel_img_mul_15[2] <= { {8{1'b0}},layer0[15][23:16]} * { {8{1'b0}}, G_Kernel_3x3[0][23:16]};
-    kernel_img_mul_15[3] <= { {8{1'b0}},layer1[15][7:0]} * { {8{1'b0}}, G_Kernel_3x3[1][7:0]};
-    kernel_img_mul_15[4] <= { {8{1'b0}},layer1[15][15:8]} * { {8{1'b0}}, G_Kernel_3x3[1][15:8]};
-    kernel_img_mul_15[5] <= { {8{1'b0}},layer1[15][23:16]} * { {8{1'b0}}, G_Kernel_3x3[1][23:16]};
-    kernel_img_mul_15[6] <= { {8{1'b0}},layer2[15][7:0]} * { {8{1'b0}}, G_Kernel_3x3[0][7:0]};
-    kernel_img_mul_15[7] <= { {8{1'b0}},layer2[15][15:8]} * { {8{1'b0}}, G_Kernel_3x3[0][15:8]};
-    kernel_img_mul_15[8] <= { {8{1'b0}},layer2[15][23:16]} * { {8{1'b0}}, G_Kernel_3x3[0][23:16]};
+    kernel_img_mul_15[0] <= { {8{1'b0}},layer0[15][7:0]} * { {8{1'b0}}, G_Kernel_3x3_0[7:0]};
+    kernel_img_mul_15[1] <= { {8{1'b0}},layer0[15][15:8]} * { {8{1'b0}}, G_Kernel_3x3_0[15:8]};
+    kernel_img_mul_15[2] <= { {8{1'b0}},layer0[15][23:16]} * { {8{1'b0}}, G_Kernel_3x3_0[23:16]};
+    kernel_img_mul_15[3] <= { {8{1'b0}},layer1[15][7:0]} * { {8{1'b0}}, G_Kernel_3x3_1[7:0]};
+    kernel_img_mul_15[4] <= { {8{1'b0}},layer1[15][15:8]} * { {8{1'b0}}, G_Kernel_3x3_1[15:8]};
+    kernel_img_mul_15[5] <= { {8{1'b0}},layer1[15][23:16]} * { {8{1'b0}}, G_Kernel_3x3_1[23:16]};
+    kernel_img_mul_15[6] <= { {8{1'b0}},layer2[15][7:0]} * { {8{1'b0}}, G_Kernel_3x3_0[7:0]};
+    kernel_img_mul_15[7] <= { {8{1'b0}},layer2[15][15:8]} * { {8{1'b0}}, G_Kernel_3x3_0[15:8]};
+    kernel_img_mul_15[8] <= { {8{1'b0}},layer2[15][23:16]} * { {8{1'b0}}, G_Kernel_3x3_0[23:16]};
   end
 end
 reg  [15:0]  kernel_img_sum_1_15;
