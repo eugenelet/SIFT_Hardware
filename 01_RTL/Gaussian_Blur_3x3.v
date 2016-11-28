@@ -6078,8 +6078,9 @@ always @(posedge clk) begin
         layer2[15][7:0] <= 'd0;
         layer2[15][15:8] <= 'd0;
         layer2[15][23:16] <= 'd0;
-    end
-  endcase
+      end
+    endcase
+  end
 end
 
 reg  [15:0]  kernel_img_mul_0[0:8];
