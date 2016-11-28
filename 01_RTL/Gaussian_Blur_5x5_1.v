@@ -34,7 +34,6 @@ assign done = (current_state==ST_UPDATE) ? 1 : 0;
 wire       [39:0]  G_Kernel_5x5_0;
 wire       [39:0]  G_Kernel_5x5_1;
 wire       [39:0]  G_Kernel_5x5_2;
-always @(*) begin
 assign  G_Kernel_5x5_0[7:0]   = 8'h07; //E31AF6; //18'b000001111110001100;//'d030809;
 assign  G_Kernel_5x5_0[15:8]  = 8'h09; //83EB80; //18'b000010011000001111;//'d037169;
 assign  G_Kernel_5x5_0[23:16] = 8'h0A; //212B91; //18'b000010100010000100;//'d039568;
