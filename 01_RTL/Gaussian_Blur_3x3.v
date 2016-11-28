@@ -7537,12 +7537,12 @@ always @(*) begin
     end
     ST_UPDATE: begin
       if(current_state==ST_UPDATE)
-        next_state = ST_MUL;
+        next_state = ST_MUX;
       else 
         next_state = ST_UPDATE;
     end
     default:
-      next_state = ST_MUL;
+      next_state = ST_MUX;
   endcase
 end
 
