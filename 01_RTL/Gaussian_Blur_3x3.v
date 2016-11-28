@@ -29,7 +29,7 @@ assign done = (current_state==ST_UPDATE) ? 1 : 0;
 
 reg       [23:0]  G_Kernel_3x3_0;
 reg       [23:0]  G_Kernel_3x3_1;
-always @(posedge clk) begin
+always @(*) begin
     G_Kernel_3x3_0[7:0]   = 8'h17; //BC5428; //18'b00_0101_1110_1111_0001;//'d092717;
     G_Kernel_3x3_0[15:8]  = 8'h1E; //7ABFF3; //18'b00_0111_1001_1110_1010;//'d119061;
     G_Kernel_3x3_0[23:16] = 8'h17; //BC5428; //18'b00_0101_1110_1111_0001;//'d092717;
