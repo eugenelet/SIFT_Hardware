@@ -12,11 +12,12 @@ module TESTBENCH();
 parameter ST_IDLE       = 0,
           ST_FIRST_COL  = 1,/*Idle 1 state for SRAM to get READY*/
           ST_PRE_DETECT = 2,/*Buffers data from SRAM*/
-          ST_DETECT     = 3,/*Includes switching of row*/
-          ST_NO_FILTER  = 4,/*Includes switching of row*/
-          ST_FILTER     = 5,/*Includes switching of row*/
-          ST_NEXT_COL   = 6,/*Grants 3 cycle to update MEM addr for next column*/
-          ST_BUFFER     = 7;/*Grants buffer a cycle to update*/
+          ST_PRE_DETECT2= 3,/*Buffers data from SRAM*/
+          ST_DETECT     = 4,/*Includes switching of row*/
+          ST_NO_FILTER  = 5,/*Includes switching of row*/
+          ST_FILTER     = 6,/*Includes switching of row*/
+          ST_NEXT_COL   = 7,/*Grants 3 cycle to update MEM addr for next column*/
+          ST_BUFFER     = 8;/*Grants buffer a cycle to update*/
 
 initial begin
   `ifdef GATE
