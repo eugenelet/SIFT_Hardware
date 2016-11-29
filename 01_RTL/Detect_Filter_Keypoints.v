@@ -79,7 +79,7 @@ output reg    [19:0] keypoint_din; /*ROW: 9 bit COL: 10 bit*/
 
 
 /*FSM*/
-reg         [2:0] current_state,
+reg         [3:0] current_state,
                   next_state;
 
 parameter MAX_KEYPOINT = 'd2048;
@@ -88,11 +88,12 @@ parameter MAX_KEYPOINT = 'd2048;
 parameter ST_IDLE       = 0,
           ST_FIRST_COL  = 1,/*Idle 1 state for SRAM to get READY*/
           ST_PRE_DETECT = 2,/*Buffers data from SRAM*/
-          ST_DETECT     = 3,/*Includes switching of row*/
-          ST_NO_FILTER  = 4,/*Includes switching of row*/
-          ST_FILTER     = 5,/*Includes switching of row*/
-          ST_NEXT_COL   = 6,/*Grants 3 cycle to update MEM addr for next column*/
-          ST_BUFFER     = 7;/*Grants buffer a cycle to update*/
+          ST_PRE_DETECT2= 3,/*Buffers data from SRAM*/
+          ST_DETECT     = 4,/*Includes switching of row*/
+          ST_NO_FILTER  = 5,/*Includes switching of row*/
+          ST_FILTER     = 6,/*Includes switching of row*/
+          ST_NEXT_COL   = 7,/*Grants 3 cycle to update MEM addr for next column*/
+          ST_BUFFER     = 8;/*Grants buffer a cycle to update*/
 
 assign done = (current_state==ST_BUFFER && img_addr=='d472 && buffer_col=='d39) ? 1 : 0;
 
@@ -253,260 +254,297 @@ bus_partition u_bus_partition(
 );
 
 
+reg[175:0] img_dout_bus;
+reg[175:0] blur3x3_dout_bus;
+reg[175:0] blur5x5_1_dout_bus;
+reg[175:0] blur5x5_2_dout_bus;
+reg[175:0] blur7x7_dout_bus;
+always @(posedge clk) begin
+  if (!rst_n)
+    img_dout_bus <= 'd0;    
+  else if (current_state==ST_PRE_DETECT2) 
+    img_dout_bus <= img_dout_wire;
+end
+always @(posedge clk) begin
+  if (!rst_n)
+    blur3x3_dout_bus <= 'd0;    
+  else if (current_state==ST_PRE_DETECT2) 
+    blur3x3_dout_bus <= blur3x3_dout_wire;
+end
+always @(posedge clk) begin
+  if (!rst_n)
+    blur5x5_1_dout_bus <= 'd0;    
+  else if (current_state==ST_PRE_DETECT2) 
+    blur5x5_1_dout_bus <= blur5x5_1_dout_wire;
+end
+always @(posedge clk) begin
+  if (!rst_n)
+    blur5x5_2_dout_bus <= 'd0;    
+  else if (current_state==ST_PRE_DETECT2) 
+    blur5x5_2_dout_bus <= blur5x5_2_dout_wire;
+end
+always @(posedge clk) begin
+  if (!rst_n)
+    blur7x7_dout_bus <= 'd0;    
+  else if (current_state==ST_PRE_DETECT2) 
+    blur7x7_dout_bus <= blur7x7_dout_wire;
+end
+
+
 /*Detect Keypoints Modules*/
 detect_keypoint u_detect_keypoint_0_0(
   .layer_0_0        (buffer_data_1),
   .layer_0_1        (buffer_data_0),
-  .layer_0_2        (img_dout_wire),
+  .layer_0_2        (img_dout_bus),
   .layer_1_0        (buffer_data_3),
   .layer_1_1        (buffer_data_2),
-  .layer_1_2        (blur3x3_dout_wire),
+  .layer_1_2        (blur3x3_dout_bus),
   .layer_2_0        (buffer_data_5),
   .layer_2_1        (buffer_data_4),
-  .layer_2_2        (blur5x5_1_dout_wire),
+  .layer_2_2        (blur5x5_1_dout_bus),
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
-  .layer_3_2        (blur5x5_2_dout_wire),
+  .layer_3_2        (blur5x5_2_dout_bus),
   .current_col      (current_col + 10'd0),
   .is_keypoint      (is_keypoint_0[0])
 );
 detect_keypoint u_detect_keypoint_0_1(
   .layer_0_0        (buffer_data_1),
   .layer_0_1        (buffer_data_0),
-  .layer_0_2        (img_dout_wire),
+  .layer_0_2        (img_dout_bus),
   .layer_1_0        (buffer_data_3),
   .layer_1_1        (buffer_data_2),
-  .layer_1_2        (blur3x3_dout_wire),
+  .layer_1_2        (blur3x3_dout_bus),
   .layer_2_0        (buffer_data_5),
   .layer_2_1        (buffer_data_4),
-  .layer_2_2        (blur5x5_1_dout_wire),
+  .layer_2_2        (blur5x5_1_dout_bus),
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
-  .layer_3_2        (blur5x5_2_dout_wire),
+  .layer_3_2        (blur5x5_2_dout_bus),
   .current_col      (current_col + 10'd1),
   .is_keypoint      (is_keypoint_0[1])
 );
 detect_keypoint u_detect_keypoint_0_2(
   .layer_0_0        (buffer_data_1),
   .layer_0_1        (buffer_data_0),
-  .layer_0_2        (img_dout_wire),
+  .layer_0_2        (img_dout_bus),
   .layer_1_0        (buffer_data_3),
   .layer_1_1        (buffer_data_2),
-  .layer_1_2        (blur3x3_dout_wire),
+  .layer_1_2        (blur3x3_dout_bus),
   .layer_2_0        (buffer_data_5),
   .layer_2_1        (buffer_data_4),
-  .layer_2_2        (blur5x5_1_dout_wire),
+  .layer_2_2        (blur5x5_1_dout_bus),
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
-  .layer_3_2        (blur5x5_2_dout_wire),
+  .layer_3_2        (blur5x5_2_dout_bus),
   .current_col      (current_col + 10'd2),
   .is_keypoint      (is_keypoint_0[2])
 );
 detect_keypoint u_detect_keypoint_0_3(
   .layer_0_0        (buffer_data_1),
   .layer_0_1        (buffer_data_0),
-  .layer_0_2        (img_dout_wire),
+  .layer_0_2        (img_dout_bus),
   .layer_1_0        (buffer_data_3),
   .layer_1_1        (buffer_data_2),
-  .layer_1_2        (blur3x3_dout_wire),
+  .layer_1_2        (blur3x3_dout_bus),
   .layer_2_0        (buffer_data_5),
   .layer_2_1        (buffer_data_4),
-  .layer_2_2        (blur5x5_1_dout_wire),
+  .layer_2_2        (blur5x5_1_dout_bus),
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
-  .layer_3_2        (blur5x5_2_dout_wire),
+  .layer_3_2        (blur5x5_2_dout_bus),
   .current_col      (current_col + 10'd3),
   .is_keypoint      (is_keypoint_0[3])
 );
 detect_keypoint u_detect_keypoint_0_4(
   .layer_0_0        (buffer_data_1),
   .layer_0_1        (buffer_data_0),
-  .layer_0_2        (img_dout_wire),
+  .layer_0_2        (img_dout_bus),
   .layer_1_0        (buffer_data_3),
   .layer_1_1        (buffer_data_2),
-  .layer_1_2        (blur3x3_dout_wire),
+  .layer_1_2        (blur3x3_dout_bus),
   .layer_2_0        (buffer_data_5),
   .layer_2_1        (buffer_data_4),
-  .layer_2_2        (blur5x5_1_dout_wire),
+  .layer_2_2        (blur5x5_1_dout_bus),
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
-  .layer_3_2        (blur5x5_2_dout_wire),
+  .layer_3_2        (blur5x5_2_dout_bus),
   .current_col      (current_col + 10'd4),
   .is_keypoint      (is_keypoint_0[4])
 );
 detect_keypoint u_detect_keypoint_0_5(
   .layer_0_0        (buffer_data_1),
   .layer_0_1        (buffer_data_0),
-  .layer_0_2        (img_dout_wire),
+  .layer_0_2        (img_dout_bus),
   .layer_1_0        (buffer_data_3),
   .layer_1_1        (buffer_data_2),
-  .layer_1_2        (blur3x3_dout_wire),
+  .layer_1_2        (blur3x3_dout_bus),
   .layer_2_0        (buffer_data_5),
   .layer_2_1        (buffer_data_4),
-  .layer_2_2        (blur5x5_1_dout_wire),
+  .layer_2_2        (blur5x5_1_dout_bus),
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
-  .layer_3_2        (blur5x5_2_dout_wire),
+  .layer_3_2        (blur5x5_2_dout_bus),
   .current_col      (current_col + 10'd5),
   .is_keypoint      (is_keypoint_0[5])
 );
 detect_keypoint u_detect_keypoint_0_6(
   .layer_0_0        (buffer_data_1),
   .layer_0_1        (buffer_data_0),
-  .layer_0_2        (img_dout_wire),
+  .layer_0_2        (img_dout_bus),
   .layer_1_0        (buffer_data_3),
   .layer_1_1        (buffer_data_2),
-  .layer_1_2        (blur3x3_dout_wire),
+  .layer_1_2        (blur3x3_dout_bus),
   .layer_2_0        (buffer_data_5),
   .layer_2_1        (buffer_data_4),
-  .layer_2_2        (blur5x5_1_dout_wire),
+  .layer_2_2        (blur5x5_1_dout_bus),
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
-  .layer_3_2        (blur5x5_2_dout_wire),
+  .layer_3_2        (blur5x5_2_dout_bus),
   .current_col      (current_col + 10'd6),
   .is_keypoint      (is_keypoint_0[6])
 );
 detect_keypoint u_detect_keypoint_0_7(
   .layer_0_0        (buffer_data_1),
   .layer_0_1        (buffer_data_0),
-  .layer_0_2        (img_dout_wire),
+  .layer_0_2        (img_dout_bus),
   .layer_1_0        (buffer_data_3),
   .layer_1_1        (buffer_data_2),
-  .layer_1_2        (blur3x3_dout_wire),
+  .layer_1_2        (blur3x3_dout_bus),
   .layer_2_0        (buffer_data_5),
   .layer_2_1        (buffer_data_4),
-  .layer_2_2        (blur5x5_1_dout_wire),
+  .layer_2_2        (blur5x5_1_dout_bus),
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
-  .layer_3_2        (blur5x5_2_dout_wire),
+  .layer_3_2        (blur5x5_2_dout_bus),
   .current_col      (current_col + 10'd7),
   .is_keypoint      (is_keypoint_0[7])
 );
 detect_keypoint u_detect_keypoint_0_8(
   .layer_0_0        (buffer_data_1),
   .layer_0_1        (buffer_data_0),
-  .layer_0_2        (img_dout_wire),
+  .layer_0_2        (img_dout_bus),
   .layer_1_0        (buffer_data_3),
   .layer_1_1        (buffer_data_2),
-  .layer_1_2        (blur3x3_dout_wire),
+  .layer_1_2        (blur3x3_dout_bus),
   .layer_2_0        (buffer_data_5),
   .layer_2_1        (buffer_data_4),
-  .layer_2_2        (blur5x5_1_dout_wire),
+  .layer_2_2        (blur5x5_1_dout_bus),
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
-  .layer_3_2        (blur5x5_2_dout_wire),
+  .layer_3_2        (blur5x5_2_dout_bus),
   .current_col      (current_col + 10'd8),
   .is_keypoint      (is_keypoint_0[8])
 );
 detect_keypoint u_detect_keypoint_0_9(
   .layer_0_0        (buffer_data_1),
   .layer_0_1        (buffer_data_0),
-  .layer_0_2        (img_dout_wire),
+  .layer_0_2        (img_dout_bus),
   .layer_1_0        (buffer_data_3),
   .layer_1_1        (buffer_data_2),
-  .layer_1_2        (blur3x3_dout_wire),
+  .layer_1_2        (blur3x3_dout_bus),
   .layer_2_0        (buffer_data_5),
   .layer_2_1        (buffer_data_4),
-  .layer_2_2        (blur5x5_1_dout_wire),
+  .layer_2_2        (blur5x5_1_dout_bus),
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
-  .layer_3_2        (blur5x5_2_dout_wire),
+  .layer_3_2        (blur5x5_2_dout_bus),
   .current_col      (current_col + 10'd9),
   .is_keypoint      (is_keypoint_0[9])
 );
 detect_keypoint u_detect_keypoint_0_10(
   .layer_0_0        (buffer_data_1),
   .layer_0_1        (buffer_data_0),
-  .layer_0_2        (img_dout_wire),
+  .layer_0_2        (img_dout_bus),
   .layer_1_0        (buffer_data_3),
   .layer_1_1        (buffer_data_2),
-  .layer_1_2        (blur3x3_dout_wire),
+  .layer_1_2        (blur3x3_dout_bus),
   .layer_2_0        (buffer_data_5),
   .layer_2_1        (buffer_data_4),
-  .layer_2_2        (blur5x5_1_dout_wire),
+  .layer_2_2        (blur5x5_1_dout_bus),
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
-  .layer_3_2        (blur5x5_2_dout_wire),
+  .layer_3_2        (blur5x5_2_dout_bus),
   .current_col      (current_col + 10'd10),
   .is_keypoint      (is_keypoint_0[10])
 );
 detect_keypoint u_detect_keypoint_0_11(
   .layer_0_0        (buffer_data_1),
   .layer_0_1        (buffer_data_0),
-  .layer_0_2        (img_dout_wire),
+  .layer_0_2        (img_dout_bus),
   .layer_1_0        (buffer_data_3),
   .layer_1_1        (buffer_data_2),
-  .layer_1_2        (blur3x3_dout_wire),
+  .layer_1_2        (blur3x3_dout_bus),
   .layer_2_0        (buffer_data_5),
   .layer_2_1        (buffer_data_4),
-  .layer_2_2        (blur5x5_1_dout_wire),
+  .layer_2_2        (blur5x5_1_dout_bus),
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
-  .layer_3_2        (blur5x5_2_dout_wire),
+  .layer_3_2        (blur5x5_2_dout_bus),
   .current_col      (current_col + 10'd11),
   .is_keypoint      (is_keypoint_0[11])
 );
 detect_keypoint u_detect_keypoint_0_12(
   .layer_0_0        (buffer_data_1),
   .layer_0_1        (buffer_data_0),
-  .layer_0_2        (img_dout_wire),
+  .layer_0_2        (img_dout_bus),
   .layer_1_0        (buffer_data_3),
   .layer_1_1        (buffer_data_2),
-  .layer_1_2        (blur3x3_dout_wire),
+  .layer_1_2        (blur3x3_dout_bus),
   .layer_2_0        (buffer_data_5),
   .layer_2_1        (buffer_data_4),
-  .layer_2_2        (blur5x5_1_dout_wire),
+  .layer_2_2        (blur5x5_1_dout_bus),
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
-  .layer_3_2        (blur5x5_2_dout_wire),
+  .layer_3_2        (blur5x5_2_dout_bus),
   .current_col      (current_col + 10'd12),
   .is_keypoint      (is_keypoint_0[12])
 );
 detect_keypoint u_detect_keypoint_0_13(
   .layer_0_0        (buffer_data_1),
   .layer_0_1        (buffer_data_0),
-  .layer_0_2        (img_dout_wire),
+  .layer_0_2        (img_dout_bus),
   .layer_1_0        (buffer_data_3),
   .layer_1_1        (buffer_data_2),
-  .layer_1_2        (blur3x3_dout_wire),
+  .layer_1_2        (blur3x3_dout_bus),
   .layer_2_0        (buffer_data_5),
   .layer_2_1        (buffer_data_4),
-  .layer_2_2        (blur5x5_1_dout_wire),
+  .layer_2_2        (blur5x5_1_dout_bus),
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
-  .layer_3_2        (blur5x5_2_dout_wire),
+  .layer_3_2        (blur5x5_2_dout_bus),
   .current_col      (current_col + 10'd13),
   .is_keypoint      (is_keypoint_0[13])
 );
 detect_keypoint u_detect_keypoint_0_14(
   .layer_0_0        (buffer_data_1),
   .layer_0_1        (buffer_data_0),
-  .layer_0_2        (img_dout_wire),
+  .layer_0_2        (img_dout_bus),
   .layer_1_0        (buffer_data_3),
   .layer_1_1        (buffer_data_2),
-  .layer_1_2        (blur3x3_dout_wire),
+  .layer_1_2        (blur3x3_dout_bus),
   .layer_2_0        (buffer_data_5),
   .layer_2_1        (buffer_data_4),
-  .layer_2_2        (blur5x5_1_dout_wire),
+  .layer_2_2        (blur5x5_1_dout_bus),
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
-  .layer_3_2        (blur5x5_2_dout_wire),
+  .layer_3_2        (blur5x5_2_dout_bus),
   .current_col      (current_col + 10'd14),
   .is_keypoint      (is_keypoint_0[14])
 );
 detect_keypoint u_detect_keypoint_0_15(
   .layer_0_0        (buffer_data_1),
   .layer_0_1        (buffer_data_0),
-  .layer_0_2        (img_dout_wire),
+  .layer_0_2        (img_dout_bus),
   .layer_1_0        (buffer_data_3),
   .layer_1_1        (buffer_data_2),
-  .layer_1_2        (blur3x3_dout_wire),
+  .layer_1_2        (blur3x3_dout_bus),
   .layer_2_0        (buffer_data_5),
   .layer_2_1        (buffer_data_4),
-  .layer_2_2        (blur5x5_1_dout_wire),
+  .layer_2_2        (blur5x5_1_dout_bus),
   .layer_3_0        (buffer_data_7),
   .layer_3_1        (buffer_data_6),
-  .layer_3_2        (blur5x5_2_dout_wire),
+  .layer_3_2        (blur5x5_2_dout_bus),
   .current_col      (current_col + 10'd15),
   .is_keypoint      (is_keypoint_0[15])
 );
@@ -514,260 +552,259 @@ detect_keypoint u_detect_keypoint_0_15(
 detect_keypoint u_detect_keypoint_1_0(
   .layer_0_0        (buffer_data_3),
   .layer_0_1        (buffer_data_2),
-  .layer_0_2        (blur3x3_dout_wire),
+  .layer_0_2        (blur3x3_dout_bus),
   .layer_1_0        (buffer_data_5),
   .layer_1_1        (buffer_data_4),
-  .layer_1_2        (blur5x5_1_dout_wire),
+  .layer_1_2        (blur5x5_1_dout_bus),
   .layer_2_0        (buffer_data_7),
   .layer_2_1        (buffer_data_6),
-  .layer_2_2        (blur5x5_2_dout_wire),
+  .layer_2_2        (blur5x5_2_dout_bus),
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
-  .layer_3_2        (blur7x7_dout_wire),
+  .layer_3_2        (blur7x7_dout_bus),
   .current_col      (current_col + 10'd0),
   .is_keypoint      (is_keypoint_1[0])
 );
 detect_keypoint u_detect_keypoint_1_1(
   .layer_0_0        (buffer_data_3),
   .layer_0_1        (buffer_data_2),
-  .layer_0_2        (blur3x3_dout_wire),
+  .layer_0_2        (blur3x3_dout_bus),
   .layer_1_0        (buffer_data_5),
   .layer_1_1        (buffer_data_4),
-  .layer_1_2        (blur5x5_1_dout_wire),
+  .layer_1_2        (blur5x5_1_dout_bus),
   .layer_2_0        (buffer_data_7),
   .layer_2_1        (buffer_data_6),
-  .layer_2_2        (blur5x5_2_dout_wire),
+  .layer_2_2        (blur5x5_2_dout_bus),
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
-  .layer_3_2        (blur7x7_dout_wire),
+  .layer_3_2        (blur7x7_dout_bus),
   .current_col      (current_col + 10'd1),
   .is_keypoint      (is_keypoint_1[1])
 );
 detect_keypoint u_detect_keypoint_1_2(
   .layer_0_0        (buffer_data_3),
   .layer_0_1        (buffer_data_2),
-  .layer_0_2        (blur3x3_dout_wire),
+  .layer_0_2        (blur3x3_dout_bus),
   .layer_1_0        (buffer_data_5),
   .layer_1_1        (buffer_data_4),
-  .layer_1_2        (blur5x5_1_dout_wire),
+  .layer_1_2        (blur5x5_1_dout_bus),
   .layer_2_0        (buffer_data_7),
   .layer_2_1        (buffer_data_6),
-  .layer_2_2        (blur5x5_2_dout_wire),
+  .layer_2_2        (blur5x5_2_dout_bus),
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
-  .layer_3_2        (blur7x7_dout_wire),
+  .layer_3_2        (blur7x7_dout_bus),
   .current_col      (current_col + 10'd2),
   .is_keypoint      (is_keypoint_1[2])
 );
 detect_keypoint u_detect_keypoint_1_3(
   .layer_0_0        (buffer_data_3),
   .layer_0_1        (buffer_data_2),
-  .layer_0_2        (blur3x3_dout_wire),
+  .layer_0_2        (blur3x3_dout_bus),
   .layer_1_0        (buffer_data_5),
   .layer_1_1        (buffer_data_4),
-  .layer_1_2        (blur5x5_1_dout_wire),
+  .layer_1_2        (blur5x5_1_dout_bus),
   .layer_2_0        (buffer_data_7),
   .layer_2_1        (buffer_data_6),
-  .layer_2_2        (blur5x5_2_dout_wire),
+  .layer_2_2        (blur5x5_2_dout_bus),
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
-  .layer_3_2        (blur7x7_dout_wire),
+  .layer_3_2        (blur7x7_dout_bus),
   .current_col      (current_col + 10'd3),
   .is_keypoint      (is_keypoint_1[3])
 );
 detect_keypoint u_detect_keypoint_1_4(
   .layer_0_0        (buffer_data_3),
   .layer_0_1        (buffer_data_2),
-  .layer_0_2        (blur3x3_dout_wire),
+  .layer_0_2        (blur3x3_dout_bus),
   .layer_1_0        (buffer_data_5),
   .layer_1_1        (buffer_data_4),
-  .layer_1_2        (blur5x5_1_dout_wire),
+  .layer_1_2        (blur5x5_1_dout_bus),
   .layer_2_0        (buffer_data_7),
   .layer_2_1        (buffer_data_6),
-  .layer_2_2        (blur5x5_2_dout_wire),
+  .layer_2_2        (blur5x5_2_dout_bus),
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
-  .layer_3_2        (blur7x7_dout_wire),
+  .layer_3_2        (blur7x7_dout_bus),
   .current_col      (current_col + 10'd4),
   .is_keypoint      (is_keypoint_1[4])
 );
 detect_keypoint u_detect_keypoint_1_5(
   .layer_0_0        (buffer_data_3),
   .layer_0_1        (buffer_data_2),
-  .layer_0_2        (blur3x3_dout_wire),
+  .layer_0_2        (blur3x3_dout_bus),
   .layer_1_0        (buffer_data_5),
   .layer_1_1        (buffer_data_4),
-  .layer_1_2        (blur5x5_1_dout_wire),
+  .layer_1_2        (blur5x5_1_dout_bus),
   .layer_2_0        (buffer_data_7),
   .layer_2_1        (buffer_data_6),
-  .layer_2_2        (blur5x5_2_dout_wire),
+  .layer_2_2        (blur5x5_2_dout_bus),
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
-  .layer_3_2        (blur7x7_dout_wire),
+  .layer_3_2        (blur7x7_dout_bus),
   .current_col      (current_col + 10'd5),
   .is_keypoint      (is_keypoint_1[5])
 );
 detect_keypoint u_detect_keypoint_1_6(
   .layer_0_0        (buffer_data_3),
   .layer_0_1        (buffer_data_2),
-  .layer_0_2        (blur3x3_dout_wire),
+  .layer_0_2        (blur3x3_dout_bus),
   .layer_1_0        (buffer_data_5),
   .layer_1_1        (buffer_data_4),
-  .layer_1_2        (blur5x5_1_dout_wire),
+  .layer_1_2        (blur5x5_1_dout_bus),
   .layer_2_0        (buffer_data_7),
   .layer_2_1        (buffer_data_6),
-  .layer_2_2        (blur5x5_2_dout_wire),
+  .layer_2_2        (blur5x5_2_dout_bus),
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
-  .layer_3_2        (blur7x7_dout_wire),
+  .layer_3_2        (blur7x7_dout_bus),
   .current_col      (current_col + 10'd6),
   .is_keypoint      (is_keypoint_1[6])
 );
 detect_keypoint u_detect_keypoint_1_7(
   .layer_0_0        (buffer_data_3),
   .layer_0_1        (buffer_data_2),
-  .layer_0_2        (blur3x3_dout_wire),
+  .layer_0_2        (blur3x3_dout_bus),
   .layer_1_0        (buffer_data_5),
   .layer_1_1        (buffer_data_4),
-  .layer_1_2        (blur5x5_1_dout_wire),
+  .layer_1_2        (blur5x5_1_dout_bus),
   .layer_2_0        (buffer_data_7),
   .layer_2_1        (buffer_data_6),
-  .layer_2_2        (blur5x5_2_dout_wire),
+  .layer_2_2        (blur5x5_2_dout_bus),
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
-  .layer_3_2        (blur7x7_dout_wire),
+  .layer_3_2        (blur7x7_dout_bus),
   .current_col      (current_col + 10'd7),
   .is_keypoint      (is_keypoint_1[7])
 );
 detect_keypoint u_detect_keypoint_1_8(
   .layer_0_0        (buffer_data_3),
   .layer_0_1        (buffer_data_2),
-  .layer_0_2        (blur3x3_dout_wire),
+  .layer_0_2        (blur3x3_dout_bus),
   .layer_1_0        (buffer_data_5),
   .layer_1_1        (buffer_data_4),
-  .layer_1_2        (blur5x5_1_dout_wire),
+  .layer_1_2        (blur5x5_1_dout_bus),
   .layer_2_0        (buffer_data_7),
   .layer_2_1        (buffer_data_6),
-  .layer_2_2        (blur5x5_2_dout_wire),
+  .layer_2_2        (blur5x5_2_dout_bus),
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
-  .layer_3_2        (blur7x7_dout_wire),
+  .layer_3_2        (blur7x7_dout_bus),
   .current_col      (current_col + 10'd8),
   .is_keypoint      (is_keypoint_1[8])
 );
 detect_keypoint u_detect_keypoint_1_9(
   .layer_0_0        (buffer_data_3),
   .layer_0_1        (buffer_data_2),
-  .layer_0_2        (blur3x3_dout_wire),
+  .layer_0_2        (blur3x3_dout_bus),
   .layer_1_0        (buffer_data_5),
   .layer_1_1        (buffer_data_4),
-  .layer_1_2        (blur5x5_1_dout_wire),
+  .layer_1_2        (blur5x5_1_dout_bus),
   .layer_2_0        (buffer_data_7),
   .layer_2_1        (buffer_data_6),
-  .layer_2_2        (blur5x5_2_dout_wire),
+  .layer_2_2        (blur5x5_2_dout_bus),
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
-  .layer_3_2        (blur7x7_dout_wire),
+  .layer_3_2        (blur7x7_dout_bus),
   .current_col      (current_col + 10'd9),
   .is_keypoint      (is_keypoint_1[9])
 );
 detect_keypoint u_detect_keypoint_1_10(
   .layer_0_0        (buffer_data_3),
   .layer_0_1        (buffer_data_2),
-  .layer_0_2        (blur3x3_dout_wire),
+  .layer_0_2        (blur3x3_dout_bus),
   .layer_1_0        (buffer_data_5),
   .layer_1_1        (buffer_data_4),
-  .layer_1_2        (blur5x5_1_dout_wire),
+  .layer_1_2        (blur5x5_1_dout_bus),
   .layer_2_0        (buffer_data_7),
   .layer_2_1        (buffer_data_6),
-  .layer_2_2        (blur5x5_2_dout_wire),
+  .layer_2_2        (blur5x5_2_dout_bus),
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
-  .layer_3_2        (blur7x7_dout_wire),
+  .layer_3_2        (blur7x7_dout_bus),
   .current_col      (current_col + 10'd10),
   .is_keypoint      (is_keypoint_1[10])
 );
 detect_keypoint u_detect_keypoint_1_11(
   .layer_0_0        (buffer_data_3),
   .layer_0_1        (buffer_data_2),
-  .layer_0_2        (blur3x3_dout_wire),
+  .layer_0_2        (blur3x3_dout_bus),
   .layer_1_0        (buffer_data_5),
   .layer_1_1        (buffer_data_4),
-  .layer_1_2        (blur5x5_1_dout_wire),
+  .layer_1_2        (blur5x5_1_dout_bus),
   .layer_2_0        (buffer_data_7),
   .layer_2_1        (buffer_data_6),
-  .layer_2_2        (blur5x5_2_dout_wire),
+  .layer_2_2        (blur5x5_2_dout_bus),
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
-  .layer_3_2        (blur7x7_dout_wire),
+  .layer_3_2        (blur7x7_dout_bus),
   .current_col      (current_col + 10'd11),
   .is_keypoint      (is_keypoint_1[11])
 );
 detect_keypoint u_detect_keypoint_1_12(
   .layer_0_0        (buffer_data_3),
   .layer_0_1        (buffer_data_2),
-  .layer_0_2        (blur3x3_dout_wire),
+  .layer_0_2        (blur3x3_dout_bus),
   .layer_1_0        (buffer_data_5),
   .layer_1_1        (buffer_data_4),
-  .layer_1_2        (blur5x5_1_dout_wire),
+  .layer_1_2        (blur5x5_1_dout_bus),
   .layer_2_0        (buffer_data_7),
   .layer_2_1        (buffer_data_6),
-  .layer_2_2        (blur5x5_2_dout_wire),
+  .layer_2_2        (blur5x5_2_dout_bus),
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
-  .layer_3_2        (blur7x7_dout_wire),
+  .layer_3_2        (blur7x7_dout_bus),
   .current_col      (current_col + 10'd12),
   .is_keypoint      (is_keypoint_1[12])
 );
 detect_keypoint u_detect_keypoint_1_13(
   .layer_0_0        (buffer_data_3),
   .layer_0_1        (buffer_data_2),
-  .layer_0_2        (blur3x3_dout_wire),
+  .layer_0_2        (blur3x3_dout_bus),
   .layer_1_0        (buffer_data_5),
   .layer_1_1        (buffer_data_4),
-  .layer_1_2        (blur5x5_1_dout_wire),
+  .layer_1_2        (blur5x5_1_dout_bus),
   .layer_2_0        (buffer_data_7),
   .layer_2_1        (buffer_data_6),
-  .layer_2_2        (blur5x5_2_dout_wire),
+  .layer_2_2        (blur5x5_2_dout_bus),
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
-  .layer_3_2        (blur7x7_dout_wire),
+  .layer_3_2        (blur7x7_dout_bus),
   .current_col      (current_col + 10'd13),
   .is_keypoint      (is_keypoint_1[13])
 );
 detect_keypoint u_detect_keypoint_1_14(
   .layer_0_0        (buffer_data_3),
   .layer_0_1        (buffer_data_2),
-  .layer_0_2        (blur3x3_dout_wire),
+  .layer_0_2        (blur3x3_dout_bus),
   .layer_1_0        (buffer_data_5),
   .layer_1_1        (buffer_data_4),
-  .layer_1_2        (blur5x5_1_dout_wire),
+  .layer_1_2        (blur5x5_1_dout_bus),
   .layer_2_0        (buffer_data_7),
   .layer_2_1        (buffer_data_6),
-  .layer_2_2        (blur5x5_2_dout_wire),
+  .layer_2_2        (blur5x5_2_dout_bus),
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
-  .layer_3_2        (blur7x7_dout_wire),
+  .layer_3_2        (blur7x7_dout_bus),
   .current_col      (current_col + 10'd14),
   .is_keypoint      (is_keypoint_1[14])
 );
 detect_keypoint u_detect_keypoint_1_15(
   .layer_0_0        (buffer_data_3),
   .layer_0_1        (buffer_data_2),
-  .layer_0_2        (blur3x3_dout_wire),
+  .layer_0_2        (blur3x3_dout_bus),
   .layer_1_0        (buffer_data_5),
   .layer_1_1        (buffer_data_4),
-  .layer_1_2        (blur5x5_1_dout_wire),
+  .layer_1_2        (blur5x5_1_dout_bus),
   .layer_2_0        (buffer_data_7),
   .layer_2_1        (buffer_data_6),
-  .layer_2_2        (blur5x5_2_dout_wire),
+  .layer_2_2        (blur5x5_2_dout_bus),
   .layer_3_0        (buffer_data_9),
   .layer_3_1        (buffer_data_8),
-  .layer_3_2        (blur7x7_dout_wire),
+  .layer_3_2        (blur7x7_dout_bus),
   .current_col      (current_col + 10'd15),
   .is_keypoint      (is_keypoint_1[15])
 );
-
 
 
 
@@ -1103,9 +1140,15 @@ always @(*) begin
     end
     ST_PRE_DETECT: begin
       if (current_state==ST_PRE_DETECT)
-        next_state = ST_DETECT;
+        next_state = ST_PRE_DETECT2;
       else 
         next_state = ST_PRE_DETECT;
+    end
+    ST_PRE_DETECT2: begin
+      if (current_state==ST_PRE_DETECT2)
+        next_state = ST_DETECT;
+      else 
+        next_state = ST_PRE_DETECT2;
     end
     default:
       next_state = ST_IDLE;
