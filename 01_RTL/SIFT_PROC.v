@@ -109,47 +109,62 @@ module SIFT_PROC(
 
 
     wire  [3:0]    blur_mem_we;
-    reg   [8:0]    blur_addr1 [0:3]; /*wire*/
-    wire  [8:0]    blur_addr2 [0:3]; /*wire*/
-    wire  [5119:0] blur_din   [0:3];
-    wire  [5119:0] blur_dout1 [0:3];
-    wire  [5119:0] blur_dout2 [0:3];
+    reg   [8:0]    blur_addr1_0, /*wire*/
+                   blur_addr1_1, /*wire*/
+                   blur_addr1_2, /*wire*/
+                   blur_addr1_3; /*wire*/
+    wire  [8:0]    blur_addr2_0, /*wire*/
+                   blur_addr2_1, /*wire*/
+                   blur_addr2_2, /*wire*/
+                   blur_addr2_3; /*wire*/
+    wire  [5119:0] blur_din_0,
+                   blur_din_1,
+                   blur_din_2,
+                   blur_din_3;
+    wire  [5119:0] blur_dout1_0,
+                   blur_dout1_1,
+                   blur_dout1_2,
+                   blur_dout1_3;
+    wire  [5119:0] blur_dout2_0,
+                   blur_dout2_1,
+                   blur_dout2_2,
+                   blur_dout2_3;
     /*Dual Port SRAM for Blurred Images(4)*/
     bmem_dp_480x5120 blur_img_0(
       .clk  (clk),
       .we   (blur_mem_we[0]),
-      .addr1(blur_addr1[0]),
-      .addr2(blur_addr2[0]),
-      .din  (blur_din[0]),
-      .dout1(blur_dout1[0]),
-      .dout2(blur_dout2[0])
+      .addr1(blur_addr1_0),
+      .addr2(blur_addr2_0),
+      .din  (blur_din_0),
+      .dout1(blur_dout1_0),
+      .dout2(blur_dout2_0)
     );
     bmem_dp_480x5120 blur_img_1(
       .clk  (clk),
       .we   (blur_mem_we[1]),
-      .addr1(blur_addr1[1]),
-      .addr2(blur_addr2[1]),
-      .din  (blur_din[1]),
-      .dout1(blur_dout1[1]),
-      .dout2(blur_dout2[1])
+      .addr1(blur_addr1_1),
+      .addr2(blur_addr2_1),
+      .din  (blur_din_1),
+      .dout1(blur_dout1_1),
+      .dout2(blur_dout2_1)
     );
     bmem_dp_480x5120 blur_img_2(
       .clk  (clk),
       .we   (blur_mem_we[2]),
-      .addr1(blur_addr1[2]),
-      .addr2(blur_addr2[2]),
-      .din  (blur_din[2]),
-      .dout1(blur_dout1[2]),
-      .dout2(blur_dout2[2])
+      .addr1(blur_addr1_2),
+      .addr2(blur_addr2_2),
+      .din  (blur_din_2),
+      .dout1(blur_dout1_2),
+      .dout2(blur_dout2_2)
     );
     bmem_dp_480x5120 blur_img_3(
       .clk  (clk),
       .we   (blur_mem_we[3]),
-      .addr1(blur_addr1[3]),
-      .addr2(blur_addr2[3]),
-      .din  (blur_din[3]),
-      .dout1(blur_dout1[3]),
-      .dout2(blur_dout2[3])
+      .addr1(blur_addr1_3),
+      .addr2(blur_addr2_3),
+      .din  (blur_din_3),
+      .dout1(blur_dout1_3),
+      .dout2(blur_dout2_3)
     );
 
     /*SRAM for KeyPoints*/
@@ -288,10 +303,10 @@ module SIFT_PROC(
       .buffer_we      (buffer_we),
       .fill_zero      (fill_zero),
       .in_data0       (buffer_in),
-      .in_data1       (blur_dout1[0]),
-      .in_data2       (blur_dout1[1]),
-      .in_data3       (blur_dout1[2]),
-      .in_data4       (blur_dout1[3]),
+      .in_data1       (blur_dout1_0),
+      .in_data2       (blur_dout1_1),
+      .in_data3       (blur_dout1_2),
+      .in_data4       (blur_dout1_3),
       .buffer_data_0  (buffer_data_0),
       .buffer_data_1  (buffer_data_1),
       .buffer_data_2  (buffer_data_2),
@@ -333,18 +348,18 @@ module SIFT_PROC(
       .blur_addr_w_1  (gaussian_blur_addr[1]),
       .blur_addr_w_2  (gaussian_blur_addr[2]),
       .blur_addr_w_3  (gaussian_blur_addr[3]),
-      .blur_addr_r_0  (blur_addr2[0]),
-      .blur_addr_r_1  (blur_addr2[1]),
-      .blur_addr_r_2  (blur_addr2[2]),
-      .blur_addr_r_3  (blur_addr2[3]),
-      .blur_din_0     (blur_din[0]),
-      .blur_din_1     (blur_din[1]),
-      .blur_din_2     (blur_din[2]),
-      .blur_din_3     (blur_din[3]),
-      .blur_dout_0    (blur_dout2[0]),
-      .blur_dout_1    (blur_dout2[1]),
-      .blur_dout_2    (blur_dout2[2]),
-      .blur_dout_3    (blur_dout2[3]),
+      .blur_addr_r_0  (blur_addr2_0),
+      .blur_addr_r_1  (blur_addr2_1),
+      .blur_addr_r_2  (blur_addr2_2),
+      .blur_addr_r_3  (blur_addr2_3),
+      .blur_din_0     (blur_din_0),
+      .blur_din_1     (blur_din_1),
+      .blur_din_2     (blur_din_2),
+      .blur_din_3     (blur_din_3),
+      .blur_dout_0    (blur_dout2_0),
+      .blur_dout_1    (blur_dout2_1),
+      .blur_dout_2    (blur_dout2_2),
+      .blur_dout_3    (blur_dout2_3),
       .img_addr       (gaussian_img_addr),
       .buffer_we      (gaussian_buffer_we),
       .fill_zero      (gaussian_fill_zero[0]),
@@ -366,10 +381,10 @@ module SIFT_PROC(
       .start            (detect_filter_start),
       .done             (detect_filter_done),
       .img_dout         (img_dout),
-      .blur3x3_dout     (blur_dout1[0]),
-      .blur5x5_1_dout   (blur_dout1[1]),
-      .blur5x5_2_dout   (blur_dout1[2]),
-      .blur7x7_dout     (blur_dout1[3]),
+      .blur3x3_dout     (blur_dout1_0),
+      .blur5x5_1_dout   (blur_dout1_1),
+      .blur5x5_2_dout   (blur_dout1_2),
+      .blur7x7_dout     (blur_dout1_3),
       .img_addr         (detect_filter_img_addr),
       .blur3x3_addr     (detect_filter_blur_addr[0]),
       .blur5x5_1_addr   (detect_filter_blur_addr[1]),
@@ -416,7 +431,7 @@ module SIFT_PROC(
                    row_col_descpt4;   
     wire           descriptor_request,
                    descriptor_valid;
-    wire[5119:0]   blur_dout = (readFrom) ? blur_dout1[1] : blur_dout1[0];
+    wire[5119:0]   blur_dout = (readFrom) ? blur_dout1_1 : blur_dout1_0;
     computeDescriptor u_computeDescriptor(
         .clk                (clk),
         .rst_n              (rst_n),
@@ -491,10 +506,10 @@ module SIFT_PROC(
     always @(*) begin
       case(current_state)
         ST_IDLE: begin
-          blur_addr1[0] = 0;
-          blur_addr1[1] = 0;  
-          blur_addr1[2] = 0;  
-          blur_addr1[3] = 0;  
+          blur_addr1_0 = 0;
+          blur_addr1_1 = 0;  
+          blur_addr1_2 = 0;  
+          blur_addr1_3 = 0;  
           buffer_we = 0;
           img_addr  = img_addr_in;
           fill_zero = 0;
@@ -510,10 +525,10 @@ module SIFT_PROC(
           matched_3_din = 0; //in_matched_3_din;
         end
         ST_GAUSSIAN: begin
-          blur_addr1[0] = gaussian_blur_addr[0];    
-          blur_addr1[1] = gaussian_blur_addr[1];    
-          blur_addr1[2] = gaussian_blur_addr[2];    
-          blur_addr1[3] = gaussian_blur_addr[3];    
+          blur_addr1_0 = gaussian_blur_addr[0];    
+          blur_addr1_1 = gaussian_blur_addr[1];    
+          blur_addr1_2 = gaussian_blur_addr[2];    
+          blur_addr1_3 = gaussian_blur_addr[3];    
           buffer_we = gaussian_buffer_we;
           img_addr  = gaussian_img_addr;
           fill_zero = |gaussian_fill_zero;
@@ -529,10 +544,10 @@ module SIFT_PROC(
           matched_3_din = 0;
         end
         ST_DETECT_FILTER: begin
-          blur_addr1[0] = detect_filter_blur_addr[0];  
-          blur_addr1[1] = detect_filter_blur_addr[1];  
-          blur_addr1[2] = detect_filter_blur_addr[2];  
-          blur_addr1[3] = detect_filter_blur_addr[3];  
+          blur_addr1_0 = detect_filter_blur_addr[0];  
+          blur_addr1_1 = detect_filter_blur_addr[1];  
+          blur_addr1_2 = detect_filter_blur_addr[2];  
+          blur_addr1_3 = detect_filter_blur_addr[3];  
           buffer_we = detect_filter_buffer_we;
           img_addr  = detect_filter_img_addr;
           fill_zero = 0;
@@ -548,10 +563,10 @@ module SIFT_PROC(
           matched_3_din = 0;
         end
         ST_COMPUTE_MATCH: begin
-          blur_addr1[0] = blurred_addr;  
-          blur_addr1[1] = blurred_addr;  
-          blur_addr1[2] = 0;  
-          blur_addr1[3] = 0;  
+          blur_addr1_0 = blurred_addr;  
+          blur_addr1_1 = blurred_addr;  
+          blur_addr1_2 = 0;  
+          blur_addr1_3 = 0;  
           buffer_we = 0;//compute_match_buffer_we;
           img_addr  = 0;
           fill_zero = 0;
@@ -567,10 +582,10 @@ module SIFT_PROC(
           matched_3_din = match_matched_3_din;
         end
         default: begin
-          blur_addr1[0] = 0;
-          blur_addr1[1] = 0;  
-          blur_addr1[2] = 0;  
-          blur_addr1[3] = 0;  
+          blur_addr1_0 = 0;
+          blur_addr1_1 = 0;  
+          blur_addr1_2 = 0;  
+          blur_addr1_3 = 0;  
           buffer_we = 0;
           img_addr  = 0;
           fill_zero = 0;
